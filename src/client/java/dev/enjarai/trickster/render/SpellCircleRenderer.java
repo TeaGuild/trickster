@@ -66,6 +66,7 @@ public class SpellCircleRenderer {
 
     private float r = 1f, g = 1f, b = 1f;
     private float circleTransparency = 1f;
+    private boolean recurse;
 
     public SpellCircleRenderer(Boolean inUI, double precisionOffset) {
         this.inUI = inUI;
@@ -126,6 +127,11 @@ public class SpellCircleRenderer {
         return circleTransparency;
     }
 
+    public SpellCircleRenderer dontRecurse() {
+        this.recurse = false;
+        return this;
+    }
+
     private float toLocalSpace(double value) {
         return (float) (value * precisionOffset);
     }
@@ -175,7 +181,9 @@ public class SpellCircleRenderer {
             var subX = x + (radius * Math.cos(angle));
             var subY = y + (radius * Math.sin(angle));
 
-            renderPartInner(matrices, vertexConsumers, child, subX, subY, entry.subRadius(radius), angle, delta, alphaGetter, normal);
+            if (recurse) {
+                renderPartInner(matrices, vertexConsumers, child, subX, subY, entry.subRadius(radius), angle, delta, alphaGetter, normal);
+            }
 
             i++;
         }
@@ -215,7 +223,9 @@ public class SpellCircleRenderer {
             Function<Float, Float> alphaGetter, Vec3d normal) {
         var glyph = parent.getGlyph();
         if (glyph instanceof SpellPart part) {
-            renderPartInner(matrices, vertexConsumers, part, x, y, radius / 3, startingAngle, delta, alphaGetter, normal);
+            if (recurse) {
+                renderPartInner(matrices, vertexConsumers, part, x, y, radius / 3, startingAngle, delta, alphaGetter, normal);
+            }
         } else {
             matrices.push();
             drawSide(matrices, vertexConsumers, parent, toLocalSpace(x), toLocalSpace(y), toLocalSpace(radius), alphaGetter, normal, delta, glyph);
@@ -292,7 +302,7 @@ public class SpellCircleRenderer {
 
             if (renderer != null) {
                 //noinspection unchecked
-                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this);
+                //                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this); TODO
                 renderDots = renderer.renderRedrawDots();
             } else {
                 FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, alpha);
