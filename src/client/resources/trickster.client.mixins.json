@@ -16,6 +16,7 @@
     "MouseMixin",
     "PlayerRendererMixin",
     "SubtitlesHudMixin",
+    "TitleScreenMixin",
     "WorldRendererAccessor",
     "animation.BipedEntityModelMixin",
     "animation.PlayerEntityModelMixin",
