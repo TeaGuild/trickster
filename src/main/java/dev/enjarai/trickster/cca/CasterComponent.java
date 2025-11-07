@@ -46,7 +46,7 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
     // The macro manager and its handler are not persistently stored and will reset if a scroll and quill screen closes
     private final PlayerSpellExecutionManager macroExecutionManager;
     @Nullable
-    private Consumer<Fragment> macroCompletionHandler;
+    private Consumer<Optional<Fragment>> macroCompletionHandler;
 
     private final Int2ObjectMap<RunningSpellData> runningSpellData = new Int2ObjectOpenHashMap<>();
     private int lastSentSpellDataHash;
@@ -131,14 +131,17 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
 
     private void completeMacroExecutor(int index, SpellExecutor executor, Fragment result) {
         if (macroCompletionHandler != null) {
-            macroCompletionHandler.accept(result);
+            macroCompletionHandler.accept(Optional.of(result));
             macroCompletionHandler = null;
         }
         completeExecutor(index, executor, result);
     }
 
     private void macroExecutorError(int index, SpellExecutor executor) {
-        macroCompletionHandler = null;
+        if (macroCompletionHandler != null) {
+            macroCompletionHandler.accept(Optional.empty());
+            macroCompletionHandler = null;
+        }
         executorError(index, executor);
     }
 
@@ -205,7 +208,7 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
         return collarExecutionManager.queue(spell, arguments);
     }
 
-    public Optional<Integer> queueMacroSpell(SpellPart spell, List<Fragment> arguments, Consumer<Fragment> callback) {
+    public Optional<Integer> queueMacroSpell(SpellPart spell, List<Fragment> arguments, Consumer<Optional<Fragment>> callback) {
         if (!canRunMacros()) {
             return Optional.empty();
         }
