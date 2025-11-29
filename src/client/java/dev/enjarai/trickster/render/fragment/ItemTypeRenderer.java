@@ -1,7 +1,7 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.render.SpellCircleRenderer;
-import dev.enjarai.trickster.spell.fragment.slot.ItemTypeFragment;
+import dev.enjarai.trickster.spell.fragment.ItemTypeFragment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -30,8 +30,10 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
 
         matrices.push();
 
-        matrices.translate(x, y, 0);
-        matrices.scale(size, delegator.inUI ? -size : size, delegator.inUI ? size : size * 0.01f);
+        float time = System.currentTimeMillis() % 1048576 / 1000f;
+
+        matrices.translate(x, y, size * 0.5);
+        matrices.scale(size, delegator.inUI ? -size : size, size);
         matrices.scale(0.8f, 0.8f, 0.8f);
         if (!delegator.inUI) {
             matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(180));
