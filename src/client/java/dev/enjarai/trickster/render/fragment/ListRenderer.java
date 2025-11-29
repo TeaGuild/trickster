@@ -2,6 +2,7 @@ package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.render.SpellCircleRenderer;
 import dev.enjarai.trickster.spell.Fragment;
+import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.fragment.ListFragment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -69,6 +70,8 @@ public class ListRenderer implements FragmentRenderer<ListFragment> {
             );
 
             i++;
+
+            delegator.drawGlyph(matrices, vertexConsumers, new SpellPart(), 0, 0, 1, 0, tickDelta, f -> f, normal);
         }
 
         matrices.pop();
