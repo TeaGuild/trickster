@@ -366,6 +366,7 @@ trickster:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s
     expected_overweight_fragment: Result fragment is overweight (%d/%d)
     missing_fragment: Missing at index %d, expected %s
+    unknown_trick: Pattern is not a known trick
 
   storage:
     caster: caster
