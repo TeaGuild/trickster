@@ -12,6 +12,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -27,6 +28,7 @@ public interface FragmentRenderer<T extends Fragment> {
     ListRenderer LIST = register(FragmentType.LIST, new ListRenderer());
     MapRenderer MAP = register(FragmentType.MAP, new MapRenderer());
     ColorRenderer COLOR = register(FragmentType.COLOR, new ColorRenderer());
+    SpellPartRenderer SPELL_PART = register(FragmentType.SPELL_PART, new SpellPartRenderer());
 
     static <T extends FragmentRenderer<F>, F extends Fragment> T register(FragmentType<F> type, T renderer) {
         return Registry.register(REGISTRY, FragmentType.REGISTRY.getId(type), renderer);
@@ -61,11 +63,44 @@ public interface FragmentRenderer<T extends Fragment> {
 
     void render(T fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta, CircleRenderer delegator);
 
+    float getProportionalHeight(T fragment);
+
+    default float getProportionalWidth(T fragment) {
+        return getProportionalHeight(fragment);
+    };
+
     default boolean renderRedrawDots() {
         return true;
     }
 
     default boolean doubleSided() {
         return true;
+    }
+
+    static float getFragmentProportionalHeight(Fragment fragment) {
+        FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(fragment.type()));
+        if (renderer != null) {
+            return renderer.getProportionalHeight(fragment);
+        } else {
+            return getTextProportionalHeight(fragment.asFormattedText());
+        }
+    }
+
+    static float getTextProportionalHeight(Text text) {
+        var textRenderer = MinecraftClient.getInstance().textRenderer;
+        return 2.8f / textRenderer.getWidth(text);
+    }
+
+    static float getFragmentProportionalWidth(Fragment fragment) {
+        FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(fragment.type()));
+        if (renderer != null) {
+            return renderer.getProportionalWidth(fragment);
+        } else {
+            return getTextProportionalWidth();
+        }
+    }
+
+    static float getTextProportionalWidth() {
+        return 0.4f;
     }
 }

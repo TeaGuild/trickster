@@ -66,4 +66,9 @@ public class ColorRenderer implements FragmentRenderer<ColorFragment> {
         }
         matrices.pop();
     }
+
+    @Override
+    public float getProportionalHeight(ColorFragment fragment) {
+        return 0.5f;
+    }
 }
