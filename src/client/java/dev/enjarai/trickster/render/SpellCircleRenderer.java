@@ -214,12 +214,12 @@ public class SpellCircleRenderer {
     protected void drawGlyph(MatrixStack matrices, VertexConsumerProvider vertexConsumers, SpellPart parent, double x, double y, double radius, double startingAngle, float delta,
             Function<Float, Float> alphaGetter, Vec3d normal) {
         var glyph = parent.getGlyph();
+        matrices.push();
+        matrices.translate(0, 0, inUI ? 0.002 : -0.002);
         if (glyph instanceof SpellPart part) {
             renderPartInner(matrices, vertexConsumers, part, x, y, radius / 3, startingAngle, delta, alphaGetter, normal);
         } else {
-            matrices.push();
             drawSide(matrices, vertexConsumers, parent, toLocalSpace(x), toLocalSpace(y), toLocalSpace(radius), alphaGetter, normal, delta, glyph);
-            matrices.pop();
 
             //            if (!inUI) {
             //                var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(glyph.type()));
@@ -231,13 +231,14 @@ public class SpellCircleRenderer {
             //                }
             //            }
         }
+        matrices.pop();
     }
 
     private void drawSide(MatrixStack matrices, VertexConsumerProvider vertexConsumers, SpellPart parent, float x, float y, float radius, Function<Float, Float> alphaGetter, Vec3d normal, float delta,
             Fragment glyph) {
         var alpha = alphaGetter.apply(radius);
         var patternRadius = radius / PATTERN_TO_PART_RATIO;
-        var pixelSize = patternRadius / PART_PIXEL_RADIUS;
+        var pixelSize = patternRadius / PART_PIXEL_RADIUS * Trickster.CONFIG.patternSize();
 
         if (glyph instanceof PatternGlyph pattern) {
 
@@ -270,19 +271,19 @@ public class SpellCircleRenderer {
                         pos.x - dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y - dotSize,
-                        0, (isDrawing && isLinked ? 0.8f : 1) * r, (isDrawing && isLinked ? 0.5f : 1) * g, 1 * b, 0.7f * alpha);
+                        0, (isDrawing && isLinked ? 0.8f : 1) * r, (isDrawing && isLinked ? 0.5f : 1) * g, 1 * b, Trickster.CONFIG.patternOpacity() * alpha);
             }
 
             for (var line : patternList.entries()) {
                 var first = getPatternDotPosition(x, y, line.p1(), patternRadius);
                 var second = getPatternDotPosition(x, y, line.p2(), patternRadius);
-                drawGlyphLine(matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b, 0.7f * alpha, animated && inUI);
+                drawGlyphLine(matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b, Trickster.CONFIG.patternOpacity() * alpha, animated && inUI);
             }
 
             if (inEditor && isDrawing) {
                 var last = getPatternDotPosition(x, y, drawingPattern.getLast(), patternRadius);
                 var now = new Vector2f((float) mouseX, (float) mouseY);
-                drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b, 0.7f * alpha, animated && inUI);
+                drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b, Trickster.CONFIG.patternOpacity() * alpha, animated && inUI);
             }
         } else {
             //noinspection rawtypes
@@ -338,7 +339,7 @@ public class SpellCircleRenderer {
         }
 
         var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize / 2);
-        var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * 3);
+        var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * 3).mul(Trickster.CONFIG.patternEdgeGap());
 
         if (animated && Trickster.CONFIG.animateLines()) {
             var lineStart = new Vector2f(last.x - directionVec.x, last.y - directionVec.y);

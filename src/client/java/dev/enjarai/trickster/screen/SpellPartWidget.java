@@ -173,7 +173,7 @@ public class SpellPartWidget extends AbstractParentElement implements Drawable, 
         this.renderer.renderPart(
                 context.getMatrices(), context.getVertexConsumers(), spellPart,
                 position.x, position.y, radius, angleOffsets.peek(), delta,
-                radius -> (float) Math.clamp(1 / (radius / windowHeight * 3), 0.0, 0.8),
+                radius -> (float) Math.clamp(1 / (radius / windowHeight * 3), 0.0, Trickster.CONFIG.circleOpacity()),
                 new Vec3d(-1, 0, 0)
         );
         context.draw();

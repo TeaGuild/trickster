@@ -15,6 +15,15 @@ public class TricksterConfigModel {
     @WithAlpha
     public Color subcircleDividerPinColor = new Color(0.5f, 0.5f, 1f, 0.2f);
 
+    @PredicateConstraint("requirePositive")
+    public float patternSize = 1f;
+    @PredicateConstraint("requirePositive")
+    public float circleOpacity = 0.8f;
+    @PredicateConstraint("requirePositive")
+    public float patternOpacity = 0.7f;
+    @PredicateConstraint("requirePositive")
+    public float patternEdgeGap = 1f;
+
     @SectionHeader("client")
 
     public boolean topHatInterceptScrolling = false;

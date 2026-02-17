@@ -476,6 +476,12 @@ text.config.trickster-config:
     dotEmphasis: Terminal dot emphasis
     dotEmphasisColor: Terminal dot color
     subcircleDividerPinColor: Divider pin Color
+
+    patternSize: Pattern glyph thickness
+    circleOpacity: Spell circle opacity
+    patternOpacity: Pattern glyph opacity
+    patternEdgeGap: Glyph line separation
+
     manaTransferEfficiency: Efficiency of the Conduit's Ploys
     whorlMaxMana: Whorl maximum mana in G
     whorlRechargeRate: Whorl recharge rate in M
