@@ -4,7 +4,6 @@ import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.fragment.ListFragment;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.fragment.MapFragment;
-import dev.enjarai.trickster.spell.trick.Tricks;
 
 import java.util.*;
 
@@ -30,8 +29,8 @@ public class Revisions {
     public static final Revision WRITE_BRANCH_TO_OFF_HAND = register(new WriteBranchToOffHandRevision());
     public static final Revision PATTERN_LITERAL = register(new PatternLiteralRevision());
 
-    public static final Revision ONE_PONY_TRICK = register(new ConstantRevision(Tricks.TWO.getPattern(), new NumberFragment(2)));
-    public static final Revision EMPTY_LIST = register(new ConstantRevision(Tricks.LIST_CREATE.getPattern(), ListFragment.EMPTY));
+    public static final Revision TWO = register(new ConstantRevision(Pattern.of(1, 4, 7), new NumberFragment(2)));
+    public static final Revision EMPTY_LIST = register(new ConstantRevision(Pattern.of(6, 3, 0, 2, 5, 8), ListFragment.EMPTY));
     public static final Revision EMPTY_MAP = register(new ConstantRevision(Pattern.of(2, 5, 8, 6, 3, 0), MapFragment.EMPTY));
 
     public static Optional<Revision> lookup(Pattern pattern) {
