@@ -4,6 +4,7 @@
   "icon": "minecraft:filled_map",
   "category": "trickster:distortions",
   "additional_search_terms": [
+    "Atlas Revision",
     "Cartographer's Delusion",
     "Charting Stratagem",
     "Navigator's Distortion",
@@ -19,9 +20,9 @@ similarly to how a dictionary associates a word with a definition.
 
 ;;;;;
 
-<|trick@trickster:templates|trick-id=trickster:map_create|>
+<|revision@trickster:templates|pattern=2\,5\,8\,6\,3\,0,title=Atlas Revision|>
 
-Creates a new empty map.
+One of the [Constant Revisions](^trickster:constants): replaces the glyph with an empty map.
 
 ;;;;;
 
