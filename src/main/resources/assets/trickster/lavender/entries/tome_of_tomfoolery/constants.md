@@ -6,7 +6,7 @@
 }
 ```
 
-Described here are [Scribing Patterns](^trickster:editing) which set the glyph of the circle it's drawn in to a literal value.
+Described here are [Scribing Patterns](^trickster:editing) which set the glyph of the circle they're drawn in to a literal value.
 
 ;;;;;
 
