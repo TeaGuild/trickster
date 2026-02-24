@@ -66,6 +66,12 @@ or
 
 ;;;;;
 
+<|revision@trickster:templates|pattern=1\,4\,7,title=Foundational Revision|>
+
+One of the [Constant Revisions](^trickster:constants): replaces the glyph with the number two. All other numbers can be created using this and the following tricks.
+
+;;;;;
+
 <|trick@trickster:templates|trick-id=trickster:add|>
 
 Adds fragments together.

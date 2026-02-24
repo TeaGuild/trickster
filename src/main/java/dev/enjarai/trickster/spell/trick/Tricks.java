@@ -92,7 +92,6 @@ public class Tricks {
     public static final LoadArgumentTrick LOAD_ARGUMENT_8 = register("load_argument_8", new LoadArgumentTrick(Pattern.of(4, 0), 7));
 
     // Basic
-    public static final OnePonyTrick TWO = register("two", new OnePonyTrick());
     public static final RevealTrick REVEAL = register("reveal", new RevealTrick());
     public static final RevealActionBarTrick REVEAL_ACTION_BAR = register("reveal_action_bar", new RevealActionBarTrick());
     public static final ReadSpellTrick READ_SPELL = register("read_spell", new ReadSpellTrick());
@@ -202,7 +201,6 @@ public class Tricks {
     // List
     public static final ListAddTrick LIST_ADD = register("list_add", new ListAddTrick());
     public static final ListAddRangeTrick LIST_ADD_RANGE = register("list_add_range", new ListAddRangeTrick());
-    public static final ListCreateTrick LIST_CREATE = register("list_create", new ListCreateTrick());
     public static final ListGetTrick LIST_GET = register("list_get", new ListGetTrick());
     public static final ListTakeRangeTrick LIST_TAKE_RANGE = register("list_take_range", new ListTakeRangeTrick());
     public static final ListReverseTrick LIST_REVERSE = register("list_reverse", new ListReverseTrick());
@@ -214,7 +212,6 @@ public class Tricks {
     public static final CreateNumberRangeTrick CREATE_NUMBER_RANGE = register("create_number_range", new CreateNumberRangeTrick());
 
     // Map
-    public static final MapCreateTrick MAP_CREATE = register("map_create", new MapCreateTrick());
     public static final MapGetTrick MAP_GET = register("map_get", new MapGetTrick());
     public static final MapInsertTrick MAP_INSERT = register("map_insert", new MapInsertTrick());
     public static final MapMergeTrick MAP_MERGE = register("map_merge", new MapMergeTrick());
