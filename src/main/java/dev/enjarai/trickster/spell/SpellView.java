@@ -118,7 +118,7 @@ public class SpellView {
     public SpellView getUpperParent() {
         var current = this;
 
-        while (current.parent != null) {
+        while (current.parent != null && !current.parent.shadowParent) {
             current = current.parent;
         }
 

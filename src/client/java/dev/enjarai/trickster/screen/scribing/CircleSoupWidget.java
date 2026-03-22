@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.screen.scribing;
 
+import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.SpellView;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.CircleRenderer;
@@ -82,10 +83,13 @@ public class CircleSoupWidget extends StatefulWidget {
         // This makes revisions truly generic
         private SpellView shadowParentView;
         private boolean initialBuild = true;
+        // Should be non-null if the visible root circle is on screen and being rendered, providing its position.
+        private @Nullable CirclePosition rootCirclePosition;
 
         @Override
         public void init() {
             shadowParentView = SpellView.shadowParent(widget().view.getUpperParent());
+            shadowParentView.updateListener = this::rebuildCircles;
             circles.clear();
             addCircle(new CircleState(
                 widget().x,
@@ -258,11 +262,36 @@ public class CircleSoupWidget extends StatefulWidget {
                     circles.put(circle.partView, circle);
                     circle.initialize();
                 });
+
+                if (circle.partView.parent == null || circle.partView.parent.shadowParent) {
+                    rootCirclePosition = new CirclePosition(circle.x, circle.y, circle.radius);
+                }
             }
         }
 
         private void removeCircle(CircleState circle) {
             setState(() -> circles.remove(circle.partView));
+
+            if (circle.partView.parent == null || circle.partView.parent.shadowParent) {
+                rootCirclePosition = null;
+            }
+        }
+
+        private void rebuildCircles() {
+            circles.clear();
+            var view = shadowParentView.children.getFirst();
+
+            double x = 0, y = 0, radius = 80;
+            if (rootCirclePosition != null) {
+                x = rootCirclePosition.x;
+                y = rootCirclePosition.y;
+                radius = rootCirclePosition.radius;
+            }
+
+            addCircle(new CircleState(
+                x, y, radius, 0, 0,
+                view, io.vavr.collection.List.ofAll(view.getPath())
+            ));
         }
 
         class CircleState {
@@ -340,7 +369,7 @@ public class CircleSoupWidget extends StatefulWidget {
                 if (parentCircle != null || partView.parent == null || partView.parent == shadowParentView) return;
 
                 if (partView.isInner) {
-                    var parentRadius = partView.parent.part.superRadius(radius);
+                    var parentRadius = partView.parent.isInner ? 0 : partView.parent.part.superRadius(radius * 3);
                     var parentX = x - (parentRadius * Math.cos(angle));
                     var parentY = y - (parentRadius * Math.sin(angle));
 
@@ -354,7 +383,9 @@ public class CircleSoupWidget extends StatefulWidget {
                 } else if (!partView.parent.children.isEmpty()) {
                     var parentAngle = partView.parent.part.superAngle(partView.getOwnIndex(), angle);
                     var parentRadius = partView.parent.part.superRadius(radius);
-                    var parentParentRadius = partView.parent.parent != null ? partView.parent.parent.part.superRadius(parentRadius) : 0;
+                    var parentParentRadius = partView.parent.parent != null && !partView.parent.isInner
+                        ? partView.parent.parent.part.superRadius(parentRadius)
+                        : 0;
                     var parentX = x - (parentParentRadius * Math.cos(parentAngle));
                     var parentY = y - (parentParentRadius * Math.sin(parentAngle));
 
@@ -413,6 +444,9 @@ public class CircleSoupWidget extends StatefulWidget {
                 if (radius < DISCARD_THRESHOLD_FORWARDS || radius > DISCARD_THRESHOLD_BACKWARDS) {
                     discard();
                 }
+                if (partView.parent == null || partView.parent.shadowParent) {
+                    rootCirclePosition = new CirclePosition(x, y, radius);
+                }
             }
 
             public void updatePattern(Pattern pattern) {
@@ -430,6 +464,11 @@ public class CircleSoupWidget extends StatefulWidget {
                     }
                 } else {
                     partView.replaceGlyph(new PatternGlyph(pattern));
+                }
+
+                // Yea revisions can do that...
+                if (shadowParentView.children.isEmpty()) {
+                    shadowParentView.addChild(0, new SpellPart());
                 }
 
                 widget().revisionContext.updateSpell(shadowParentView.children.getFirst().part);
@@ -470,5 +509,8 @@ public class CircleSoupWidget extends StatefulWidget {
 
     public interface DisposeCallback {
         void dispose(SpellView closestView, double x, double y, double radius, double angle, double centerOffset);
+    }
+
+    record CirclePosition(double x, double y, double radius) {
     }
 }
