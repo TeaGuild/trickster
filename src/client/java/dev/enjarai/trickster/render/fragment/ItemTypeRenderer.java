@@ -26,21 +26,30 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
     public void render(ItemTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
         SpellCircleRenderer delegator) {
         var stack = fragment.item().getDefaultStack();
+        matrices.push();
+        matrices.translate(x, y, 0.0 * size * (delegator.inUI ? 0.3 : -0.3));
         renderItem(stack, ModelTransformationMode.GUI, matrices, vertexConsumers, x, y, size, delegator, 14, false);
+        matrices.pop();
+        SpellCircleRenderer.drawTexturedQuad(
+            matrices, vertexConsumers, TEXTURE,
+            x - size / 2, x + size / 2, y - size / 2, y + size / 2,
+            0,
+            delegator.getR(), delegator.getG(), delegator.getB(),
+            delegator.getCircleTransparency(), delegator.inUI
+        );
     }
 
     public static void renderItem(ItemStack stack, ModelTransformationMode transformationMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
         SpellCircleRenderer delegator, int light, boolean alwaysFlatLight) {
         var bakedModel = MinecraftClient.getInstance().getItemRenderer().getModel(
-                stack, MinecraftClient.getInstance().world,
-                null, 0
+            stack, MinecraftClient.getInstance().world,
+            null, 0
         );
 
         matrices.push();
 
         float time = System.currentTimeMillis() % 1048576 / 1000f;
 
-        matrices.translate(x, y, size * 0.5);
         matrices.scale(size, delegator.inUI ? -size : size, size);
         matrices.scale(0.8f, 0.8f, 0.8f);
         if (!delegator.inUI) {
@@ -68,10 +77,10 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
         }
 
         MinecraftClient.getInstance().getItemRenderer().renderItem(
-                stack, transformationMode,
-                false, matrices, vertexConsumers,
-                LightmapTextureManager.pack(0, light), OverlayTexture.DEFAULT_UV,
-                bakedModel
+            stack, transformationMode,
+            false, matrices, vertexConsumers,
+            LightmapTextureManager.pack(0, light), OverlayTexture.DEFAULT_UV,
+            bakedModel
         );
         if (delegator.inUI && vertexConsumers instanceof VertexConsumerProvider.Immediate immediate) {
             immediate.draw();
@@ -83,13 +92,6 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
 
         matrices.pop();
 
-        SpellCircleRenderer.drawTexturedQuad(
-            matrices, vertexConsumers, TEXTURE,
-            x - size / 2, x + size / 2, y - size / 2, y + size / 2,
-            0,
-            delegator.getR(), delegator.getG(), delegator.getB(),
-            delegator.getCircleTransparency(), delegator.inUI
-        );
     }
 
     @Override
