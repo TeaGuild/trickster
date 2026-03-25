@@ -27,6 +27,7 @@ public interface FragmentRenderer<T extends Fragment> {
     ListRenderer LIST = register(FragmentType.LIST, new ListRenderer());
     MapRenderer MAP = register(FragmentType.MAP, new MapRenderer());
     ColorRenderer COLOR = register(FragmentType.COLOR, new ColorRenderer());
+    TypeRenderer TYPE = register(FragmentType.TYPE, new TypeRenderer());
 
     static <T extends FragmentRenderer<F>, F extends Fragment> T register(FragmentType<F> type, T renderer) {
         return Registry.register(REGISTRY, FragmentType.REGISTRY.getId(type), renderer);
@@ -49,11 +50,11 @@ public interface FragmentRenderer<T extends Fragment> {
         var color = ColorHelper.Argb.withAlpha((int) (alpha * 0xff), 0xffffff);
 
         textRenderer.draw(
-                text,
-                -(width - 1f) / 2f, -height / 2f, color, false,
-                matrices.peek().getPositionMatrix(),
-                vertexConsumers, TextRenderer.TextLayerType.NORMAL,
-                0, 0xf000f0
+            text,
+            -(width - 1f) / 2f, -height / 2f, color, false,
+            matrices.peek().getPositionMatrix(),
+            vertexConsumers, TextRenderer.TextLayerType.NORMAL,
+            0, 0xf000f0
         );
 
         matrices.pop();
