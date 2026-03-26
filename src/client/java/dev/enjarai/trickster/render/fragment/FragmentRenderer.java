@@ -23,11 +23,15 @@ public interface FragmentRenderer<T extends Fragment> {
     PatternLiteralRenderer PATTERN_LITERAL = register(FragmentType.PATTERN_LITERAL, new PatternLiteralRenderer());
     ItemTypeRenderer ITEM_TYPE = register(FragmentType.ITEM_TYPE, new ItemTypeRenderer());
     BlockTypeRenderer BLOCK_TYPE = register(FragmentType.BLOCK_TYPE, new BlockTypeRenderer());
-    // EntityRenderer ENTITY = register(FragmentType.ENTITY, new EntityRenderer());
+    EntityRenderer ENTITY = register(FragmentType.ENTITY, new EntityRenderer());
+    EntityTypeRenderer ENTITY_TYPE = register(FragmentType.ENTITY_TYPE, new EntityTypeRenderer());
     ListRenderer LIST = register(FragmentType.LIST, new ListRenderer());
     MapRenderer MAP = register(FragmentType.MAP, new MapRenderer());
     ColorRenderer COLOR = register(FragmentType.COLOR, new ColorRenderer());
     TypeRenderer TYPE = register(FragmentType.TYPE, new TypeRenderer());
+    NumberRenderer NUMBER = register(FragmentType.NUMBER, new NumberRenderer());
+    VectorRenderer VECTOR = register(FragmentType.VECTOR, new VectorRenderer());
+    BooleanRenderer BOOLEAN = register(FragmentType.BOOLEAN, new BooleanRenderer());
 
     static <T extends FragmentRenderer<F>, F extends Fragment> T register(FragmentType<F> type, T renderer) {
         return Registry.register(REGISTRY, FragmentType.REGISTRY.getId(type), renderer);
@@ -45,7 +49,7 @@ public interface FragmentRenderer<T extends Fragment> {
 
         matrices.push();
         matrices.translate(x, y, 0);
-        matrices.scale(radius / 1.3f / width, radius / 1.3f / width, 1);
+        matrices.scale(radius / width, radius / width, 1);
 
         var color = ColorHelper.Argb.withAlpha((int) (alpha * 0xff), 0xffffff);
 

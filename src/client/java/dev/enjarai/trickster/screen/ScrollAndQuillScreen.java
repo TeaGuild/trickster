@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.screen;
 
+import dev.enjarai.trickster.ModKeyBindings;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.spell.SpellPart;
@@ -121,6 +122,8 @@ public class ScrollAndQuillScreen extends Screen implements ScreenHandlerProvide
         } else if (this.client.options.backKey.matchesKey(keyCode, scanCode)) {
             inputZ = -1.0;
             return true;
+        } else if (ModKeyBindings.SHOW_FRAGMENT_TEXT.matchesKey(keyCode, scanCode)) {
+            partWidget.renderer.textFadeDir = 1;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
@@ -133,6 +136,8 @@ public class ScrollAndQuillScreen extends Screen implements ScreenHandlerProvide
         } else if (this.client.options.backKey.matchesKey(keyCode, scanCode)) {
             inputZ = 0.0;
             return true;
+        } else if (ModKeyBindings.SHOW_FRAGMENT_TEXT.matchesKey(keyCode, scanCode)) {
+            partWidget.renderer.textFadeDir = -1;
         }
         return super.keyReleased(keyCode, scanCode, modifiers);
     }
@@ -151,11 +156,11 @@ public class ScrollAndQuillScreen extends Screen implements ScreenHandlerProvide
     }
 
     public record PositionMemory(int spellHash,
-            Vector2d position,
-            double radius,
-            SpellPart rootSpellPart,
-            SpellPart spellPart,
-            ArrayList<SpellPart> parents,
-            ArrayList<Double> angleOffsets) {
+        Vector2d position,
+        double radius,
+        SpellPart rootSpellPart,
+        SpellPart spellPart,
+        ArrayList<SpellPart> parents,
+        ArrayList<Double> angleOffsets) {
     }
 }

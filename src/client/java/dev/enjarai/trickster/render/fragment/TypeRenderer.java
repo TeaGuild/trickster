@@ -25,9 +25,4 @@ public class TypeRenderer implements FragmentRenderer<TypeFragment> {
             alpha * delegator.getCircleTransparency(), delegator.inUI
         );
     }
-
-    @Override
-    public boolean renderRedrawDots() {
-        return true;
-    }
 }

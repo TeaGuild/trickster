@@ -64,6 +64,8 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
 
             //matrices.multiplyPositionMatrix(mat);
         } else {
+            matrices.translate(0, 0, 0.1f);
+            matrices.scale(1f, 1f, 0.1f);
             matrices.multiply(new Quaternionf(new AxisAngle4f(time, 0, 1, 0)));
         }
 

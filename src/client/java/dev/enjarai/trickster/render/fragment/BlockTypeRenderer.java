@@ -26,6 +26,7 @@ public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
         matrices.translate(x, y, delegator.inUI ? size * 0.5 : 0);
         matrices.scale(size, delegator.inUI ? -size : size, size);
         if (delegator.inUI) {
+            matrices.scale(1f, 1f, 0.01f);
             matrices.multiply(new Quaternionf(new AxisAngle4f(0.5f, 1, 0, 0)));
         } else {
             var mat = new Matrix4f(matrices.peek().getPositionMatrix());
