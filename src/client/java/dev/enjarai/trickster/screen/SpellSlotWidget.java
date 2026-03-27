@@ -13,12 +13,12 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class SpellSlotWidget extends ButtonWidget {
-    public static final ButtonTextures TEXTURES_INACTIVE = new ButtonTextures(Trickster.id("spell_slot/active_error"), Trickster.id("spell_slot/active_error"));
-    public static final ButtonTextures TEXTURES_ACTIVE_SUSPENDED = new ButtonTextures(Trickster.id("spell_slot/active_suspended"), Trickster.id("spell_slot/active_suspended_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_OK = new ButtonTextures(Trickster.id("spell_slot/active_ok"), Trickster.id("spell_slot/active_ok_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_PARTIAL = new ButtonTextures(Trickster.id("spell_slot/active_partial"), Trickster.id("spell_slot/active_partial_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_FULL = new ButtonTextures(Trickster.id("spell_slot/active_full"), Trickster.id("spell_slot/active_full_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_ERROR = new ButtonTextures(Trickster.id("spell_slot/active_error"), Trickster.id("spell_slot/active_error_hover"));
+    // TODO would it be better to have the hover be a single texture?
+    public static final ButtonTextures TEXTURES_ACTIVE_SUSPENDED = new ButtonTextures(Trickster.id("suspended"), Trickster.id("suspended_hover"));
+    public static final ButtonTextures TEXTURES_ACTIVE_OK = new ButtonTextures(Trickster.id("ok"), Trickster.id("ok_hover"));
+    public static final ButtonTextures TEXTURES_ACTIVE_PARTIAL = new ButtonTextures(Trickster.id("partial"), Trickster.id("partial_hover"));
+    public static final ButtonTextures TEXTURES_ACTIVE_FULL = new ButtonTextures(Trickster.id("full"), Trickster.id("full_hover"));
+    public static final ButtonTextures TEXTURES_ACTIVE_ERROR = new ButtonTextures(Trickster.id("error"), Trickster.id("error_hover"));
 
     public final int index;
     public State currentState = State.INACTIVE;
@@ -72,11 +72,11 @@ public class SpellSlotWidget extends ButtonWidget {
     }
 
     public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        Identifier identifier = currentState.textures.get(this.isNarratable(), this.isSelected());
-        // TODO withprefix / with suffix can probalby be simplified
+        Identifier identifier = currentState.textures.get(this.isNarratable(), this.isSelected())
+            .withPrefixedPath("textures/gui/sprites/spell_slot/").withSuffixedPath(".png");
 
         if (currentState == State.INACTIVE) {
-            context.drawTexture(identifier.withPrefixedPath("textures/gui/sprites/").withSuffixedPath(".png"),
+            context.drawTexture(identifier,
                 this.getX() + (u < 0 ? 8 : 0),
                 this.getY() + (v < 0 ? 8 : 0),
                 Math.max(0, u) + (u > 0 ? -8 : 0),
@@ -88,7 +88,7 @@ public class SpellSlotWidget extends ButtonWidget {
             return;
         }
 
-        context.drawTexture(identifier.withPrefixedPath("textures/gui/sprites/").withSuffixedPath(".png"),
+        context.drawTexture(identifier,
             this.getX() + (this.isSelected() && u < 0 ? -1 : 0),
             this.getY() + (this.isSelected() && v < 0 ? -1 : 0),
             Math.max(0, u) + (this.isSelected() && u > 0 ? -1 : 0),
@@ -99,7 +99,7 @@ public class SpellSlotWidget extends ButtonWidget {
     }
 
     public enum State {
-        INACTIVE(TEXTURES_INACTIVE),
+        INACTIVE(TEXTURES_ACTIVE_ERROR),
         ACTIVE_SUSPENDED(TEXTURES_ACTIVE_SUSPENDED),
         ACTIVE_OK(TEXTURES_ACTIVE_OK),
         ACTIVE_PARTIAL(TEXTURES_ACTIVE_PARTIAL),
