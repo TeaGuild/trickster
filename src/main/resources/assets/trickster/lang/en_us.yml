@@ -493,3 +493,13 @@ text.config.trickster-config:
     barsHorizontal: Show spell-created bars horizontally
     disableOffhandScrollOpening: Require scroll in main hand to edit
     adjacentPixelCollisionOffset: Offset factor of adjacent pixels
+  enum.spellSlotPositions:
+    top_left: Top Left
+    top_right: Top Right
+    bottom_left: Bottom Left
+    bottom_right: Bottom Right
+    left_top: Left Top
+    left_bottom: Left Bottom
+    right_top: Right Top
+    right_bottom: Right Bottom
+    hidden: Hidden

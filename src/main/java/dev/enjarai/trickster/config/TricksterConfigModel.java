@@ -22,6 +22,7 @@ public class TricksterConfigModel {
     public boolean allowScrollInSpellScreen = true;
     public double keyZoomSpeed = 1.0;
     public boolean animateLines = true;
+    public SpellSlotPositions spellSlotPosition = SpellSlotPositions.BOTTOM_RIGHT;
 
     @SectionHeader("server")
 
@@ -62,5 +63,17 @@ public class TricksterConfigModel {
 
     public static boolean requirePositive(float value) {
         return value >= 0;
+    }
+
+    public enum SpellSlotPositions {
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT,
+        LEFT_TOP,
+        LEFT_BOTTOM,
+        RIGHT_TOP,
+        RIGHT_BOTTOM,
+        HIDDEN
     }
 }
