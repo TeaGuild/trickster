@@ -5,7 +5,6 @@ import dev.enjarai.trickster.cca.CasterComponent;
 import dev.enjarai.trickster.net.KillSpellPacket;
 import dev.enjarai.trickster.net.ModNetworking;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
@@ -13,12 +12,12 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class SpellSlotWidget extends ButtonWidget {
-    // TODO would it be better to have the hover be a single texture?
-    public static final ButtonTextures TEXTURES_ACTIVE_SUSPENDED = new ButtonTextures(Trickster.id("suspended"), Trickster.id("suspended_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_OK = new ButtonTextures(Trickster.id("ok"), Trickster.id("ok_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_PARTIAL = new ButtonTextures(Trickster.id("partial"), Trickster.id("partial_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_FULL = new ButtonTextures(Trickster.id("full"), Trickster.id("full_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_ERROR = new ButtonTextures(Trickster.id("error"), Trickster.id("error_hover"));
+    public static final Identifier TEXTURE_HOVER = Trickster.id("textures/gui/sprites/spell_slot/hover.png");
+    public static final Identifier TEXTURE_SUSPENDED = Trickster.id("suspended");
+    public static final Identifier TEXTURE_OK = Trickster.id("ok");
+    public static final Identifier TEXTURE_PARTIAL = Trickster.id("partial");
+    public static final Identifier TEXTURES_FULL = Trickster.id("full");
+    public static final Identifier TEXTURES_ERROR = Trickster.id("error");
 
     public final int index;
     public State currentState = State.INACTIVE;
@@ -72,11 +71,8 @@ public class SpellSlotWidget extends ButtonWidget {
     }
 
     public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        Identifier identifier = currentState.textures.get(this.isNarratable(), this.isSelected())
-            .withPrefixedPath("textures/gui/sprites/spell_slot/").withSuffixedPath(".png");
-
         if (currentState == State.INACTIVE) {
-            context.drawTexture(identifier,
+            context.drawTexture(currentState.texture,
                 this.getX() + (u < 0 ? 8 : 0),
                 this.getY() + (v < 0 ? 8 : 0),
                 Math.max(0, u) + (u > 0 ? -8 : 0),
@@ -88,28 +84,41 @@ public class SpellSlotWidget extends ButtonWidget {
             return;
         }
 
-        context.drawTexture(identifier,
-            this.getX() + (this.isSelected() && u < 0 ? -1 : 0),
-            this.getY() + (this.isSelected() && v < 0 ? -1 : 0),
-            Math.max(0, u) + (this.isSelected() && u > 0 ? -1 : 0),
-            Math.max(0, v) + (this.isSelected() && v > 0 ? -1 : 0),
-            this.width + (this.isSelected() && u != 0 ? 1 : 0),
-            this.height + (this.isSelected() && v != 0 ? 1 : 0),
-            16, 16);
+        if (this.isSelected()) {
+            context.drawTexture(TEXTURE_HOVER,
+                this.getX() + (u < 0 ? -1 : 0),
+                this.getY() + (v < 0 ? -1 : 0),
+                Math.max(0, u) + (u > 0 ? -1 : 0),
+                Math.max(0, v) + (v > 0 ? -1 : 0),
+                this.width + (u != 0 ? 1 : 0),
+                this.height + (v != 0 ? 1 : 0),
+                16, 16
+            );
+        }
+
+        context.drawTexture(currentState.texture,
+            this.getX() + (this.isSelected() ? Integer.signum(u) : 0),
+            this.getY() + (this.isSelected() ? Integer.signum(v) : 0),
+            Math.max(0, u),
+            Math.max(0, v),
+            this.width,
+            this.height,
+            16, 16
+        );
     }
 
     public enum State {
-        INACTIVE(TEXTURES_ACTIVE_ERROR),
-        ACTIVE_SUSPENDED(TEXTURES_ACTIVE_SUSPENDED),
-        ACTIVE_OK(TEXTURES_ACTIVE_OK),
-        ACTIVE_PARTIAL(TEXTURES_ACTIVE_PARTIAL),
-        ACTIVE_FULL(TEXTURES_ACTIVE_FULL),
-        ACTIVE_ERROR(TEXTURES_ACTIVE_ERROR);
+        INACTIVE(TEXTURES_ERROR),
+        ACTIVE_SUSPENDED(TEXTURE_SUSPENDED),
+        ACTIVE_OK(TEXTURE_OK),
+        ACTIVE_PARTIAL(TEXTURE_PARTIAL),
+        ACTIVE_FULL(TEXTURES_FULL),
+        ACTIVE_ERROR(TEXTURES_ERROR);
 
-        public final ButtonTextures textures;
+        public final Identifier texture;
 
-        State(ButtonTextures textures) {
-            this.textures = textures;
+        State(Identifier texture) {
+            this.texture = texture.withPrefixedPath("textures/gui/sprites/spell_slot/").withSuffixedPath(".png");
         }
     }
 }

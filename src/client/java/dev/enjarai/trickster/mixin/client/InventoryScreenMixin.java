@@ -94,6 +94,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private void tickSpellSlots(CallbackInfo ci) {
         var position = Trickster.CONFIG.spellSlotPosition();
         var spellData = client.player.getComponent(ModEntityComponents.CASTER).getRunningSpellData();
+
         for (var slot : spellSlots) {
             slot.setPosition(x + getXOffset(position, slot.index), y + getYOffset(position, slot.index));
             slot.updateState(spellData.get(slot.index));
