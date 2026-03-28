@@ -23,6 +23,7 @@ public class TricksterConfigModel {
     public double keyZoomSpeed = 1.0;
     public boolean animateLines = true;
     public SpellSlotPositions spellSlotPosition = SpellSlotPositions.BOTTOM_RIGHT;
+    public SpellSlotPositions creativeSpellSlotPosition = SpellSlotPositions.RIGHT_BOTTOM;
 
     @SectionHeader("server")
 

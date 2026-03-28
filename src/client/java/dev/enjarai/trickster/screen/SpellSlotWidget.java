@@ -2,6 +2,7 @@ package dev.enjarai.trickster.screen;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.cca.CasterComponent;
+import dev.enjarai.trickster.config.TricksterConfigModel;
 import dev.enjarai.trickster.net.KillSpellPacket;
 import dev.enjarai.trickster.net.ModNetworking;
 import net.minecraft.client.gui.DrawContext;
@@ -24,11 +25,21 @@ public class SpellSlotWidget extends ButtonWidget {
     private final int u;
     private final int v;
 
-    public SpellSlotWidget(int x, int y, int u, int v, int index) {
-        super(x, y, 16 - Math.abs(u), 16 - Math.abs(v), Text.empty(), btn -> {}, DEFAULT_NARRATION_SUPPLIER);
+    public SpellSlotWidget(int x, int y, TricksterConfigModel.SpellSlotPositions pos, int index) {
+        super(x, y, 16, 16, Text.empty(), btn -> {}, DEFAULT_NARRATION_SUPPLIER);
         this.index = index;
-        this.u = u;
-        this.v = v;
+        this.u = switch (pos) {
+            case LEFT_TOP, LEFT_BOTTOM -> -4;
+            case RIGHT_TOP, RIGHT_BOTTOM -> 4;
+            default -> 0;
+        };
+        this.v = switch (pos) {
+            case TOP_LEFT, TOP_RIGHT -> -4;
+            case BOTTOM_LEFT, BOTTOM_RIGHT -> 4;
+            default -> 0;
+        };
+        this.width = this.width - Math.abs(u);
+        this.height = this.height - Math.abs(v);
     }
 
     @Override

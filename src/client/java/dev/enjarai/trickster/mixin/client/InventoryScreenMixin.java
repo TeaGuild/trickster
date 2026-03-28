@@ -47,29 +47,9 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     }
 
     @Unique
-    public int getUOffset(TricksterConfigModel.SpellSlotPositions pos) {
-        return switch (pos) {
-            case LEFT_TOP, LEFT_BOTTOM -> -4;
-            case RIGHT_TOP, RIGHT_BOTTOM -> 4;
-            default -> 0;
-        };
-    }
-
-    @Unique
-    public int getVOffset(TricksterConfigModel.SpellSlotPositions pos) {
-        return switch (pos) {
-            case TOP_LEFT, TOP_RIGHT -> -4;
-            case BOTTOM_LEFT, BOTTOM_RIGHT -> 4;
-            default -> 0;
-        };
-    }
-
-    @Unique
     public List<SpellSlotWidget> spellSlots = new ArrayList<>();
 
-    @Inject(
-        method = "init", at = @At("TAIL")
-    )
+    @Inject(method = "init", at = @At("TAIL"))
     private void initSpellSlots(CallbackInfo ci) {
         var position = Trickster.CONFIG.spellSlotPosition();
         if (position == TricksterConfigModel.SpellSlotPositions.HIDDEN) {
@@ -80,7 +60,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
         var spellData = client.player.getComponent(ModEntityComponents.CASTER).getRunningSpellData();
 
         for (int i = 0; i < 5; i++) {
-            var widget = new SpellSlotWidget(x + getXOffset(position, i), y + getYOffset(position, i), getUOffset(position), getVOffset(position), i);
+            var widget = new SpellSlotWidget(x + getXOffset(position, i), y + getYOffset(position, i), position, i);
             widget.updateState(spellData.get(i));
             spellSlots.add(widget);
             addDrawableChild(widget);
@@ -88,9 +68,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
         }
     }
 
-    @Inject(
-        method = "handledScreenTick", at = @At("TAIL")
-    )
+    @Inject(method = "handledScreenTick", at = @At("TAIL"))
     private void tickSpellSlots(CallbackInfo ci) {
         var position = Trickster.CONFIG.spellSlotPosition();
         var spellData = client.player.getComponent(ModEntityComponents.CASTER).getRunningSpellData();
