@@ -17,7 +17,7 @@ import org.joml.Vector3f;
 
 public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
 
-    public static final Identifier TEXTURE = Trickster.id("textures/gui/item_slot.png");
+    public static final Identifier TEXTURE = Trickster.id("textures/fragment/item_type.png");
 
     @Override
     public void render(ItemTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,

@@ -154,7 +154,7 @@ public class SpellCircleRenderer {
         var alpha = alphaGetter.apply(toLocalSpace(radius));
 
         var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(entry.glyph.type()));
-        if (renderer != null && renderer.renderCircle()) {
+        if (renderer == null || renderer.renderCircle()) {
             drawTexturedQuad(
                 matrices, vertexConsumers, CIRCLE_TEXTURE,
                 toLocalSpace(x - radius), toLocalSpace(x + radius), toLocalSpace(y - radius), toLocalSpace(y + radius),

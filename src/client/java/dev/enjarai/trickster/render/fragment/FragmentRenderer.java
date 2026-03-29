@@ -35,7 +35,7 @@ public interface FragmentRenderer<T extends Fragment> {
     BooleanRenderer BOOLEAN = register(FragmentType.BOOLEAN, new BooleanRenderer());
     ContainerRenderer CONTAINER = register(FragmentType.CONTAINER, new ContainerRenderer());
     SlotRenderer SLOT = register(FragmentType.SLOT, new SlotRenderer());
-    DimensionRenderer DIMENSION = register(FragmentType.DIMENSION, new DimensionRenderer());
+    //DimensionRenderer DIMENSION = register(FragmentType.DIMENSION, new DimensionRenderer()); // disabled until a decision is made
     VoidRenderer VOID = register(FragmentType.VOID, new VoidRenderer());
     ZalgoRenderer ZALGO = register(FragmentType.ZALGO, new ZalgoRenderer());
 

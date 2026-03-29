@@ -1,6 +1,5 @@
 package dev.enjarai.trickster.render.fragment;
 
-import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.SpellCircleRenderer;
 import dev.enjarai.trickster.spell.fragment.BlockTypeFragment;
 import net.minecraft.block.BlockState;
@@ -52,7 +51,7 @@ public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
             matrices.push();
             matrices.multiply(new Quaternionf().rotateTo(new Vector3f(0, 0, 1), side.getUnitVector()));
             SpellCircleRenderer.drawTexturedQuad(
-                matrices, vertexConsumers, Trickster.id("textures/gui/item_slot.png"),
+                matrices, vertexConsumers, ItemTypeRenderer.TEXTURE,
                 -0.55f, 0.55f, -0.55f, 0.55f,
                 -0.55f,
                 delegator.getR(), delegator.getG(), delegator.getB(),
