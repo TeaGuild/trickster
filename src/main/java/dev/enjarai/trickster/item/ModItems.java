@@ -60,6 +60,15 @@ public class ModItems {
                 .build()
         ))
     );
+    public static final Item GLASSES = register("glasses", new Item(new Item.Settings().maxCount(1)
+        .component(AccessoriesDataComponents.RENDER_TRANSFORMATIONS,
+            AccessoryRenderTransformations.builder()
+                .translation(new Vector3f(0, 0, -0.5f))
+                .scale(new Vector3f(35f / 16f, 35f / 16f, 35f / 16f))
+                .rotation(new AxisAngle4f((float) Math.PI, 0, 1, 0))
+                .build()
+        ))
+    );
     public static final ManaAccessory AMETHYST_WHORL = register("amethyst_whorl", new ManaAccessory());
     public static final SpellAccessory TORMENT_ON_A_CHAIN = register("torment_on_a_chain", new SpellAccessory());
     public static final CollarItem COLLAR = register("collar", new CollarItem(new Item.Settings()));
@@ -168,6 +177,7 @@ public class ModItems {
             entries.add(WARDING_CHARM);
             entries.add(MACRO_RING);
             entries.add(MONOCLE);
+            entries.add(GLASSES);
             entries.add(SPELL_INK);
             entries.add(SPELL_RESONATOR_ITEM);
             entries.add(SCROLL_SHELF_BLOCK_ITEM);

@@ -21,6 +21,7 @@ public class DimensionRenderer implements FragmentRenderer<DimensionFragment> {
         Identifier texture = Identifier.of(Trickster.MOD_ID, String.format(TEXTURE_PATTERN, id.getNamespace(), id.getPath()));
         var tex = MinecraftClient.getInstance().getTextureManager().getTexture(texture);
         if (tex instanceof NativeImageBackedTexture) {
+            //Use mod icon in fallback?
             texture = FALLBACK;
             matrices.push();
             matrices.translate(0, 0, 0.002f * size);
