@@ -59,7 +59,7 @@ public class ModItems {
                 .translation(new Vector3f(-0.5f, -0.25f, 0))
                 .build()
         ))
-    ); //TODO: make this render properly on the face
+    );
     public static final ManaAccessory AMETHYST_WHORL = register("amethyst_whorl", new ManaAccessory());
     public static final SpellAccessory TORMENT_ON_A_CHAIN = register("torment_on_a_chain", new SpellAccessory());
     public static final CollarItem COLLAR = register("collar", new CollarItem(new Item.Settings()));
