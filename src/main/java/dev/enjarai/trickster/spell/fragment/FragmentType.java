@@ -66,8 +66,8 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
             var hash = key.getValue().hashCode();
             if (INT_ID_LOOKUP.containsKey(hash)) {
                 Trickster.LOGGER.error(
-                        "WARNING: Hashcode collision between two fragment types, spell imports and exports may not work as expected. ({} overrode {})",
-                        key.getValue(), INT_ID_LOOKUP.get(hash)
+                    "WARNING: Hashcode collision between two fragment types, spell imports and exports may not work as expected. ({} overrode {})",
+                    key.getValue(), INT_ID_LOOKUP.get(hash)
                 );
                 throw new IllegalStateException("WARNING: Hashcode collision between two fragment types");
             }
@@ -88,7 +88,7 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
     public static final FragmentType<EntityFragment> ENTITY = register("entity", EntityFragment.ENDEC, 0x338888);
     public static final FragmentType<ZalgoFragment> ZALGO = register("zalgo", ZalgoFragment.ENDEC, 0x444444);
     public static final FragmentType<ItemTypeFragment> ITEM_TYPE = register("item_type", ItemTypeFragment.ENDEC, 0x2266aa);
-    public static final FragmentType<FluidTypeFragment> FLUID_TYPE = register("fluid_type", FluidTypeFragment.ENDEC, 0x132ea8);
+    public static final FragmentType<FluidTypeFragment> FLUID_TYPE = register("fluid_type", FluidTypeFragment.ENDEC, 0xaa6622);
     public static final FragmentType<SlotFragment> SLOT = register("slot", SlotFragment.ENDEC, 0x77aaee);
     public static final FragmentType<ContainerFragment> CONTAINER = register("container", ContainerFragment.ENDEC, 0xbbbbff);
     public static final FragmentType<BlockTypeFragment> BLOCK_TYPE = register("block_type", BlockTypeFragment.ENDEC, 0x44aa33);
@@ -234,7 +234,7 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (FragmentType) obj;
         return Objects.equals(this.endec, that.endec) &&
-                Objects.equals(this.color, that.color);
+            Objects.equals(this.color, that.color);
     }
 
     @Override
@@ -245,7 +245,7 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
     @Override
     public String toString() {
         return "FragmentType[" +
-                "endec=" + endec + ", " +
-                "color=" + color + ']';
+            "endec=" + endec + ", " +
+            "color=" + color + ']';
     }
 }

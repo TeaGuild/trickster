@@ -122,7 +122,7 @@ public class ScrollAndQuillScreen extends Screen implements ScreenHandlerProvide
         } else if (this.client.options.backKey.matchesKey(keyCode, scanCode)) {
             inputZ = -1.0;
             return true;
-        } else if (ModKeyBindings.SHOW_FRAGMENT_TEXT.matchesKey(keyCode, scanCode)) {
+        } else if (this.client.player.accessoriesCapability().isEquipped(ModItems.MONOCLE) && ModKeyBindings.SHOW_FRAGMENT_TEXT.matchesKey(keyCode, scanCode)) {
             partWidget.renderer.textFadeDir = 1;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);

@@ -153,12 +153,15 @@ public class SpellCircleRenderer {
         Function<Float, Float> alphaGetter, Vec3d normal) {
         var alpha = alphaGetter.apply(toLocalSpace(radius));
 
-        drawTexturedQuad(
-            matrices, vertexConsumers, CIRCLE_TEXTURE,
-            toLocalSpace(x - radius), toLocalSpace(x + radius), toLocalSpace(y - radius), toLocalSpace(y + radius),
-            0,
-            r, g, b, alpha * circleTransparency, inUI
-        );
+        var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(entry.glyph.type()));
+        if (renderer != null && renderer.renderCircle()) {
+            drawTexturedQuad(
+                matrices, vertexConsumers, CIRCLE_TEXTURE,
+                toLocalSpace(x - radius), toLocalSpace(x + radius), toLocalSpace(y - radius), toLocalSpace(y + radius),
+                0,
+                r, g, b, alpha * circleTransparency, inUI
+            );
+        }
         drawGlyph(
             matrices, vertexConsumers, entry,
             x, y, radius, startingAngle,

@@ -4,10 +4,7 @@ import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.SpellCircleRenderer;
 import dev.enjarai.trickster.spell.fragment.slot.ItemTypeFragment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -80,7 +77,8 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
 
         MinecraftClient.getInstance().getItemRenderer().renderItem(
             stack, transformationMode,
-            false, matrices, vertexConsumers,
+            false, matrices,
+            layer -> vertexConsumers.getBuffer(RenderLayer.getGlint().equals(layer) ? RenderLayer.getEntityCutout(Identifier.ofVanilla("")) : layer),
             LightmapTextureManager.pack(0, light), OverlayTexture.DEFAULT_UV,
             bakedModel
         );

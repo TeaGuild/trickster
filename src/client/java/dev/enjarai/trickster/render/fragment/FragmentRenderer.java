@@ -23,6 +23,7 @@ public interface FragmentRenderer<T extends Fragment> {
     PatternLiteralRenderer PATTERN_LITERAL = register(FragmentType.PATTERN_LITERAL, new PatternLiteralRenderer());
     ItemTypeRenderer ITEM_TYPE = register(FragmentType.ITEM_TYPE, new ItemTypeRenderer());
     BlockTypeRenderer BLOCK_TYPE = register(FragmentType.BLOCK_TYPE, new BlockTypeRenderer());
+    FluidTypeRenderer FLUID_TYPE = register(FragmentType.FLUID_TYPE, new FluidTypeRenderer());
     EntityRenderer ENTITY = register(FragmentType.ENTITY, new EntityRenderer());
     EntityTypeRenderer ENTITY_TYPE = register(FragmentType.ENTITY_TYPE, new EntityTypeRenderer());
     ListRenderer LIST = register(FragmentType.LIST, new ListRenderer());
@@ -32,6 +33,11 @@ public interface FragmentRenderer<T extends Fragment> {
     NumberRenderer NUMBER = register(FragmentType.NUMBER, new NumberRenderer());
     VectorRenderer VECTOR = register(FragmentType.VECTOR, new VectorRenderer());
     BooleanRenderer BOOLEAN = register(FragmentType.BOOLEAN, new BooleanRenderer());
+    ContainerRenderer CONTAINER = register(FragmentType.CONTAINER, new ContainerRenderer());
+    SlotRenderer SLOT = register(FragmentType.SLOT, new SlotRenderer());
+    DimensionRenderer DIMENSION = register(FragmentType.DIMENSION, new DimensionRenderer());
+    VoidRenderer VOID = register(FragmentType.VOID, new VoidRenderer());
+    ZalgoRenderer ZALGO = register(FragmentType.ZALGO, new ZalgoRenderer());
 
     static <T extends FragmentRenderer<F>, F extends Fragment> T register(FragmentType<F> type, T renderer) {
         return Registry.register(REGISTRY, FragmentType.REGISTRY.getId(type), renderer);
@@ -71,6 +77,10 @@ public interface FragmentRenderer<T extends Fragment> {
     }
 
     default boolean doubleSided() {
+        return true;
+    }
+
+    default boolean renderCircle() {
         return true;
     }
 }

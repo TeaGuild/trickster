@@ -81,7 +81,7 @@ public class EntityTypeRenderer implements FragmentRenderer<EntityTypeFragment> 
         dispatcher.render(
             entity, 0, 0, 0, 0, tickDelta,
             matrices,
-            layer -> vertexConsumers.getBuffer(layer.getAffectedOutline().map(v -> RenderLayer.getDebugLineStrip(1)).orElse(layer)),
+            layer -> vertexConsumers.getBuffer(layer.getAffectedOutline().map(v -> RenderLayer.getDebugLineStrip(1)).orElse(RenderLayer.getDebugFilledBox())),
             //            entity instanceof PlayerEntity ? layer -> vertexConsumers.getBuffer(RenderLayer.getDebugQuads())
             //                : layer -> vertexConsumers.getBuffer(RenderLayer.getOutline(renderer.getTexture(finalEntity))),
             LightmapTextureManager.pack(0, 0)

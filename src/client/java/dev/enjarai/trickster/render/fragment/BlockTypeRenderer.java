@@ -3,6 +3,7 @@ package dev.enjarai.trickster.render.fragment;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.SpellCircleRenderer;
 import dev.enjarai.trickster.spell.fragment.BlockTypeFragment;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
@@ -41,48 +42,10 @@ public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
 
         matrices.scale(0.8f, 0.8f, 0.8f);
 
-        var state = block.getDefaultState();
-        var manager = MinecraftClient.getInstance().getBlockRenderManager();
-        var model = manager.getModel(state);
-        var rand = net.minecraft.util.math.random.Random.create();
-        var modelEmpty = model.getQuads(state, null, rand).isEmpty();
-        for (var dir : Direction.values()) {
-            if (!modelEmpty) break;
-            modelEmpty = model.getQuads(state, dir, rand).isEmpty();
-        }
-        if (modelEmpty) {
-            if (Item.BLOCK_ITEMS.containsKey(block)) {
-                var stack = Item.BLOCK_ITEMS.get(block).getDefaultStack();
-                var bakedModel = MinecraftClient.getInstance().getItemRenderer().getModel(
-                    stack, MinecraftClient.getInstance().world,
-                    null, 0
-                );
-                MinecraftClient.getInstance().getItemRenderer().renderItem(
-                    stack, ModelTransformationMode.NONE,
-                    false, matrices, vertexConsumers,
-                    LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV,
-                    bakedModel
-                );
-            } else {
-                matrices.pop();
-                FragmentRenderer.renderAsText(fragment, matrices, vertexConsumers, x, y, size, alpha);
-                return;
-            }
-        } else {
-            matrices.translate(-0.5, -0.5, -0.5);
-            manager.getModelRenderer().render(
-                MinecraftClient.getInstance().world,
-                model,
-                state,
-                new BlockPos(0, 1000, 0),
-                matrices,
-                vertexConsumers.getBuffer(RenderLayers.getMovingBlockLayer(state)),
-                false,
-                rand,
-                state.getRenderingSeed(new BlockPos(0, 0, 0)),
-                LightmapTextureManager.MAX_LIGHT_COORDINATE
-            );
-            matrices.translate(0.5, 0.5, 0.5);
+        if (!renderBlock(block.getDefaultState(), matrices, vertexConsumers)) {
+            matrices.pop();
+            FragmentRenderer.renderAsText(fragment, matrices, vertexConsumers, x, y, size, alpha);
+            return;
         }
 
         for (var side : Direction.values()) {
@@ -105,5 +68,50 @@ public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
     @Override
     public boolean doubleSided() {
         return false;
+    }
+
+    public static boolean renderBlock(BlockState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers) {
+        var block = state.getBlock();
+        var manager = MinecraftClient.getInstance().getBlockRenderManager();
+        var model = manager.getModel(state);
+        var rand = net.minecraft.util.math.random.Random.create();
+        var modelEmpty = model.getQuads(state, null, rand).isEmpty();
+        for (var dir : Direction.values()) {
+            if (!modelEmpty) break;
+            modelEmpty = model.getQuads(state, dir, rand).isEmpty();
+        }
+        if (modelEmpty) {
+            if (Item.BLOCK_ITEMS.containsKey(block)) {
+                var stack = Item.BLOCK_ITEMS.get(block).getDefaultStack();
+                var bakedModel = MinecraftClient.getInstance().getItemRenderer().getModel(
+                    stack, MinecraftClient.getInstance().world,
+                    null, 0
+                );
+                MinecraftClient.getInstance().getItemRenderer().renderItem(
+                    stack, ModelTransformationMode.NONE,
+                    false, matrices, vertexConsumers,
+                    LightmapTextureManager.MAX_LIGHT_COORDINATE, OverlayTexture.DEFAULT_UV,
+                    bakedModel
+                );
+            } else {
+                return false;
+            }
+        } else {
+            matrices.translate(-0.5, -0.5, -0.5);
+            manager.getModelRenderer().render(
+                MinecraftClient.getInstance().world,
+                model,
+                state,
+                new BlockPos(0, 1000, 0),
+                matrices,
+                vertexConsumers.getBuffer(RenderLayers.getMovingBlockLayer(state)),
+                false,
+                rand,
+                state.getRenderingSeed(new BlockPos(0, 0, 0)),
+                LightmapTextureManager.MAX_LIGHT_COORDINATE
+            );
+            matrices.translate(0.5, 0.5, 0.5);
+        }
+        return true;
     }
 }

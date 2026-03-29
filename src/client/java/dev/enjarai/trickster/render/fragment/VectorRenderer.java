@@ -8,6 +8,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Vector3dc;
 
 public class VectorRenderer implements FragmentRenderer<VectorFragment> {
 
@@ -21,7 +22,18 @@ public class VectorRenderer implements FragmentRenderer<VectorFragment> {
         alpha = MathHelper.lerp(delegator.textFade, 1f, alpha);
 
         var vec = fragment.vector();
+
+        renderVector(vec, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+
+    }
+
+    public static void renderVector(Vector3dc vec, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+        SpellCircleRenderer delegator) {
+
         var vs = new double[] { vec.x(), vec.y(), vec.z() };
+
+        matrices.push();
+        matrices.scale(1, 1, delegator.inUI ? 1 : -1);
 
         SpellCircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, RING,
@@ -32,11 +44,11 @@ public class VectorRenderer implements FragmentRenderer<VectorFragment> {
         );
 
         for (int i = 0; i < 3; i++) {
-            var angle = Math.PI * 11 / 12 - Math.PI / 1.5 * i;
+            var angle = Math.PI * 11 / 12 + Math.PI / 1.5 * i;
             NumberRenderer.renderNumber(vs[i], matrices, vertexConsumers,
                 x + (float) Math.cos(angle) * radius / 2.5f, y + (float) Math.sin(angle) * radius / 2.5f,
                 radius / 2, alpha, normal, tickDelta, delegator);
         }
-
+        matrices.pop();
     }
 }
