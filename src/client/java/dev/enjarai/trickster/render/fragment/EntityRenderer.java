@@ -8,6 +8,8 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import org.joml.AxisAngle4f;
@@ -54,6 +56,9 @@ public class EntityRenderer implements FragmentRenderer<EntityFragment> {
         matrices.scale(0.8f, 0.8f, 0.8f);
         var scale = Math.max(entity.getHeight(), entity.getWidth());
         scale = 1f / scale;
+        if (entity instanceof ItemEntity || entity instanceof ItemFrameEntity) {
+            scale /= 2f;
+        }
         matrices.scale(scale, scale, scale);
         matrices.translate(0, -entity.getHeight() / 2, 0);
 
