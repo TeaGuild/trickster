@@ -1,0 +1,4 @@
+item/scroll_and_quill%s.png
+item/written_scroll%s.png
+entity/scroll_shelf/scroll_and_quill%s.png
+entity/scroll_shelf/written_scroll%s.png
