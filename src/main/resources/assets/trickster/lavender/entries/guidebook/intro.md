@@ -10,7 +10,7 @@ Welcome to the **Tome of Tomfoolery**! Your guide to magic, trickery, and applie
 
 
 This book consists of many chapters spread out over a few categories. 
-Aside from the tutorials section, these chapters are intended to be read in no particular order and only when required.
+Aside from the [tutorials](^trickster:tutorials) section, these chapters are intended to be read in no particular order and only when required.
 
 ;;;;;
 
