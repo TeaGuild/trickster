@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 64,
+    "separation": 8,
+    "salt": 78178314
+  },
+  "structures": [
+    {
+      "structure": "trickster:tower",
+      "weight": 1
+    }
+  ]
+}
