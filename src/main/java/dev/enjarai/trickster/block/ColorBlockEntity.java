@@ -63,6 +63,6 @@ public class ColorBlockEntity extends BlockEntity implements SpellColoredBlockEn
 
     @Override
     public @Nullable Object getRenderData() {
-        return colors[0];
+        return colors;
     }
 }

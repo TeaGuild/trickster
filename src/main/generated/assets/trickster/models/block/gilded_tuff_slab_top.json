@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "trickster:block/gilded_tuff",
+    "side": "trickster:block/gilded_tuff",
+    "top": "trickster:block/gilded_tuff"
+  }
+}
