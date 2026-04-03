@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "trickster:block/gilded_tuff_bricks"
+  }
+}

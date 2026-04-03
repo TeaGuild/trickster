@@ -54,4 +54,9 @@ public class LightBlockEntity extends BlockEntity implements SpellColoredBlockEn
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }
     }
+
+    @Override
+    public boolean supports(BlockState state) {
+        return super.supports(state) || state.getBlock() == ModBlocks.LIGHT_SCONCE;
+    }
 }

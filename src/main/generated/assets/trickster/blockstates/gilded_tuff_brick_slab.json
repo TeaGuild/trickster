@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "trickster:block/gilded_tuff_brick_slab"
+    },
+    "type=double": {
+      "model": "trickster:block/gilded_tuff_bricks"
+    },
+    "type=top": {
+      "model": "trickster:block/gilded_tuff_brick_slab_top"
+    }
+  }
+}
