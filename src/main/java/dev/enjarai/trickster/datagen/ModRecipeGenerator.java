@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -21,7 +22,7 @@ import static dev.enjarai.trickster.item.ModItems.*;
 
 public class ModRecipeGenerator extends FabricRecipeProvider {
 
-    public static final List<Pair<Item, Item>> TUFF_TO_GILDED = List.of(
+    public static final List<Pair<Item, BlockItem>> TUFF_TO_GILDED = List.of(
         new Pair<>(TUFF, GILDED_TUFF),
         new Pair<>(TUFF_STAIRS, GILDED_TUFF_STAIRS),
         new Pair<>(TUFF_SLAB, GILDED_TUFF_SLAB),
@@ -82,7 +83,7 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
-        for (Pair<Item, Item> entry : TUFF_TO_GILDED) {
+        for (Pair<Item, BlockItem> entry : TUFF_TO_GILDED) {
             ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, entry.getRight(), 8)
                 .pattern("bbb")
                 .pattern("bgb")

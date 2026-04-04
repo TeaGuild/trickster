@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.spell.trick.block;
 
 import dev.enjarai.trickster.block.LightBlock;
+import dev.enjarai.trickster.block.LightSconceBlock;
 import dev.enjarai.trickster.block.ModBlocks;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
@@ -37,7 +38,7 @@ public class ConjureLightTrick extends Trick<ConjureLightTrick> {
         var newState = ModBlocks.LIGHT.getDefaultState().with(LightBlock.WATERLOGGED, waterlogged);
         // Blunder if block can't be replaced or if it has a fluid that isn't water
         if (state.isIn(ModBlocks.LIGHT_HOLDERS)) {
-            newState = state;
+            newState = state.with(LightSconceBlock.HAS_LIGHT, true);
         } else {
             if (!state.isReplaceable() || (!state.isAir() && !isWater && !dry)) {
                 throw new BlockOccupiedBlunder(this, pos);
