@@ -12,7 +12,7 @@ Described here are [Scribing Patterns](^trickster:editing) which set the glyph o
 
 <|revision@trickster:templates|pattern=1\,4\,7,title=Foundational Revision|>
 
-Replaces the glyph with the number two. All other numbers can be created using [Arithmetic](^trickster:distortions/arithmetic).
+Replaces the glyph with the number two. Other numbers can be created using [Arithmetic](^trickster:distortions/arithmetic).
 
 ;;;;;
 
