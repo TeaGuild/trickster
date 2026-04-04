@@ -3,7 +3,6 @@ package dev.enjarai.trickster.block;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ContainerComponent;
@@ -23,7 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-public class ChargingArrayBlockEntity extends BlockEntity implements Inventory {
+public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
     public int age;
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
 
@@ -33,9 +32,9 @@ public class ChargingArrayBlockEntity extends BlockEntity implements Inventory {
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
         this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory, registryLookup);
+        super.readNbt(nbt, registryLookup);
     }
 
     @Override
@@ -58,17 +57,17 @@ public class ChargingArrayBlockEntity extends BlockEntity implements Inventory {
                 var facing = getCachedState().get(ChargingArrayBlock.FACING);
 
                 ManaComponent.tryRecharge(
-                        serverWorld,
-                        getPos()
-                                .toCenterPos()
-                                .add(new Vec3d(facing
-                                        .getUnitVector()
-                                        .mul(-0.3f, new Vector3f())
-                                ))
-                                .add(new Vec3d(new Vector3f(x / 3f, 0, y / 3f)
-                                        .rotate(facing.getRotationQuaternion())
-                                )),
-                        stack
+                    serverWorld,
+                    getPos()
+                        .toCenterPos()
+                        .add(new Vec3d(facing
+                            .getUnitVector()
+                            .mul(-0.3f, new Vector3f())
+                        ))
+                        .add(new Vec3d(new Vector3f(x / 3f, 0, y / 3f)
+                            .rotate(facing.getRotationQuaternion())
+                        )),
+                    stack
                 );
             }
         }
@@ -153,8 +152,8 @@ public class ChargingArrayBlockEntity extends BlockEntity implements Inventory {
 
     @Override
     protected void readComponents(ComponentsAccess components) {
+        components.getOrDefault(DataComponentTypes.CONTAINER, ContainerComponent.DEFAULT).copyTo(this.inventory);
         super.readComponents(components);
-        components.<ContainerComponent>getOrDefault(DataComponentTypes.CONTAINER, ContainerComponent.DEFAULT).copyTo(this.inventory);
     }
 
     @Override

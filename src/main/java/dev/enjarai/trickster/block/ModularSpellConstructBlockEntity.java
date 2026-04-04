@@ -44,12 +44,12 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class ModularSpellConstructBlockEntity extends BlockEntity implements Inventory, CrowMind, SpellExecutionManager, SpellCastingBlockEntity {
+public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEntity implements CrowMind, SpellExecutionManager, SpellCastingBlockEntity {
     public static final KeyedEndec<Fragment> CROW_MIND_ENDEC = Fragment.ENDEC.keyed("crow_mind", () -> VoidFragment.INSTANCE);
     public static final KeyedEndec<List<Optional<SpellExecutor>>> EXECUTORS_ENDEC = SpellExecutor.ENDEC
-            .optionalOf().listOf().keyed("executors", () -> null);
+        .optionalOf().listOf().keyed("executors", () -> null);
     public static final KeyedEndec<List<Optional<SpellExecutor>>> EXECUTORS_NET_ENDEC = SpellExecutor.NET_ENDEC
-            .optionalOf().listOf().keyed("executors", List.of());
+        .optionalOf().listOf().keyed("executors", List.of());
 
     public final DefaultedList<Optional<SpellExecutor>> executors = DefaultedList.ofSize(4, Optional.empty());
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
@@ -137,13 +137,13 @@ public class ModularSpellConstructBlockEntity extends BlockEntity implements Inv
                             }
                         } catch (BlunderException blunder) {
                             error = Optional.of(
-                                    blunder.createMessage()
-                                            .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
+                                blunder.createMessage()
+                                    .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
                             );
                         } catch (Throwable e) {
                             error = Optional.of(
-                                    Text.literal("Uncaught exception in spell: " + e.getMessage())
-                                            .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
+                                Text.literal("Uncaught exception in spell: " + e.getMessage())
+                                    .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
                             );
                             Trickster.LOGGER.error("Uncaught exception in spell", e);
                         }
@@ -159,18 +159,18 @@ public class ModularSpellConstructBlockEntity extends BlockEntity implements Inv
                 }
 
                 ManaComponent.tryRecharge(
-                        serverWorld,
-                        getPos()
-                                .toCenterPos()
-                                .add(
-                                        new Vec3d(
-                                                getCachedState()
-                                                        .get(ModularSpellConstructBlock.FACING)
-                                                        .getUnitVector()
-                                                        .mul(0.3f, new Vector3f())
-                                        )
-                                ),
-                        stack
+                    serverWorld,
+                    getPos()
+                        .toCenterPos()
+                        .add(
+                            new Vec3d(
+                                getCachedState()
+                                    .get(ModularSpellConstructBlock.FACING)
+                                    .getUnitVector()
+                                    .mul(0.3f, new Vector3f())
+                            )
+                        ),
+                    stack
                 );
             }
 
@@ -248,8 +248,8 @@ public class ModularSpellConstructBlockEntity extends BlockEntity implements Inv
     public void setStack(int slot, ItemStack stack) {
         if (
             slot == 0
-                    ? stack.isIn(ModItems.MANA_KNOTS)
-                    : stack.getItem() instanceof SpellCoreItem
+                ? stack.isIn(ModItems.MANA_KNOTS)
+                : stack.getItem() instanceof SpellCoreItem
         ) {
             if (stack.getItem() instanceof SpellCoreItem) {
                 var fragment = stack.get(ModComponents.FRAGMENT);
@@ -315,8 +315,8 @@ public class ModularSpellConstructBlockEntity extends BlockEntity implements Inv
 
             if (
                 stack.getItem() instanceof SpellCoreItem
-                        && (executors.get(i - 1).isEmpty()
-                                || executors.get(i - 1).get() instanceof ErroredSpellExecutor)
+                    && (executors.get(i - 1).isEmpty()
+                        || executors.get(i - 1).get() instanceof ErroredSpellExecutor)
             ) {
                 executors.set(i - 1, Optional.of(executor));
                 markDirtyAndUpdateClients();

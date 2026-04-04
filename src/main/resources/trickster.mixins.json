@@ -6,8 +6,9 @@
   "mixins": [
     "AbstractFurnaceBlockEntityMixin",
     "AnvilScreenHandlerMixin",
-    "DataPackContentsMixin",
     "BeaconBlockEntityMixin",
+    "ChiseledBookshelfBlockEntityMixin",
+    "DataPackContentsMixin",
     "EntityMixin",
     "FallingBlockEntityMixin",
     "ItemEntityMixin",

@@ -19,7 +19,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-public class ScrollShelfBlockEntity extends BlockEntity implements Inventory {
+public class ScrollShelfBlockEntity extends ScreenlessLootableBlockEntity {
+
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(ScrollShelfBlock.GRID_WIDTH * ScrollShelfBlock.GRID_HEIGHT, ItemStack.EMPTY);
 
     public ScrollShelfBlockEntity(BlockPos pos, BlockState state) {
@@ -28,9 +29,9 @@ public class ScrollShelfBlockEntity extends BlockEntity implements Inventory {
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
         this.inventory.clear();
         Inventories.readNbt(nbt, this.inventory, registryLookup);
+        super.readNbt(nbt, registryLookup);
     }
 
     @Override
@@ -118,8 +119,9 @@ public class ScrollShelfBlockEntity extends BlockEntity implements Inventory {
 
     @Override
     protected void readComponents(BlockEntity.ComponentsAccess components) {
+        components.getOrDefault(DataComponentTypes.CONTAINER, ContainerComponent.DEFAULT).copyTo(this.inventory);
         super.readComponents(components);
-        components.<ContainerComponent>getOrDefault(DataComponentTypes.CONTAINER, ContainerComponent.DEFAULT).copyTo(this.inventory);
+
     }
 
     @Override
@@ -127,4 +129,5 @@ public class ScrollShelfBlockEntity extends BlockEntity implements Inventory {
         super.addComponents(componentMapBuilder);
         componentMapBuilder.add(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(this.inventory));
     }
+
 }
