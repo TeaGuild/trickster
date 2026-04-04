@@ -67,7 +67,7 @@ or
 
 <|revision@trickster:templates|pattern=1\,4\,7,title=Foundational Revision|>
 
-A [Constant Revision](^trickster:constants) that replaces the glyph of the circle it's drawn in with the number two. All numbers can be created using this and the following tricks.
+A [Constant Revision](^trickster:constants) that replaces the glyph of the circle it's drawn in with the number two. Other numbers can be created using this and the following tricks.
 
 ;;;;;
 
