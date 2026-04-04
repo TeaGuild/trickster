@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-02T00:34:37.191820207	Trickster/Model Definitions
+// 1.21.1	2026-04-03T16:31:48.399158371	Trickster/Model Definitions
 d44eea2605a3263a62d123f63edc0cfbe3f30870 assets/trickster/models/item/charging_array.json
 b9f09db387f91534d3cc075fd0f0c2a142c6cf09 assets/trickster/models/item/gilded_tuff_wall.json
 4b75bcb18c8f3e6ed30eaf767410a836b1be57d6 assets/trickster/models/item/written_scroll_magenta.json
@@ -32,8 +32,8 @@ b1b58c33f70e10632bb128929a2cc5548313f19a assets/trickster/models/item/ominous_sp
 9faf558d1aa0f4946cf100c91b4f2819b7a07538 assets/trickster/models/item/written_scroll_orange.json
 a77c636a867a56e274572da1f69b36383f0aa462 assets/trickster/models/item/torment_on_a_chain.json
 a76d76663f2b850bd3bec5108af49b770cf7ba40 assets/trickster/blockstates/gilded_polished_tuff_wall.json
-1f778e1f2c30077615a7ea8b89c6da45b5c0631f assets/trickster/models/item/written_scroll_light_blue.json
 1b60d5962f38ecaf3e79d678b2f069057b1c69ab assets/trickster/models/item/scroll_and_quill_purple.json
+1f778e1f2c30077615a7ea8b89c6da45b5c0631f assets/trickster/models/item/written_scroll_light_blue.json
 ac75d1dcaf4df0990b246b571b214c88c2043fc5 assets/trickster/models/item/written_scroll_blue.json
 d3babf6e607067155159ccb89c107de696115e47 assets/trickster/models/block/gilded_tuff_brick_wall_inventory.json
 a7568ff89d34a6a31b5b3ed030598a125c14914c assets/trickster/models/item/quartz_knot.json
@@ -101,8 +101,8 @@ cf211674ac067136f295b34038fad600c1165b99 assets/trickster/models/item/written_sc
 54f32c936921457b11d178ed8230b70d8988ee34 assets/trickster/models/block/gilded_tuff_stairs.json
 1886e69af57056623153d1c0c57d71d598b08bf4 assets/trickster/models/item/spawner_spell_core.json
 1e5f52dedfd765cf5c0ab6579f32614beb368576 assets/trickster/models/item/nan.json
-2d20db5b7412f67cb6bc6ea47f19a9dc74b05b93 assets/trickster/models/item/cracked_diamond_knot.json
 1e5db8ec325c395b25632fb7382155a539271e67 assets/trickster/models/item/inactive_spawner_spell_core.json
+2d20db5b7412f67cb6bc6ea47f19a9dc74b05b93 assets/trickster/models/item/cracked_diamond_knot.json
 21f8195436d581c8272b28d7a306ce8e14f53a5e assets/trickster/models/item/spell_ink.json
 68799707c7a1bba63c5cff3c8dbeec6b44bd06b8 assets/trickster/blockstates/charging_array.json
 7790ff942811dd6e1d86cb74b8251ccdc15eca28 assets/trickster/blockstates/gilded_chiseled_tuff_bricks.json
