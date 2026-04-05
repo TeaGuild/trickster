@@ -1,0 +1,84 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:written_book",
+          "functions": [
+            {
+              "function": "minecraft:set_written_book_pages",
+              "pages": [
+                [
+                  "The installation should be finished. Simply put the raw gold in the marked barrel. Make sure to stand back, as the process is quite... ",
+                  {
+                    "text": "exothermic",
+                    "italic": true
+                  },
+                  ".\n\nPlease send our share of production to ",
+                  {
+                    "text": "mnasufjsnyb",
+                    "color": "gray",
+                    "font": "minecraft:illageralt",
+                    "bold": true,
+                    "italic": true,
+                    "strikethrough": true
+                  },
+                  "\n\n — The Mages' Guild"
+                ]
+              ],
+              "mode": "replace_all"
+            },
+            {
+              "function": "minecraft:set_book_cover",
+              "title": "Good To Go",
+              "author": "The Mages' Guild"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:gold_ingot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3,
+                "max": 6
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:raw_gold",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 9,
+                "max": 32
+              }
+            }
+          ]
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "minecraft:chests/abandoned_mineshaft"
+}

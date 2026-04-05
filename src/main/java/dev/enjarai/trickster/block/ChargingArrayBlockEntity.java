@@ -161,4 +161,5 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
         super.addComponents(componentMapBuilder);
         componentMapBuilder.add(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(this.inventory));
     }
+
 }

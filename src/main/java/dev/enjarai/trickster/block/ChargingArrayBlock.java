@@ -16,10 +16,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -39,19 +36,19 @@ public class ChargingArrayBlock extends BlockWithEntity {
 
     public static final DirectionProperty FACING = Properties.FACING;
     public static final VoxelShape[] SHAPES = new VoxelShape[] {
-            createCuboidShape(0, 14, 0, 16, 16, 16),
-            createCuboidShape(0, 0, 0, 16, 2, 16),
-            createCuboidShape(0, 0, 14, 16, 16, 16),
-            createCuboidShape(0, 0, 0, 16, 16, 2),
-            createCuboidShape(14, 0, 0, 16, 16, 16),
-            createCuboidShape(0, 0, 0, 2, 16, 16)
+        createCuboidShape(0, 14, 0, 16, 16, 16),
+        createCuboidShape(0, 0, 0, 16, 2, 16),
+        createCuboidShape(0, 0, 14, 16, 16, 16),
+        createCuboidShape(0, 0, 0, 16, 16, 2),
+        createCuboidShape(14, 0, 0, 16, 16, 16),
+        createCuboidShape(0, 0, 0, 2, 16, 16)
     };
 
     protected ChargingArrayBlock() {
         super(Settings.create()
-                .strength(1.5F)
-                .sounds(BlockSoundGroup.STONE)
-                .solid());
+            .strength(1.5F)
+            .sounds(BlockSoundGroup.STONE)
+            .solid());
         setDefaultState(stateManager.getDefaultState().with(FACING, Direction.UP));
     }
 
@@ -204,5 +201,15 @@ public class ChargingArrayBlock extends BlockWithEntity {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return validateTicker(type, ModBlocks.CHARGING_ARRAY_ENTITY, (world1, pos, state1, blockEntity) -> blockEntity.tick());
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+        return super.rotate(state.with(FACING, rotation.rotate(state.get(FACING))), rotation);
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, BlockMirror mirror) {
+        return super.mirror(state.with(FACING, mirror.getDirectionTransformation().map(state.get(FACING))), mirror);
     }
 }
