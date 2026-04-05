@@ -1,13 +1,25 @@
 package dev.enjarai.trickster.spell.trick.mana;
 
 import dev.enjarai.trickster.item.component.ModComponents;
+import dev.enjarai.trickster.net.ManaMoveParticlePacket;
+import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
+import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import net.minecraft.item.ItemStack;
 
 public class PullManaTrick extends AbstractConduitTrick {
     public PullManaTrick() {
         super(Pattern.of(7, 4, 1, 0, 4, 2, 1, 3, 4, 5, 1, 6, 7, 8, 1));
+    }
+
+    @Override
+    protected void createParticles(SpellContext ctx, SlotFragment slot, float v) {
+        var fromPos = slot.getSourceOrCasterPos(this, ctx);
+        var toPos = ctx.source().getPos();
+        ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
+            .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
+            .send(new ManaMoveParticlePacket(toPos, fromPos, v));
     }
 
     @Override
