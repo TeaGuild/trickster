@@ -471,16 +471,19 @@ text.config.trickster-config:
     accessibility: Accessibility
     client: Client
     server: Server
+    circle-customization: Circle Customization
     aurora-client: Aurora's Personal Client Tweaks
   option:
     dotEmphasis: Terminal dot emphasis
     dotEmphasisColor: Terminal dot color
     subcircleDividerPinColor: Divider pin Color
 
-    patternSize: Pattern glyph thickness
+    patternSize: Pattern line thickness
+    dotSize: Pattern dot size
     circleOpacity: Spell circle opacity
-    patternOpacity: Pattern glyph opacity
-    patternEdgeGap: Glyph line separation
+    patternOpacity: Pattern opacity
+    patternEdgeGap: Pattern line separation
+    outlinePatterns: Outline patterns
 
     manaTransferEfficiency: Efficiency of the Conduit's Ploys
     whorlMaxMana: Whorl maximum mana in G
@@ -495,7 +498,7 @@ text.config.trickster-config:
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
 
     dragDrawing: Draw by dragging
-    animateLines: Animate pattern glyphs
+    animateLines: Animate patterns
     barsHorizontal: Show spell-created bars horizontally
     disableOffhandScrollOpening: Require scroll in main hand to edit
     adjacentPixelCollisionOffset: Offset factor of adjacent pixels

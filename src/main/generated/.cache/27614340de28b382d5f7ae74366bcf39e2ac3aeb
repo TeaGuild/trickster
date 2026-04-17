@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-16T19:43:15.429005071	Trickster/Model Definitions
+// 1.21.1	2026-04-16T20:11:11.944378977	Trickster/Model Definitions
 2f7ac0d58a5c1dd9391452bdde2b219a584786f8 assets/trickster/models/item/written_scroll_cyan.json
 d44eea2605a3263a62d123f63edc0cfbe3f30870 assets/trickster/models/item/charging_array.json
 96809df525387fe221827afd762b90062300440f assets/trickster/models/item/scroll_and_quill_black.json
@@ -49,8 +49,8 @@ a7568ff89d34a6a31b5b3ed030598a125c14914c assets/trickster/models/item/quartz_kno
 1e5f52dedfd765cf5c0ab6579f32614beb368576 assets/trickster/models/item/nan.json
 f1968641f7837fe2083a928582b12d565cf59ce0 assets/trickster/models/item/spell_construct.json
 21f8195436d581c8272b28d7a306ce8e14f53a5e assets/trickster/models/item/spell_ink.json
-2d20db5b7412f67cb6bc6ea47f19a9dc74b05b93 assets/trickster/models/item/cracked_diamond_knot.json
 1e5db8ec325c395b25632fb7382155a539271e67 assets/trickster/models/item/inactive_spawner_spell_core.json
+2d20db5b7412f67cb6bc6ea47f19a9dc74b05b93 assets/trickster/models/item/cracked_diamond_knot.json
 68799707c7a1bba63c5cff3c8dbeec6b44bd06b8 assets/trickster/blockstates/charging_array.json
 575f98c294e9b0778c0bccf43bf742ffb333b925 assets/trickster/models/item/scroll_and_quill_light_blue.json
 d9c9e7c5a06cf74773b8918b63ba681e42630412 assets/trickster/models/item/collar.json
@@ -67,8 +67,8 @@ a9369fdeff6dd9472a8bb5f443ffb4631c146486 assets/trickster/blockstates/inert_spaw
 68b6bc87e4d5e9b2709e30d6a6ca9b139c4f5fee assets/trickster/models/item/macro_ring.json
 e622027802fd7ffb1c2e6f6d1733f17ed239e61d assets/trickster/models/item/tome_of_tomfoolery.json
 274e1f4724884bcb7cc8337d4ffac31a3af801fe assets/trickster/models/item/written_scroll_black.json
-43d02b921491c309699f707f86da66f584b427b1 assets/trickster/models/item/cracked_quartz_knot.json
 0c24009d9f713f084ff55efcb5aedef3924fc3bf assets/trickster/models/item/written_scroll_white.json
+43d02b921491c309699f707f86da66f584b427b1 assets/trickster/models/item/cracked_quartz_knot.json
 03ec5d0e130b285409440674fa4adf632312325a assets/trickster/models/item/scroll_and_quill_blue.json
 11f88e31ee80e48a4b56df7363c1dfd36659bd76 assets/trickster/models/item/scroll_and_quill_yellow.json
 032bd4c0ea04699e58ffbf43c29d1bf96fa19eb5 assets/trickster/models/block/scroll_shelf.json

@@ -15,18 +15,6 @@ public class TricksterConfigModel {
     @WithAlpha
     public Color subcircleDividerPinColor = new Color(0.5f, 0.5f, 1f, 0.2f);
 
-    @PredicateConstraint("requirePositive")
-    public float patternSize = 1f;
-    @PredicateConstraint("requirePositive")
-    public float dotSize = 1f;
-    @PredicateConstraint("requirePositive")
-    public float circleOpacity = 0.8f;
-    @PredicateConstraint("requirePositive")
-    public float patternOpacity = 0.7f;
-    @PredicateConstraint("requirePositive")
-    public float patternEdgeGap = 1f;
-    public boolean outlinePatterns = false;
-
     @SectionHeader("client")
 
     public boolean topHatInterceptScrolling = false;
@@ -56,6 +44,20 @@ public class TricksterConfigModel {
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @PredicateConstraint("requirePositive")
     public float manaTransferEfficiency = 100.0f;
+
+    @SectionHeader("circle-customization")
+
+    @PredicateConstraint("requirePositive")
+    public float patternSize = 1f;
+    @PredicateConstraint("requirePositive")
+    public float dotSize = 1f;
+    @PredicateConstraint("requirePositive")
+    public float circleOpacity = 0.8f;
+    @PredicateConstraint("requirePositive")
+    public float patternOpacity = 0.7f;
+    @PredicateConstraint("requirePositive")
+    public float patternEdgeGap = 1f;
+    public boolean outlinePatterns = false;
 
     @SectionHeader("aurora-client")
 
