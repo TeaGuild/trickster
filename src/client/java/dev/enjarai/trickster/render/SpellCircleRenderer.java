@@ -307,13 +307,13 @@ public class SpellCircleRenderer {
 
             var renderDots = true;
 
-            if (renderer != null) {
+            if (renderer == null) {
+                FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, ogAlpha);
+                renderText = false;
+            } else {
                 //noinspection unchecked
                 renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this);
                 renderDots = renderer.renderRedrawDots();
-            } else {
-                FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, ogAlpha);
-                renderText = false;
             }
 
             if (inEditor && inUI && renderDots) {
@@ -341,7 +341,7 @@ public class SpellCircleRenderer {
                         pos.x - dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y - dotSize,
-                        0, r, g, b, 0.25f);
+                        radius, r, g, b, 0.25f);
                 }
             }
         }

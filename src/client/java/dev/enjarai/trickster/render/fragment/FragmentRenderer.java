@@ -25,7 +25,7 @@ public interface FragmentRenderer<T extends Fragment> {
     BlockTypeRenderer BLOCK_TYPE = register(FragmentType.BLOCK_TYPE, new BlockTypeRenderer());
     FluidTypeRenderer FLUID_TYPE = register(FragmentType.FLUID_TYPE, new FluidTypeRenderer());
     EntityRenderer ENTITY = register(FragmentType.ENTITY, new EntityRenderer());
-    EntityTypeRenderer ENTITY_TYPE = register(FragmentType.ENTITY_TYPE, new EntityTypeRenderer());
+    //EntityTypeRenderer ENTITY_TYPE = register(FragmentType.ENTITY_TYPE, new EntityTypeRenderer());
     ListRenderer LIST = register(FragmentType.LIST, new ListRenderer());
     MapRenderer MAP = register(FragmentType.MAP, new MapRenderer());
     ColorRenderer COLOR = register(FragmentType.COLOR, new ColorRenderer());

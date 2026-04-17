@@ -57,12 +57,13 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
 
         int i = 0;
         var off = 0.7 * radius;
+        var c = slotStack.size();
         for (var idx : slotStack.reversed()) {
-            var angle = Math.PI / 3 * i;
+            var angle = Math.PI * 2 * i / Math.max(1, c);
             i++;
             matrices.push();
             matrices.translate(off * Math.sin(angle), -off * Math.cos(angle), 0.55 * radius);
-            NumberRenderer.renderNumber(idx, matrices, vertexConsumers, x, y, radius * 0.5f, alpha, normal, tickDelta, delegator);
+            NumberRenderer.renderNumber(idx, matrices, vertexConsumers, x, y, radius * Math.min(0.5f, 2f / c), alpha, normal, tickDelta, delegator);
             matrices.pop();
         }
     }
