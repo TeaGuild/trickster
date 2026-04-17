@@ -18,11 +18,14 @@ public class TricksterConfigModel {
     @PredicateConstraint("requirePositive")
     public float patternSize = 1f;
     @PredicateConstraint("requirePositive")
+    public float dotSize = 1f;
+    @PredicateConstraint("requirePositive")
     public float circleOpacity = 0.8f;
     @PredicateConstraint("requirePositive")
     public float patternOpacity = 0.7f;
     @PredicateConstraint("requirePositive")
     public float patternEdgeGap = 1f;
+    public boolean outlinePatterns = false;
 
     @SectionHeader("client")
 
