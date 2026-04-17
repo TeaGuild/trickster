@@ -147,7 +147,7 @@ public class SpellCircleRenderer {
         var alpha = alphaGetter.apply(toLocalSpace(radius));
 
         drawTexturedQuad(
-            matrices, vertexConsumers, inUI ? CIRCLE_TEXTURE : CIRCLE_TEXTURE_WORLD,
+            matrices, vertexConsumers, inEditor && animated ? CIRCLE_TEXTURE : CIRCLE_TEXTURE_WORLD,
             toLocalSpace(x - radius), toLocalSpace(x + radius), toLocalSpace(y - radius), toLocalSpace(y + radius),
             0,
             r, g, b, alpha * circleTransparency, inUI
