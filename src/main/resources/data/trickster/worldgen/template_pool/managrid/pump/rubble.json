@@ -1,0 +1,15 @@
+{
+  "name": "trickster:managrid/pump/rubble",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "terrain_matching",
+        "location": "trickster:managrid/pump/rubble_1",
+        "processors": []
+      }
+    }
+  ]
+}

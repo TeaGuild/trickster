@@ -1,0 +1,15 @@
+{
+  "name": "trickster:managrid/node_branch",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "terrain_matching",
+        "location": "trickster:managrid/dirt_rubble/small_1",
+        "processors": []
+      }
+    }
+  ]
+}
