@@ -15,10 +15,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
-import org.joml.AxisAngle4f;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 import java.util.UUID;
 
@@ -56,6 +52,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
         var source = fragment.source();
 
         if (source instanceof StorageSource.Block(BlockPos pos)) {
+            /*
             matrices.push();
             matrices.translate(x, y, delegator.inUI ? radius * 0.5 : 0);
             matrices.scale(radius, delegator.inUI ? -radius : radius, radius);
@@ -66,7 +63,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
             } else {
                 var mat = new Matrix4f(matrices.peek().getPositionMatrix());
                 matrices.loadIdentity();
-
+            
                 matrices.multiplyPositionMatrix(new Matrix4f()
                     .translate(mat.getTranslation(new Vector3f()))
                     .scale(mat.getScale(new Vector3f()))
@@ -78,8 +75,9 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
             matrices.pop();
             matrices.push();
             matrices.translate(0, 0, delegator.inUI ? radius * 0.55f : radius * -0.55f);
+             */
             VectorRenderer.renderVector(pos.toCenterPos().toVector3d(), matrices, vertexConsumers, x, y, radius * 0.6f, 1, normal, tickDelta, delegator);
-            matrices.pop();
+            //matrices.pop();
 
         } else if (source instanceof StorageSource.Entity(UUID uuid)) {
             var entFrag = new EntityFragment(uuid, Text.empty());
