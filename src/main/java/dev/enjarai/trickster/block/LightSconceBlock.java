@@ -15,7 +15,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class LightSconceBlock extends LightBlock implements Waterloggable, Stainable {
@@ -75,17 +74,6 @@ public class LightSconceBlock extends LightBlock implements Waterloggable, Stain
             state = state.with(LIGHT_LEVEL, oldState.get(LIGHT_LEVEL)).with(HAS_LIGHT, true);
         }
         return state.with(FACING, ctx.getSide());
-    }
-
-
-
-    @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        super.onBroken(world, pos, state);
-        if (state.get(HAS_LIGHT)) {
-            world.setBlockState(pos, ModBlocks.LIGHT.getDefaultState().with(LIGHT_LEVEL, state.get(LIGHT_LEVEL)), 0);
-
-        }
     }
 
     @Override
