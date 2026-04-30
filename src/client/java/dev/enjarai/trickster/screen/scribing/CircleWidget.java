@@ -83,7 +83,7 @@ public class CircleWidget extends StatefulWidget {
         private List<Byte> drawingPattern;
 
         private void draw(BraidDrawContext ctx, WidgetTransform transform) {
-            widget().renderer.setMousePosition(mouseX, mouseY);
+            widget().renderer.setMousePosition(mouseInside ? mouseX : -9999, mouseInside ? mouseY : -9999);
             widget().renderer.setLineToMouse(mouseInside);
             widget().renderer.setLoading(widget().partView.loading ? (int) (System.currentTimeMillis() / 250 % 2) : -1);
             widget().renderer.renderCircle(
