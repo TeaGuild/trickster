@@ -85,6 +85,7 @@ public class CircleSoupWidget extends StatefulWidget {
         private boolean initialBuild = true;
         // Should be non-null if the visible root circle is on screen and being rendered, providing its position.
         private @Nullable CirclePosition rootCirclePosition;
+        private boolean isRunningMacro = false;
 
         @Override
         public void init() {
@@ -157,7 +158,7 @@ public class CircleSoupWidget extends StatefulWidget {
                                             widget().renderer,
                                             c, constraints,
                                             widget().mutable,
-                                            widget().allowsEval,
+                                            widget().allowsEval && !isRunningMacro,
                                             !initialBuild
                                         ).key(
                                             Key.of(c.partView.uuid.toString())
@@ -451,32 +452,55 @@ public class CircleSoupWidget extends StatefulWidget {
 
             public void updatePattern(Pattern pattern) {
                 if (widget().revisionContext.getMacros().contains(pattern)) {
-                    widget().revisionContext.delegateToServer(pattern, partView, partView::replace);
-                    partView.loading = true;
-                }
+                    if (!isRunningMacro) {
+                        widget().revisionContext.delegateToServer(pattern, partView, this::delegationCallback);
+                        partView.loading = true;
 
-                var rev = Revisions.lookup(pattern);
-                if (rev.isPresent()) {
-                    try {
-                        rev.get().apply(widget().revisionContext, partView);
-                    } catch (RuntimeException e) {
-                        Trickster.LOGGER.error("Exception thrown in revision!", e);
+                        setState(() -> {
+                            isRunningMacro = true;
+                        });
+                    } else {
+                        partView.replaceGlyph(new PatternGlyph(Pattern.EMPTY));
                     }
                 } else {
-                    partView.replaceGlyph(new PatternGlyph(pattern));
-                }
+                    var rev = Revisions.lookup(pattern);
+                    if (rev.isPresent()) {
+                        try {
+                            rev.get().apply(widget().revisionContext, partView);
+                        } catch (RuntimeException e) {
+                            Trickster.LOGGER.error("Exception thrown in revision!", e);
+                        }
+                    } else {
+                        partView.replaceGlyph(new PatternGlyph(pattern));
+                    }
 
-                // Yea revisions can do that...
-                if (shadowParentView.children.isEmpty()) {
-                    shadowParentView.addChild(0, new SpellPart());
+                    // Yea revisions can do that...
+                    if (shadowParentView.children.isEmpty()) {
+                        shadowParentView.addChild(0, new SpellPart());
+                    }
                 }
 
                 widget().revisionContext.updateSpell(shadowParentView.children.getFirst().part);
             }
 
             public void triggerEval() {
-                widget().revisionContext.delegateToServer(Pattern.EMPTY, partView, partView::replace);
+                if (isRunningMacro) {
+                    return;
+                }
+
+                widget().revisionContext.delegateToServer(Pattern.EMPTY, partView, this::delegationCallback);
                 partView.loading = true;
+
+                setState(() -> {
+                    isRunningMacro = true;
+                });
+            }
+
+            private void delegationCallback(SpellPart newPart) {
+                setState(() -> {
+                    isRunningMacro = false;
+                });
+                partView.replace(newPart);
             }
 
             private void discard() {
