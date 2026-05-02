@@ -1,0 +1,15 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spread_type": "triangular",
+    "spacing": 24,
+    "separation": 16,
+    "salt": 285376
+  },
+  "structures": [
+    {
+      "structure": "trickster:managrid",
+      "weight": 1
+    }
+  ]
+}
