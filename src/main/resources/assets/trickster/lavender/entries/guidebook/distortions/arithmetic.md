@@ -31,7 +31,7 @@
 }
 ```
 
-The following patterns regard basic arithmetic and mathematical operations.
+The following tricks regard basic arithmetic and mathematical operations.
 
 
 Some of the base arithmetic tricks accept a combination of types of fragment. 
