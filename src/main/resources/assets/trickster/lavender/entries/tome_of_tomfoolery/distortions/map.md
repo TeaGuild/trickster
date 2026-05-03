@@ -27,7 +27,7 @@ Creates a new empty map.
 
 <|trick@trickster:templates|trick-id=trickster:list_size|>
 
-Returns the amount of pairs in the given map.
+Returns the amount of entries in the given map.
 
 ;;;;;
 
