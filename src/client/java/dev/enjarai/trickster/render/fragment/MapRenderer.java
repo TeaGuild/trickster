@@ -11,10 +11,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-
-import static dev.enjarai.trickster.render.CircleRenderer.GLYPH_LAYER;
 
 public class MapRenderer implements FragmentRenderer<MapFragment> {
     private final static float HORIZONTAL_SPACING = 0.6f;
@@ -88,6 +84,14 @@ public class MapRenderer implements FragmentRenderer<MapFragment> {
         textRenderer.draw(
             text,
             -(width - 1f) / 2f, -height / 2f, color, false,
+            matrices.peek().getPositionMatrix(),
+            vertexConsumers, TextRenderer.TextLayerType.NORMAL,
+            0, 0xf000f0
+        );
+
+        textRenderer.draw(
+            "}",
+            11.5f, -3.5f, color, false,
             matrices.peek().getPositionMatrix(),
             vertexConsumers, TextRenderer.TextLayerType.NORMAL,
             0, 0xf000f0

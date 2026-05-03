@@ -24,48 +24,48 @@ import java.util.List;
 
 public class ModItems {
     public static final LavenderBookItem TOME_OF_TOMFOOLERY = LavenderBookItem.registerForBook(
-            Trickster.id("tome_of_tomfoolery"), new Item.Settings().maxCount(1));
+        Trickster.id("tome_of_tomfoolery"), new Item.Settings().maxCount(1));
     public static final WrittenScrollItem WRITTEN_SCROLL = register("written_scroll",
-            new WrittenScrollItem(new Item.Settings().maxCount(16)
-                    .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart(), true))
-                    .component(ModComponents.WRITTEN_SCROLL_META,
-                            new WrittenScrollMetaComponent("Unknown", "Unknown", 0))));
+        new WrittenScrollItem(new Item.Settings().maxCount(16)
+            .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart(), true))
+            .component(ModComponents.WRITTEN_SCROLL_META,
+                new WrittenScrollMetaComponent("Unknown", "Unknown", 0))));
     public static final ScrollAndQuillItem SCROLL_AND_QUILL = register("scroll_and_quill",
-            new ScrollAndQuillItem(new Item.Settings().maxCount(16)
-                    .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart())), WRITTEN_SCROLL));
+        new ScrollAndQuillItem(new Item.Settings().maxCount(16)
+            .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart())), WRITTEN_SCROLL));
     public static final EvaluationMirrorItem MIRROR_OF_EVALUATION = register("mirror_of_evaluation",
-            new EvaluationMirrorItem(new Item.Settings().maxCount(1)
-                    .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart()))));
+        new EvaluationMirrorItem(new Item.Settings().maxCount(1)
+            .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart()))));
     public static final TrickHatItem TOP_HAT = register("top_hat",
-            new TrickHatItem(new Item.Settings()));
+        new TrickHatItem(new Item.Settings()));
     public static final TrickHatItem WITCH_HAT = register("witch_hat",
-            new TrickHatItem(new Item.Settings()));
+        new TrickHatItem(new Item.Settings()));
     public static final TrickHatItem FEZ = register("fez",
-            new TrickHatItem(new Item.Settings()));
+        new TrickHatItem(new Item.Settings()));
     public static final WandItem WAND = register("wand",
-            new WandItem(new Item.Settings().maxCount(1)
-                    .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart()))));
+        new WandItem(new Item.Settings().maxCount(1)
+            .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart()))));
     public static final Item MACRO_RING = register("macro_ring",
-            new Item(new Item.Settings().maxCount(1)));
+        new Item(new Item.Settings().maxCount(1)));
     public static final ManaAccessory AMETHYST_WHORL = register("amethyst_whorl", new ManaAccessory());
     public static final SpellAccessory TORMENT_ON_A_CHAIN = register("torment_on_a_chain", new SpellAccessory());
     public static final CollarItem COLLAR = register("collar", new CollarItem(new Item.Settings()));
     public static final LeashItem LEASH = register("leash", new LeashItem(new Item.Settings()));
     public static final Item WARDING_CHARM = register("warding_charm",
-            new Item(new Item.Settings().maxCount(1)));
+        new Item(new Item.Settings().maxCount(1)));
     public static final SpellInkItem SPELL_INK = register("spell_ink",
-            new SpellInkItem(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE)
-                    .food(new FoodComponent.Builder()
-                            .nutrition(0)
-                            .saturationModifier(0)
-                            .alwaysEdible()
-                            .usingConvertsTo(Items.GLASS_BOTTLE)
-                            .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 60 * 20), 1)
-                            .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * 20), 1)
-                            .statusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 60 * 20), 1)
-                            .statusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60 * 20), 1)
-                            .statusEffect(new StatusEffectInstance(ModEffects.MANA_BOOST, 60 * 20), 1)
-                            .build())));
+        new SpellInkItem(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE)
+            .food(new FoodComponent.Builder()
+                .nutrition(0)
+                .saturationModifier(0)
+                .alwaysEdible()
+                .usingConvertsTo(Items.GLASS_BOTTLE)
+                .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 60 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 60 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60 * 20), 1)
+                .statusEffect(new StatusEffectInstance(ModEffects.MANA_BOOST, 60 * 20), 1)
+                .build())));
     public static final SpellCoreItem SPELL_CORE = register("spell_core", new SpellCoreItem());
     public static final RustedSpellCoreItem RUSTED_SPELL_CORE = register("rusted_spell_core", new RustedSpellCoreItem());
     public static final OminousSpellCoreItem OMINOUS_SPELL_CORE = register("ominous_spell_core", new OminousSpellCoreItem());
@@ -80,7 +80,24 @@ public class ModItems {
     public static final BlockItem SCROLL_SHELF_BLOCK_ITEM = register("scroll_shelf", new BlockItem(ModBlocks.SCROLL_SHELF, new Item.Settings()));
     public static final BlockItem CHARGING_ARRAY_ITEM = register("charging_array", new BlockItem(ModBlocks.CHARGING_ARRAY, new Item.Settings()));
     public static final BlockItem INERT_SPAWNER_ITEM = register("inert_spawner", new BlockItem(ModBlocks.INERT_SPAWNER, new Item.Settings()));
+    public static final BlockItem LIGHT_SCONCE = register("light_sconce", new BlockItem(ModBlocks.LIGHT_SCONCE, new Item.Settings()));
     public static final BlockItem COLOR_BLOCK = register("color_block", new BlockItem(ModBlocks.COLOR_BLOCK, new Item.Settings()));
+
+    public static final BlockItem GILDED_TUFF = register("gilded_tuff", new BlockItem(ModBlocks.GILDED_TUFF, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_STAIRS = register("gilded_tuff_stairs", new BlockItem(ModBlocks.GILDED_TUFF_STAIRS, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_SLAB = register("gilded_tuff_slab", new BlockItem(ModBlocks.GILDED_TUFF_SLAB, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_WALL = register("gilded_tuff_wall", new BlockItem(ModBlocks.GILDED_TUFF_WALL, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF = register("gilded_polished_tuff", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF_STAIRS = register("gilded_polished_tuff_stairs", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF_STAIRS, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF_SLAB = register("gilded_polished_tuff_slab", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF_SLAB, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF_WALL = register("gilded_polished_tuff_wall", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF_WALL, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICKS = register("gilded_tuff_bricks", new BlockItem(ModBlocks.GILDED_TUFF_BRICKS, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICK_STAIRS = register("gilded_tuff_brick_stairs", new BlockItem(ModBlocks.GILDED_TUFF_BRICK_STAIRS, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICK_SLAB = register("gilded_tuff_brick_slab", new BlockItem(ModBlocks.GILDED_TUFF_BRICK_SLAB, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICK_WALL = register("gilded_tuff_brick_wall", new BlockItem(ModBlocks.GILDED_TUFF_BRICK_WALL, new Item.Settings()));
+    public static final BlockItem GILDED_CHISELED_TUFF = register("gilded_chiseled_tuff", new BlockItem(ModBlocks.GILDED_CHISELED_TUFF, new Item.Settings()));
+    public static final BlockItem GILDED_CHISELED_TUFF_BRICKS = register("gilded_chiseled_tuff_bricks", new BlockItem(ModBlocks.GILDED_CHISELED_TUFF_BRICKS, new Item.Settings()));
+
     public static final KnotItem.Amethyst AMETHYST_KNOT = register("amethyst_knot", new KnotItem.Amethyst());
     public static final KnotItem.CrackedAmethyst CRACKED_AMETHYST_KNOT = register("cracked_amethyst_knot", new KnotItem.CrackedAmethyst());
     public static final KnotItem.Quartz QUARTZ_KNOT = register("quartz_knot", new KnotItem.Quartz());
@@ -111,6 +128,11 @@ public class ModItems {
     public static final TagKey<Item> COLLARS = TagKey.of(RegistryKeys.ITEM, Trickster.id("collars"));
     public static final TagKey<Item> TICK_TOCK = TagKey.of(RegistryKeys.ITEM, Trickster.id("tick_tock"));
 
+    public static final TagKey<Item> GILDED_TUFF_FULL_BLOCKS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_full_blocks"));
+    public static final TagKey<Item> GILDED_TUFF_STAIR_BLOCKS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_stair_blocks"));
+    public static final TagKey<Item> GILDED_TUFF_SLABS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_slabs"));
+    public static final TagKey<Item> GILDED_TUFF_WALLS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_walls"));
+
     public static final WrittenScrollItem[] COLORED_WRITTEN_SCROLLS = new WrittenScrollItem[DyeColor.values().length];
     public static final ScrollAndQuillItem[] COLORED_SCROLLS_AND_QUILLS = new ScrollAndQuillItem[DyeColor.values().length];
     public static final List<DyedVariant> DYED_VARIANTS;
@@ -121,16 +143,16 @@ public class ModItems {
             var color = DyeColor.values()[i];
 
             var writtenScroll = register("written_scroll_" + color.getName(),
-                    new WrittenScrollItem(new Item.Settings().maxCount(16)
-                            .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart(), true))
-                            .component(ModComponents.WRITTEN_SCROLL_META,
-                                    new WrittenScrollMetaComponent("Unknown", "Unknown", 0))));
+                new WrittenScrollItem(new Item.Settings().maxCount(16)
+                    .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart(), true))
+                    .component(ModComponents.WRITTEN_SCROLL_META,
+                        new WrittenScrollMetaComponent("Unknown", "Unknown", 0))));
             list.add(new DyedVariant(WRITTEN_SCROLL, writtenScroll, color));
             COLORED_WRITTEN_SCROLLS[i] = writtenScroll;
 
             var scrollAndQuill = register("scroll_and_quill_" + color.getName(),
-                    new ScrollAndQuillItem(new Item.Settings().maxCount(16)
-                            .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart())), writtenScroll));
+                new ScrollAndQuillItem(new Item.Settings().maxCount(16)
+                    .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart())), writtenScroll));
             list.add(new DyedVariant(SCROLL_AND_QUILL, scrollAndQuill, color));
             COLORED_SCROLLS_AND_QUILLS[i] = scrollAndQuill;
         }
@@ -138,49 +160,64 @@ public class ModItems {
     }
 
     public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
-            .icon(WAND::getDefaultStack)
-            .displayName(Text.translatable("trickster.item_group"))
-            .entries((context, entries) -> {
-                entries.add(TOME_OF_TOMFOOLERY);
-                entries.add(SCROLL_AND_QUILL);
-                entries.addAll(Arrays.stream(COLORED_SCROLLS_AND_QUILLS).map(ItemStack::new).toList());
-                entries.add(MIRROR_OF_EVALUATION);
-                entries.add(TOP_HAT);
-                entries.add(WITCH_HAT);
-                entries.add(FEZ);
-                entries.add(WAND);
-                entries.add(AMETHYST_WHORL);
-                entries.add(TORMENT_ON_A_CHAIN);
-                entries.add(WARDING_CHARM);
-                entries.add(MACRO_RING);
-                entries.add(SPELL_INK);
-                entries.add(SPELL_RESONATOR_ITEM);
-                entries.add(SCROLL_SHELF_BLOCK_ITEM);
-                entries.add(SPELL_CONSTRUCT_ITEM);
-                entries.add(MODULAR_SPELL_CONSTRUCT_ITEM);
-                entries.add(CHARGING_ARRAY_ITEM);
-                entries.add(INERT_SPAWNER_ITEM);
-                entries.add(COLOR_BLOCK);
-                entries.add(SPELL_CORE);
-                entries.add(RUSTED_SPELL_CORE);
-                entries.add(OMINOUS_SPELL_CORE);
-                entries.add(INACTIVE_SPAWNER_SPELL_CORE);
-                entries.add(SPAWNER_SPELL_CORE);
-                entries.add(AMETHYST_KNOT);
-                entries.add(CRACKED_AMETHYST_KNOT);
-                entries.add(QUARTZ_KNOT);
-                entries.add(CRACKED_QUARTZ_KNOT);
-                entries.add(EMERALD_KNOT);
-                entries.add(CRACKED_EMERALD_KNOT);
-                entries.add(DIAMOND_KNOT);
-                entries.add(CRACKED_DIAMOND_KNOT);
-                entries.add(ECHO_KNOT);
-                entries.add(CRACKED_ECHO_KNOT);
-                entries.add(ASTRAL_KNOT);
-                entries.add(CRACKED_ASTRAL_KNOT);
-                entries.add(COMMAND_KNOT);
-            })
-            .build();
+        .icon(WAND::getDefaultStack)
+        .displayName(Text.translatable("trickster.item_group"))
+        .entries((context, entries) -> {
+            entries.add(TOME_OF_TOMFOOLERY);
+            entries.add(SCROLL_AND_QUILL);
+            entries.addAll(Arrays.stream(COLORED_SCROLLS_AND_QUILLS).map(ItemStack::new).toList());
+            entries.add(MIRROR_OF_EVALUATION);
+            entries.add(TOP_HAT);
+            entries.add(WITCH_HAT);
+            entries.add(FEZ);
+            entries.add(WAND);
+            entries.add(AMETHYST_WHORL);
+            entries.add(TORMENT_ON_A_CHAIN);
+            entries.add(WARDING_CHARM);
+            entries.add(MACRO_RING);
+            entries.add(SPELL_INK);
+            entries.add(SPELL_RESONATOR_ITEM);
+            entries.add(SCROLL_SHELF_BLOCK_ITEM);
+            entries.add(SPELL_CONSTRUCT_ITEM);
+            entries.add(MODULAR_SPELL_CONSTRUCT_ITEM);
+            entries.add(CHARGING_ARRAY_ITEM);
+            entries.add(INERT_SPAWNER_ITEM);
+            entries.add(LIGHT_SCONCE);
+            entries.add(COLOR_BLOCK);
+            entries.add(GILDED_TUFF);
+            entries.add(GILDED_TUFF_STAIRS);
+            entries.add(GILDED_TUFF_SLAB);
+            entries.add(GILDED_TUFF_WALL);
+            entries.add(GILDED_POLISHED_TUFF);
+            entries.add(GILDED_POLISHED_TUFF_STAIRS);
+            entries.add(GILDED_POLISHED_TUFF_SLAB);
+            entries.add(GILDED_POLISHED_TUFF_WALL);
+            entries.add(GILDED_TUFF_BRICKS);
+            entries.add(GILDED_TUFF_BRICK_STAIRS);
+            entries.add(GILDED_TUFF_BRICK_SLAB);
+            entries.add(GILDED_TUFF_BRICK_WALL);
+            entries.add(GILDED_CHISELED_TUFF);
+            entries.add(GILDED_CHISELED_TUFF_BRICKS);
+            entries.add(SPELL_CORE);
+            entries.add(RUSTED_SPELL_CORE);
+            entries.add(OMINOUS_SPELL_CORE);
+            entries.add(INACTIVE_SPAWNER_SPELL_CORE);
+            entries.add(SPAWNER_SPELL_CORE);
+            entries.add(AMETHYST_KNOT);
+            entries.add(CRACKED_AMETHYST_KNOT);
+            entries.add(QUARTZ_KNOT);
+            entries.add(CRACKED_QUARTZ_KNOT);
+            entries.add(EMERALD_KNOT);
+            entries.add(CRACKED_EMERALD_KNOT);
+            entries.add(DIAMOND_KNOT);
+            entries.add(CRACKED_DIAMOND_KNOT);
+            entries.add(ECHO_KNOT);
+            entries.add(CRACKED_ECHO_KNOT);
+            entries.add(ASTRAL_KNOT);
+            entries.add(CRACKED_ASTRAL_KNOT);
+            entries.add(COMMAND_KNOT);
+        })
+        .build();
 
     private static <T extends Item> T register(String name, T item) {
         return Registry.register(Registries.ITEM, Trickster.id(name), item);

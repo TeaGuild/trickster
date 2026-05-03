@@ -63,6 +63,11 @@ public class ScrollAndQuillScreen extends BraidScreen implements ScreenHandlerPr
     }
 
     @Override
+    public boolean shouldCloseOnEsc() {
+        return false;
+    }
+
+    @Override
     public boolean shouldPause() {
         return false;
     }

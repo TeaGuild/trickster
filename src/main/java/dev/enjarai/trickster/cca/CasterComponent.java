@@ -44,7 +44,7 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
     private WrappedSpellExecutionManager tormentExecutionManager;
 
     // The macro manager and its handler are not persistently stored and will reset if a scroll and quill screen closes
-    private final PlayerSpellExecutionManager macroExecutionManager;
+    private final WrappedSpellExecutionManager macroExecutionManager;
     @Nullable
     private Consumer<Optional<Fragment>> macroCompletionHandler;
 
@@ -71,7 +71,7 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
         this.executionManager = new PlayerSpellExecutionManager(5);
         this.collarExecutionManager = new PlayerSpellExecutionManager(1);
         this.tormentExecutionManager = new WrappedSpellExecutionManager(this.executionManager);
-        this.macroExecutionManager = new PlayerSpellExecutionManager(1);
+        this.macroExecutionManager = new WrappedSpellExecutionManager(this.executionManager);
     }
 
     @Override
@@ -93,11 +93,12 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
         executionManager.tick(new PlayerSpellSource((ServerPlayerEntity) player, executionManager),
             this::afterExecutorTick, this::completeExecutor, this::executorError);
         collarExecutionManager.tick(new PlayerSpellSource((ServerPlayerEntity) player, collarExecutionManager),
-                (i, e) -> {}, this::completeExecutor, this::executorError);
-        tormentExecutionManager.tick(new PlayerSpellSource((ServerPlayerEntity) player, tormentExecutionManager));
+            (i, e) -> {}, this::completeExecutor, this::executorError);
+        tormentExecutionManager.tick(new PlayerSpellSource((ServerPlayerEntity) player, tormentExecutionManager),
+            (i, e) -> {}, this::completeExecutor, this::executorError);
 
-        if (macroExecutionManager.getSpellExecutor(0).isPresent() && !canRunMacros()) {
-            macroExecutionManager.killAll();
+        if (macroExecutionManager.getExecutor().isPresent() && !canRunMacros()) {
+            macroExecutionManager.killOuter();
             macroCompletionHandler = null;
             playCastSound(0.5f, 0.1f);
         } else {
@@ -163,6 +164,7 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
         collarExecutionManager = tag.get(SerializationContext.attributes(EndecTomfoolery.CODEC_SAFE), COLLAR_EXECUTION_MANAGER_ENDEC);
         tormentExecutionManager = new WrappedSpellExecutionManager(executionManager);
         tormentExecutionManager.setExecutor(tag.get(SerializationContext.attributes(EndecTomfoolery.CODEC_SAFE), TORMENT_SPELL_ENDEC));
+        macroExecutionManager.setInner(executionManager);
         waitTicks(20);
     }
 
@@ -208,14 +210,14 @@ public class CasterComponent implements ServerTickingComponent, AutoSyncedCompon
         return collarExecutionManager.queue(spell, arguments);
     }
 
-    public Optional<Integer> queueMacroSpell(SpellPart spell, List<Fragment> arguments, Consumer<Optional<Fragment>> callback) {
+    public boolean queueMacroSpell(SpellPart spell, List<Fragment> arguments, Consumer<Optional<Fragment>> callback) {
         if (!canRunMacros()) {
-            return Optional.empty();
+            return false;
         }
 
         playCastSound(0.8f, 0.1f);
-        var result = macroExecutionManager.queue(spell, arguments);
-        if (result.isPresent()) {
+        var result = macroExecutionManager.setSpell(spell, arguments);
+        if (result) {
             macroCompletionHandler = callback;
         }
         return result;

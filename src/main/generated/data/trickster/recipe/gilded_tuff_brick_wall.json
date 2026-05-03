@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "gilded_tuff_walls",
+  "key": {
+    "b": {
+      "item": "trickster:gilded_tuff_bricks"
+    }
+  },
+  "pattern": [
+    "   ",
+    "bbb",
+    "bbb"
+  ],
+  "result": {
+    "count": 6,
+    "id": "trickster:gilded_tuff_brick_wall"
+  }
+}

@@ -2,10 +2,10 @@ package dev.enjarai.trickster.screen;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.cca.CasterComponent;
+import dev.enjarai.trickster.config.TricksterConfigModel;
 import dev.enjarai.trickster.net.KillSpellPacket;
 import dev.enjarai.trickster.net.ModNetworking;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
@@ -13,20 +13,33 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class SpellSlotWidget extends ButtonWidget {
-    public static final ButtonTextures TEXTURES_INACTIVE = new ButtonTextures(Trickster.id("spell_slot/inactive"), Trickster.id("spell_slot/inactive"));
-    public static final ButtonTextures TEXTURES_ACTIVE_SUSPENDED = new ButtonTextures(Trickster.id("spell_slot/active_suspended"), Trickster.id("spell_slot/active_suspended_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_OK = new ButtonTextures(Trickster.id("spell_slot/active_ok"), Trickster.id("spell_slot/active_ok_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_PARTIAL = new ButtonTextures(Trickster.id("spell_slot/active_partial"), Trickster.id("spell_slot/active_partial_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_FULL = new ButtonTextures(Trickster.id("spell_slot/active_full"), Trickster.id("spell_slot/active_full_hover"));
-    public static final ButtonTextures TEXTURES_ACTIVE_ERROR = new ButtonTextures(Trickster.id("spell_slot/active_error"), Trickster.id("spell_slot/active_error_hover"));
+    public static final Identifier TEXTURE_HOVER = Trickster.id("textures/gui/sprites/spell_slot/hover.png");
+    public static final Identifier TEXTURE_SUSPENDED = Trickster.id("suspended");
+    public static final Identifier TEXTURE_OK = Trickster.id("ok");
+    public static final Identifier TEXTURE_PARTIAL = Trickster.id("partial");
+    public static final Identifier TEXTURES_FULL = Trickster.id("full");
+    public static final Identifier TEXTURES_ERROR = Trickster.id("error");
 
     public final int index;
     public State currentState = State.INACTIVE;
+    private final int u;
+    private final int v;
 
-    public SpellSlotWidget(int x, int y, int index) {
-        super(x, y, 16, 16, Text.empty(), btn -> {
-        }, DEFAULT_NARRATION_SUPPLIER);
+    public SpellSlotWidget(int x, int y, TricksterConfigModel.SpellSlotPositions pos, int index) {
+        super(x, y, 16, 16, Text.empty(), btn -> {}, DEFAULT_NARRATION_SUPPLIER);
         this.index = index;
+        this.u = switch (pos) {
+            case LEFT_TOP, LEFT_BOTTOM -> -4;
+            case RIGHT_TOP, RIGHT_BOTTOM -> 4;
+            default -> 0;
+        };
+        this.v = switch (pos) {
+            case TOP_LEFT, TOP_RIGHT -> -4;
+            case BOTTOM_LEFT, BOTTOM_RIGHT -> 4;
+            default -> 0;
+        };
+        this.width = this.width - Math.abs(u);
+        this.height = this.height - Math.abs(v);
     }
 
     @Override
@@ -39,6 +52,11 @@ public class SpellSlotWidget extends ButtonWidget {
     @Override
     protected boolean isValidClickButton(int button) {
         return super.isValidClickButton(button) && currentState != State.INACTIVE;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return super.isSelected() && currentState != State.INACTIVE;
     }
 
     public void updateState(@Nullable CasterComponent.RunningSpellData spellData) {
@@ -64,22 +82,54 @@ public class SpellSlotWidget extends ButtonWidget {
     }
 
     public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        Identifier identifier = currentState.textures.get(this.isNarratable(), this.isSelected());
-        context.drawGuiTexture(identifier, this.getX(), this.getY(), this.width, this.height);
+        if (currentState == State.INACTIVE) {
+            context.drawTexture(currentState.texture,
+                this.getX() + (u < 0 ? 8 : 0),
+                this.getY() + (v < 0 ? 8 : 0),
+                Math.max(0, u) + (u > 0 ? -8 : 0),
+                Math.max(0, v) + (v > 0 ? -8 : 0),
+                this.width + (u != 0 ? -8 : 0),
+                this.height + (v != 0 ? -8 : 0),
+                16, 16
+            );
+            return;
+        }
+
+        if (this.isSelected()) {
+            context.drawTexture(TEXTURE_HOVER,
+                this.getX() + (u < 0 ? -1 : 0),
+                this.getY() + (v < 0 ? -1 : 0),
+                Math.max(0, u) + (u > 0 ? -1 : 0),
+                Math.max(0, v) + (v > 0 ? -1 : 0),
+                this.width + (u != 0 ? 1 : 0),
+                this.height + (v != 0 ? 1 : 0),
+                16, 16
+            );
+        }
+
+        context.drawTexture(currentState.texture,
+            this.getX() + (this.isSelected() ? Integer.signum(u) : 0),
+            this.getY() + (this.isSelected() ? Integer.signum(v) : 0),
+            Math.max(0, u),
+            Math.max(0, v),
+            this.width,
+            this.height,
+            16, 16
+        );
     }
 
     public enum State {
-        INACTIVE(TEXTURES_INACTIVE),
-        ACTIVE_SUSPENDED(TEXTURES_ACTIVE_SUSPENDED),
-        ACTIVE_OK(TEXTURES_ACTIVE_OK),
-        ACTIVE_PARTIAL(TEXTURES_ACTIVE_PARTIAL),
-        ACTIVE_FULL(TEXTURES_ACTIVE_FULL),
-        ACTIVE_ERROR(TEXTURES_ACTIVE_ERROR);
+        INACTIVE(TEXTURES_ERROR),
+        ACTIVE_SUSPENDED(TEXTURE_SUSPENDED),
+        ACTIVE_OK(TEXTURE_OK),
+        ACTIVE_PARTIAL(TEXTURE_PARTIAL),
+        ACTIVE_FULL(TEXTURES_FULL),
+        ACTIVE_ERROR(TEXTURES_ERROR);
 
-        public final ButtonTextures textures;
+        public final Identifier texture;
 
-        State(ButtonTextures textures) {
-            this.textures = textures;
+        State(Identifier texture) {
+            this.texture = texture.withPrefixedPath("textures/gui/sprites/spell_slot/").withSuffixedPath(".png");
         }
     }
 }
