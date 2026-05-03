@@ -15,7 +15,7 @@
 }
 ```
 
-This chapter describes patterns that can be used to work with maps. 
+This chapter describes tricks that can be used to work with maps. 
 Maps allow for an association between one fragment and another, 
 similarly to how a dictionary associates a word with a definition.
 

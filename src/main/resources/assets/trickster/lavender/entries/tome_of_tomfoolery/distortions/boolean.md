@@ -16,10 +16,10 @@
 }
 ```
 
-This chapter describes a few patterns that can be used to perform boolean logic operations.
+This chapter describes a few tricks that can be used to perform boolean logic operations.
 
 
-While glyphs here indicate they require a boolean input, 
+While tricks here indicate they require a boolean input, 
 it is worth noting that **any fragment will be automatically coerced into a boolean value** when required.
 
 ;;;;;

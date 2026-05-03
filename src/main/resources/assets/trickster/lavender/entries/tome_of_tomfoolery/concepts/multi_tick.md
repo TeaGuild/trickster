@@ -29,7 +29,7 @@ Spell slots have the following states:
 
 ;;;;;
 
-Patterns that execute spell fragments create sub-spells within their current spell. 
+[Deviations](^trickster:tricks/functions) that cast spell fragments create sub-spells within their current spell. 
 A spell may not have a sub-spell more than 255 spells deep, 
 and will blunder if such a thing is attempted. 
 
