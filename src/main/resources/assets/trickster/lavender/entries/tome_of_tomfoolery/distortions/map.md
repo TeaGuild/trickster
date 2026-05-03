@@ -25,6 +25,12 @@ Creates a new empty map.
 
 ;;;;;
 
+<|trick@trickster:templates|trick-id=trickster:list_size|>
+
+Returns the amount of pairs in the given map.
+
+;;;;;
+
 <|trick@trickster:templates|trick-id=trickster:map_insert|>
 
 Inserts key-value pairs into the given map.
