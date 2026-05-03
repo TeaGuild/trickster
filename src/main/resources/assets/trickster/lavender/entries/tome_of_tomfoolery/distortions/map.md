@@ -5,6 +5,7 @@
   "category": "trickster:distortions",
   "additional_search_terms": [
     "Cartographer's Delusion",
+    "Tally Distortion",
     "Charting Stratagem",
     "Navigator's Distortion",
     "Admiral's Stratagem",
