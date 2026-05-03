@@ -2,7 +2,6 @@ package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.CircleRenderer;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
 import dev.enjarai.trickster.spell.fragment.ColorFragment;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -46,7 +45,7 @@ public class ColorRenderer implements FragmentRenderer<ColorFragment> {
             matrices.push();
             matrices.multiply(new Quaternionf(new AxisAngle4f(rot + age * rotv, 0, 0, 1)));
             matrices.scale(scale, scale, 1);
-            SpellCircleRenderer.drawTexturedQuad(
+            CircleRenderer.drawTexturedQuad(
                 matrices, vertexConsumers, TEXTURE,
                 -1, 1, -1, 1,
                 0.1f - age * 0.01f,
@@ -55,7 +54,7 @@ public class ColorRenderer implements FragmentRenderer<ColorFragment> {
                 MathHelper.lerp(fade, b / 255f, 1),
                 alpha * delegator.getCircleTransparency() * a / 255f, delegator.inUI
             );
-            SpellCircleRenderer.drawTexturedQuad(
+            CircleRenderer.drawTexturedQuad(
                 matrices, vertexConsumers, BACK_TEXTURE,
                 -1, 1, -1, 1,
                 0.05f - age * 0.01f,

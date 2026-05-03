@@ -6,7 +6,7 @@ import dev.enjarai.trickster.spell.type.Signature;
 import j2html.tags.Tag;
 import org.joml.Vector2f;
 
-import static dev.enjarai.trickster.render.SpellCircleRenderer.*;
+import static dev.enjarai.trickster.render.CircleRenderer.*;
 import static j2html.TagCreator.tag;
 import static mod.master_bw3.coleus.Components.text;
 
@@ -14,9 +14,9 @@ public class Components {
 
     public static Tag<?> pattern(Pattern pattern, int size) {
         var svg = tag("svg")
-                .attr("version", "1.1")
-                .attr("viewbox", String.format("0 0 %d %d", size, size))
-                .attr("xmlns", "http://www.w3.org/2000/svg");
+            .attr("version", "1.1")
+            .attr("viewbox", String.format("0 0 %d %d", size, size))
+            .attr("xmlns", "http://www.w3.org/2000/svg");
 
         var patternSize = size * 0.46f;
         var x = (size - patternSize * 2) / 2;
@@ -41,11 +41,11 @@ public class Components {
             }
 
             var polygon = drawPolygon(
-                    pos.x - dotSize, pos.y - dotSize,
-                    pos.x - dotSize, pos.y + dotSize,
-                    pos.x + dotSize, pos.y + dotSize,
-                    pos.x + dotSize, pos.y - dotSize,
-                    isLinked ? 0.9f : 0.5f
+                pos.x - dotSize, pos.y - dotSize,
+                pos.x - dotSize, pos.y + dotSize,
+                pos.x + dotSize, pos.y + dotSize,
+                pos.x + dotSize, pos.y - dotSize,
+                isLinked ? 0.9f : 0.5f
             );
             svg.with(polygon);
 
@@ -67,8 +67,8 @@ public class Components {
 
     private static Tag<?> drawPolygon(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, float alpha) {
         return tag("polygon")
-                .attr("points", String.format("%f,%f %f,%f %f,%f %f,%f", x1, y1, x2, y2, x3, y3, x4, y4))
-                .withStyle("opacity: " + alpha);
+            .attr("points", String.format("%f,%f %f,%f %f,%f %f,%f", x1, y1, x2, y2, x3, y3, x4, y4))
+            .withStyle("opacity: " + alpha);
 
     }
 
@@ -78,7 +78,7 @@ public class Components {
         var lineEnd = new Vector2f(now.x + directionVec.x, now.y + directionVec.y);
 
         return tag("line")
-                .attr("x1", lineStart.x).attr("y1", lineStart.y)
-                .attr("x2", lineEnd.x).attr("y2", lineEnd.y);
+            .attr("x1", lineStart.x).attr("y1", lineStart.y)
+            .attr("x2", lineEnd.x).attr("y2", lineEnd.y);
     }
 }
