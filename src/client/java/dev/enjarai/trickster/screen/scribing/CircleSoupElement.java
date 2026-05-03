@@ -8,9 +8,13 @@ import io.wispforest.owo.braid.core.Constraints;
 import io.wispforest.owo.braid.framework.BuildContext;
 import io.wispforest.owo.braid.framework.widget.Key;
 import io.wispforest.owo.braid.framework.widget.Widget;
+import io.wispforest.owo.braid.widgets.basic.Builder;
+import io.wispforest.owo.braid.widgets.basic.MouseArea;
 import io.wispforest.owo.braid.widgets.basic.Transform;
+import io.wispforest.owo.braid.widgets.focus.Focusable;
 import io.wispforest.owo.braid.widgets.stack.Stack;
 import org.joml.Matrix4f;
+import org.lwjgl.glfw.GLFW;
 
 import java.time.Duration;
 import java.util.stream.Stream;
@@ -95,14 +99,36 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
                                 .translate(-RADIUS, -RADIUS, 0)
                                 .scale((float) (double) radius / RADIUS)
                                 .translate(0, 0, 1f / (float) (double) radius),
-                            new CircleWidget(
-                                widget().renderer,
-                                radius,
-                                c.angle,
-                                c.partView,
-                                c::updatePattern,
-                                widget().mutable,
-                                widget().allowsEval ? c::triggerEval : null
+                            new Focusable(
+                                f -> f.keyDownCallback((keyCode, modifiers) -> {
+                                    if (keyCode == GLFW.GLFW_KEY_F) {
+                                        return c.tryPonder();
+                                    }
+                                    return false;
+                                }),
+                                new Builder(context1 -> new MouseArea(
+                                    a -> a
+                                        .moveCallback((toX, toY) -> {
+                                            if (c.maybeFocusOn()) {
+                                                Focusable.of(context1).requestFocus();
+                                            }
+                                        })
+                                        .exitCallback(() -> {
+                                            if (c.maybeUnfocus()) {
+                                                Focusable.of(context1).unfocus();
+                                            }
+                                        }),
+                                    new CircleWidget(
+                                        widget().renderer,
+                                        radius,
+                                        c.angle,
+                                        c.partView,
+                                        c::updatePattern,
+                                        widget().mutable,
+                                        c.hiddenByPonder(),
+                                        widget().allowsEval ? c::triggerEval : null
+                                    )
+                                ))
                             )
                         // TODO:
                         //    new ScaleInOutWidget(

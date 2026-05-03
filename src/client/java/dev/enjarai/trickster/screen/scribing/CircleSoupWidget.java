@@ -10,6 +10,7 @@ import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.PatternGlyph;
 import io.wispforest.owo.braid.animation.Easing;
 import io.wispforest.owo.braid.core.Alignment;
+import io.wispforest.owo.braid.core.BraidScreen;
 import io.wispforest.owo.braid.core.Constraints;
 import io.wispforest.owo.braid.core.KeyModifiers;
 import io.wispforest.owo.braid.framework.BuildContext;
@@ -18,9 +19,11 @@ import io.wispforest.owo.braid.framework.widget.Key;
 import io.wispforest.owo.braid.framework.widget.StatefulWidget;
 import io.wispforest.owo.braid.framework.widget.Widget;
 import io.wispforest.owo.braid.widgets.basic.*;
+import io.wispforest.owo.braid.widgets.focus.FocusScope;
 import io.wispforest.owo.braid.widgets.focus.Focusable;
 import io.wispforest.owo.braid.widgets.sharedstate.SharedState;
 import io.wispforest.owo.braid.widgets.stack.Stack;
+import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -86,6 +89,8 @@ public class CircleSoupWidget extends StatefulWidget {
         // Should be non-null if the visible root circle is on screen and being rendered, providing its position.
         private @Nullable CirclePosition rootCirclePosition;
         private boolean isRunningMacro = false;
+        private @Nullable CircleState focusedCircle;
+        private boolean isPondering = false;
 
         @Override
         public void init() {
@@ -129,47 +134,50 @@ public class CircleSoupWidget extends StatefulWidget {
 
         @Override
         public Widget build(BuildContext context) {
-            return new Focusable(
-                focusable -> focusable
-                    .keyUpCallback(this::keyUp)
-                    .keyDownCallback(this::keyDown)
-                    .autoFocus(true),
-                new SharedState<>(
-                    CircleSoupState::new,
-                    new Builder(context1 -> {
-                        var state = SharedState.get(context1, CircleSoupState.class);
-                        return new MouseArea(
-                            area -> area
-                                .moveCallback(this::mouseMove)
-                                .scrollCallback(this::zoom)
-                                .dragCallback(drag(state))
-                                .dragStartCallback(this::startDragging)
-                                .dragEndCallback(endDragging(state)),
-                            new LayoutBuilder((context2, constraints) -> {
-                                arenaConstraints = constraints;
-                                return new Align(
-                                    Alignment.TOP_LEFT,
-                                    new Stack(circles.values().stream()
-                                        .filter(c -> c.parentCircle == null)
-                                        .map(c -> new CircleSoupElement(
-                                            // Duration.ofMillis(250), TODO: add back when animationes
-                                            Duration.ofMillis(0),
-                                            Easing.OUT_EXPO,
-                                            widget().renderer,
-                                            c, constraints,
-                                            widget().mutable,
-                                            widget().allowsEval && !isRunningMacro,
-                                            !initialBuild
-                                        ).key(
-                                            Key.of(c.partView.uuid.toString())
-                                        ))
-                                        .toList()
-                                    )
-                                );
-                            })
-                        );
-                    })
-                )
+            return new SharedState<>(
+                CircleSoupState::new,
+                new Builder(context1 -> {
+                    var state = SharedState.get(context1, CircleSoupState.class);
+                    return new Focusable(
+                        focusable -> focusable
+                            .keyUpCallback(this::keyUp)
+                            .keyDownCallback(keyDown(state))
+                            .autoFocus(true),
+                        new FocusScope(
+                            s -> {},
+                            new MouseArea(
+                                area -> area
+                                    .moveCallback(this::mouseMove)
+                                    .scrollCallback(this::zoom)
+                                    .dragCallback(drag(state))
+                                    .dragStartCallback(this::startDragging)
+                                    .dragEndCallback(endDragging(state)),
+                                new LayoutBuilder((context2, constraints) -> {
+                                    arenaConstraints = constraints;
+                                    return new Align(
+                                        Alignment.TOP_LEFT,
+                                        new Stack(circles.values().stream()
+                                            .filter(c -> c.parentCircle == null)
+                                            .map(c -> new CircleSoupElement(
+                                                // Duration.ofMillis(250), TODO: add back when animationes
+                                                Duration.ofMillis(0),
+                                                Easing.OUT_EXPO,
+                                                widget().renderer,
+                                                c, constraints,
+                                                widget().mutable,
+                                                widget().allowsEval && !isRunningMacro,
+                                                !initialBuild
+                                            ).key(
+                                                Key.of(c.partView.uuid.toString())
+                                            ))
+                                            .toList()
+                                        )
+                                    );
+                                })
+                            )
+                        )
+                    );
+                })
             );
         }
 
@@ -189,25 +197,41 @@ public class CircleSoupWidget extends StatefulWidget {
             };
         }
 
-        private boolean keyDown(int keyCode, KeyModifiers modifiers) {
-            return switch (keyCode) {
-                case GLFW.GLFW_KEY_W -> {
-                    if (zoomering != 0) yield false;
-                    zoomering++;
-                    scheduleAnimationCallback(this::doZoomering);
-                    yield true;
-                }
-                case GLFW.GLFW_KEY_S -> {
-                    if (zoomering != 0) yield false;
-                    zoomering--;
-                    scheduleAnimationCallback(this::doZoomering);
-                    yield true;
-                }
-                case GLFW.GLFW_KEY_ESCAPE -> {
-                    // TODO this is an ask glisco kinda moment
-                    yield true;
-                }
-                default -> false;
+        private Focusable.KeyDownCallback keyDown(CircleSoupState state) {
+            return (keyCode, modifiers) -> {
+                return switch (keyCode) {
+                    case GLFW.GLFW_KEY_W -> {
+                        if (zoomering != 0) yield false;
+                        zoomering++;
+                        scheduleAnimationCallback(this::doZoomering);
+                        yield true;
+                    }
+                    case GLFW.GLFW_KEY_S -> {
+                        if (zoomering != 0) yield false;
+                        zoomering--;
+                        scheduleAnimationCallback(this::doZoomering);
+                        yield true;
+                    }
+                    case GLFW.GLFW_KEY_F -> {
+                        if (isPondering) {
+                            unponder();
+                        }
+                        yield true;
+                    }
+                    case GLFW.GLFW_KEY_ESCAPE -> {
+                        if (state.drawingIn != null) {
+                            state.drawingIn.finishDrawing(false, state);
+                        } else {
+                            var screen = BraidScreen.maybeOf(context());
+                            MinecraftClient.getInstance().send(() -> {
+                                //noinspection DataFlowIssue
+                                screen.close();
+                            });
+                        }
+                        yield true;
+                    }
+                    default -> false;
+                };
             };
         }
 
@@ -219,6 +243,13 @@ public class CircleSoupWidget extends StatefulWidget {
             zoom(0, amount);
 
             scheduleAnimationCallback(this::doZoomering);
+        }
+
+        private void unponder() {
+            setState(() -> {
+                isPondering = false;
+                circles.values().forEach(s -> s.isPondered = false);
+            });
         }
 
         private void startDragging(int button, KeyModifiers modifiers) {
@@ -276,6 +307,10 @@ public class CircleSoupWidget extends StatefulWidget {
             if (circle.partView.parent == null || circle.partView.parent.shadowParent) {
                 rootCirclePosition = null;
             }
+
+            if (focusedCircle == circle) {
+                focusedCircle = null;
+            }
         }
 
         private void rebuildCircles() {
@@ -302,6 +337,7 @@ public class CircleSoupWidget extends StatefulWidget {
             double x, y, radius, angle, centerOffset;
             final SpellView partView;
             final io.vavr.collection.List<Integer> path;
+            boolean isPondered = false;
 
             private CircleState(double x, double y, double radius, double angle, double centerOffset, SpellView partView, io.vavr.collection.List<Integer> path) {
                 this.x = x;
@@ -494,6 +530,43 @@ public class CircleSoupWidget extends StatefulWidget {
                 setState(() -> {
                     isRunningMacro = true;
                 });
+            }
+
+            public boolean maybeFocusOn() {
+                if (State.this.focusedCircle == null || State.this.focusedCircle.radius > radius) {
+                    State.this.focusedCircle = this;
+                    return true;
+                }
+                return false;
+            }
+
+            public boolean maybeUnfocus() {
+                if (State.this.focusedCircle == this) {
+                    State.this.focusedCircle = null;
+                    return true;
+                }
+                return false;
+            }
+
+            public boolean tryPonder() {
+                if (!State.this.isPondering) {
+                    setState(() -> {
+                        State.this.isPondering = true;
+                        markPonder(true);
+                    });
+
+                    return true;
+                }
+                return false;
+            }
+
+            public boolean hiddenByPonder() {
+                return State.this.isPondering && !isPondered;
+            }
+
+            private void markPonder(boolean ponder) {
+                isPondered = ponder;
+                childCircles.forEach(c -> c.markPonder(ponder));
             }
 
             private void delegationCallback(SpellPart newPart) {

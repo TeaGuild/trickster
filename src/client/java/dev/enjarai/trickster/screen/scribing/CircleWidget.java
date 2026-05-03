@@ -52,16 +52,19 @@ public class CircleWidget extends StatefulWidget {
     private final SpellView partView;
     private final Consumer<Pattern> updatePattern;
     private final boolean mutable;
+    private final boolean hiddenByPonder;
     @Nullable
     private final Runnable eval;
 
-    public CircleWidget(CircleRenderer renderer, double radius, double startingAngle, SpellView partView, Consumer<Pattern> updatePattern, boolean mutable, @Nullable Runnable eval) {
+    public CircleWidget(CircleRenderer renderer, double radius, double startingAngle, SpellView partView, Consumer<Pattern> updatePattern, boolean mutable, boolean hiddenByPonder,
+        @Nullable Runnable eval) {
         this.renderer = renderer;
         this.radius = radius;
         this.startingAngle = startingAngle;
         this.partView = partView;
         this.updatePattern = updatePattern;
         this.mutable = mutable;
+        this.hiddenByPonder = hiddenByPonder;
         this.eval = eval;
     }
 
@@ -89,7 +92,7 @@ public class CircleWidget extends StatefulWidget {
             widget().renderer.renderCircle(
                 ctx.getMatrices(), widget().partView.part,
                 RADIUS, RADIUS, RADIUS, widget().startingAngle, 0,
-                (float) Math.clamp(1 / (widget().radius / ctx.getScaledWindowHeight() * 3), 0.0, 0.8),
+                (float) Math.clamp(1 / (widget().radius / ctx.getScaledWindowHeight() * 3), 0.0, widget().hiddenByPonder ? 0.1 : 0.8),
                 new Vec3d(-1, 0, 0), drawingPattern
             );
             CircleRenderer.VERTEX_CONSUMERS.draw();
@@ -107,16 +110,15 @@ public class CircleWidget extends StatefulWidget {
         @Override
         public Widget build(BuildContext context) {
             return new MouseArea(
-                area -> {
-                    area.moveCallback(this::mouseMove);
-                    area.releaseCallback((x, y, button, modifiers) -> mouseClick(x, y, button, SharedState.get(context, CircleSoupState.class)));
-                    area.exitCallback(this::mouseLeave);
-                },
+                area -> area
+                    .moveCallback(this::mouseMove)
+                    .releaseCallback((x, y, button, modifiers) -> mouseClick(x, y, button, SharedState.get(context, CircleSoupState.class)))
+                    .exitCallback(this::mouseLeave),
                 new Sized(
                     DIAMETER, DIAMETER,
                     new Stack(
                         new CustomDraw(this::draw),
-                        widget().eval != null ? new Center(
+                        widget().eval != null && !widget().hiddenByPonder ? new Center(
                             new Transform(
                                 new Matrix4f()
                                     .translate(widget().renderer.getDividerOffset(
@@ -141,7 +143,7 @@ public class CircleWidget extends StatefulWidget {
         }
 
         public boolean mouseClick(double x, double y, int button, CircleSoupState state) {
-            if (!widget().mutable || state.dragging || widget().partView.beingReplaced) {
+            if (!widget().mutable || state.dragging || widget().partView.beingReplaced || widget().hiddenByPonder) {
                 return false;
             }
 
@@ -150,7 +152,7 @@ public class CircleWidget extends StatefulWidget {
                 return true;
             }
 
-            if (state.drawing) {
+            if (state.drawingIn != null) {
                 return false;
             }
 
@@ -201,7 +203,7 @@ public class CircleWidget extends StatefulWidget {
         }
 
         public boolean clickEval(CircleSoupState state) {
-            if (state.dragging || widget().partView.beingReplaced || state.drawing || widget().eval == null) {
+            if (state.dragging || widget().partView.beingReplaced || state.drawingIn != null || widget().eval == null) {
                 return false;
             }
 
@@ -216,7 +218,7 @@ public class CircleWidget extends StatefulWidget {
                 return;
             }
 
-            state.drawing = false;
+            state.drawingIn = null;
 
             if (apply) {
                 if (drawingPattern.size() >= 2) {
@@ -227,7 +229,7 @@ public class CircleWidget extends StatefulWidget {
             }
 
             MinecraftClient.getInstance().getSoundManager().play(
-                PositionedSoundInstance.master(ModSounds.COMPLETE, drawingPattern.size() > 1 ? 1f : 0.6f)
+                PositionedSoundInstance.master(ModSounds.COMPLETE, drawingPattern.size() > 1 && apply ? 1f : 0.6f)
             );
 
             drawingPattern = null;
@@ -235,7 +237,7 @@ public class CircleWidget extends StatefulWidget {
 
         private List<Byte> startDrawing(CircleSoupState state) {
             drawingPattern = new ArrayList<>();
-            state.drawing = true;
+            state.drawingIn = this;
             return drawingPattern;
         }
 
