@@ -11,7 +11,7 @@
 }
 ```
 
-Multiple patterns exist for easy reusability of spell fragments stored in the caster's inventory.
+Multiple tricks exist for easy reusability of spell fragments stored in the caster's inventory.
 
 
 These directly execute spells stored in items with given arguments, 
