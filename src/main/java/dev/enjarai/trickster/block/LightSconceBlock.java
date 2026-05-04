@@ -77,17 +77,6 @@ public class LightSconceBlock extends LightBlock implements Waterloggable, Stain
         return state.with(FACING, ctx.getSide());
     }
 
-
-
-    @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        super.onBroken(world, pos, state);
-        if (state.get(HAS_LIGHT)) {
-            world.setBlockState(pos, ModBlocks.LIGHT.getDefaultState().with(LIGHT_LEVEL, state.get(LIGHT_LEVEL)), 0);
-
-        }
-    }
-
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
         return MapCodec.unit(ModBlocks.LIGHT_SCONCE);

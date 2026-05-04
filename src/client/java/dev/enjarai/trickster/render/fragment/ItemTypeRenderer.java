@@ -1,6 +1,6 @@
 package dev.enjarai.trickster.render.fragment;
 
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.slot.ItemTypeFragment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DiffuseLighting;
@@ -14,18 +14,20 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
 public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
+    static float HEIGHT = 0.4f;
+
     @Override
     public void render(ItemTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
-            SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         var stack = fragment.item().getDefaultStack();
         renderItem(stack, ModelTransformationMode.GUI, matrices, vertexConsumers, x, y, size, delegator, 14, false);
     }
 
     public static void renderItem(ItemStack stack, ModelTransformationMode transformationMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
-            SpellCircleRenderer delegator, int light, boolean alwaysFlatLight) {
+        CircleRenderer delegator, int light, boolean alwaysFlatLight) {
         var bakedModel = MinecraftClient.getInstance().getItemRenderer().getModel(
-                stack, MinecraftClient.getInstance().world,
-                null, 0
+            stack, MinecraftClient.getInstance().world,
+            null, 0
         );
 
         matrices.push();
@@ -47,10 +49,10 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
         }
 
         MinecraftClient.getInstance().getItemRenderer().renderItem(
-                stack, transformationMode,
-                false, matrices, vertexConsumers,
-                LightmapTextureManager.pack(0, light), OverlayTexture.DEFAULT_UV,
-                bakedModel
+            stack, transformationMode,
+            false, matrices, vertexConsumers,
+            LightmapTextureManager.pack(0, light), OverlayTexture.DEFAULT_UV,
+            bakedModel
         );
         if (delegator.inUI && vertexConsumers instanceof VertexConsumerProvider.Immediate immediate) {
             immediate.draw();
@@ -66,5 +68,10 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
     @Override
     public boolean doubleSided() {
         return false;
+    }
+
+    @Override
+    public float getProportionalHeight(ItemTypeFragment fragment) {
+        return HEIGHT;
     }
 }

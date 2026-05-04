@@ -29,15 +29,17 @@ public class PushManaTrick extends AbstractConduitTrick {
         if (comp == null)
             return 0;
 
+        var taxedMult = 1 - (float) taxPercentage;
+
         var world = ctx.source().getWorld();
         var self = ctx.source().getManaPool();
-        var result = limit - self.use(limit, world);
-        result -= result * taxPercentage;
+        var taken = limit - self.use(limit, world);
         comp = stack.get(ModComponents.MANA);
         var target = comp.pool().makeClone(world);
-        var leftover = target.refill(result, world);
+        var leftover = target.refill(taken * taxedMult, world); //leftover is how much taxed mana could not be inserted
+        leftover /= taxedMult; //untax the leftover mana; it wasnt transferred so it shouldnt be taxed
         stack.set(ModComponents.MANA, comp.with(target));
         self.refill(leftover, world);
-        return result - leftover;
+        return taken - leftover;
     }
 }

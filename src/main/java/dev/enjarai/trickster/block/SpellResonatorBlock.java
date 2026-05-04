@@ -28,23 +28,23 @@ public class SpellResonatorBlock extends Block implements SpellControlledRedston
     public static final DirectionProperty FACING = Properties.FACING;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
-    public static final VoxelShape[] SHAPE = new VoxelShape[]{
-            createCuboidShape(3, 2, 3, 13, 16, 13),
-            createCuboidShape(3, 0, 3, 13, 14, 13),
-            createCuboidShape(3, 3, 2, 13, 13, 16),
-            createCuboidShape(3, 3, 0, 13, 13, 14),
-            createCuboidShape(2, 3, 3, 16, 13, 13),
-            createCuboidShape(0, 3, 3, 14, 13, 13)
+    public static final VoxelShape[] SHAPE = new VoxelShape[] {
+        createCuboidShape(3, 2, 3, 13, 16, 13),
+        createCuboidShape(3, 0, 3, 13, 14, 13),
+        createCuboidShape(3, 3, 2, 13, 13, 16),
+        createCuboidShape(3, 3, 0, 13, 13, 14),
+        createCuboidShape(2, 3, 3, 16, 13, 13),
+        createCuboidShape(0, 3, 3, 14, 13, 13)
     };
 
     public SpellResonatorBlock() {
         super(AbstractBlock.Settings.copyShallow(Blocks.REDSTONE_BLOCK)
-                .luminance(state -> Math.max(1, state.get(POWER)))
-                .emissiveLighting((state, world, pos) -> true));
+            .luminance(state -> Math.max(1, state.get(POWER)))
+            .emissiveLighting((state, world, pos) -> true));
         setDefaultState(getStateManager().getDefaultState()
-                .with(POWER, 0)
-                .with(FACING, Direction.UP)
-                .with(WATERLOGGED, false));
+            .with(POWER, 0)
+            .with(FACING, Direction.UP)
+            .with(WATERLOGGED, false));
     }
 
     @Override
@@ -62,9 +62,9 @@ public class SpellResonatorBlock extends Block implements SpellControlledRedston
         if (state.get(POWER) > 0) {
             for (int i = 0; i < 2; i++) {
                 world.addParticle(
-                        new DustParticleEffect(new Vector3f(0.8f, 0, 0), 1.0F),
-                        pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble(),
-                        0.0, 0.0, 0.0
+                    new DustParticleEffect(new Vector3f(0.8f, 0, 0), 1.0F),
+                    pos.getX() + random.nextDouble(), pos.getY() + random.nextDouble(), pos.getZ() + random.nextDouble(),
+                    0.0, 0.0, 0.0
                 );
             }
         }
@@ -84,7 +84,8 @@ public class SpellResonatorBlock extends Block implements SpellControlledRedston
         }
 
         return direction == state.get(FACING).getOpposite() && !state.canPlaceAt(world, pos)
-                ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+            ? Blocks.AIR.getDefaultState()
+            : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Nullable
@@ -135,12 +136,16 @@ public class SpellResonatorBlock extends Block implements SpellControlledRedston
 
     @Override
     protected int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return state.get(POWER);
+        if (direction != state.get(FACING).getOpposite()) {
+            return state.get(POWER);
+        }
+
+        return super.getWeakRedstonePower(state, world, pos, direction);
     }
 
     @Override
     protected int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        if (direction == state.get(FACING).getOpposite()) {
+        if (direction == state.get(FACING)) {
             return state.get(POWER);
         }
 

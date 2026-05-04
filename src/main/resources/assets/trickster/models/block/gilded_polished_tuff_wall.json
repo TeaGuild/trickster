@@ -1,7 +1,7 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-	"parent": "block/block",
+	"parent": "block/wall_inventory",
 	"textures": {
 		"0": "trickster:block/gilded_polished_tuff_wall_short",
 		"1": "trickster:block/gilded_polished_tuff_wall_top",
@@ -35,5 +35,6 @@
 				"down": {"uv": [5, 0, 11, 16], "texture": "#1"}
 			}
 		}
-	]
+	],
+	"display": {}
 }
