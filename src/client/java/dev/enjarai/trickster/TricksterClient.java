@@ -4,7 +4,9 @@ import dev.enjarai.trickster.block.ColorBlock;
 import dev.enjarai.trickster.block.ColorBlockEntity;
 import dev.enjarai.trickster.block.ModBlocks;
 import dev.enjarai.trickster.coleus.ColeusIntegration;
+import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.entity.ModEntities;
+import dev.enjarai.trickster.compat.inline.InlineCompat;
 import dev.enjarai.trickster.item.KnotItem;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.render.entity.LevitatingBlockEntityRenderer;
@@ -146,6 +148,7 @@ public class TricksterClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(ModularSpellConstructBlockEntityRenderer.MODEL_LAYER,
             ModularSpellConstructBlockEntityRenderer::getTexturedModelData);
 
+        if (ModCompat.INLINE_LOADED) InlineCompat.register();
         if (FabricLoader.getInstance().isModLoaded("coleus")) {
             ColeusIntegration.init();
         }
