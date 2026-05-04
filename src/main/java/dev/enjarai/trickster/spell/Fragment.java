@@ -13,7 +13,6 @@ import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.format.bytebuf.ByteBufDeserializer;
 import io.wispforest.endec.format.bytebuf.ByteBufSerializer;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
-import io.wispforest.owo.serialization.format.nbt.NbtSerializer;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -132,8 +131,7 @@ public non-sealed interface Fragment extends EvaluationResult, SpellInstruction 
     byte[] GZIP_HEADER = new byte[] { 0x1f, (byte) 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0xff };
 
     default String toBase64() {
-        return Fragment.ENDEC.encodeFully(NbtSerializer::of, this).asString();
-        //Base64.getEncoder().encodeToString(toBytes());
+        return Base64.getEncoder().encodeToString(toBytes());
     }
 
     default byte[] toBytes() {
