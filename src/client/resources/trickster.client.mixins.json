@@ -2,7 +2,9 @@
   "required": true,
   "package": "dev.enjarai.trickster.mixin.client",
   "compatibilityLevel": "JAVA_21",
-  "mixinextras": {"minVersion": "0.5.0"},
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
   "plugin": "dev.enjarai.trickster.ConditionalMixins",
   "client": [
     "AbstractClientPlayerEntityMixin",
@@ -31,6 +33,7 @@
   },
   "mixins": [
     "ClientPlayerInteractionManagerMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "owo.BraidComponentAccessor"
   ]
 }

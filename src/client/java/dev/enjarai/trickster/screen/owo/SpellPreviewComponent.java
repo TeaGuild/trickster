@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.screen.owo;
 
+import dev.enjarai.trickster.mixin.client.owo.BraidComponentAccessor;
 import dev.enjarai.trickster.spell.SpellView;
 import dev.enjarai.trickster.net.LoadExampleSpellPacket;
 import dev.enjarai.trickster.net.ModNetworking;
@@ -7,6 +8,7 @@ import dev.enjarai.trickster.spell.revision.RevisionContext;
 import dev.enjarai.trickster.screen.scribing.CircleSoupWidget;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.SpellPart;
+import io.wispforest.owo.braid.core.events.MouseScrollEvent;
 import io.wispforest.owo.braid.framework.widget.Widget;
 import io.wispforest.owo.braid.widgets.basic.Clip;
 import io.wispforest.owo.ui.component.BraidComponent;
@@ -18,6 +20,7 @@ import io.wispforest.owo.ui.parsing.UIParsing;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import org.w3c.dom.Element;
 
 public class SpellPreviewComponent extends BraidComponent {
@@ -37,7 +40,7 @@ public class SpellPreviewComponent extends BraidComponent {
         ));
         component.spell = spell;
         widget.renderer.setColor(0.2f, 0.2f, 0.2f);
-        widget.renderer.setCircleTransparency(0.6f);
+        widget.renderer.setCircleTransparency(0.8f);
         return component;
     }
 
@@ -49,6 +52,21 @@ public class SpellPreviewComponent extends BraidComponent {
         if (loadButton != null) {
             loadButton.onPress(this::loadSpellToGame);
         }
+    }
+
+    @Override
+    public boolean onMouseScroll(double mouseX, double mouseY, double amount) {
+        ((BraidComponentAccessor) this).getEventBinding().add(new MouseScrollEvent(0, amount));
+        return true;
+    }
+
+    @Override
+    public boolean onKeyPress(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            return false;
+        }
+
+        return super.onKeyPress(keyCode, scanCode, modifiers);
     }
 
     public void loadSpellToGame(ButtonComponent button) {
