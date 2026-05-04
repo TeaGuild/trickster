@@ -246,6 +246,7 @@ publishMods {
             }
             requires {
                 slug = "owo-lib"
+                version = "0.13.0-alpha.15+1.21"
             }
             requires {
                 slug = "lavender"
