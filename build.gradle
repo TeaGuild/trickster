@@ -136,7 +136,9 @@ dependencies {
 
     modApi("io.wispforest:accessories-fabric:${property('deps.accessories')}")
 
-    modApi "com.samsthenerd.inline:inline-fabric:${property 'deps.inline'}"
+    modApi "com.samsthenerd.inline:inline-fabric:${property('deps.inline')}"
+
+    modApi "maven.modrinth:lithostitched:${property('deps.lithostitched')}"
 
     // Optional compat
     modCompileOnly modLocalRuntime("maven.modrinth:transmog:${property('deps.transmog')}")
