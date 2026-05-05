@@ -5,10 +5,15 @@
     {
       "weight": 20,
       "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "trickster:managrid/pump/branch",
-        "processors": []
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "rigid",
+          "location": "trickster:managrid/pump/branch",
+          "processors": []
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
       }
     }
   ]
