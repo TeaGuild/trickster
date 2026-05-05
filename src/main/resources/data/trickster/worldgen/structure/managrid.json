@@ -10,7 +10,7 @@
   },
   "start_projection": "floor",
   "max_distance_from_center": 128,
-  "use_expansion_hack": false,
+  "use_expansion_hack": true,
   "fixed_rotation": false,
   "spawn_overrides": {},
   "pool_aliases": []
