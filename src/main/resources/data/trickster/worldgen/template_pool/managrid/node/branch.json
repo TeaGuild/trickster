@@ -3,9 +3,16 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 20,
+      "weight": 50,
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      }
+    },
+    {
+      "weight": 50,
       "element": {
         "element_type": "lithostitched:delegating",
+        "name": "trickster:managrid/node/branch",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
           "projection": "trickster:terrain_matching_ocean",
@@ -13,7 +20,8 @@
           "processors": []
         },
         "allow_bounding_box_collisions": true,
-        "other_pieces_can_intersect": true
+        "other_pieces_can_intersect": true,
+        "max_count": 10
       }
     }
   ]
