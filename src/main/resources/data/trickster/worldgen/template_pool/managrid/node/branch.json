@@ -8,9 +8,15 @@
         "element_type": "lithostitched:delegating",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
-          "projection": "terrain_matching",
+          "projection": "rigid",
           "location": "trickster:managrid/node/branch",
-          "processors": []
+          "processors": [
+            {
+              "processor_type": "minecraft:gravity",
+              "heightmap": "WORLD_SURFACE_WG",
+              "offset": -1
+            }
+          ]
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true
