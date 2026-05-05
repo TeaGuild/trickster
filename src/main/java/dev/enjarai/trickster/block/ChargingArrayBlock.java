@@ -7,6 +7,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
@@ -14,6 +16,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
@@ -25,16 +28,19 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class ChargingArrayBlock extends BlockWithEntity {
+public class ChargingArrayBlock extends BlockWithEntity implements Waterloggable {
     public static final int GRID_WIDTH = 3;
     public static final int GRID_HEIGHT = 3;
 
     public static final DirectionProperty FACING = Properties.FACING;
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+
     public static final VoxelShape[] SHAPES = new VoxelShape[] {
         createCuboidShape(0, 14, 0, 16, 16, 16),
         createCuboidShape(0, 0, 0, 16, 2, 16),
@@ -49,12 +55,14 @@ public class ChargingArrayBlock extends BlockWithEntity {
             .strength(1.5F)
             .sounds(BlockSoundGroup.STONE)
             .solid());
-        setDefaultState(stateManager.getDefaultState().with(FACING, Direction.UP));
+        setDefaultState(stateManager.getDefaultState()
+            .with(FACING, Direction.UP)
+            .with(WATERLOGGED, false));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, WATERLOGGED);
     }
 
     @Override
@@ -127,7 +135,7 @@ public class ChargingArrayBlock extends BlockWithEntity {
                 }
 
                 return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-            }).orElse(ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION);
+            }).orElse(ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
         } else {
             return ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
@@ -194,7 +202,24 @@ public class ChargingArrayBlock extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getSide());
+        WorldAccess worldAccess = ctx.getWorld();
+        BlockPos blockPos = ctx.getBlockPos();
+        return this.getDefaultState()
+            .with(FACING, ctx.getSide())
+            .with(WATERLOGGED, worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER);
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (state.get(WATERLOGGED)) {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    @Override
+    protected FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     @Nullable
