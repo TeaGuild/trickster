@@ -10,13 +10,7 @@
           "element_type": "minecraft:single_pool_element",
           "projection": "trickster:terrain_matching_ocean",
           "location": "trickster:managrid/node/branch",
-          "processors": [
-            {
-              "processor_type": "minecraft:gravity",
-              "heightmap": "OCEAN_FLOOR_WG",
-              "offset": -1
-            }
-          ]
+          "processors": []
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true
