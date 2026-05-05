@@ -6,18 +6,30 @@
       "weight": 20,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "projection": "terrain_matching",
+        "projection": "rigid",
         "location": "trickster:managrid/node/rubble_1",
-        "processors": []
+        "processors": [
+          {
+            "processor_type": "minecraft:gravity",
+            "heightmap": "OCEAN_FLOOR_WG",
+            "offset": -1
+          }
+        ]
       }
     },
     {
       "weight": 20,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "projection": "terrain_matching",
+        "projection": "rigid",
         "location": "trickster:managrid/node/rubble_2",
-        "processors": []
+        "processors": [
+          {
+            "processor_type": "minecraft:gravity",
+            "heightmap": "OCEAN_FLOOR_WG",
+            "offset": -1
+          }
+        ]
       }
     }
   ]
