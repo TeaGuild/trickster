@@ -8,12 +8,12 @@
         "element_type": "lithostitched:delegating",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
-          "projection": "rigid",
+          "projection": "trickster:terrain_matching_ocean",
           "location": "trickster:managrid/node/branch",
           "processors": [
             {
               "processor_type": "minecraft:gravity",
-              "heightmap": "WORLD_SURFACE_WG",
+              "heightmap": "OCEAN_FLOOR_WG",
               "offset": -1
             }
           ]
