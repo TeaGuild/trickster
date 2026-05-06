@@ -54,7 +54,8 @@ public class ModItems {
     public static final Item WARDING_CHARM = register("warding_charm",
         new Item(new Item.Settings().maxCount(1)));
     public static final SpellInkItem SPELL_INK = register("spell_ink",
-        new SpellInkItem(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE)
+        new SpellInkItem(new Item.Settings().maxCount(12)
+            .recipeRemainder(Items.GLASS_BOTTLE)
             .food(new FoodComponent.Builder()
                 .nutrition(0)
                 .saturationModifier(0)
