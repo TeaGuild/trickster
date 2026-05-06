@@ -1,0 +1,42 @@
+{
+  "name": "trickster:managrid/rubble",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "terrain_matching",
+          "location": "trickster:managrid/dirt_rubble/large_1",
+          "processors": []
+        },
+        "condition": {
+          "type": "lithostitched:in_biome",
+          "biomes": "minecraft:plains"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "terrain_matching",
+          "location": "trickster:managrid/dirt_rubble/small_1",
+          "processors": []
+        },
+        "condition": {
+          "type": "lithostitched:in_biome",
+          "biomes": "minecraft:plains"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    }
+  ]
+}
