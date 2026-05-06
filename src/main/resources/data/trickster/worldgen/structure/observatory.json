@@ -1,6 +1,6 @@
 {
   "type": "lithostitched:jigsaw",
-  "biomes": "#trickster:supports_observatories",
+  "biomes": "#trickster:has_structure/observatory",
   "step": "surface_structures",
   "terrain_adaptation": "beard_thin",
   "start_pool": "trickster:observatory",

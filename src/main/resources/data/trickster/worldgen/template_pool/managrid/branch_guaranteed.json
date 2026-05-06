@@ -1,22 +1,16 @@
 {
-  "name": "trickster:managrid/node/branch",
+  "name": "trickster:managrid/branch_guaranteed",
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 50,
-      "element": {
-        "element_type": "minecraft:empty_pool_element"
-      }
-    },
-    {
-      "weight": 50,
+      "weight": 20,
       "element": {
         "element_type": "lithostitched:delegating",
-        "name": "trickster:managrid/node/branch",
+        "name": "trickster:managrid/branch",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
           "projection": "trickster:terrain_matching_ocean",
-          "location": "trickster:managrid/node/branch",
+          "location": "trickster:managrid/branch",
           "processors": []
         },
         "allow_bounding_box_collisions": true,
