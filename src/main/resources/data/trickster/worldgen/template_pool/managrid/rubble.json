@@ -8,9 +8,15 @@
         "element_type": "lithostitched:delegating",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
-          "projection": "terrain_matching",
+          "projection": "rigid",
           "location": "trickster:managrid/dirt_rubble/large_1",
-          "processors": []
+          "processors": [
+            {
+              "processor_type": "minecraft:gravity",
+              "heightmap": "OCEAN_FLOOR_WG",
+              "offset": -1
+            }
+          ]
         },
         "condition": {
           "type": "lithostitched:in_biome",
@@ -26,9 +32,15 @@
         "element_type": "lithostitched:delegating",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
-          "projection": "terrain_matching",
+          "projection": "rigid",
           "location": "trickster:managrid/dirt_rubble/small_1",
-          "processors": []
+          "processors": [
+            {
+              "processor_type": "minecraft:gravity",
+              "heightmap": "OCEAN_FLOOR_WG",
+              "offset": -1
+            }
+          ]
         },
         "condition": {
           "type": "lithostitched:in_biome",
