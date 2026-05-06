@@ -107,19 +107,14 @@ public class ModularSpellConstructBlockEntityRenderer implements BlockEntityRend
             if (!coreStack.isEmpty()
                 && executor.isPresent()
                 && !(executor.get() instanceof ErroredSpellExecutor)) {
-                float age = entity.age
-                    + tickDelta
-                    + (entity.getPos().getX()
-                        + entity.getPos().getY()
-                        + entity.getPos().getZ()
-                        + i)
-                        * 999;
+                double age = entity.age + (double) tickDelta +
+                    (entity.getPos().getX() + entity.getPos().getY() + entity.getPos().getZ()) * 999;
                 var j = i - 1;
                 var x = j % 2;
                 var z = j / 2;
                 matrices.translate((18f / 2 * x + 3.5f) / 16f, (18f / 2 * z + 3.5f) / 16f,
                     0.2f + (float) Math.sin(age * 0.14f) * 0.02f);
-                matrices.multiply(RotationAxis.POSITIVE_Z.rotation(age / 10));
+                matrices.multiply(RotationAxis.POSITIVE_Z.rotation((float) ((age / 10) % (Math.PI * 2))));
 
                 this.renderer.renderCircle(
                     matrices, executor.get().spell(),

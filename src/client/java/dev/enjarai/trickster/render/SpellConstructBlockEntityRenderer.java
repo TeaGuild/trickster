@@ -59,8 +59,8 @@ public class SpellConstructBlockEntityRenderer implements BlockEntityRenderer<Sp
         matrices.multiply(facing.getRotationQuaternion());
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
 
-        float age = entity.age + tickDelta + (entity.getPos().getX() + entity.getPos().getY() + entity.getPos().getZ()) * 999;
-        matrices.multiply(RotationAxis.POSITIVE_Z.rotation(age / 10));
+        double age = entity.age + (double) tickDelta + (entity.getPos().getX() + entity.getPos().getY() + entity.getPos().getZ()) * 999;
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotation((float) ((age / 10) % (Math.PI * 2))));
         matrices.translate(
             0, 0,
             (float) Math.sin(age * 0.14f) * 0.02f
