@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "id": "trickster:spell_ink"
+      "id": "trickster:esoteric_mana"
     },
     "title": {
       "text": "Why'd You Do That?"
     },
     "description": {
-      "text": "Do not the Spell Ink!"
+      "text": "Do not the Mana!"
     },
     "frame": "task",
     "announce_to_chat": true,
@@ -15,8 +15,8 @@
   },
   "parent": "trickster:root",
   "criteria": {
-    "drink_spell_ink": {
-      "trigger": "trickster:drink_spell_ink"
+    "drink_mana": {
+      "trigger": "trickster:drink_mana"
     }
   }
 }

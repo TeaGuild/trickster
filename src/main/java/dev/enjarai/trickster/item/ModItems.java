@@ -53,8 +53,8 @@ public class ModItems {
     public static final LeashItem LEASH = register("leash", new LeashItem(new Item.Settings()));
     public static final Item WARDING_CHARM = register("warding_charm",
         new Item(new Item.Settings().maxCount(1)));
-    public static final SpellInkItem SPELL_INK = register("spell_ink",
-        new SpellInkItem(new Item.Settings().maxCount(12)
+    public static final EsotericManaItem ESOTERIC_MANA = register("esoteric_mana",
+        new EsotericManaItem(new Item.Settings().maxCount(12)
             .recipeRemainder(Items.GLASS_BOTTLE)
             .food(new FoodComponent.Builder()
                 .nutrition(0)
@@ -176,7 +176,7 @@ public class ModItems {
             entries.add(TORMENT_ON_A_CHAIN);
             entries.add(WARDING_CHARM);
             entries.add(MACRO_RING);
-            entries.add(SPELL_INK);
+            entries.add(ESOTERIC_MANA);
             entries.add(SPELL_RESONATOR_ITEM);
             entries.add(SCROLL_SHELF_BLOCK_ITEM);
             entries.add(SPELL_CONSTRUCT_ITEM);

@@ -14,8 +14,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class SpellInkItem extends Item {
-    public SpellInkItem(Settings settings) {
+public class EsotericManaItem extends Item {
+    public EsotericManaItem(Settings settings) {
         super(settings);
     }
 
@@ -32,18 +32,15 @@ public class SpellInkItem extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient()) {
-            if (
-                !user.addStatusEffect(
-                        new StatusEffectInstance(
-                                ModEffects.MANA_BOOST,
-                                20 * 60, 0
-                        )
-                )
-            ) user.damage(new DamageSource(user.getRegistryManager().get(DamageTypes.MAGIC.getRegistryRef()).entryOf(DamageTypes.MAGIC)), 22);
+            if (!user.addStatusEffect(new StatusEffectInstance(ModEffects.MANA_BOOST, 20 * 60, 0))) {
+                user.damage(new DamageSource(user.getRegistryManager()
+                    .get(DamageTypes.MAGIC.getRegistryRef()).entryOf(DamageTypes.MAGIC)), 22);
+            }
         }
 
-        if (user instanceof ServerPlayerEntity player)
-            ModCriteria.DRINK_SPELL.trigger(player);
+        if (user instanceof ServerPlayerEntity player) {
+            ModCriteria.DRINK_MANA.trigger(player);
+        }
 
         return super.finishUsing(stack, world, user);
     }
