@@ -15,7 +15,7 @@ public class ReplaceCircleWithOffHandRevision implements Revision {
 
     @Override
     public void apply(RevisionContext ctx, SpellView view) {
-        ctx.delegateToServer(this, view, view::replace);
+        ctx.delegateToServer(this, view, part -> part.ifPresent(view::replace));
     }
 
     @Override
