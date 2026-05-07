@@ -8,7 +8,7 @@
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
         "location": "trickster:managrid/pump/ruined",
-        "processors": []
+        "processors": "trickster:oxidize"
       }
     },
     {
@@ -17,7 +17,7 @@
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
         "location": "trickster:managrid/pump/intact",
-        "processors": []
+        "processors": "trickster:oxidize"
       }
     }
   ]

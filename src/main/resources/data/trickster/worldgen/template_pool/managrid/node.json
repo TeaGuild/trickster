@@ -17,7 +17,7 @@
           "element_type": "minecraft:single_pool_element",
           "projection": "rigid",
           "location": "trickster:managrid/node/ruined",
-          "processors": []
+          "processors": "trickster:oxidize"
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true
@@ -32,7 +32,7 @@
           "element_type": "minecraft:single_pool_element",
           "projection": "rigid",
           "location": "trickster:managrid/node/intact",
-          "processors": []
+          "processors": "trickster:oxidize"
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true

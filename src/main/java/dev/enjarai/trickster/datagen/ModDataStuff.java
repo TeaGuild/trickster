@@ -16,6 +16,7 @@ public class ModDataStuff implements DataGeneratorEntrypoint {
         pack.addProvider(ModItemTagGenerator::new);
         pack.addProvider(ModBlockTagGenerator::new);
         pack.addProvider(ModLootTableGenerator::new);
+        pack.addProvider(ModProcessorListGenerator::new);
         pack.addProvider(HeatBlockConversionGenerator::new);
         pack.addProvider(CoolBlockConversionGenerator::new);
         pack.addProvider(ErodeBlockConversionGenerator::new);
