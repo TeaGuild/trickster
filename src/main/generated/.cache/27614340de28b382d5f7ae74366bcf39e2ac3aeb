@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-07T11:20:37.059364138	Trickster/Model Definitions
+// 1.21.1	2026-05-08T16:14:13.086012555	Trickster/Model Definitions
 40a99e8604e5cf8250ee8a9ac667c2dffb21cdbf assets/trickster/blockstates/light_sconce.json
 25fc9665ae52d7788aa19923c04ba3874290a007 assets/trickster/models/item/scroll_and_quill_orange.json
 ca7d1f2e31a7e7418fddf06fb1be799281cfc523 assets/trickster/blockstates/gilded_polished_tuff.json
@@ -18,8 +18,8 @@ cc616a2f8b6b963d1793911508c8bca9d1d92d07 assets/trickster/blockstates/gilded_pol
 5f914f5c292dd45f12ed45882a76af6f51b2d473 assets/trickster/models/block/gilded_tuff_brick_stairs.json
 84481db860c100a09f0c689a1cd3e3871833cabe assets/trickster/models/block/gilded_tuff.json
 a7c97e892498a39b035e4b6c5ba31de06c506210 assets/trickster/models/block/gilded_tuff_wall_inventory.json
-6dc7c543a47ff87c75946af0c8de4abf1b61d98f assets/trickster/models/item/gilded_polished_tuff.json
 c995dc518d2d7134ffe57b13897fda67a0b0f815 assets/trickster/models/item/scroll_and_quill_pink.json
+6dc7c543a47ff87c75946af0c8de4abf1b61d98f assets/trickster/models/item/gilded_polished_tuff.json
 fe72cc051cf77ba7ea5b6ca82cabf06c56cb4503 assets/trickster/blockstates/spell_construct.json
 e842ff50414de348bde446d9aa76b593f8f3a6f0 assets/trickster/models/item/gilded_tuff.json
 1eed470d17d966cf34d3dada10b19053562c0c2f assets/trickster/models/item/written_scroll_purple.json
@@ -67,6 +67,7 @@ a77c636a867a56e274572da1f69b36383f0aa462 assets/trickster/models/item/torment_on
 0c24009d9f713f084ff55efcb5aedef3924fc3bf assets/trickster/models/item/written_scroll_white.json
 274e1f4724884bcb7cc8337d4ffac31a3af801fe assets/trickster/models/item/written_scroll_black.json
 252357fd35714769212b3d58a3f8cf1c98a1d4a2 assets/trickster/models/item/light_sconce.json
+d2ef31d3d0b1c3eede49894ab6b943a69851fd32 assets/trickster/models/item/luminous_bottle.json
 f00b04573fa8a37423acbd2cfa58995b577acc9f assets/trickster/models/item/written_scroll_light_gray.json
 4b75bcb18c8f3e6ed30eaf767410a836b1be57d6 assets/trickster/models/item/written_scroll_magenta.json
 2f7ac0d58a5c1dd9391452bdde2b219a584786f8 assets/trickster/models/item/written_scroll_cyan.json
@@ -74,8 +75,8 @@ f00b04573fa8a37423acbd2cfa58995b577acc9f assets/trickster/models/item/written_sc
 cf211674ac067136f295b34038fad600c1165b99 assets/trickster/models/item/written_scroll.json
 bb9626e26008ca301988ce62a4d8819146511d5d assets/trickster/models/block/gilded_chiseled_tuff.json
 43d02b921491c309699f707f86da66f584b427b1 assets/trickster/models/item/cracked_quartz_knot.json
-7b6b607b9c25c50f65797f54d83c68d403525fa3 assets/trickster/models/block/gilded_tuff_brick_stairs_outer.json
 8b0c1a1a61ff836ab5d7d4aac0de69c2c49a2b95 assets/trickster/models/block/inert_spawner.json
+7b6b607b9c25c50f65797f54d83c68d403525fa3 assets/trickster/models/block/gilded_tuff_brick_stairs_outer.json
 bcd80b9c0fbcdb1667f0779a9d01e697ee11b904 assets/trickster/blockstates/gilded_tuff_stairs.json
 765990f0bf1abc743ac06ae6c75841263af7347c assets/trickster/models/item/gilded_polished_tuff_slab.json
 07cddf70df0f5e7a92f0c44af3f523be57bd80d6 assets/trickster/models/item/written_scroll_yellow.json

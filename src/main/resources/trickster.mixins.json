@@ -2,7 +2,9 @@
   "required": true,
   "package": "dev.enjarai.trickster.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixinextras": {"minVersion": "0.5.0"},
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
   "plugin": "dev.enjarai.trickster.ConditionalMixins",
   "mixins": [
     "AbstractFurnaceBlockEntityMixin",
@@ -23,6 +25,10 @@
     "accessor.StateAccessor",
     "accessor.TagEntryAccessor",
     "accessor.WorldAccessor",
+    "brewing.BrewingRecipeRegistry$BuilderMixin",
+    "brewing.BrewingRecipeRegistryMixin",
+    "brewing.BrewingStandBlockEntityMixin",
+    "brewing.BrewingStandScreenHandler$PotionSlotMixin",
     "chunk_pinning.MinecraftServerMixin",
     "chunk_pinning.ServerChunkLoadingManagerMixin",
     "chunk_pinning.ServerWorldMixin",
