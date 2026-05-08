@@ -2,7 +2,6 @@ package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.Fragment;
-import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.fragment.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -36,8 +35,10 @@ public class ListRenderer implements FragmentRenderer<ListFragment> {
             var elementHeight = FragmentRenderer.getFragmentProportionalHeight(element);
             var offset = offsetAcc + elementHeight / 2;
 
+            //noinspection rawtypes
             FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(element.type()));
             if (renderer != null) {
+                //noinspection unchecked
                 renderer.render(element, matrices, vertexConsumers, 0, offset, 0.4f, alpha, normal, tickDelta, delegator);
             } else {
                 FragmentRenderer.renderAsText(element, matrices, vertexConsumers, 0, offset, 0.4f, alpha);

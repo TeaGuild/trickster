@@ -1,7 +1,7 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.slot.ContainerFragment;
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
     @Override
     public void render(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         renderStorage(fragment, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
 
         var type = fragment.variantType();
@@ -36,7 +36,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
         var g = ColorHelper.Argb.getGreen(color) / 255f;
         var b = ColorHelper.Argb.getBlue(color) / 255f;
 
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, Trickster.id("textures/fragment/container.png"),
             x - radius, x + radius, y - radius, y + radius,
             0.001f,
@@ -45,9 +45,14 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
         );
     }
 
+    @Override
+    public float getProportionalHeight(ContainerFragment fragment) {
+        return 1;
+    }
+
     public static void renderStorage(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal,
         float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
 
         var source = fragment.source();
 
@@ -87,7 +92,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
                 () -> FragmentRenderer.renderAsText(fragment, matrices, vertexConsumers, x, y, radius, alpha)
             );
         } else if (source instanceof StorageSource.Caster) {
-            SpellCircleRenderer.drawTexturedQuad(
+            CircleRenderer.drawTexturedQuad(
                 matrices, vertexConsumers, Trickster.id("textures/fragment/caster_container.png"),
                 x - radius, x + radius, y - radius, y + radius,
                 0.001f,

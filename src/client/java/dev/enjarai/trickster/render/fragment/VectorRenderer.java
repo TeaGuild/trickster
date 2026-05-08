@@ -1,12 +1,11 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3dc;
 
@@ -18,8 +17,7 @@ public class VectorRenderer implements FragmentRenderer<VectorFragment> {
 
     @Override
     public void render(VectorFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
-        alpha = MathHelper.lerp(delegator.textFade, 1f, alpha);
+        CircleRenderer delegator) {
 
         var vec = fragment.vector();
 
@@ -28,14 +26,14 @@ public class VectorRenderer implements FragmentRenderer<VectorFragment> {
     }
 
     public static void renderVector(Vector3dc vec, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
 
         var vs = new double[] { vec.x(), vec.y(), vec.z() };
 
         matrices.push();
         matrices.scale(1, 1, delegator.inUI ? 1 : -1);
 
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, RING,
             x - radius * NumberRenderer.SPACING, x + radius * NumberRenderer.SPACING, y - radius * NumberRenderer.SPACING, y + radius * NumberRenderer.SPACING,
             0,
@@ -50,5 +48,10 @@ public class VectorRenderer implements FragmentRenderer<VectorFragment> {
                 radius / 2, alpha, normal, tickDelta, delegator);
         }
         matrices.pop();
+    }
+
+    @Override
+    public float getProportionalHeight(VectorFragment fragment) {
+        return 0.5f;
     }
 }

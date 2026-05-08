@@ -52,7 +52,7 @@ public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
         for (var side : Direction.values()) {
             matrices.push();
             matrices.multiply(new Quaternionf().rotateTo(new Vector3f(0, 0, 1), side.getUnitVector()));
-            SpellCircleRenderer.drawTexturedQuad(
+            CircleRenderer.drawTexturedQuad(
                 matrices, vertexConsumers, ItemTypeRenderer.TEXTURE,
                 -0.55f, 0.55f, -0.55f, 0.55f,
                 -0.55f,

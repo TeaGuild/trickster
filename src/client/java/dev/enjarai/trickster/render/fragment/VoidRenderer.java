@@ -1,7 +1,7 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.VoidFragment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,8 +13,6 @@ import org.joml.Quaternionf;
 
 import java.util.Random;
 
-import static net.minecraft.util.math.ColorHelper.Argb.*;
-
 public class VoidRenderer implements FragmentRenderer<VoidFragment> {
     static final Identifier TEXTURE = Trickster.id("textures/fragment/void/square.png");
     static final Identifier CORE = Trickster.id("textures/fragment/void/core.png");
@@ -24,7 +22,7 @@ public class VoidRenderer implements FragmentRenderer<VoidFragment> {
 
     @Override
     public void render(VoidFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         float time = System.currentTimeMillis() % 1048576 / 50f;
         float r = 0.3f, g = 0, b = 1, a = 1;
         size *= 0.5f;
@@ -47,7 +45,7 @@ public class VoidRenderer implements FragmentRenderer<VoidFragment> {
             matrices.push();
             matrices.multiply(new Quaternionf(new AxisAngle4f(rot + age * rotv, 0, 0, 1)));
             matrices.scale(scale, scale, 1);
-            SpellCircleRenderer.drawTexturedQuad(
+            CircleRenderer.drawTexturedQuad(
                 matrices, vertexConsumers, TEXTURE,
                 -1, 1, -1, 1,
                 age * 0.01f,
@@ -70,7 +68,7 @@ public class VoidRenderer implements FragmentRenderer<VoidFragment> {
             matrices.push();
             matrices.multiply(new Quaternionf(new AxisAngle4f(rot + age * rotv, 0, 0, 1)));
             matrices.scale(scale, scale, 1);
-            SpellCircleRenderer.drawTexturedQuad(
+            CircleRenderer.drawTexturedQuad(
                 matrices, vertexConsumers, Trickster.id("textures/fragment/void/spike.png"),
                 -1, 1, -1, 1,
                 age * 0.01f + 0.01f,
@@ -81,7 +79,7 @@ public class VoidRenderer implements FragmentRenderer<VoidFragment> {
         }
 
         matrices.multiply(new Quaternionf(new AxisAngle4f(time / 50, 0, 0, 1)));
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, CORE,
             -1, 1, -1, 1,
             0.02f,
@@ -89,5 +87,10 @@ public class VoidRenderer implements FragmentRenderer<VoidFragment> {
             1 * delegator.getCircleTransparency() * a, delegator.inUI
         );
         matrices.pop();
+    }
+
+    @Override
+    public float getProportionalHeight(VoidFragment fragment) {
+        return 0.6f;
     }
 }

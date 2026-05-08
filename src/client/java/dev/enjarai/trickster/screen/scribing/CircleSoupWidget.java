@@ -30,6 +30,8 @@ import org.lwjgl.glfw.GLFW;
 import java.time.Duration;
 import java.util.*;
 
+import static dev.enjarai.trickster.render.CircleRenderer.FADE_SPEED;
+
 public class CircleSoupWidget extends StatefulWidget {
     public static final double FORK_THRESHOLD_FORWARDS = 1;
     public static final double DISCARD_THRESHOLD_FORWARDS = 0.1;
@@ -77,6 +79,7 @@ public class CircleSoupWidget extends StatefulWidget {
     public static class State extends WidgetState<CircleSoupWidget> {
         private double mouseX, mouseY, draggingStartX, draggingStartY;
         private int zoomering;
+        private int fadering;
         private Constraints arenaConstraints;
         private final Map<SpellView, CircleState> circles = new IdentityHashMap<>();
         // The real root view is stored as the first subcircle of this.
@@ -103,6 +106,8 @@ public class CircleSoupWidget extends StatefulWidget {
                 widget().view,
                 io.vavr.collection.List.ofAll(widget().view.getPath())
             ));
+
+            scheduleAnimationCallback(this::doFadering);
         }
 
         @Override
@@ -190,6 +195,10 @@ public class CircleSoupWidget extends StatefulWidget {
                     scheduleAnimationCallback(this::doZoomering);
                     yield true;
                 }
+                case GLFW.GLFW_KEY_LEFT_ALT -> {
+                    fadering = -1;
+                    yield true;
+                }
                 default -> false;
             };
         }
@@ -213,6 +222,10 @@ public class CircleSoupWidget extends StatefulWidget {
                         if (isPondering) {
                             unponder();
                         }
+                        yield true;
+                    }
+                    case GLFW.GLFW_KEY_LEFT_ALT -> {
+                        fadering = 1;
                         yield true;
                     }
                     case GLFW.GLFW_KEY_ESCAPE -> {
@@ -240,6 +253,13 @@ public class CircleSoupWidget extends StatefulWidget {
             zoom(0, amount);
 
             scheduleAnimationCallback(this::doZoomering);
+        }
+
+        private void doFadering(Duration delta) {
+            float ticksElapsed = (float) (delta.toNanos() / (double) Duration.ofMillis(50).toNanos());
+            widget().renderer.textFade = Math.clamp(widget().renderer.textFade + (fadering * FADE_SPEED * ticksElapsed), 0, 1);
+
+            scheduleAnimationCallback(this::doFadering);
         }
 
         private void unponder() {

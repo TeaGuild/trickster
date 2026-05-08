@@ -1,7 +1,7 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.slot.FluidTypeFragment;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
@@ -15,19 +15,24 @@ public class FluidTypeRenderer implements FragmentRenderer<FluidTypeFragment> {
 
     @Override
     public void render(FluidTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         var stack = fragment.fluid().getBucketItem().getDefaultStack();
         matrices.push();
         matrices.translate(x, y, 0.0 * size * (delegator.inUI ? 0.3 : -0.3));
         ItemTypeRenderer.renderItem(stack, ModelTransformationMode.GUI, matrices, vertexConsumers, x, y, size, delegator, 14, false);
         matrices.pop();
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, TEXTURE,
             x - size / 2, x + size / 2, y - size / 2, y + size / 2,
             0,
             delegator.getR(), delegator.getG(), delegator.getB(),
             delegator.getCircleTransparency(), delegator.inUI
         );
+    }
+
+    @Override
+    public float getProportionalHeight(FluidTypeFragment fragment) {
+        return 0.4f;
     }
 
     @Override

@@ -45,8 +45,10 @@ public class MapRenderer implements FragmentRenderer<MapFragment> {
             var key = entry._1();
             var val = entry._2();
 
+            //noinspection rawtypes
             FragmentRenderer keyRenderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(key.type()));
             if (keyRenderer != null) {
+                //noinspection unchecked
                 keyRenderer.render(key, matrices, vertexConsumers, -(elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha, normal, tickDelta, delegator);
             } else {
                 FragmentRenderer.renderAsText(key, matrices, vertexConsumers, -(elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha);
@@ -54,8 +56,10 @@ public class MapRenderer implements FragmentRenderer<MapFragment> {
 
             renderArrow(matrices, vertexConsumers, 0, offset, 0.02f, alpha);
 
+            //noinspection rawtypes
             FragmentRenderer valRenderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(val.type()));
             if (valRenderer != null) {
+                //noinspection unchecked
                 valRenderer.render(val, matrices, vertexConsumers, (elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha, normal, tickDelta, delegator);
             } else {
                 FragmentRenderer.renderAsText(val, matrices, vertexConsumers, (elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha);

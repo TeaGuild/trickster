@@ -55,6 +55,8 @@ public class CircleRenderer {
         new BufferAllocator(2048)
     );
 
+    public static final float FADE_SPEED = 0.1f;
+
     public final boolean inUI;
     public final boolean inEditor;
     public final int recursions;
@@ -67,6 +69,8 @@ public class CircleRenderer {
     private float r = 1f, g = 1f, b = 1f;
     private float circleTransparency = 1f;
     private int loading = -1;
+
+    public double textFade = 0;
 
     public CircleRenderer(Boolean inUI, boolean inEditor, int recursions) {
         this.inUI = inUI;
@@ -144,12 +148,15 @@ public class CircleRenderer {
     ) {
         var vertexConsumers = VERTEX_CONSUMERS;
 
-        drawTexturedQuad(
-            matrices, vertexConsumers, CIRCLE_TEXTURE,
-            (float) (x - radius), (float) (x + radius), (float) (y - radius), (float) (y + radius),
-            0,
-            r, g, b, alpha * circleTransparency, inUI
-        );
+        var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(entry.glyph.type()));
+        if (renderer == null || renderer.renderCircle()) {
+            drawTexturedQuad(
+                matrices, vertexConsumers, CIRCLE_TEXTURE,
+                (float) (x - radius), (float) (x + radius), (float) (y - radius), (float) (y + radius),
+                0,
+                r, g, b, alpha * circleTransparency, inUI
+            );
+        }
         if (entry.glyph instanceof SpellPart glyph) {
             if (recursions < this.recursions) {
                 renderCircle(
@@ -248,9 +255,16 @@ public class CircleRenderer {
         float patternRadius = radius / PATTERN_TO_PART_RATIO;
         float pixelSize = patternRadius / PART_PIXEL_RADIUS;
 
+        alpha *= (float) (1 - textFade * 0.5f);
+        var renderText = true;
+
         var isDrawing = drawingPattern != null;
 
         if (glyph instanceof PatternGlyph || isDrawing) {
+            if (!(glyph instanceof PatternGlyph pattern) || pattern.pattern().isEmpty()) {
+                renderText = false;
+            }
+
             var patternList = isDrawing ? Pattern.from(drawingPattern) : ((PatternGlyph) glyph).pattern();
 
             for (int i = 0; i < 9; i++) {
@@ -333,6 +347,13 @@ public class CircleRenderer {
                         0, r, g, b, 0.25f);
                 }
             }
+        }
+
+        if (renderText && textFade > 0.05) {
+            matrices.push();
+            matrices.translate(0, 0, radius * 2f);
+            FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, (float) textFade);
+            matrices.pop();
         }
     }
 

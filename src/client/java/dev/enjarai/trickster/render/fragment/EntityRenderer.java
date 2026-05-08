@@ -34,7 +34,8 @@ public class EntityRenderer implements FragmentRenderer<EntityFragment> {
         }
     }
 
-    public static void renderEntity(Entity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float tickDelta, SpellCircleRenderer delegator) {
+    public static void renderEntity(Entity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+        float x, float y, float size, float tickDelta, CircleRenderer delegator) {
         if (depth >= MAX_DEPTH) return;
         depth++;
         matrices.push();
@@ -64,7 +65,7 @@ public class EntityRenderer implements FragmentRenderer<EntityFragment> {
 
         var dispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         dispatcher.render(
-            entity, 0, -1, 0, 0, tickDelta,
+            entity, 0, 0, 0, 0, tickDelta,
             matrices,
             layer -> vertexConsumers.getBuffer(RenderLayer.getGlint().equals(layer) ? RenderLayer.getEntityCutout(Identifier.ofVanilla("")) : layer), LightmapTextureManager.pack(0, 15)
         );

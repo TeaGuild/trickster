@@ -1,12 +1,11 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
@@ -26,7 +25,7 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
     public static final double LOG_8 = Math.log(8);
 
     public static void renderNumber(double value, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         long digitCount = Math.max((int) (Math.log(Math.abs(value)) / LOG_8) + 1, 1);
         float size = (float) Math.pow(SPACING, digitCount) * radius;
         float rootSize = size;
@@ -39,12 +38,12 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
 
         long i = (long) value;
         do {
-            if (size > minSize) {
+            {
                 var texture = (lastRotation & 1) == 1 ? RING_45 : RING_0;
                 matrices.push();
                 matrices.multiply(new Quaternionf(new AxisAngle4f((float) Math.PI / 2 * (lastRotation >> 1 & 3), 0, 0, 1)));
 
-                SpellCircleRenderer.drawTexturedQuad(
+                CircleRenderer.drawTexturedQuad(
                     matrices, vertexConsumers, texture,
                     -size, size, -size, size,
                     0.001f,
@@ -54,16 +53,16 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
                 matrices.pop();
             }
 
-            lastRotation += Math.abs(i % 8);
+            lastRotation += (int) Math.abs(i % 8);
             lastRotation %= 8;
 
-            if (size > minSize) {
+            {
                 var texture = (lastRotation & 1) == 1 ? NEEDLE_45 : NEEDLE_0;
 
                 matrices.push();
                 matrices.multiply(new Quaternionf(new AxisAngle4f((float) Math.PI / 2 * (lastRotation >> 1 & 3), 0, 0, 1)));
 
-                SpellCircleRenderer.drawTexturedQuad(
+                CircleRenderer.drawTexturedQuad(
                     matrices, vertexConsumers, texture,
                     -size, size, -size, size,
                     0.001f,
@@ -83,7 +82,7 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
         matrices.push();
         matrices.translate(size * POINT_RADIUS * Math.sin(Math.PI / 4 * lastRotation), -size * SPACING * Math.cos(Math.PI / 4 * lastRotation), 0);
 
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, POINT,
             -size, size, -size, size,
             0.001f,
@@ -98,7 +97,7 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
         matrices.push();
         matrices.translate(size * POINT_RADIUS * Math.sin(Math.PI / 4 * lastRotation), -size * SPACING * Math.cos(Math.PI / 4 * lastRotation), 0);
 
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, POINT,
             -size, size, -size, size,
             0.001f,
@@ -112,9 +111,13 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
 
     @Override
     public void render(NumberFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
-        alpha = MathHelper.lerp(delegator.textFade, 1f, alpha);
+        CircleRenderer delegator) {
         var value = fragment.number();
         renderNumber(value, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+    }
+
+    @Override
+    public float getProportionalHeight(NumberFragment fragment) {
+        return 0.5f;
     }
 }

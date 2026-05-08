@@ -1,7 +1,7 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.DimensionFragment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,7 +16,7 @@ public class DimensionRenderer implements FragmentRenderer<DimensionFragment> {
 
     @Override
     public void render(DimensionFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         var id = fragment.world().getValue();
         Identifier texture = Identifier.of(Trickster.MOD_ID, String.format(TEXTURE_PATTERN, id.getNamespace(), id.getPath()));
         var tex = MinecraftClient.getInstance().getTextureManager().getTexture(texture);
@@ -28,12 +28,17 @@ public class DimensionRenderer implements FragmentRenderer<DimensionFragment> {
             FragmentRenderer.renderAsText(fragment, matrices, vertexConsumers, x, y, size, alpha);
             matrices.pop();
         }
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, texture,
             x - size, x + size, y - size, y + size,
             0.001f * size,
             delegator.getR(), delegator.getG(), delegator.getB(),
             alpha * delegator.getCircleTransparency(), delegator.inUI
         );
+    }
+
+    @Override
+    public float getProportionalHeight(DimensionFragment fragment) {
+        return 1;
     }
 }

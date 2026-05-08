@@ -1,7 +1,7 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.slot.ContainerFragment;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
@@ -17,7 +17,7 @@ import java.util.Stack;
 public class SlotRenderer implements FragmentRenderer<SlotFragment> {
     @Override
     public void render(SlotFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
 
         renderSlot(fragment, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
 
@@ -33,7 +33,7 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
         var g = ColorHelper.Argb.getGreen(color) / 255f;
         var b = ColorHelper.Argb.getBlue(color) / 255f;
 
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, Trickster.id("textures/fragment/slot.png"),
             x - radius, x + radius, y - radius, y + radius,
             0.001f,
@@ -43,7 +43,7 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
     }
 
     public static void renderSlot(SlotFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
 
         var slotStack = new Stack<Integer>();
 
@@ -66,5 +66,10 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
             NumberRenderer.renderNumber(idx, matrices, vertexConsumers, x, y, radius * Math.min(0.5f, 2f / c), alpha, normal, tickDelta, delegator);
             matrices.pop();
         }
+    }
+
+    @Override
+    public float getProportionalHeight(SlotFragment fragment) {
+        return 0.6f;
     }
 }

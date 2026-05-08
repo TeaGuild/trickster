@@ -1,6 +1,6 @@
 package dev.enjarai.trickster.render.fragment;
 
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.EntityTypeFragment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -23,7 +23,7 @@ public class EntityTypeRenderer implements FragmentRenderer<EntityTypeFragment> 
 
     @Override
     public void render(EntityTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         var entity = fragment.entityType().create(MinecraftClient.getInstance().world);
 
         if (entity instanceof ItemEntity item) {
@@ -88,6 +88,11 @@ public class EntityTypeRenderer implements FragmentRenderer<EntityTypeFragment> 
         );
 
         matrices.pop();
+    }
+
+    @Override
+    public float getProportionalHeight(EntityTypeFragment fragment) {
+        return 1;
     }
 
     @Override

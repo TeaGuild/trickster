@@ -27,7 +27,7 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
         matrices.translate(x, y, 0.0 * size * (delegator.inUI ? 0.3 : -0.3));
         renderItem(stack, ModelTransformationMode.GUI, matrices, vertexConsumers, x, y, size, delegator, 14, false);
         matrices.pop();
-        SpellCircleRenderer.drawTexturedQuad(
+        CircleRenderer.drawTexturedQuad(
             matrices, vertexConsumers, TEXTURE,
             x - size / 2, x + size / 2, y - size / 2, y + size / 2,
             0,
