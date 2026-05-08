@@ -26,6 +26,7 @@ import dev.enjarai.trickster.spell.mana.ManaPoolType;
 import dev.enjarai.trickster.spell.mana.generation.ManaHandlerType;
 import dev.enjarai.trickster.spell.revision.Revisions;
 import dev.enjarai.trickster.spell.trick.Tricks;
+import dev.enjarai.trickster.worldgen.processor.ModProcessorTypes;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -86,6 +87,8 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
         ModCriteria.register();
         ModLoot.register();
         ModEntities.register();
+        ModProcessorTypes.register();
+
         Tricks.register();
         Revisions.register();
         FragmentType.register();

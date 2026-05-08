@@ -23,48 +23,7 @@ public class ModProcessorListGenerator extends FabricDynamicRegistryProvider {
     }
 
     @Override
-    protected void configure(WrapperLookup registries, Entries entries) {
-        // var conditions = new ArrayList<StructureProcessor>();
-        //
-        // for (var kv : Oxidizable.OXIDATION_LEVEL_INCREASES.get().entrySet()) {
-        //     var possibleOps = new ArrayList<RegistryEntry<StructureProcessorList>>();
-        //     var fromId = Registries.BLOCK.getEntry(kv.getKey()).getKey().get().getValue();
-        //     var next = Optional.of(kv.getValue());
-        //
-        //     while (next.isPresent()) {
-        //         var current = next.get();
-        //         var toId = Registries.BLOCK.getEntry(current).getKey().get().getValue();
-        //
-        //         possibleOps.add(entries.ref(register(entries, "oxidized/" + fromId.getNamespace() + "/" + fromId.getPath() + "/to/" + toId.getNamespace() + "/" + toId.getPath(), List.of(
-        //             LithostitchedProcessors.setBlock(
-        //                 BlockStateProvider.of(current),
-        //                 true,
-        //                 RandomMode.PER_BLOCK,
-        //                 PassthroughRuleBlockEntityModifier.INSTANCE
-        //             )
-        //         ))));
-        //
-        //         next = Oxidizable.getIncreasedOxidationBlock(current);
-        //     }
-        //
-        //     conditions.add(new ConditionProcessor(
-        //         new RandomSettings(RandomMode.PER_BLOCK),
-        //         LithostitchedProcessorConditions.allOf(
-        //             LithostitchedProcessorConditions.matchingBlocks(
-        //                 kv.getKey(),
-        //                 new StatePredicate(List.of()),
-        //                 BlockType.INPUT
-        //             )
-        //         ),
-        //         List.of(
-        //             LithostitchedProcessors.applyRandom(RegistryEntryList.of(possibleOps), new RandomSettings(RandomMode.PER_BLOCK))
-        //         ),
-        //         List.of()
-        //     ));
-        // }
-        //
-        // register(entries, "oxidize", conditions);
-    }
+    protected void configure(WrapperLookup registries, Entries entries) {}
 
     private static RegistryKey<StructureProcessorList> register(FabricDynamicRegistryProvider.Entries entries, String name, List<StructureProcessor> list) {
         var key = key(name);
