@@ -3,11 +3,20 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 40,
+      "weight": 20,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "trickster:managrid/pump/ruined",
+        "location": "trickster:managrid/pump/ruined_1",
+        "processors": "trickster:oxidize"
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:managrid/pump/ruined_2",
         "processors": "trickster:oxidize"
       }
     },

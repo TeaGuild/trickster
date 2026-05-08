@@ -10,6 +10,21 @@
         "location": "trickster:managrid/pump/rubble_1",
         "processors": "trickster:oxidize"
       }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:managrid/pump/rubble_2",
+        "processors": [
+          {
+            "processor_type": "minecraft:gravity",
+            "heightmap": "OCEAN_FLOOR_WG",
+            "offset": -1
+          }
+        ]
+      }
     }
   ]
 }
