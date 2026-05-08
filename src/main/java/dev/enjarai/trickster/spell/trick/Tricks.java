@@ -28,10 +28,7 @@ import dev.enjarai.trickster.spell.trick.math.*;
 import dev.enjarai.trickster.spell.trick.misc.*;
 import dev.enjarai.trickster.spell.trick.particle.HighlightTrick;
 import dev.enjarai.trickster.spell.trick.particle.SpellParticleTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonArrowTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonDragonBreathTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonFireballTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonTntTrick;
+import dev.enjarai.trickster.spell.trick.projectile.*;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockPosTrick;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockSideTrick;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastEntityTrick;
@@ -64,8 +61,8 @@ public class Tricks {
         public RegistryEntry.Reference<Trick<?>> add(RegistryKey<Trick<?>> key, Trick<?> value, RegistryEntryInfo info) {
             if (LOOKUP.containsKey(value.getPattern())) {
                 Trickster.LOGGER.warn(
-                        "WARNING: A mod is overriding a pattern that is already defined! This may result in one of the tricks being unusable. ({} overrode {})",
-                        key.getValue(), getId(LOOKUP.get(value.getPattern()))
+                    "WARNING: A mod is overriding a pattern that is already defined! This may result in one of the tricks being unusable. ({} overrode {})",
+                    key.getValue(), getId(LOOKUP.get(value.getPattern()))
                 );
             }
 
@@ -286,6 +283,7 @@ public class Tricks {
     public static final SummonFireballTrick SUMMON_FIREBALL = register("summon_fireball", new SummonFireballTrick());
     public static final SummonDragonBreathTrick SUMMON_DRAGON_BREATH = register("summon_dragon_breath", new SummonDragonBreathTrick());
     public static final SummonTntTrick SUMMON_TNT = register("summon_tnt", new SummonTntTrick());
+    public static final SummonWindChargeTrick SUMMON_WIND_CHARGE = register("summon_wind_charge", new SummonWindChargeTrick());
 
     // Dimension
     public static final GetDimensionTrick GET_DIMENSION = register("get_dimension", new GetDimensionTrick());

@@ -1,6 +1,6 @@
 package dev.enjarai.trickster.render.fragment;
 
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.BlockTypeFragment;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -14,9 +14,11 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.*;
 
 public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
+    static float HEIGHT = 0.4f;
+
     @Override
     public void render(BlockTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         var block = fragment.block();
 
         matrices.push();
@@ -67,6 +69,28 @@ public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
     @Override
     public boolean doubleSided() {
         return false;
+    }
+
+    @Override
+    public float getProportionalHeight(BlockTypeFragment fragment) {
+        var block = fragment.block();
+
+        if (Item.BLOCK_ITEMS.containsKey(block)) {
+            return HEIGHT;
+        } else {
+            return FragmentRenderer.getTextProportionalHeight(fragment.asFormattedText());
+        }
+    }
+
+    @Override
+    public float getProportionalWidth(BlockTypeFragment fragment) {
+        var block = fragment.block();
+
+        if (Item.BLOCK_ITEMS.containsKey(block)) {
+            return HEIGHT;
+        } else {
+            return FragmentRenderer.getTextProportionalWidth();
+        }
     }
 
     public static boolean renderBlock(BlockState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers) {

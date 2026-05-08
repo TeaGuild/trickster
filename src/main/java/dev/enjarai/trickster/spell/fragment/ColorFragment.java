@@ -68,7 +68,7 @@ public record ColorFragment(int color) implements Fragment, AddableFragment, Mul
     }
 
     public static ColorFragment fromVector(Vector4f vec) {
-        return new ColorFragment(ColorHelper.Argb.getArgb(((int) vec.w * 255), ((int) vec.x * 255), ((int) vec.y * 255), ((int) vec.z * 255)));
+        return new ColorFragment(ColorHelper.Argb.getArgb((int)(vec.w * 255), (int)(vec.x * 255), (int)(vec.y * 255), (int)(vec.z * 255)));
     }
 
     @Override

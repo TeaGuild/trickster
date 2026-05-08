@@ -75,8 +75,9 @@ public class ModItems {
     public static final LeashItem LEASH = register("leash", new LeashItem(new Item.Settings()));
     public static final Item WARDING_CHARM = register("warding_charm",
         new Item(new Item.Settings().maxCount(1)));
-    public static final SpellInkItem SPELL_INK = register("spell_ink",
-        new SpellInkItem(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE)
+    public static final EsotericManaItem ESOTERIC_MANA = register("esoteric_mana",
+        new EsotericManaItem(new Item.Settings().maxCount(12)
+            .recipeRemainder(Items.GLASS_BOTTLE)
             .food(new FoodComponent.Builder()
                 .nutrition(0)
                 .saturationModifier(0)
@@ -102,7 +103,24 @@ public class ModItems {
     public static final BlockItem SCROLL_SHELF_BLOCK_ITEM = register("scroll_shelf", new BlockItem(ModBlocks.SCROLL_SHELF, new Item.Settings()));
     public static final BlockItem CHARGING_ARRAY_ITEM = register("charging_array", new BlockItem(ModBlocks.CHARGING_ARRAY, new Item.Settings()));
     public static final BlockItem INERT_SPAWNER_ITEM = register("inert_spawner", new BlockItem(ModBlocks.INERT_SPAWNER, new Item.Settings()));
+    public static final BlockItem LIGHT_SCONCE = register("light_sconce", new BlockItem(ModBlocks.LIGHT_SCONCE, new Item.Settings()));
     public static final BlockItem COLOR_BLOCK = register("color_block", new BlockItem(ModBlocks.COLOR_BLOCK, new Item.Settings()));
+
+    public static final BlockItem GILDED_TUFF = register("gilded_tuff", new BlockItem(ModBlocks.GILDED_TUFF, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_STAIRS = register("gilded_tuff_stairs", new BlockItem(ModBlocks.GILDED_TUFF_STAIRS, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_SLAB = register("gilded_tuff_slab", new BlockItem(ModBlocks.GILDED_TUFF_SLAB, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_WALL = register("gilded_tuff_wall", new BlockItem(ModBlocks.GILDED_TUFF_WALL, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF = register("gilded_polished_tuff", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF_STAIRS = register("gilded_polished_tuff_stairs", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF_STAIRS, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF_SLAB = register("gilded_polished_tuff_slab", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF_SLAB, new Item.Settings()));
+    public static final BlockItem GILDED_POLISHED_TUFF_WALL = register("gilded_polished_tuff_wall", new BlockItem(ModBlocks.GILDED_POLISHED_TUFF_WALL, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICKS = register("gilded_tuff_bricks", new BlockItem(ModBlocks.GILDED_TUFF_BRICKS, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICK_STAIRS = register("gilded_tuff_brick_stairs", new BlockItem(ModBlocks.GILDED_TUFF_BRICK_STAIRS, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICK_SLAB = register("gilded_tuff_brick_slab", new BlockItem(ModBlocks.GILDED_TUFF_BRICK_SLAB, new Item.Settings()));
+    public static final BlockItem GILDED_TUFF_BRICK_WALL = register("gilded_tuff_brick_wall", new BlockItem(ModBlocks.GILDED_TUFF_BRICK_WALL, new Item.Settings()));
+    public static final BlockItem GILDED_CHISELED_TUFF = register("gilded_chiseled_tuff", new BlockItem(ModBlocks.GILDED_CHISELED_TUFF, new Item.Settings()));
+    public static final BlockItem GILDED_CHISELED_TUFF_BRICKS = register("gilded_chiseled_tuff_bricks", new BlockItem(ModBlocks.GILDED_CHISELED_TUFF_BRICKS, new Item.Settings()));
+
     public static final KnotItem.Amethyst AMETHYST_KNOT = register("amethyst_knot", new KnotItem.Amethyst());
     public static final KnotItem.CrackedAmethyst CRACKED_AMETHYST_KNOT = register("cracked_amethyst_knot", new KnotItem.CrackedAmethyst());
     public static final KnotItem.Quartz QUARTZ_KNOT = register("quartz_knot", new KnotItem.Quartz());
@@ -133,6 +151,11 @@ public class ModItems {
     public static final TagKey<Item> COLLARS = TagKey.of(RegistryKeys.ITEM, Trickster.id("collars"));
     public static final TagKey<Item> TICK_TOCK = TagKey.of(RegistryKeys.ITEM, Trickster.id("tick_tock"));
     public static final TagKey<Item> SCRYGLASS = TagKey.of(RegistryKeys.ITEM, Trickster.id("scryglass"));
+
+    public static final TagKey<Item> GILDED_TUFF_FULL_BLOCKS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_full_blocks"));
+    public static final TagKey<Item> GILDED_TUFF_STAIR_BLOCKS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_stair_blocks"));
+    public static final TagKey<Item> GILDED_TUFF_SLABS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_slabs"));
+    public static final TagKey<Item> GILDED_TUFF_WALLS = TagKey.of(RegistryKeys.ITEM, Trickster.id("gilded_tuff_walls"));
 
     public static final WrittenScrollItem[] COLORED_WRITTEN_SCROLLS = new WrittenScrollItem[DyeColor.values().length];
     public static final ScrollAndQuillItem[] COLORED_SCROLLS_AND_QUILLS = new ScrollAndQuillItem[DyeColor.values().length];
@@ -178,14 +201,29 @@ public class ModItems {
             entries.add(MACRO_RING);
             entries.add(MONOCLE);
             entries.add(GLASSES);
-            entries.add(SPELL_INK);
+            entries.add(ESOTERIC_MANA);
             entries.add(SPELL_RESONATOR_ITEM);
             entries.add(SCROLL_SHELF_BLOCK_ITEM);
             entries.add(SPELL_CONSTRUCT_ITEM);
             entries.add(MODULAR_SPELL_CONSTRUCT_ITEM);
             entries.add(CHARGING_ARRAY_ITEM);
             entries.add(INERT_SPAWNER_ITEM);
+            entries.add(LIGHT_SCONCE);
             entries.add(COLOR_BLOCK);
+            entries.add(GILDED_TUFF);
+            entries.add(GILDED_TUFF_STAIRS);
+            entries.add(GILDED_TUFF_SLAB);
+            entries.add(GILDED_TUFF_WALL);
+            entries.add(GILDED_POLISHED_TUFF);
+            entries.add(GILDED_POLISHED_TUFF_STAIRS);
+            entries.add(GILDED_POLISHED_TUFF_SLAB);
+            entries.add(GILDED_POLISHED_TUFF_WALL);
+            entries.add(GILDED_TUFF_BRICKS);
+            entries.add(GILDED_TUFF_BRICK_STAIRS);
+            entries.add(GILDED_TUFF_BRICK_SLAB);
+            entries.add(GILDED_TUFF_BRICK_WALL);
+            entries.add(GILDED_CHISELED_TUFF);
+            entries.add(GILDED_CHISELED_TUFF_BRICKS);
             entries.add(SPELL_CORE);
             entries.add(RUSTED_SPELL_CORE);
             entries.add(OMINOUS_SPELL_CORE);

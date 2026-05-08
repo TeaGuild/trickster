@@ -1,0 +1,22 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "trickster:block/gilded_polished_tuff_wall_short",
+		"1": "trickster:block/gilded_polished_tuff_wall_top",
+		"particle": "trickster:block/gilded_polished_tuff_wall_short"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 0],
+			"to": [11, 14, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"faces": {
+				"east": {"uv": [8, 2, 16, 16], "texture": "#0"},
+				"west": {"uv": [0, 2, 8, 16], "texture": "#0"},
+				"up": {"uv": [5, 0, 11, 8], "texture": "#1"},
+				"down": {"uv": [5, 8, 11, 16], "texture": "#1"}
+			}
+		}
+	]
+}

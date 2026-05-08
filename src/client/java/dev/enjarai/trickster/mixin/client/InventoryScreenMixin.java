@@ -1,6 +1,8 @@
 package dev.enjarai.trickster.mixin.client;
 
+import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.cca.ModEntityComponents;
+import dev.enjarai.trickster.config.TricksterConfigModel;
 import dev.enjarai.trickster.screen.SpellSlotWidget;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -23,33 +25,56 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     }
 
     @Unique
-    public List<SpellSlotWidget> spellSlots;
+    public int getXOffset(TricksterConfigModel.SpellSlotPositions pos, int i) {
+        return switch (pos) {
+            case TOP_LEFT, BOTTOM_LEFT -> 4 + i * 18;
+            case TOP_RIGHT, BOTTOM_RIGHT -> 156 - i * 18;
+            case LEFT_TOP, LEFT_BOTTOM -> -12;
+            case RIGHT_TOP, RIGHT_BOTTOM -> 176;
+            default -> 0;
+        };
+    }
 
-    @Inject(
-            method = "init",
-            at = @At("TAIL")
-    )
+    @Unique
+    public int getYOffset(TricksterConfigModel.SpellSlotPositions pos, int i) {
+        return switch (pos) {
+            case TOP_LEFT, TOP_RIGHT -> -12;
+            case BOTTOM_LEFT, BOTTOM_RIGHT -> 166;
+            case LEFT_TOP, RIGHT_TOP -> 4 + i * 18;
+            case LEFT_BOTTOM, RIGHT_BOTTOM -> 146 - i * 18;
+            default -> 0;
+        };
+    }
+
+    @Unique
+    public List<SpellSlotWidget> spellSlots = new ArrayList<>();
+
+    @Inject(method = "init", at = @At("TAIL"))
     private void initSpellSlots(CallbackInfo ci) {
+        var position = Trickster.CONFIG.spellSlotPosition();
+        if (position == TricksterConfigModel.SpellSlotPositions.HIDDEN) {
+            return;
+        }
+
         spellSlots = new ArrayList<>();
         var spellData = client.player.getComponent(ModEntityComponents.CASTER).getRunningSpellData();
 
         for (int i = 0; i < 5; i++) {
-            var widget = new SpellSlotWidget(x + 156 - i * 18, y + 166, i);
+            var widget = new SpellSlotWidget(x + getXOffset(position, i), y + getYOffset(position, i), position, i);
             widget.updateState(spellData.get(i));
             spellSlots.add(widget);
             addDrawableChild(widget);
+
         }
     }
 
-    @Inject(
-            method = "handledScreenTick",
-            at = @At("TAIL")
-    )
+    @Inject(method = "handledScreenTick", at = @At("TAIL"))
     private void tickSpellSlots(CallbackInfo ci) {
+        var position = Trickster.CONFIG.spellSlotPosition();
         var spellData = client.player.getComponent(ModEntityComponents.CASTER).getRunningSpellData();
 
         for (var slot : spellSlots) {
-            slot.setPosition(x + 156 - slot.index * 18, y + 166);
+            slot.setPosition(x + getXOffset(position, slot.index), y + getYOffset(position, slot.index));
             slot.updateState(spellData.get(slot.index));
         }
     }

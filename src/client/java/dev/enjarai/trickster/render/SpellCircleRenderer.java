@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static dev.enjarai.trickster.screen.SpellPartWidget.isCircleClickable;
+import static dev.enjarai.trickster.screen.scribing.CircleWidget.isCircleClickable;
 import static net.minecraft.client.render.RenderPhase.*;
 
 public class SpellCircleRenderer {
@@ -68,15 +68,20 @@ public class SpellCircleRenderer {
 
     private float r = 1f, g = 1f, b = 1f;
     private float circleTransparency = 1f;
+    private boolean recurse;
 
     public float textFadeDir = 0;
     public float textFade = 0;
 
     public SpellCircleRenderer(Boolean inUI, double precisionOffset) {
+        this(inUI, precisionOffset, true);
+    }
+
+    public SpellCircleRenderer(Boolean inUI, double precisionOffset, boolean animated) {
         this.inUI = inUI;
         this.inEditor = false;
         this.precisionOffset = precisionOffset;
-        this.animated = true;
+        this.animated = animated;
     }
 
     public SpellCircleRenderer(Supplier<SpellPart> drawingPartGetter, Supplier<List<Byte>> drawingPatternGetter, double precisionOffset, boolean animated) {
@@ -131,6 +136,11 @@ public class SpellCircleRenderer {
         return circleTransparency;
     }
 
+    public SpellCircleRenderer dontRecurse() {
+        this.recurse = false;
+        return this;
+    }
+
     private float toLocalSpace(double value) {
         return (float) (value * precisionOffset);
     }
@@ -139,7 +149,6 @@ public class SpellCircleRenderer {
         Function<Float, Float> alphaGetter, Vec3d normal) {
 
         textFade = Math.clamp(textFade + (textFadeDir * FADE_SPEED * 2), 0, 1);
-
         renderPartWithoutDrawing(matrices, vertexConsumers, entry, x, y, radius, startingAngle, delta, alphaGetter, normal);
         VERTEX_CONSUMERS.draw();
     }
@@ -186,7 +195,9 @@ public class SpellCircleRenderer {
             var subX = x + (radius * Math.cos(angle));
             var subY = y + (radius * Math.sin(angle));
 
-            renderPartInner(matrices, vertexConsumers, child, subX, subY, entry.subRadius(radius), angle, delta, alphaGetter, normal);
+            if (recurse) {
+                renderPartInner(matrices, vertexConsumers, child, subX, subY, entry.subRadius(radius), angle, delta, alphaGetter, normal);
+            }
 
             i++;
         }
@@ -226,7 +237,9 @@ public class SpellCircleRenderer {
         Function<Float, Float> alphaGetter, Vec3d normal) {
         var glyph = parent.getGlyph();
         if (glyph instanceof SpellPart part) {
-            renderPartInner(matrices, vertexConsumers, part, x, y, radius / 3, startingAngle, delta, alphaGetter, normal);
+            if (recurse) {
+                renderPartInner(matrices, vertexConsumers, part, x, y, radius / 3, startingAngle, delta, alphaGetter, normal);
+            }
         } else {
             matrices.push();
             drawSide(matrices, vertexConsumers, parent, toLocalSpace(x), toLocalSpace(y), toLocalSpace(radius), alphaGetter, normal, delta, glyph);
@@ -312,7 +325,7 @@ public class SpellCircleRenderer {
                 renderText = false;
             } else {
                 //noinspection unchecked
-                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this);
+                //                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this); TODO
                 renderDots = renderer.renderRedrawDots();
             }
 
@@ -357,12 +370,17 @@ public class SpellCircleRenderer {
 
     public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, boolean isDrawing, float tone, float r, float g,
         float b, float opacity, boolean animated) {
+        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3f, isDrawing, tone, r, g, b, opacity, animated);
+    }
+
+    public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, float width, float height, boolean isDrawing,
+        float tone, float r, float g, float b, float opacity, boolean animated) {
         if (last.distance(now) < pixelSize * 6) {
             return;
         }
 
-        var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize / 2);
-        var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * 3);
+        var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize * width);
+        var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * height);
 
         if (animated && Trickster.CONFIG.animateLines()) {
             var lineStart = new Vector2f(last.x - directionVec.x, last.y - directionVec.y);

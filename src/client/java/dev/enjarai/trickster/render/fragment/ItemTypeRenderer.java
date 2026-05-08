@@ -1,7 +1,7 @@
 package dev.enjarai.trickster.render.fragment;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.SpellCircleRenderer;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.spell.fragment.slot.ItemTypeFragment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
@@ -16,12 +16,12 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
-
     public static final Identifier TEXTURE = Trickster.id("textures/fragment/item_type.png");
+    static float HEIGHT = 0.4f;
 
     @Override
     public void render(ItemTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
-        SpellCircleRenderer delegator) {
+        CircleRenderer delegator) {
         var stack = fragment.item().getDefaultStack();
         matrices.push();
         matrices.translate(x, y, 0.0 * size * (delegator.inUI ? 0.3 : -0.3));
@@ -37,7 +37,7 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
     }
 
     public static void renderItem(ItemStack stack, ModelTransformationMode transformationMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
-        SpellCircleRenderer delegator, int light, boolean alwaysFlatLight) {
+        CircleRenderer delegator, int light, boolean alwaysFlatLight) {
         var bakedModel = MinecraftClient.getInstance().getItemRenderer().getModel(
             stack, MinecraftClient.getInstance().world,
             null, 0
@@ -97,5 +97,10 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
     @Override
     public boolean doubleSided() {
         return false;
+    }
+
+    @Override
+    public float getProportionalHeight(ItemTypeFragment fragment) {
+        return HEIGHT;
     }
 }

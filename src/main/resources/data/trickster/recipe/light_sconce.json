@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "g": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "pattern": [
+    "g g",
+    "ggg",
+    "g g"
+  ],
+
+  "result": {
+    "count": 1,
+    "id": "trickster:light_sconce"
+  }
+}

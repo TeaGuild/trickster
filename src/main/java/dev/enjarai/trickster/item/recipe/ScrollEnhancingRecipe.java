@@ -32,7 +32,7 @@ public class ScrollEnhancingRecipe extends SpecialCraftingRecipe {
 
                     itemStack = itemStack2;
                 } else {
-                    if (!itemStack2.isOf(ModItems.SPELL_INK)) {
+                    if (!itemStack2.isOf(ModItems.ESOTERIC_MANA)) {
                         return false;
                     }
 
@@ -58,7 +58,7 @@ public class ScrollEnhancingRecipe extends SpecialCraftingRecipe {
 
                     itemStack = itemStack2;
                 } else {
-                    if (!itemStack2.isOf(ModItems.SPELL_INK)) {
+                    if (!itemStack2.isOf(ModItems.ESOTERIC_MANA)) {
                         return ItemStack.EMPTY;
                     }
 
