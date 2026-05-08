@@ -55,7 +55,7 @@ public class CircleRenderer {
         new BufferAllocator(2048)
     );
 
-    public static final float FADE_SPEED = 0.1f;
+    public static final float FADE_SPEED = 0.2f;
 
     public final boolean inUI;
     public final boolean inEditor;
