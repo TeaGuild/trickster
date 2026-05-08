@@ -22,42 +22,72 @@ public class ModLoot {
             LootTables.DESERT_PYRAMID_CHEST, LootTables.JUNGLE_TEMPLE_CHEST,
             LootTables.UNDERWATER_RUIN_BIG_CHEST, LootTables.UNDERWATER_RUIN_SMALL_CHEST
     );
-    private static final Set<RegistryKey<LootTable>> OMINOUS_SPELL_CORE_LOOT_TABLES = Set.of(
-            LootTables.TRIAL_CHAMBERS_REWARD_OMINOUS_RARE_CHEST
-    );
-    private static final Set<RegistryKey<LootTable>> CRACKED_ECHO_KNOT_LOOT_TABLES = Set.of(
-            LootTables.ANCIENT_CITY_CHEST
-    );
 
-    public static final LootFunctionType<RandomManaLootFunction> RANDOM_MANA_FUNCTION_TYPE =
-        Registry.register(Registries.LOOT_FUNCTION_TYPE, Trickster.id("random_mana"),
-                new LootFunctionType<>(RandomManaLootFunction.CODEC));
+    public static final LootFunctionType<RandomManaLootFunction> RANDOM_MANA_FUNCTION_TYPE = Registry.register(Registries.LOOT_FUNCTION_TYPE, Trickster.id("random_mana"),
+            new LootFunctionType<>(RandomManaLootFunction.CODEC));
 
     public static void register() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (RUSTED_SPELL_CORE_LOOT_TABLES.contains(key)) {
                 tableBuilder.pool(LootPool.builder()
-                        .with(ItemEntry.builder(ModItems.RUSTED_SPELL_CORE)
-                            .conditionally(RandomChanceLootCondition.builder(0.25f)))
-                        .rolls(UniformLootNumberProvider.create(0, 2)))
-                    .build();
+                        .with(ItemEntry.builder(ModItems.RUSTED_SPELL_CORE))
+                        .conditionally(RandomChanceLootCondition.builder(0.25f))
+                        .rolls(UniformLootNumberProvider.create(0, 2))
+                ).build();
             }
 
-            if (OMINOUS_SPELL_CORE_LOOT_TABLES.contains(key)) {
+            if (key == LootTables.TRIAL_CHAMBERS_REWARD_CHEST) {
                 tableBuilder.pool(LootPool.builder()
-                        .with(ItemEntry.builder(ModItems.OMINOUS_SPELL_CORE)
-                            .conditionally(RandomChanceLootCondition.builder(0.4f)))
-                        .rolls(UniformLootNumberProvider.create(0, 1)))
-                    .build();
+                        .with(ItemEntry.builder(ModItems.SPELL_CORE))
+                        .conditionally(RandomChanceLootCondition.builder(0.18f))
+                ).build();
             }
 
-            if (CRACKED_ECHO_KNOT_LOOT_TABLES.contains(key)) {
+            if (key == LootTables.TRIAL_CHAMBERS_REWARD_OMINOUS_CHEST) {
+                tableBuilder.pool(LootPool.builder()
+                        .with(ItemEntry.builder(ModItems.OMINOUS_SPELL_CORE))
+                        .conditionally(RandomChanceLootCondition.builder(0.12f))
+                ).build();
+            }
+
+            if (key == LootTables.JUNGLE_TEMPLE_DISPENSER_CHEST) {
+                tableBuilder.pool(LootPool.builder()
+                        .with(ItemEntry.builder(ModItems.CRACKED_EMERALD_KNOT)
+                                .apply(() -> new RandomManaLootFunction(0.01f, 0.3f)))
+                        .conditionally(RandomChanceLootCondition.builder(0.50f))
+                ).build();
+            }
+
+            if (key == LootTables.DESERT_PYRAMID_CHEST) {
+                tableBuilder.pool(LootPool.builder()
+                        .with(ItemEntry.builder(ModItems.CRACKED_DIAMOND_KNOT)
+                                .apply(() -> new RandomManaLootFunction(0.01f, 0.3f)))
+                        .conditionally(RandomChanceLootCondition.builder(0.125f))
+                ).build();
+            }
+
+            if (key == LootTables.RUINED_PORTAL_CHEST) {
+                tableBuilder.pool(LootPool.builder()
+                        .with(ItemEntry.builder(ModItems.CRACKED_QUARTZ_KNOT))
+                        .conditionally(RandomChanceLootCondition.builder(0.05f))
+                ).build();
+            }
+
+            if (key == LootTables.TRAIL_RUINS_RARE_ARCHAEOLOGY) {
+                tableBuilder.modifyPools(builder -> builder
+                        .with(ItemEntry.builder(ModItems.CRACKED_EMERALD_KNOT)
+                                .apply(() -> new RandomManaLootFunction(0.01f, 0.3f)))
+                        .with(ItemEntry.builder(ModItems.CRACKED_DIAMOND_KNOT)
+                                .apply(() -> new RandomManaLootFunction(0.01f, 0.3f)))
+                );
+            }
+
+            if (key == LootTables.ANCIENT_CITY_CHEST) {
                 tableBuilder.pool(LootPool.builder()
                         .with(ItemEntry.builder(ModItems.CRACKED_ECHO_KNOT)
-                            .conditionally(RandomChanceLootCondition.builder(0.35f))
-                            .apply(() -> new RandomManaLootFunction(0.01f, 0.3f)))
-                        .rolls(UniformLootNumberProvider.create(0, 1)))
-                    .build();
+                                .apply(() -> new RandomManaLootFunction(0.01f, 0.3f)))
+                        .conditionally(RandomChanceLootCondition.builder(0.175f))
+                ).build();
             }
         });
     }

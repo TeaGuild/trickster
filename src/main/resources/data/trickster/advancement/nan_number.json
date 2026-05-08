@@ -13,7 +13,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:root",
+  "parent": "trickster:cast_spell",
   "criteria": {
     "nan_number": {
       "trigger": "trickster:nan_number"

@@ -6,7 +6,10 @@
       "conditions": {
         "items": [
           {
-            "items": "trickster:collar"
+            "items": [
+              "trickster:collar",
+              "trickster:leash"
+            ]
           }
         ]
       }

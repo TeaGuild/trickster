@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:torment_on_a_chain"
+    },
+    "title": {
+      "text": "Torment On the Go"
+    },
+    "description": {
+      "text": "Use a Torment on a Chain"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "trickster:spawner_spell_core",
+  "criteria": {
+    "use_torment_on_a_chain": {
+      "trigger": "trickster:use_torment_on_a_chain",
+      "conditions": {}
+    }
+  }
+}

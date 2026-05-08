@@ -5,6 +5,8 @@
     "trickster:charging_array",
     "trickster:spell_construct",
     "trickster:modular_spell_construct",
-    "trickster:inert_spawner"
+    "trickster:inert_spawner",
+    "trickster:light_sconce",
+    "#trickster:gilded_tuff"
   ]
 }

@@ -1,5 +1,5 @@
 let
-  nixpkgsVer = "7069932e560daa85506f65ec7f63e4bbc5e0d22a";
+  nixpkgsVer = "e6515129584048031d14f4ba61481a2254314018";
   pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/${nixpkgsVer}.tar.gz") { config = {}; overlays = []; };
   libs = with pkgs; [
     libpulseaudio

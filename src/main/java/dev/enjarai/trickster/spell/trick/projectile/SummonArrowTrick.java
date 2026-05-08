@@ -5,7 +5,7 @@ import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.MissingItemBlunder;
 import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.fragment.SlotFragment;
+import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
@@ -28,7 +28,8 @@ public class SummonArrowTrick extends Trick<SummonArrowTrick> {
         try {
             ctx.useMana(this, cost(ctx.source().getPos().distance(pos.vector())));
 
-            var projectile = ((ProjectileItem) stack.getItem()).createEntity(ctx.source().getWorld(), new Vec3d(0, 0, 0).fromVector3d(pos.vector()), stack, Direction.DOWN);
+            var projectile = ((ProjectileItem) stack.getItem()).createEntity(world, new Vec3d(0, 0, 0).fromVector3d(pos.vector()), stack, Direction.DOWN);
+            ctx.source().getCaster().ifPresent(projectile::setOwner);
 
             world.spawnEntity(projectile);
             return EntityFragment.from(projectile);

@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:amethyst_knot"
+    },
+    "title": {
+      "text": "Spell Battery"
+    },
+    "description": {
+      "text": "Create a knot"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "trickster:cast_spell",
+  "criteria": {
+    "create_knot": {
+      "trigger": "trickster:create_knot",
+      "conditions": {}
+    }
+  }
+}

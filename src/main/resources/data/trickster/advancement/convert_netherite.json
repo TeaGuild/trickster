@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:netherite_block"
+    },
+    "title": {
+      "text": "Crypto Scam"
+    },
+    "description": {
+      "text": "Create Ancient Debris from nothing but a humble Block of Netherite"
+    },
+    "frame": "challenge",
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "trickster:cast_spell",
+  "criteria": {
+    "block_conversion": {
+      "trigger": "trickster:block_conversion",
+      "conditions": {
+        "input": "minecraft:netherite_block",
+        "output": "minecraft:ancient_debris"
+      }
+    }
+  }
+}

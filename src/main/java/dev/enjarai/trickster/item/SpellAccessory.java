@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.item;
 
+import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.SpellPart;
@@ -7,6 +8,7 @@ import io.wispforest.accessories.api.AccessoryItem;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class SpellAccessory extends AccessoryItem {
     public SpellAccessory() {
@@ -21,6 +23,7 @@ public class SpellAccessory extends AccessoryItem {
 
             if (fragment != null && fragment.value() instanceof SpellPart spell) {
                 caster.setTormentSpell(spell);
+                ModCriteria.USE_TORMENT_ON_A_CHAIN.trigger((ServerPlayerEntity) player);
             }
         }
     }

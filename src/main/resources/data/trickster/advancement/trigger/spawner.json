@@ -1,0 +1,8 @@
+{
+  "parent": "trickster:trigger/root",
+  "criteria": {
+    "activate_spawner": {
+      "trigger": "trickster:activate_spawner"
+    }
+  }
+}

@@ -3,6 +3,7 @@
   "title": "Basic Tricks",
   "icon": "minecraft:bricks",
   "category": "trickster:tricks",
+  "ordinal": 0,
   "additional_search_terms": [
     "Notulist's Ingress",
     "Notulist's Ploy",
@@ -28,7 +29,7 @@ If inscribed on a block, the fragment will be removed if the block is placed.
 
 
 Some items may have additional interactions when inscribed with fragments, 
-[Wands](^trickster:items/wand) for example will cast a spell fragment when right-clicked.
+[Wands](^trickster:items/writing_casting/wand) for example will cast a spell fragment when right-clicked.
 
 ;;;;;
 

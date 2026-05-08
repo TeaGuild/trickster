@@ -1,4 +1,25 @@
-- Fixed Acolyte's Bindings constantly ringing when sitting/riding. (@enjarai)
-- Generalized two entity tricks from LivingEntity specific to Entity specific. (@Nicknakin)
-- Added and renamed some entity and block tags to allow for more granular control. (@AshAxolotl)
-- Fixed `Either` return types from tricks. (@enjarai)
+- Reworked inventory interactions. (@enjarai)
+  - Added storage fragments.
+    - Storage fragments represent an entire container.
+    - They can be interacted with in much the same way as slot fragments.
+  - Slot fragments are now made from storage fragments.
+  - Storage fragments have a fluid variant for interacting with fluid containers.
+  - Both slot and storage fragments should support any modded storage block.
+- Added color fragments. (@BlueMoonJune)
+  - Color fragments can be created using dyes and mixed to create arbitrary colors.
+  - They can be used in certain ploys to apply colors.
+- Added Infused Ceramic. (@BlueMoonJune)
+  - This block can be crafted and dyed any arbitrary color using color fragments.
+- Added more options to some flecks that can be applied after creating them. (@BlueMoonJune)
+  - This includes support for rotating, scaling, and painting (via color fragments).
+- Added the Torment on a Chain. (@aurakle)
+  - This necklace will persistently cast any spell inscribed onto it while worn by a player.
+- Added a left click action to wands. (@AshAxolotl)
+  - The spell cast by a wand will receive a boolean argument to indicate if it was left or right clicked.
+- Added a light level option for conjured lights. (@AshAxolotl)
+- Added a few new tricks for: (@AshAxolotl)
+  - Revealing to actionbar explicitly.
+  - Getting entity equipment.
+  - And exact position raycasting.
+- Many misc tome improvements. (@AshAxolotl and @enjarai)
+- Many misc bugfixes and general improvements. (@Master-Bw3, @AshAxolotl, @BlueMoonJune and @enjarai)

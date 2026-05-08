@@ -7,19 +7,35 @@
       "text": "Tick-Tock Goes the Clock"
     },
     "description": {
-      "text": "Create a Quartz Knot"
+      "text": "Acquire a Quartz Knot"
     },
-    "frame": "task",
+    "frame": "goal",
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:cast_spell",
+  "parent": "trickster:create_knot",
   "criteria": {
     "create_knot": {
       "trigger": "trickster:create_knot",
       "conditions": {
         "item": "trickster:quartz_knot"
       }
+    },
+    "pickup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:quartz_knot"
+          }
+        ]
+      }
     }
-  }
+  },
+  "requirements": [
+    [
+      "create_knot",
+      "pickup"
+    ]
+  ]
 }

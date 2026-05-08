@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:collar"
+    },
+    "title": {
+      "text": "Best Pet Forever"
+    },
+    "description": {
+      "text": "Successfully tame or be a submissive player"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "minecraft:husbandry/tame_an_animal",
+  "criteria": {
+    "tame": {
+      "trigger": "trickster:collar_tame"
+    }
+  }
+}

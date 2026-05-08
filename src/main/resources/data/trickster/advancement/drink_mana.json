@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:esoteric_mana"
+    },
+    "title": {
+      "text": "Why'd You Do That?"
+    },
+    "description": {
+      "text": "Do not the Mana!"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "trickster:root",
+  "criteria": {
+    "drink_mana": {
+      "trigger": "trickster:drink_mana"
+    }
+  }
+}

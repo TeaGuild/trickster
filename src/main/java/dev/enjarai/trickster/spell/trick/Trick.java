@@ -2,6 +2,8 @@ package dev.enjarai.trickster.spell.trick;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.cca.WardManagerComponent;
+import dev.enjarai.trickster.compat.ModCompat;
+import dev.enjarai.trickster.compat.inline.PatternData;
 import dev.enjarai.trickster.spell.EvaluationResult;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
@@ -110,9 +112,16 @@ public abstract class Trick<T extends Trick<T>> {
         }
 
         return Text.literal("").append(
-                Text.translatable(Trickster.MOD_ID + ".trick." + id.getNamespace() + "." + id.getPath())
-                        .withColor(FragmentType.PATTERN.color().getAsInt())
+            Text.translatable(Trickster.MOD_ID + ".trick." + id.getNamespace() + "." + id.getPath())
+                .withColor(FragmentType.PATTERN.color().getAsInt())
         );
+    }
+
+    public MutableText getIconAndName() {
+        if (!ModCompat.INLINE_LOADED) return getName();
+        var id = Tricks.REGISTRY.getId(this);
+        return Text.empty().append(PatternData.make(pattern, PatternData.getStyle(pattern, false).withColor(FragmentType.PATTERN.color().getAsInt())).append(" ")
+            .append(id == null ? Text.literal("Unregistered") : Text.translatable(Trickster.MOD_ID + ".trick." + id.getNamespace() + "." + id.getPath())));
     }
 
     public List<Signature<T>> getSignatures() {

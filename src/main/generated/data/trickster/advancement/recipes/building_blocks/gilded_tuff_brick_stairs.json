@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gilded_tuff_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:gilded_tuff_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "trickster:gilded_tuff_brick_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gilded_tuff_bricks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "trickster:gilded_tuff_brick_stairs"
+    ]
+  }
+}

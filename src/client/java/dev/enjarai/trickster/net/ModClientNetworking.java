@@ -2,6 +2,7 @@ package dev.enjarai.trickster.net;
 
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.mixin.client.WorldRendererAccessor;
+import dev.enjarai.trickster.particle.StorageMoveParticles;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.fragment.ZalgoFragment;
@@ -67,5 +68,6 @@ public class ModClientNetworking {
                 ModEntityComponents.PLAYER_ANIMATION.get(player).hatTakeyNess = 1;
             }
         });
+        ModNetworking.CHANNEL.registerClientbound(StorageMoveParticlePacket.class, StorageMoveParticlePacket.ENDEC, StorageMoveParticles::drawLine);
     }
 }

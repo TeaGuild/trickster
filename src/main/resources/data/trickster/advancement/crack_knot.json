@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "id": "trickster:cracked_emerald_knot"
+      "id": "trickster:cracked_diamond_knot"
     },
     "title": {
       "text": "What a Waste!"
@@ -12,7 +12,7 @@
     "frame": "task",
     "announce_to_chat": true
   },
-  "parent": "trickster:cracked_echo_knot",
+  "parent": "trickster:find_cracked_knot",
   "criteria": {
     "crack_knot": {
       "trigger": "trickster:crack_knot",

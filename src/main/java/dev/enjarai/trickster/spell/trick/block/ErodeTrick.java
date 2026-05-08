@@ -51,7 +51,7 @@ public class ErodeTrick extends Trick<ErodeTrick> {
                 }
             }
 
-            DataLoader.getErodeLoader().convert(blockState.getBlock(), world, weatheringPos);
+            DataLoader.getErodeLoader().convert(blockState.getBlock(), world, weatheringPos, ctx.source().getPlayer());
 
             for (Direction direction : Direction.values()) {
                 var offsetPos = weatheringPos.offset(direction);

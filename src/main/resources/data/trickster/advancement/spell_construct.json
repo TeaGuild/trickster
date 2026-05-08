@@ -7,7 +7,7 @@
       "text": "Don't Do it Yourself"
     },
     "description": {
-      "text": "Craft a Spell Construct"
+      "text": "Acquire a Spell Construct"
     },
     "frame": "task",
     "announce_to_chat": true,
@@ -15,10 +15,14 @@
   },
   "parent": "trickster:root",
   "criteria": {
-    "craft_spell_circle": {
-      "trigger": "minecraft:recipe_crafted",
+    "pickup_spell_construct": {
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "recipe_id": "trickster:spell_construct"
+        "items": [
+          {
+            "items": "trickster:spell_construct"
+          }
+        ]
       }
     }
   }

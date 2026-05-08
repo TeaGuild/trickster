@@ -1,0 +1,21 @@
+{
+  "removed": [
+    "trickster:cracked_amethyst_knot",
+    "trickster:quartz_knot",
+    "trickster:cracked_quartz_knot",
+    "trickster:cracked_emerald_knot",
+    "trickster:cracked_diamond_knot",
+    "trickster:echo_knot",
+    "trickster:cracked_echo_knot",
+    "trickster:astral_knot",
+    "trickster:cracked_astral_knot",
+    "trickster:ominous_spell_core",
+    "trickster:rusted_spell_core",
+    "trickster:inert_spawner",
+    "trickster:nan",
+    "trickster:nothing",
+    "trickster:leash",
+    "trickster:collar"
+  ],
+  "disable": true
+}

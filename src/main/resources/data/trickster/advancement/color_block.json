@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:color_block"
+    },
+    "title": {
+      "text": "One Hell of a Way to Dye!"
+    },
+    "description": {
+      "text": "Craft some Infused Ceramic"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "trickster:cast_spell",
+  "criteria": {
+    "craft_spell_circle": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "trickster:color_block"
+      }
+    }
+  }
+}

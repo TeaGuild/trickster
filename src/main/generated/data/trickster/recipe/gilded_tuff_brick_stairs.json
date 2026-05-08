@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "gilded_tuff_stairs",
+  "key": {
+    "b": {
+      "item": "trickster:gilded_tuff_bricks"
+    }
+  },
+  "pattern": [
+    "b  ",
+    "bb ",
+    "bbb"
+  ],
+  "result": {
+    "count": 4,
+    "id": "trickster:gilded_tuff_brick_stairs"
+  }
+}

@@ -7,13 +7,13 @@
       "text": "Tick-Tock Goes the Overclock"
     },
     "description": {
-      "text": "Crack a Quartz Knot"
+      "text": "Find or create a Quartz Knot"
     },
     "frame": "task",
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:crack_knot",
+  "parent": "trickster:find_cracked_knot",
   "criteria": {
     "pickup_quartz_knot": {
       "trigger": "minecraft:inventory_changed",

@@ -2,17 +2,23 @@
   "required": true,
   "package": "dev.enjarai.trickster.mixin.client",
   "compatibilityLevel": "JAVA_21",
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
   "plugin": "dev.enjarai.trickster.ConditionalMixins",
   "client": [
     "AbstractClientPlayerEntityMixin",
     "BakedModelManagerMixin",
     "ClientWorldMixin",
+    "CreativeInventoryScreenMixin",
     "HeldItemRendererMixin",
     "InGameHudMixin",
     "InventoryScreenMixin",
+    "MinecraftClientMixin",
     "MouseMixin",
     "PlayerRendererMixin",
     "SubtitlesHudMixin",
+    "TitleScreenMixin",
     "WorldRendererAccessor",
     "animation.BipedEntityModelMixin",
     "animation.PlayerEntityModelMixin",
@@ -26,6 +32,8 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "PlayerEntityMixin"
+    "ClientPlayerInteractionManagerMixin",
+    "PlayerEntityMixin",
+    "owo.BraidComponentAccessor"
   ]
 }

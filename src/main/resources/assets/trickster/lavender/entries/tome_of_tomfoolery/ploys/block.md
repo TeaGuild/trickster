@@ -14,6 +14,7 @@
     "Floral Ploy",
     "Aquatic Ploy",
     "Illumination Ploy",
+    "Ploy of Pigmentation",
     "Resonance Ploy"
   ]
 }
@@ -31,9 +32,10 @@ Breaks the block at the given position.
 
 <|ploy@trickster:templates|trick-id=trickster:place_block,cost=max(distance * 1G\, 8G)|>
 
+;;;;;
+
 Places a block at the given position.
 
-;;;;;
 
 The block to place is determined based on a slot reference or block type fragment.
 
@@ -120,10 +122,16 @@ Conjures a bucket's worth of water at the given position.
 
 <|ploy@trickster:templates|trick-id=trickster:conjure_light,cost=20G|>
 
-Conjures a permanent light source at the given position.
+Conjures a permanent light source at the given position with an optional light level between 0 and 15, defaulting to 15
+
+;;;;;
+
+<|trick@trickster:templates|trick-id=trickster:paint|>
+
+Imbues the given color into the block at the position. Usually only works on magical targets.
 
 ;;;;;
 
 <|ploy@trickster:templates|trick-id=trickster:power_resonator,cost=4G|>
 
-Powers the [Spell Resonator](^trickster:items/spell_resonator) at the given position with the given power level, between 0 and 15.
+Powers the [Spell Resonator](^trickster:items/infrastructure/spell_resonator) at the given position with the given power level, between 0 and 15.

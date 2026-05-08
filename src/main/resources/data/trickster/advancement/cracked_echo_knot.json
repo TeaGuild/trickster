@@ -13,7 +13,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:root",
+  "parent": "trickster:find_cracked_knot",
   "criteria": {
     "pickup_echo_knot": {
       "trigger": "minecraft:inventory_changed",

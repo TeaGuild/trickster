@@ -1,4 +1,13 @@
 {
   "values": [
+    "#c:relocation_not_supported",
+    "minecraft:command_block",
+    "minecraft:chain_command_block",
+    "minecraft:repeating_command_block",
+    "minecraft:jigsaw",
+    "minecraft:structure_block",
+    "minecraft:structure_void",
+    "minecraft:barrier",
+    "minecraft:light"
   ]
 }

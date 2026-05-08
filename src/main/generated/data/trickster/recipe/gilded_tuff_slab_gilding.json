@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "gilded_tuff",
+  "key": {
+    "b": {
+      "item": "minecraft:tuff_slab"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "bbb",
+    "bgb",
+    "bbb"
+  ],
+  "result": {
+    "count": 8,
+    "id": "trickster:gilded_tuff_slab"
+  }
+}

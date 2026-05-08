@@ -16,9 +16,9 @@ public class BypassWardTrick extends Trick<BypassWardTrick> {
 
     public WardFragment bypass(SpellContext ctx, WardFragment ward) {
         ctx.source()
-                .getComponent(ModUwuComponents.WARD_BYPASS)
-                .orElseThrow(() -> new CannotBypassWardBlunder(this))
-                .apply(ctx.source().getWorld(), ward.uuid());
+            .getComponent(ModUwuComponents.WARD_BYPASS)
+            .orElseThrow(() -> new CannotBypassWardBlunder(this))
+            .apply(ctx.source().getWorld(), ward.uuid());
         return ward;
     }
 }

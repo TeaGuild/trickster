@@ -37,7 +37,7 @@ public class CoolTrick extends Trick<CoolTrick> {
         } else if (!blockState.isAir()) {
             ctx.useMana(this, 80);
 
-            DataLoader.getCoolLoader().convert(blockState.getBlock(), world, blockPos);
+            DataLoader.getCoolLoader().convert(blockState.getBlock(), world, blockPos, ctx.source().getPlayer());
 
             for (Direction direction : Direction.values()) {
                 var offsetPos = blockPos.offset(direction);

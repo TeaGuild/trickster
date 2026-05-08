@@ -4,17 +4,18 @@ import com.mojang.serialization.Lifecycle;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.spell.Pattern;
+import dev.enjarai.trickster.spell.fragment.slot.ItemTypeFragment;
+import dev.enjarai.trickster.spell.fragment.slot.VariantType;
 import dev.enjarai.trickster.spell.trick.basic.*;
 import dev.enjarai.trickster.spell.trick.block.*;
 import dev.enjarai.trickster.spell.trick.bool.*;
+import dev.enjarai.trickster.spell.trick.color.ItemToColorTrick;
+import dev.enjarai.trickster.spell.trick.color.PaintTrick;
 import dev.enjarai.trickster.spell.trick.debug.DebugLogTrick;
 import dev.enjarai.trickster.spell.trick.dimension.GetDimensionTrick;
 import dev.enjarai.trickster.spell.trick.entity.*;
 import dev.enjarai.trickster.spell.trick.entity.query.*;
-import dev.enjarai.trickster.spell.trick.fleck.DeleteFleckTrick;
-import dev.enjarai.trickster.spell.trick.fleck.GetFlecksTrick;
-import dev.enjarai.trickster.spell.trick.fleck.LineFleckTrick;
-import dev.enjarai.trickster.spell.trick.fleck.SpellFleckTrick;
+import dev.enjarai.trickster.spell.trick.fleck.*;
 import dev.enjarai.trickster.spell.trick.func.*;
 import dev.enjarai.trickster.spell.trick.inventory.*;
 import dev.enjarai.trickster.spell.trick.list.*;
@@ -26,10 +27,8 @@ import dev.enjarai.trickster.spell.trick.map.*;
 import dev.enjarai.trickster.spell.trick.math.*;
 import dev.enjarai.trickster.spell.trick.misc.*;
 import dev.enjarai.trickster.spell.trick.particle.HighlightTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonArrowTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonDragonBreathTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonFireballTrick;
-import dev.enjarai.trickster.spell.trick.projectile.SummonTntTrick;
+import dev.enjarai.trickster.spell.trick.particle.SpellParticleTrick;
+import dev.enjarai.trickster.spell.trick.projectile.*;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockPosTrick;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockSideTrick;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastEntityTrick;
@@ -39,6 +38,7 @@ import dev.enjarai.trickster.spell.trick.vector.*;
 import dev.enjarai.trickster.spell.trick.ward.BypassWardTrick;
 import dev.enjarai.trickster.spell.trick.ward.CreateWardTrick;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registry;
@@ -46,6 +46,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryInfo;
+import net.minecraft.util.DyeColor;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,8 +63,8 @@ public class Tricks {
         public RegistryEntry.Reference<Trick<?>> add(RegistryKey<Trick<?>> key, Trick<?> value, RegistryEntryInfo info) {
             if (LOOKUP.containsKey(value.getPattern())) {
                 Trickster.LOGGER.warn(
-                        "WARNING: A mod is overriding a trick that is already defined! This may result in one of the tricks being unusable. ({} overrode {})",
-                        key.getValue(), getId(LOOKUP.get(value.getPattern()))
+                    "WARNING: A mod is overriding a pattern that is already defined! This may result in one of the tricks being unusable. ({} overrode {})",
+                    key.getValue(), getId(LOOKUP.get(value.getPattern()))
                 );
             }
 
@@ -154,6 +155,7 @@ public class Tricks {
 
     // Particles
     public static final HighlightTrick HIGHLIGHT = register("highlight", new HighlightTrick());
+    public static final SpellParticleTrick SPELL_PARTICLE = register("spell_particle", new SpellParticleTrick());
 
     // Math
     public static final AddTrick ADD = register("add", new AddTrick());
@@ -177,6 +179,7 @@ public class Tricks {
     public static final ArcTanTrick ARCTAN = register("arctan", new ArcTanTrick());
     public static final ArcTan2Trick ARCTAN2 = register("arctan2", new ArcTan2Trick());
     public static final AbsTrick ABS = register("abs", new AbsTrick());
+    public static final AvgTrick AVG = register("avg", new AvgTrick());
 
     // Vector
     public static final ExtractXTrick EXTRACT_X = register("extract_x", new ExtractXTrick());
@@ -258,26 +261,31 @@ public class Tricks {
     public static final SetHatTrick SET_HAT = register("set_hat", new SetHatTrick());
     public static final OtherHandTrick OTHER_HAND = register("other_hand", new OtherHandTrick());
     public static final OtherHandSlotTrick OTHER_HAND_SLOT = register("other_hand_slot", new OtherHandSlotTrick());
+    public static final GetEquipmentTrick GET_EQUIPMENT = register("get_equipment", new GetEquipmentTrick());
     public static final GetItemInSlotTrick GET_ITEM_IN_SLOT = register("get_item_in_slot", new GetItemInSlotTrick());
     public static final GetManaInSlotTrick GET_MANA_IN_SLOT = register("get_mana_in_slot", new GetManaInSlotTrick());
-    public static final GetMaxManaInSlotTrick GET_MAX_MANA_IN_SLOT = register("get_max_mana_in_slot", new GetMaxManaInSlotTrick());
-    public static final GetInventorySlotTrick GET_INVENTORY_SLOT = register("get_inventory_slot", new GetInventorySlotTrick());
-    public static final GetInventorySizeTrick GET_INVENTORY_SIZE = register("get_inventory_size", new GetInventorySizeTrick());
-    public static final GetInventorySlotsTrick GET_INVENTORY_SLOTS = register("get_inventory_slots", new GetInventorySlotsTrick());
     public static final GetCountInSlotTrick GET_COUNT_IN_SLOT = register("get_count_in_slot", new GetCountInSlotTrick());
+    public static final GetMaxManaInSlotTrick GET_MAX_MANA_IN_SLOT = register("get_max_mana_in_slot", new GetMaxManaInSlotTrick());
+    public static final GetSlotTrick GET_SLOT = register("get_slot", new GetSlotTrick());
+    public static final GetContainerTrick GET_ITEM_CONTAINER = register("get_item_container", new GetContainerTrick(Pattern.of(4, 0, 7, 2, 4, 3, 6, 7, 4, 5), VariantType.ITEM));
+    public static final GetContainerTrick GET_FLUID_CONTAINER = register("get_fluid_container", new GetContainerTrick(Pattern.of(4, 0, 7, 2, 4, 5, 8, 7, 4, 3), VariantType.FLUID, false));
+    public static final GetInventorySizeTrick GET_INVENTORY_SIZE = register("get_inventory_size", new GetInventorySizeTrick(VariantType.ITEM));
+    public static final GetSlotsTrick<ItemVariant, ItemTypeFragment> GET_SLOTS = register("get_slots", new GetSlotsTrick<>());
     public static final DropStackFromSlotTrick DROP_STACK_FROM_SLOT = register("drop_stack_from_slot", new DropStackFromSlotTrick());
     public static final SwapSlotTrick SWAP_SLOT = register("swap_slot", new SwapSlotTrick());
-    public static final MoveStackTrick MOVE_STACK = register("move_stack", new MoveStackTrick());
+    public static final MoveResourceTrick MOVE_RESOURCE = register("move_resource", new MoveResourceTrick());
     public static final BlockFromItemTrick BLOCK_FROM_ITEM = register("block_from_item", new BlockFromItemTrick());
     public static final ItemFromBlockTrick ITEM_FROM_BLOCK = register("item_from_block", new ItemFromBlockTrick());
     public static final GetMaxCount GET_MAX_COUNT = register("get_max_count", new GetMaxCount());
-    public static final GetEquipmentTrick GET_EQUIPMENT = register("get_equipment", new GetEquipmentTrick());
+    public static final CountResourcesTrick COUNT_RESOURCES = register("count_resources", new CountResourcesTrick());
+    public static final ListResourcesTrick LIST_RESOURCES = register("list_resources", new ListResourcesTrick());
 
     // Projectile
     public static final SummonArrowTrick SUMMON_ARROW = register("summon_arrow", new SummonArrowTrick());
     public static final SummonFireballTrick SUMMON_FIREBALL = register("summon_fireball", new SummonFireballTrick());
     public static final SummonDragonBreathTrick SUMMON_DRAGON_BREATH = register("summon_dragon_breath", new SummonDragonBreathTrick());
     public static final SummonTntTrick SUMMON_TNT = register("summon_tnt", new SummonTntTrick());
+    public static final SummonWindChargeTrick SUMMON_WIND_CHARGE = register("summon_wind_charge", new SummonWindChargeTrick());
 
     // Dimension
     public static final GetDimensionTrick GET_DIMENSION = register("get_dimension", new GetDimensionTrick());
@@ -289,6 +297,9 @@ public class Tricks {
     public static final SpellFleckTrick DRAW_SPELL = register("draw_spell", new SpellFleckTrick());
     public static final GetFlecksTrick GET_FLECKS = register("get_flecks", new GetFlecksTrick());
     public static final DeleteFleckTrick DELETE_FLECK = register("delete_fleck", new DeleteFleckTrick());
+
+    public static final ScaleFleckTrick SCALE_FLECK = register("scale_fleck", new ScaleFleckTrick());
+    public static final RollFleckTrick ROLL_FLECK = register("roll_fleck", new RollFleckTrick());
 
     // Misc
     public static final TypeFragmentTrick TYPE_FRAGMENT = register("type_fragment", new TypeFragmentTrick());
@@ -309,6 +320,11 @@ public class Tricks {
     // Wards
     public static final CreateWardTrick CREATE_WARD = register("create_ward", new CreateWardTrick());
     public static final BypassWardTrick BYPASS_WARD = register("bypass_ward", new BypassWardTrick());
+
+    // Color
+    public static final ItemToColorTrick ITEM_TO_COLOR = register("item_to_color", new ItemToColorTrick(Pattern.of(0, 4, 2, 1, 0, 7, 2), DyeColor::getEntityColor));
+    public static final ItemToColorTrick ITEM_TO_GLOW_COLOR = register("item_to_glow_color", new ItemToColorTrick(Pattern.of(1, 4, 7, 2, 1, 0, 2, 4, 0, 7), DyeColor::getSignColor));
+    public static final PaintTrick PAINT = register("paint", new PaintTrick());
 
     static {
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {

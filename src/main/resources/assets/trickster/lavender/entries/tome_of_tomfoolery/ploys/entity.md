@@ -70,7 +70,7 @@ This ploy has the same aggressive and stacking cost scaling as Kinetic Ploy.
 
 <|ploy@trickster:templates|trick-id=trickster:polymorph,cost=8000G|>
 
-Changes the first entity's appearance to match the second.
+Changes the first entity's appearance to match the second, returning the first.
 Both entities must be players.
 
 ;;;;;
@@ -83,7 +83,7 @@ Dispels any polymorph applied to the given entity.
 
 <|ploy@trickster:templates|trick-id=trickster:store_entity,cost=2000G + 1G * distance ^ (distance / 5)|>
 
-Stores the given entity in the caster's [Hat](^trickster:items/top_hat). 
+Stores the given entity in the caster's [Hat](^trickster:items/writing_casting/top_hat). 
 The hat must be held in the caster's offhand, and the entity must not be a player.
 
 ;;;;;
@@ -95,5 +95,5 @@ Trying to store such entities will result in a blunder.
 
 <|ploy@trickster:templates|trick-id=trickster:release_entity,cost=2000G + 1G * distance ^ (distance / 5)|>
 
-Releases the entity stored in the caster's [Hat](^trickster:items/top_hat) to the given position, returning a reference to it.
+Releases the entity stored in the caster's [Hat](^trickster:items/writing_casting/top_hat) to the given position, returning a reference to it.
 Returns void if there is no entity to release.

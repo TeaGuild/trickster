@@ -1,0 +1,23 @@
+name: spotless
+on: [
+  #pull_request
+]
+
+jobs:
+  fix_formatting:
+    runs-on: gaming
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: validate gradle wrapper
+        uses: https://github.com/gradle/wrapper-validation-action@v2
+      - name: setup jdk
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: 'temurin'
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: run spotless
+        run: ./gradlew spotlessApply
+      - uses: https://github.com/stefanzweifel/git-auto-commit-action@v5

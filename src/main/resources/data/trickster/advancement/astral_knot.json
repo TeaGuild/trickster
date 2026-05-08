@@ -7,19 +7,35 @@
       "text": "Stellar Savings Account"
     },
     "description": {
-      "text": "Create an Astral Knot"
+      "text": "Acquire an Astral Knot"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:cast_spell",
+  "parent": "trickster:create_knot",
   "criteria": {
     "create_knot": {
       "trigger": "trickster:create_knot",
       "conditions": {
         "item": "trickster:astral_knot"
       }
+    },
+    "pickup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:astral_knot"
+          }
+        ]
+      }
     }
-  }
+  },
+  "requirements": [
+    [
+      "create_knot",
+      "pickup"
+    ]
+  ]
 }

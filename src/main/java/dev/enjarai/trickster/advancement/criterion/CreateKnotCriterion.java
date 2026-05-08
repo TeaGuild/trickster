@@ -19,13 +19,13 @@ public class CreateKnotCriterion extends AbstractCriterion<CreateKnotCriterion.C
     }
 
     public void trigger(ServerPlayerEntity player, Item item) {
-        super.trigger(player, conditions -> conditions.item.equals(item));
+        super.trigger(player, conditions -> conditions.item.orElse(item).equals(item));
     }
 
-    public record Conditions(Optional<LootContextPredicate> player, Item item) implements AbstractCriterion.Conditions {
+    public record Conditions(Optional<LootContextPredicate> player, Optional<Item> item) implements AbstractCriterion.Conditions {
         public static final Codec<CreateKnotCriterion.Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(CreateKnotCriterion.Conditions::player),
-                Registries.ITEM.getCodec().fieldOf("item").forGetter(CreateKnotCriterion.Conditions::item)
+                Registries.ITEM.getCodec().optionalFieldOf("item").forGetter(CreateKnotCriterion.Conditions::item)
         ).apply(instance, CreateKnotCriterion.Conditions::new)
         );
 

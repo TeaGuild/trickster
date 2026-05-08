@@ -32,7 +32,7 @@ public interface Signature<T extends Trick<T>> {
 
             @Override
             public MutableText asText() {
-                return Text.literal("-> ").append(retType.asText());
+                return Text.literal("→ ").append(retType.asText());
             }
         };
     }
@@ -64,7 +64,7 @@ public interface Signature<T extends Trick<T>> {
 
                 text = text.append(t1.asText());
 
-                text = text.append(" -> ");
+                text = text.append(" → ");
                 text = text.append(retType.asText());
 
                 return text;
@@ -110,7 +110,7 @@ public interface Signature<T extends Trick<T>> {
                 text = text.append(", ");
                 text = text.append(t2.asText());
 
-                text = text.append(" -> ");
+                text = text.append(" → ");
                 text = text.append(retType.asText());
 
                 return text;
@@ -167,7 +167,7 @@ public interface Signature<T extends Trick<T>> {
                 text = text.append(", ");
                 text = text.append(t3.asText());
 
-                text = text.append(" -> ");
+                text = text.append(" → ");
                 text = text.append(retType.asText());
 
                 return text;
@@ -176,7 +176,7 @@ public interface Signature<T extends Trick<T>> {
     }
 
     static <R, T extends Trick<T>, T1, T2, T3, T4> Signature<T> of(ArgType<T1> t1, ArgType<T2> t2, ArgType<T3> t3, ArgType<T4> t4, Function6<T, SpellContext, T1, T2, T3, T4, R> handler,
-            RetType<R> retType) {
+        RetType<R> retType) {
         return new Signature<T>() {
             @Override
             public boolean match(List<Fragment> fragments) {
@@ -236,7 +236,7 @@ public interface Signature<T extends Trick<T>> {
                 text = text.append(", ");
                 text = text.append(t4.asText());
 
-                text = text.append(" -> ");
+                text = text.append(" → ");
                 text = text.append(retType.asText());
 
                 return text;
@@ -245,7 +245,7 @@ public interface Signature<T extends Trick<T>> {
     }
 
     static <R, T extends Trick<T>, T1, T2, T3, T4, T5> Signature<T> of(ArgType<T1> t1, ArgType<T2> t2, ArgType<T3> t3, ArgType<T4> t4, ArgType<T5> t5,
-            Function7<T, SpellContext, T1, T2, T3, T4, T5, R> handler, RetType<R> retType) {
+        Function7<T, SpellContext, T1, T2, T3, T4, T5, R> handler, RetType<R> retType) {
         return new Signature<T>() {
             @Override
             public boolean match(List<Fragment> fragments) {
@@ -316,7 +316,7 @@ public interface Signature<T extends Trick<T>> {
                 text = text.append(", ");
                 text = text.append(t5.asText());
 
-                text = text.append(" -> ");
+                text = text.append(" → ");
                 text = text.append(retType.asText());
 
                 return text;
@@ -325,7 +325,7 @@ public interface Signature<T extends Trick<T>> {
     }
 
     static <R, T extends Trick<T>, T1, T2, T3, T4, T5, T6> Signature<T> of(ArgType<T1> t1, ArgType<T2> t2, ArgType<T3> t3, ArgType<T4> t4, ArgType<T5> t5, ArgType<T6> t6,
-            Function8<T, SpellContext, T1, T2, T3, T4, T5, T6, R> handler, RetType<R> retType) {
+        Function8<T, SpellContext, T1, T2, T3, T4, T5, T6, R> handler, RetType<R> retType) {
         return new Signature<T>() {
             @Override
             public boolean match(List<Fragment> fragments) {
@@ -407,7 +407,7 @@ public interface Signature<T extends Trick<T>> {
                 text = text.append(", ");
                 text = text.append(t6.asText());
 
-                text = text.append(" -> ");
+                text = text.append(" → ");
                 text = text.append(retType.asText());
 
                 return text;

@@ -49,7 +49,7 @@ public class HeatTrick extends Trick<HeatTrick> {
             } else if (blockState.getBlock() instanceof AbstractFurnaceBlock && world.getBlockEntity(blockPos) instanceof AbstractFurnaceBlockEntity furnace) {
                 ((FuelableFurnaceDuck) furnace).trickster$setFuelLevelAtLeast(1601);
             } else {
-                DataLoader.getHeatLoader().convert(blockState.getBlock(), world, blockPos);
+                DataLoader.getHeatLoader().convert(blockState.getBlock(), world, blockPos, ctx.source().getPlayer());
             }
 
             for (Direction direction : Direction.values()) {

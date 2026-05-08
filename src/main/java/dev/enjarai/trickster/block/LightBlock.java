@@ -11,7 +11,9 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -22,29 +24,37 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class LightBlock extends BlockWithEntity implements Waterloggable {
+import java.util.function.ToIntFunction;
+
+public class LightBlock extends BlockWithEntity implements Waterloggable, Stainable {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    public static final IntProperty LIGHT_LEVEL = Properties.LEVEL_15;
+    public static final ToIntFunction<BlockState> STATE_TO_LUMINANCE = state -> (Integer) state.get(LIGHT_LEVEL);
 
     public static final VoxelShape SHAPE = createCuboidShape(5, 5, 5, 11, 11, 11);
 
     protected LightBlock() {
         super(Settings.create()
-                .noCollision().luminance(b -> 15).breakInstantly()
-                .noBlockBreakParticles().sounds(BlockSoundGroup.AMETHYST_BLOCK)
-                .replaceable()
-                .pistonBehavior(PistonBehavior.DESTROY));
-        setDefaultState(getStateManager().getDefaultState().with(WATERLOGGED, false));
+            .noCollision().luminance(STATE_TO_LUMINANCE).breakInstantly()
+            .noBlockBreakParticles().sounds(BlockSoundGroup.AMETHYST_BLOCK)
+            .replaceable()
+            .pistonBehavior(PistonBehavior.DESTROY));
+        setDefaultState(getStateManager().getDefaultState().with(LIGHT_LEVEL, 15).with(WATERLOGGED, false));
+    }
+
+    public LightBlock(Settings settings) {
+        super(settings);
     }
 
     // TODO decide if we can make this work?
-//    @Override
-//    protected BlockRenderType getRenderType(BlockState state) {
-//        return BlockRenderType.MODEL;
-//    }
+    //    @Override
+    //    protected BlockRenderType getRenderType(BlockState state) {
+    //        return BlockRenderType.MODEL;
+    //    }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED);
+        builder.add(LIGHT_LEVEL, WATERLOGGED);
     }
 
     @Override
@@ -61,11 +71,11 @@ public class LightBlock extends BlockWithEntity implements Waterloggable {
             var colors = coloredBlockEntity.getColors();
             for (int i = 0; i < max; i++) {
                 world.addParticle(
-                        new SpellParticleOptions(colors[random.nextInt(colors.length)]),
-                        particlePos.x, particlePos.y, particlePos.z,
-                        random.nextFloat() * 0.005f - 0.0025f,
-                        random.nextFloat() * 0.02f + 0.01f,
-                        random.nextFloat() * 0.005f - 0.0025f
+                    new SpellParticleOptions(colors[random.nextInt(colors.length)]),
+                    particlePos.x, particlePos.y, particlePos.z,
+                    random.nextFloat() * 0.005f - 0.0025f,
+                    random.nextFloat() * 0.02f + 0.01f,
+                    random.nextFloat() * 0.005f - 0.0025f
                 );
             }
         }
@@ -101,5 +111,11 @@ public class LightBlock extends BlockWithEntity implements Waterloggable {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new LightBlockEntity(pos, state);
+    }
+
+    @Override
+    public DyeColor getColor() {
+        //fake value, overridden in the mixin
+        return DyeColor.WHITE;
     }
 }

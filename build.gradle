@@ -1,8 +1,8 @@
 plugins {
-    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'fabric-loom' version '1.14-SNAPSHOT'
     id 'maven-publish'
-    id 'me.fallenbreath.yamlang' version '1.3.1'
-    id "me.modmuss50.mod-publish-plugin" version "0.4.4"
+    id 'me.fallenbreath.yamlang' version '1.5.0'
+    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
     id "com.diffplug.spotless" version "7.0.2"
 }
 
@@ -35,6 +35,17 @@ repositories {
     maven {
         url "https://maven.enjarai.dev/mirrors"
     }
+
+    maven {
+        url 'https://maven.blamejared.com'
+        content {
+            includeGroup 'com.samsthenerd.inline'
+        }
+    }
+}
+
+build {
+    System.out.println("Meow Meow Meow")
 }
 
 loom {
@@ -49,7 +60,7 @@ loom {
     }
 
     runs {
-        client_mixin {
+        clientMixin {
             client()
             ideConfigGenerated true
             name = "Minecraft Client - (Mixin Swap)"
@@ -65,8 +76,14 @@ loom {
                             .first()
 
                     if (mixin != null) {
-                        def mixinPath = this.configurations.compileClasspath.files(mixinDep).first().path;
-
+                        var mixinPath = this.configurations.compileClasspath.getIncoming().artifactView { id ->
+                            if (id instanceof ModuleComponentIdentifier) {
+                                    return id.moduleIdentifier.group == mixin.group
+                                            && id.moduleIdentifier.name == mixin.name
+                                            && id.version == mixin.version;
+                            }
+                            return false;
+                        }.files.first()
                         println(mixinPath)
 
                         vmArg("-javaagent:\"${mixinPath}\"")
@@ -120,6 +137,8 @@ dependencies {
 
     modApi("io.wispforest:accessories-fabric:${property('deps.accessories')}")
 
+    modApi "com.samsthenerd.inline:inline-fabric:${property 'deps.inline'}"
+
     // Optional compat
     modCompileOnly modLocalRuntime("maven.modrinth:transmog:${property('deps.transmog')}")
 
@@ -162,7 +181,7 @@ yamlang {
 
 compileJava.dependsOn 'spotlessApply'
 spotless {
-    ratchetFrom 'origin/master'
+    ratchetFrom 'HEAD'
     encoding 'UTF-8'
 
     format 'misc', {
@@ -196,7 +215,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId = group
-            artifactId = archivesBaseName
+            artifactId = archives_base_name
             version = version
 
             from components.java
@@ -237,6 +256,7 @@ publishMods {
             }
             requires {
                 slug = "owo-lib"
+                version = "0.13.0-alpha.15+1.21"
             }
             requires {
                 slug = "lavender"
@@ -285,11 +305,11 @@ publishMods {
         }
     }
 
-    if (providers.gradleProperty('enjaraiGithubToken').present) {
-        github {
-            repository = property('mod_github')
-            accessToken = providers.gradleProperty('enjaraiGithubToken').get()
-
+    if (providers.gradleProperty('enjaraiCodebergToken').present) {
+        forgejo {
+            accessToken = providers.gradleProperty('enjaraiCodebergToken').get()
+            host(new URI("https://codeberg.org"))
+            repository = property('mod_codeberg')
             commitish = property('git_branch')
             tagName = project.version
         }

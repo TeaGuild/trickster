@@ -3,6 +3,7 @@
   "title": "Reusability",
   "icon": "trickster:top_hat",
   "category": "trickster:tricks",
+  "ordinal": 20,
   "additional_search_terms": [
     "Assistance Deviation",
     "Cranium Deviation"
@@ -28,4 +29,4 @@ The first item of this type found to have an inscribed spell will be cast with t
 
 <|trick@trickster:templates|trick-id=trickster:import_hat|>
 
-Grabs the spell from the specified slot in the caster's [Hat](^trickster:items/top_hat), casts it with the provided arguments, and returns the result.
+Grabs the spell from the specified slot in the caster's [Hat](^trickster:items/writing_casting/top_hat), casts it with the provided arguments, and returns the result.

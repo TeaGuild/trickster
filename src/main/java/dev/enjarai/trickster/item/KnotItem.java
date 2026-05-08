@@ -19,8 +19,15 @@ import dev.enjarai.trickster.spell.mana.SavingsManaPool;
 import dev.enjarai.trickster.spell.mana.SharedManaPool;
 import dev.enjarai.trickster.spell.mana.SimpleManaPool;
 import dev.enjarai.trickster.spell.trick.Trick;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ClickType;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,8 +49,8 @@ public abstract class KnotItem extends Item {
     public static class Amethyst extends KnotItem {
         public Amethyst() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(128), 0)),
-                    0);
+                .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(128), 0)),
+                0);
         }
 
         @Override
@@ -61,17 +68,17 @@ public abstract class KnotItem extends Item {
     public static class CrackedAmethyst extends KnotItem {
         public CrackedAmethyst() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(256), 0)),
-                    Float.MAX_VALUE);
+                .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(256), 0)),
+                Float.MAX_VALUE);
         }
     }
 
     public static class Quartz extends KnotItem implements ChannelItem {
         public Quartz() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(128), 1 / 96f))
-                    .component(ModComponents.TICK_CREATED, new TickTrackerComponent(0)),
-                    0);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(128), 1 / 96f))
+                .component(ModComponents.TICK_CREATED, new TickTrackerComponent(0)),
+                0);
         }
 
         public ItemStack createStack(World world) {
@@ -108,8 +115,8 @@ public abstract class KnotItem extends Item {
     public static class CrackedQuartz extends KnotItem implements ChannelItem {
         public CrackedQuartz() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(0), 0)),
-                    Float.MAX_VALUE);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(0), 0)),
+                Float.MAX_VALUE);
         }
 
         public EvaluationResult messageListenBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Optional<Integer> timeout) {
@@ -135,8 +142,8 @@ public abstract class KnotItem extends Item {
     public static class Emerald extends KnotItem {
         public Emerald() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024), 1 / 12f)),
-                    512);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024), 1 / 12f)),
+                512);
         }
 
         @Override
@@ -148,16 +155,16 @@ public abstract class KnotItem extends Item {
     public static class CrackedEmerald extends KnotItem {
         public CrackedEmerald() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024), 1 / 12f / 6f)),
-                    Float.MAX_VALUE);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024), 1 / 12f / 6f)),
+                Float.MAX_VALUE);
         }
     }
 
     public static class Diamond extends KnotItem {
         public Diamond() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(16384), 4 / 12f)),
-                    8192);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(16384), 4 / 12f)),
+                8192);
         }
 
         @Override
@@ -169,16 +176,16 @@ public abstract class KnotItem extends Item {
     public static class CrackedDiamond extends KnotItem {
         public CrackedDiamond() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(16384), 4 / 12f / 6f)),
-                    Float.MAX_VALUE);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(16384), 4 / 12f / 6f)),
+                Float.MAX_VALUE);
         }
     }
 
     public static class Echo extends KnotItem implements ChannelItem {
         public Echo() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(32768), 1)),
-                    65536);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(32768), 1)),
+                65536);
         }
 
         @Override
@@ -215,8 +222,8 @@ public abstract class KnotItem extends Item {
     public static class CrackedEcho extends KnotItem implements ChannelItem {
         public CrackedEcho() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(32768), 1 / 6f)),
-                    Float.MAX_VALUE);
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(32768), 1 / 6f)),
+                Float.MAX_VALUE);
         }
 
         @Override
@@ -240,8 +247,8 @@ public abstract class KnotItem extends Item {
     public static class Astral extends KnotItem {
         public Astral() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(1048576, (float) Math.pow(2, -20)), 0)),
-                    524288);
+                .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(1048576, (float) Math.pow(2, -20)), 0)),
+                524288);
         }
 
         @Override
@@ -253,16 +260,16 @@ public abstract class KnotItem extends Item {
     public static class CrackedAstral extends KnotItem {
         public CrackedAstral() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(16777216, (float) -Math.pow(2, -20)), 0)),
-                    Float.MAX_VALUE);
+                .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(16777216, (float) -Math.pow(2, -20)), 0)),
+                Float.MAX_VALUE);
         }
     }
 
     public static class Command extends KnotItem {
         public Command() {
             super(new Settings()
-                    .component(ModComponents.MANA, new ManaComponent(InfiniteManaPool.INSTANCE, 0)),
-                    Float.MAX_VALUE);
+                .component(ModComponents.MANA, new ManaComponent(InfiniteManaPool.INSTANCE, 0)),
+                Float.MAX_VALUE);
         }
     }
 
@@ -279,6 +286,37 @@ public abstract class KnotItem extends Item {
     @Override
     public int getItemBarStep(ItemStack stack) {
         return barStepFunction.applyAsInt(stack);
+    }
+
+    @Override
+    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
+        if (clickType == ClickType.RIGHT && otherStack.isOf(ModItems.ESOTERIC_MANA)) {
+            var component = stack.get(ModComponents.MANA);
+            if (component == null) {
+                return false;
+            }
+
+            var pool = component.pool().makeClone(player.getWorld());
+            pool.refill(512, player.getWorld());
+            stack.set(ModComponents.MANA, component.with(pool));
+
+            otherStack.decrement(1);
+            cursorStackReference.set(otherStack);
+
+            var outputStack = Items.GLASS_BOTTLE.getDefaultStack();
+            if (!player.getInventory().insertStack(outputStack)) {
+                player.dropItem(outputStack, false);
+            }
+
+            player.getWorld().playSoundFromEntity(
+                player, player, SoundEvents.ITEM_HONEY_BOTTLE_DRINK,
+                SoundCategory.PLAYERS, 1.0F, 1.0F
+            );
+
+            return true;
+        }
+
+        return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
     }
 
     public float getCreationCost() {

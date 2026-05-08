@@ -10,6 +10,7 @@ import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.enjarai.trickster.Trickster;
+import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.data.CompleteJsonDataLoader;
 import dev.enjarai.trickster.mixin.accessor.StateAccessor;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -24,6 +25,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
@@ -87,7 +89,7 @@ public abstract class BlockConversionLoader extends CompleteJsonDataLoader imple
         conversions = builder.build();
     }
 
-    public boolean convert(Block block, World world, BlockPos pos) {
+    public boolean convert(Block block, World world, BlockPos pos, Optional<ServerPlayerEntity> player) {
         List<WeightedValue> values = conversions.get(block);
         if (values == null) return false;
 
@@ -143,6 +145,10 @@ public abstract class BlockConversionLoader extends CompleteJsonDataLoader imple
             blockEntity.read(weightedValue.nbt().get(), world.getRegistryManager());
         }
 
+        if (player.isPresent()) {
+            ModCriteria.BLOCK_CONVERSION.trigger(player.get(), block, blockState.getBlock());
+        }
+
         return true;
     }
 
@@ -151,15 +157,15 @@ public abstract class BlockConversionLoader extends CompleteJsonDataLoader imple
     }
 
     public record Replaceable(boolean replace, List<WeightedValue> conversions) {
-        public static final Codec<Replaceable> CODEC = RecordCodecBuilder.create(instance ->
-          instance.group(
-            Codec.BOOL.optionalFieldOf("replace", false).forGetter(Replaceable::replace),
-            WeightedValue.CODEC.listOf().fieldOf("conversions").forGetter(Replaceable::conversions)
-          ).apply(instance, Replaceable::new)
+        public static final Codec<Replaceable> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.BOOL.optionalFieldOf("replace", false).forGetter(Replaceable::replace),
+                WeightedValue.CODEC.listOf().fieldOf("conversions").forGetter(Replaceable::conversions)
+        ).apply(instance, Replaceable::new)
         );
     }
 
     public record WeightedValue(BlockState state, Optional<Either<List<String>, Boolean>> keepProperties, Optional<NbtCompound> nbt, int weight) implements Weighted {
+
         public static final MapCodec<BlockState> BLOCK_STATE_CODEC = Registries.BLOCK.getCodec().dispatchMap("id", state -> ((StateAccessor) state).getOwner(), owner -> {
             BlockState state = owner.getDefaultState();
             if (state.getEntries().isEmpty()) {
@@ -168,13 +174,12 @@ public abstract class BlockConversionLoader extends CompleteJsonDataLoader imple
             return ((StateAccessor) state).<BlockState>getCodec().codec().optionalFieldOf("properties").xmap(optional -> optional.orElse(state), Optional::of);
         }).stable();
 
-        public static final Codec<WeightedValue> CODEC = RecordCodecBuilder.create(instance ->
-          instance.group(
-            RecordCodecBuilder.of(WeightedValue::state, BLOCK_STATE_CODEC),
-            Codec.either(Codec.STRING.listOf(), Codec.BOOL).optionalFieldOf("keepProperties").forGetter(WeightedValue::keepProperties),
-            NbtCompound.CODEC.optionalFieldOf("nbt").forGetter(WeightedValue::nbt),
-            Codec.INT.fieldOf("weight").forGetter(WeightedValue::weight)
-          ).apply(instance, WeightedValue::new)
+        public static final Codec<WeightedValue> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                RecordCodecBuilder.of(WeightedValue::state, BLOCK_STATE_CODEC),
+                Codec.either(Codec.STRING.listOf(), Codec.BOOL).optionalFieldOf("keepProperties").forGetter(WeightedValue::keepProperties),
+                NbtCompound.CODEC.optionalFieldOf("nbt").forGetter(WeightedValue::nbt),
+                Codec.INT.fieldOf("weight").forGetter(WeightedValue::weight)
+        ).apply(instance, WeightedValue::new)
         );
 
         @Override
