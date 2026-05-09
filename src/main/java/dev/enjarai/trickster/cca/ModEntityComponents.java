@@ -11,25 +11,17 @@ import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
 
 public class ModEntityComponents implements EntityComponentInitializer {
     public static final ComponentKey<CasterComponent> CASTER = ComponentRegistry.getOrCreate(Trickster.id("caster"), CasterComponent.class);
-
     public static final ComponentKey<BarsComponent> BARS = ComponentRegistry.getOrCreate(Trickster.id("bars"), BarsComponent.class);
-
     public static final ComponentKey<DisguiseComponent> DISGUISE = ComponentRegistry.getOrCreate(Trickster.id("disguise"), DisguiseComponent.class);
-
     public static final ComponentKey<IsEditingScrollComponent> IS_EDITING_SCROLL = ComponentRegistry.getOrCreate(Trickster.id("is_editing_scroll"), IsEditingScrollComponent.class);
-
     public static final ComponentKey<GraceComponent> GRACE = ComponentRegistry.getOrCreate(Trickster.id("grace"), GraceComponent.class);
-
     public static final ComponentKey<FlecksComponent> FLECKS = ComponentRegistry.getOrCreate(Trickster.id("flecks"), FlecksComponent.class);
-
     public static final ComponentKey<PlayerAnimationComponent> PLAYER_ANIMATION = ComponentRegistry.getOrCreate(Trickster.id("player_animation"), PlayerAnimationComponent.class);
-
     public static final ComponentKey<EntityWeightComponent> WEIGHT = ComponentRegistry.getOrCreate(Trickster.id("weight"), EntityWeightComponent.class);
-
     public static final ComponentKey<EntityScaleComponent> SCALE = ComponentRegistry.getOrCreate(Trickster.id("scale"), EntityScaleComponent.class);
-
     public static final ComponentKey<DisplacementComponent> DISPLACEMENT = ComponentRegistry.getOrCreate(Trickster.id("displacement"), DisplacementComponent.class);
     public static final ComponentKey<CurseComponent> CURSE = ComponentRegistry.getOrCreate(Trickster.id("curse"), CurseComponent.class);
+    public static final ComponentKey<ServerPlayerVelocityComponent> SERVER_PLAYER_VELOCITY = ComponentRegistry.getOrCreate(Trickster.id("server_player_velocity"), ServerPlayerVelocityComponent.class);
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
@@ -44,5 +36,6 @@ public class ModEntityComponents implements EntityComponentInitializer {
         registry.registerFor(Entity.class, GRACE, GraceComponent::new);
         registry.registerFor(Entity.class, DISPLACEMENT, DisplacementComponent::new);
         registry.registerForPlayers(CURSE, CurseComponent::new, RespawnCopyStrategy.ALWAYS_COPY);
+        registry.registerForPlayers(SERVER_PLAYER_VELOCITY, ServerPlayerVelocityComponent::new, RespawnCopyStrategy.NEVER_COPY);
     }
 }
