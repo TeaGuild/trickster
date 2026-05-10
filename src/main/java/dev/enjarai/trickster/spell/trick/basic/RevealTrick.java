@@ -3,8 +3,6 @@ package dev.enjarai.trickster.spell.trick.basic;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
-import dev.enjarai.trickster.spell.blunder.BlunderException;
-import dev.enjarai.trickster.spell.blunder.NoPlayerBlunder;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.ArgType;
 import dev.enjarai.trickster.spell.type.RetType;
@@ -37,7 +35,7 @@ public class RevealTrick extends Trick<RevealTrick> {
         }
 
         Text finalResult = result;
-        ctx.source().getPlayer().orElseThrow(() -> new NoPlayerBlunder(this)).sendMessage(Text.of(finalResult), false);
+        ctx.source().showChatMessage(Text.of(finalResult));
 
         return first;
     }
