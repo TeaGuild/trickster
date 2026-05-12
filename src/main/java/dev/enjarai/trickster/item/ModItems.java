@@ -54,8 +54,8 @@ public class ModItems {
     public static final LeashItem LEASH = register("leash", new LeashItem(new Item.Settings()));
     public static final Item WARDING_CHARM = register("warding_charm",
         new Item(new Item.Settings().maxCount(1)));
-    public static final BottledItem LUMINOUS_BOTTLE = register("luminous_bottle",
-        new BottledItem(new Item.Settings().maxCount(12)
+    public static final LuminousBottleItem LUMINOUS_BOTTLE = register("luminous_bottle",
+        new LuminousBottleItem(new Item.Settings().maxCount(12)
             .recipeRemainder(Items.GLASS_BOTTLE)
             .food(new FoodComponent.Builder()
                 .nutrition(0)
