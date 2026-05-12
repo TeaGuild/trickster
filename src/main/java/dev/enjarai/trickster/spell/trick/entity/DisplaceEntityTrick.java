@@ -1,48 +1,56 @@
 package dev.enjarai.trickster.spell.trick.entity;
 
-import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.EntityCannotBeDisplacedBlunder;
 import dev.enjarai.trickster.spell.blunder.UnknownEntityBlunder;
-import dev.enjarai.trickster.spell.execution.TickData;
-import dev.enjarai.trickster.spell.fragment.EntityFragment;
-import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.fragment.VectorFragment;
+import dev.enjarai.trickster.spell.fragment.*;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import org.joml.Vector3d;
 
-import java.util.HashMap;
+import java.util.Set;
 
 public class DisplaceEntityTrick extends Trick<DisplaceEntityTrick> {
-    private static final TickData.Key<HashMap<EntityFragment, Float>> COMPOUND_LEN = new TickData.Key<>(
-            Trickster.id("displace_compound_len"), null
-    );
-
     public DisplaceEntityTrick() {
         super(
                 Pattern.of(1, 5, 7, 3, 1, 8, 3, 2, 7, 0, 5, 6, 1),
-                Signature.of(FragmentType.ENTITY.wardOf(), FragmentType.VECTOR, DisplaceEntityTrick::run, FragmentType.ENTITY)
+                Signature.of(FragmentType.DISPLACE, FragmentType.VECTOR, DisplaceEntityTrick::run, FragmentType.VOID)
         );
     }
 
-    public EntityFragment run(SpellContext ctx, EntityFragment target, VectorFragment v) {
+    public VoidFragment run(SpellContext ctx, DisplaceFragment target, VectorFragment v) {
         var entity = target
                 .getEntity(ctx)
                 .orElseThrow(() -> new UnknownEntityBlunder(this));
         var vector = v.vector();
+        var destination = ctx.source().getPos().add(vector, new Vector3d());
 
-        if (entity.getType().isIn(ModEntities.CANNOT_DISPLACE))
+        if (entity.getType().isIn(ModEntities.CANNOT_DISPLACE)) {
             throw new EntityCannotBeDisplacedBlunder(this, entity);
+        }
 
-        var map = COMPOUND_LEN.set(ctx.data(), COMPOUND_LEN.get(ctx.data()).orElse(new HashMap<>()));
-        var length = (float) vector.length() + map.getOrDefault(target, 0f);
-        ctx.useMana(this, 20 + (float) Math.pow(1.35, length));
-        map.put(target, length);
+        // keep this: relative location calculation
+        var distanceFromAnchor = (float) vector.length();
+        var manaUse = 20 + (float) Math.pow(1.35, distanceFromAnchor);
 
-        ModEntityComponents.DISPLACEMENT.get(entity).modify(vector);
-        return target;
+        if (!ctx.source().getWorld().getRegistryKey().equals(target.sourceWorld())) {
+            var scaledSource = entity.getPos().toVector3d().mul(entity.getWorld().getDimension().coordinateScale());
+            var scaledDestination = ctx.source().getPos().mul(ctx.source().getWorld().getDimension().coordinateScale());
+            manaUse += (float) (scaledSource.distance(scaledDestination) * 4);
+        } else {
+            manaUse += (float) (entity.getPos().toVector3d().distance(destination) * 4);
+        }
+
+        ctx.useMana(this, manaUse);
+
+        entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        entity.teleport(ctx.source().getWorld(), destination.x(), destination.y(), destination.z(), Set.of(), entity.getHeadYaw(), entity.getPitch());
+        entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+        return VoidFragment.INSTANCE;
     }
 }

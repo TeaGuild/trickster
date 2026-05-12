@@ -376,6 +376,9 @@ trickster:
     slot: slot %d at %s
     merged: '%d storages'
 
+  displace:
+    reference: Displacement %s
+
 item.trickster:
   tome_of_tomfoolery: Tome of Tomfoolery
   mirror_of_evaluation: Mirror of Evaluation
