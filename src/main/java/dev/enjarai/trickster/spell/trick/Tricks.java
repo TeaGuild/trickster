@@ -137,6 +137,7 @@ public class Tricks {
     public static final RaycastBlockSideTrick RAYCAST_SIDE = register("raycast_side", new RaycastBlockSideTrick());
     public static final RaycastEntityTrick RAYCAST_ENTITY = register("raycast_entity", new RaycastEntityTrick());
     public static final AddVelocityTrick ADD_VELOCITY = register("add_velocity", new AddVelocityTrick());
+    public static final PrepareDisplaceEntityTrick PREPARE_DISPLACE = register("prepare_displace", new PrepareDisplaceEntityTrick());
     public static final DisplaceEntityTrick DISPLACE = register("displace", new DisplaceEntityTrick());
     public static final ChangeWeightTrick CHANGE_WEIGHT = register("change_weight", new ChangeWeightTrick());
     public static final PolymorphTrick POLYMORPH = register("polymorph", new PolymorphTrick());

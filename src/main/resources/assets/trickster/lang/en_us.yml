@@ -141,6 +141,7 @@ trickster:
     get_velocity: Movement Ingress
     add_velocity: Kinetic Ploy
     change_weight: Ploy of Featherweight
+    prepare_displace: Ploy of the Entitled
     displace: Ploy of the Usurper
     store_entity: Containment Ploy
     release_entity: Extrication Ploy
@@ -335,6 +336,7 @@ trickster:
       entity_type: EntityType
       string: String
       dimension: Dimension
+      displace: Displacement
       color: Color
     class:
       Fragment: Any

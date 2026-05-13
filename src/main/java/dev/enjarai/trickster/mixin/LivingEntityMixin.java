@@ -41,9 +41,9 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(
-            method = "fall", at = @At(
-                    value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyMovementEffects(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;)V"
-            )
+        method = "fall", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyMovementEffects(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;)V"
+        )
     )
     private void triggerBoots(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci) {
         if ((LivingEntity) (Object) this instanceof ServerPlayerEntity player) {
@@ -52,27 +52,27 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @ModifyReturnValue(
-            method = "damage", at = @At("RETURN")
+        method = "damage", at = @At("RETURN")
     )
     private boolean cancelDisplacement(boolean original, DamageSource source, float amount) {
         if (original) {
-            ModEntityComponents.DISPLACEMENT.get(this).clear();
+            ModEntityComponents.DISPLACEMENT.get(this).cancelTeleport();
         }
 
         return original;
     }
 
     @Inject(
-            method = "tick", at = @At("TAIL")
+        method = "tick", at = @At("TAIL")
     )
     private void tickTricksterThings(CallbackInfo ci) {
         removeAttached(ModAttachments.WHY_IS_THERE_NO_WAY_TO_DETECT_THIS);
     }
 
     @ModifyExpressionValue(
-            method = "computeFallDamage", at = @At(
-                    value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getAttributeValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
-            )
+        method = "computeFallDamage", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getAttributeValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
+        )
     )
     private double modifySafeFallDistance(double original) {
         if (ModEntityComponents.WEIGHT.get(this).getWeight() < 1) {
@@ -85,40 +85,39 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @ModifyExpressionValue(
-            method = "getGravity", at = @At(
-                    value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getAttributeValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
-            )
+        method = "getGravity", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getAttributeValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
+        )
     )
     private double modifyGravity(double original) {
         return original * ModEntityComponents.WEIGHT.get(this).getWeight();
     }
 
     @Inject(
-            method = "takeKnockback", at = @At("HEAD")
+        method = "takeKnockback", at = @At("HEAD")
     )
     private void modifyKnockback(double strength, double x, double z, CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalDoubleRef strengthRef) {
         strengthRef.set(strengthRef.get() * (4 - 3 * ModEntityComponents.WEIGHT.get(this).getWeight()));
     }
 
     @ModifyExpressionValue(
-            method = "getScale", at = @At(
-                    value = "INVOKE", target = "Lnet/minecraft/entity/attribute/AttributeContainer;getValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
-            )
+        method = "getScale", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/entity/attribute/AttributeContainer;getValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
+        )
     )
     private double modifyScale(double original) {
         return original * ModEntityComponents.SCALE.get(this).getScale();
     }
 
     @ModifyReturnValue(
-            method = "getMovementSpeed()F", at = @At("RETURN")
+        method = "getMovementSpeed()F", at = @At("RETURN")
     )
     private float modifySpeed(float original) {
         return (float) (original * ModEntityComponents.SCALE.get(this).getScale());
     }
 
     @Inject(
-            method = "jump",
-            at = @At("HEAD")
+        method = "jump", at = @At("HEAD")
     )
     private void jump(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;

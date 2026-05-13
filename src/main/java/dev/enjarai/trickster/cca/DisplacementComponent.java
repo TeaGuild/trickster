@@ -8,15 +8,13 @@ import java.util.UUID;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
-import org.joml.Vector3dc;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
-import dev.enjarai.trickster.EndecTomfoolery;
-import io.wispforest.endec.Endec;
-import io.wispforest.endec.impl.KeyedEndec;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
@@ -29,23 +27,51 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
 
     private final Entity entity;
     private final HashMap<UUID, TeleportReference> teleportReferences = new HashMap<>();
+    private Optional<Destination> destination = Optional.empty();
+    private Optional<Vec3d> initialPosition = Optional.empty();
 
     public DisplacementComponent(Entity entity) {
         this.entity = entity;
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag, WrapperLookup registryLookup) {
-    }
+    public void readFromNbt(NbtCompound tag, WrapperLookup registryLookup) {}
 
     @Override
-    public void writeToNbt(NbtCompound tag, WrapperLookup registryLookup) {
-    }
+    public void writeToNbt(NbtCompound tag, WrapperLookup registryLookup) {}
 
     @Override
     public void serverTick() {
-        teleportReferences.values().removeIf(r ->
-            r.timeCreated + KEEP_TIME < entity.getWorld().getTime());
+        teleportReferences.values().removeIf(r -> r.timeCreated + KEEP_TIME < entity.getWorld().getTime());
+
+        initialPosition.ifPresent(initialPos -> {
+            if (initialPos.squaredDistanceTo(entity.getPos()) > 0.5 * 0.5) {
+                cancelTeleport();
+            }
+        });
+
+        destination.ifPresent(xyz -> {
+            if (!ModEntityComponents.GRACE.get(entity).isInGrace("displacement")) {
+                var inVoid = xyz.position.y < xyz.world.getDimension().minY();
+                if (inVoid || !xyz.world.isSpaceEmpty(entity,
+                    entity.getDimensions(entity.getPose()).getBoxAt(xyz.position.x, xyz.position.y, xyz.position.z))) {
+
+                    // Not a good place to teleport to
+                    return;
+                }
+                destination = Optional.empty();
+
+                entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+                if (entity.getWorld() == xyz.world) {
+                    entity.requestTeleport(xyz.position.x, xyz.position.y, xyz.position.z);
+                } else {
+                    entity.teleport((ServerWorld) xyz.world, xyz.position.x, xyz.position.y, xyz.position.z, Set.of(), entity.getHeadYaw(), entity.getPitch());
+                }
+
+                entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
+        });
     }
 
     @Override
@@ -53,13 +79,13 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
         if (ModEntityComponents.GRACE.get(entity).isInGrace("displacement")) {
             for (int i = 0; i < 2; i++) {
                 entity.getWorld().addParticle(
-                        ParticleTypes.PORTAL,
-                        entity.getParticleX(0.5),
-                        entity.getRandomBodyY() - 0.25,
-                        entity.getParticleZ(0.5),
-                        (entity.getRandom().nextDouble() - 0.5) * 2.0,
-                        -entity.getRandom().nextDouble(),
-                        (entity.getRandom().nextDouble() - 0.5) * 2.0
+                    ParticleTypes.PORTAL,
+                    entity.getParticleX(0.5),
+                    entity.getRandomBodyY() - 0.25,
+                    entity.getParticleZ(0.5),
+                    (entity.getRandom().nextDouble() - 0.5) * 2.0,
+                    -entity.getRandom().nextDouble(),
+                    (entity.getRandom().nextDouble() - 0.5) * 2.0
                 );
             }
         }
@@ -80,11 +106,25 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
         return reference != null && !reference.used;
     }
 
-    public void useReference(UUID uuid) {
+    public void useReference(UUID uuid, World destinationWorld, Vector3d destination, boolean instant) {
         var reference = teleportReferences.get(uuid);
         if (reference != null) {
             reference.used = true;
         }
+
+        this.destination = Optional.of(new Destination(destination, destinationWorld));
+        this.initialPosition = Optional.of(entity.getPos());
+
+        if (!instant) {
+            ModEntityComponents.GRACE.get(entity).triggerGrace("displacement", CHARGE_TICKS);
+        }
+        entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.BLOCK_PORTAL_TRIGGER, SoundCategory.PLAYERS, 1.0F, 2.0F);
+    }
+
+    public void cancelTeleport() {
+        destination = Optional.empty();
+        initialPosition = Optional.empty();
+        ModEntityComponents.GRACE.get(entity).cancelGrace("displacement");
     }
 
     private static class TeleportReference {
@@ -94,5 +134,8 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
         TeleportReference(long timeCreated) {
             this.timeCreated = timeCreated;
         }
+    }
+
+    private record Destination(Vector3d position, World world) {
     }
 }

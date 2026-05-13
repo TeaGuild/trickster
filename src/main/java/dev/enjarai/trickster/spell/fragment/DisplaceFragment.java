@@ -12,12 +12,13 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public record DisplaceFragment(UUID referenceId, UUID entityId, RegistryKey<World> sourceWorld) implements Fragment {
+
     public static final StructEndec<DisplaceFragment> ENDEC = StructEndecBuilder.of(
         BuiltInEndecs.UUID.fieldOf("reference_id", DisplaceFragment::referenceId),
         BuiltInEndecs.UUID.fieldOf("entity_id", DisplaceFragment::entityId),
@@ -32,7 +33,7 @@ public record DisplaceFragment(UUID referenceId, UUID entityId, RegistryKey<Worl
 
     @Override
     public Text asText() {
-        return Text.translatable("trickster.displace.reference", referenceId);
+        return Text.translatable("trickster.displace.reference", referenceId.toString());
     }
 
     @Override
@@ -45,6 +46,16 @@ public record DisplaceFragment(UUID referenceId, UUID entityId, RegistryKey<Worl
         return Optional
             .ofNullable(ctx.source().getWorld().getServer().getWorld(sourceWorld).getEntity(entityId))
             .filter(EntityFragment::isValidEntity);
+    }
+
+    public boolean isValid(SpellContext ctx) {
+        return getEntity(ctx)
+            .map(e -> e.getComponent(ModEntityComponents.DISPLACEMENT).isValid(referenceId))
+            .orElse(false);
+    }
+
+    public void consume(SpellContext ctx, World destinationWorld, Vector3d destination, boolean instant) {
+        getEntity(ctx).ifPresent(e -> e.getComponent(ModEntityComponents.DISPLACEMENT).useReference(referenceId, destinationWorld, destination, instant));
     }
 
     public static Optional<DisplaceFragment> fromEntity(Entity entity) {

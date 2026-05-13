@@ -14,7 +14,10 @@ import dev.enjarai.trickster.spell.type.Signature;
 
 public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick> {
     public PrepareDisplaceEntityTrick() {
-        super(Pattern.of(), Signature.of(FragmentType.ENTITY.wardOf(), PrepareDisplaceEntityTrick::run, FragmentType.DISPLACE));
+        super(
+            Pattern.of(6, 7, 8).add(Pattern.of(3, 7, 5)).add(Pattern.of(0, 7, 2)),
+            Signature.of(FragmentType.ENTITY.wardOf(), PrepareDisplaceEntityTrick::run, FragmentType.DISPLACE)
+        );
     }
 
     public DisplaceFragment run(SpellContext ctx, EntityFragment target) {
