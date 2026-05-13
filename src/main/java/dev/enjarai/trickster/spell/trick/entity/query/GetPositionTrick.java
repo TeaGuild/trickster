@@ -2,6 +2,7 @@ package dev.enjarai.trickster.spell.trick.entity.query;
 
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
+import dev.enjarai.trickster.spell.blunder.InvalidDisplacementBlunder;
 import dev.enjarai.trickster.spell.blunder.UnknownEntityBlunder;
 import dev.enjarai.trickster.spell.fragment.DisplaceFragment;
 import dev.enjarai.trickster.spell.fragment.EntityFragment;
@@ -26,6 +27,10 @@ public class GetPositionTrick extends Trick<GetPositionTrick> {
     }
 
     public VectorFragment fromDisplacement(SpellContext ctx, DisplaceFragment displacement) {
+        if (!displacement.isValid(ctx)) {
+            throw new InvalidDisplacementBlunder(this);
+        }
+
         var pos = displacement.getEntity(ctx).orElseThrow(() -> new UnknownEntityBlunder(this)).getPos();
         return new VectorFragment(new Vector3d(pos.x, pos.y, pos.z));
     }

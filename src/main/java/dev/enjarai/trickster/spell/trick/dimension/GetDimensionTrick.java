@@ -2,6 +2,7 @@ package dev.enjarai.trickster.spell.trick.dimension;
 
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
+import dev.enjarai.trickster.spell.blunder.InvalidDisplacementBlunder;
 import dev.enjarai.trickster.spell.fragment.DimensionFragment;
 import dev.enjarai.trickster.spell.fragment.DisplaceFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
@@ -19,6 +20,10 @@ public class GetDimensionTrick extends Trick<GetDimensionTrick> {
     }
 
     public DimensionFragment fromDisplacement(SpellContext ctx, DisplaceFragment displacement) {
+        if (!displacement.isValid(ctx)) {
+            throw new InvalidDisplacementBlunder(this);
+        }
+
         return new DimensionFragment(displacement.sourceWorld());
     }
 }
