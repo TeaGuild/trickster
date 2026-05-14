@@ -12,7 +12,7 @@
       "weight": 20,
       "element": {
         "element_type": "lithostitched:delegating",
-        "name": "trickster:managrid/branch",
+        "name": "trickster:managrid/branch_turn",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
           "projection": "trickster:terrain_matching_ocean",
@@ -21,7 +21,7 @@
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true,
-        "max_count": 10
+        "max_count": 3
       }
     }
   ]

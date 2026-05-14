@@ -15,7 +15,7 @@
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true,
-        "max_count": 10
+        "max_count": 7
       }
     }
   ]

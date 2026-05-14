@@ -11,7 +11,7 @@ import dev.enjarai.trickster.effects.ModEffects;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.fleck.FleckType;
 import dev.enjarai.trickster.item.ModItems;
-import dev.enjarai.trickster.datagen.ModLoot;
+import dev.enjarai.trickster.loot.ModLoot;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.item.recipe.ModRecipes;
 import dev.enjarai.trickster.misc.ModDamageTypes;

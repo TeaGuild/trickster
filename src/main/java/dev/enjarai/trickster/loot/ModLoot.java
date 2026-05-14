@@ -1,4 +1,4 @@
-package dev.enjarai.trickster.datagen;
+package dev.enjarai.trickster.loot;
 
 import java.util.Set;
 
@@ -16,7 +16,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 
-//Why is this in datagen?
 public class ModLoot {
     private static final Set<RegistryKey<LootTable>> RUSTED_SPELL_CORE_LOOT_TABLES = Set.of(
         LootTables.SIMPLE_DUNGEON_CHEST, LootTables.ABANDONED_MINESHAFT_CHEST,
@@ -24,11 +23,13 @@ public class ModLoot {
         LootTables.UNDERWATER_RUIN_BIG_CHEST, LootTables.UNDERWATER_RUIN_SMALL_CHEST
     );
 
-    public static final LootFunctionType<RandomManaLootFunction> RANDOM_MANA_FUNCTION_TYPE = Registry.register(Registries.LOOT_FUNCTION_TYPE, Trickster.id("random_mana"),
-        new LootFunctionType<>(RandomManaLootFunction.CODEC));
+    public static final LootFunctionType<RandomManaLootFunction> RANDOM_MANA_FUNCTION_TYPE = Registry.register(
+        Registries.LOOT_FUNCTION_TYPE,
+        Trickster.id("random_mana"),
+        new LootFunctionType<>(RandomManaLootFunction.CODEC)
+    );
 
     public static void register() {
-
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (RUSTED_SPELL_CORE_LOOT_TABLES.contains(key)) {
                 tableBuilder.pool(LootPool.builder()
