@@ -20,7 +20,7 @@
         },
         "condition": {
           "type": "lithostitched:in_biome",
-          "biomes": "minecraft:plains"
+          "biomes": "#trickster:has_rubble/dirt"
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true
@@ -44,7 +44,7 @@
         },
         "condition": {
           "type": "lithostitched:in_biome",
-          "biomes": "minecraft:plains"
+          "biomes": "#trickster:has_rubble/dirt"
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true
