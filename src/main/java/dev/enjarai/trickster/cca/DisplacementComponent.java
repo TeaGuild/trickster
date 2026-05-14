@@ -52,6 +52,8 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
 
         destination.ifPresent(xyz -> {
             if (!ModEntityComponents.GRACE.get(entity).isInGrace("displacement")) {
+                destination = Optional.empty();
+
                 var inVoid = xyz.position.y < xyz.world.getDimension().minY();
                 if (inVoid || !xyz.world.isSpaceEmpty(entity,
                     entity.getDimensions(entity.getPose()).getBoxAt(xyz.position.x, xyz.position.y, xyz.position.z))) {
@@ -59,7 +61,6 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
                     // Not a good place to teleport to
                     return;
                 }
-                destination = Optional.empty();
 
                 entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
