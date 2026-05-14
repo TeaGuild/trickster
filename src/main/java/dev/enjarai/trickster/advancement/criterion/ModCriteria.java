@@ -10,6 +10,7 @@ public class ModCriteria {
     public static final ManaOverfluxCriterion MANA_OVERFLUX = register("mana_overflux", new ManaOverfluxCriterion());
     public static final NaNNumberCriterion NAN_NUMBER = register("nan_number", new NaNNumberCriterion());
     public static final DrinkManaCriterion DRINK_MANA = register("drink_mana", new DrinkManaCriterion());
+    public static final BrewItemCriterion BREW_ITEM = register("brew_item", new BrewItemCriterion());
     public static final TriggerResonatorCriterion TRIGGER_RESONATOR = register("trigger_resonator", new TriggerResonatorCriterion());
     public static final InscribeSpellCriterion INSCRIBE_SPELL = register("inscribe_spell", new InscribeSpellCriterion());
     public static final UseMacroCriterion USE_MACRO = register("use_macro", new UseMacroCriterion());

@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:esoteric_mana"
+    },
+    "title": {
+      "text": "Mixin' in the Brewing Stand"
+    },
+    "description": {
+      "text": "Brew Esoteric Mana in a brewing stand to get more bang for your buck"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "trickster:root",
+  "criteria": {
+    "brew_mana": {
+      "trigger": "trickster:brew_item",
+      "conditions": {
+        "item": "trickster:esoteric_mana"
+      }
+    }
+  }
+}
