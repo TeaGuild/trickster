@@ -2,6 +2,7 @@ package dev.enjarai.trickster.spell.trick.tree;
 
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellPart;
+import dev.enjarai.trickster.spell.blunder.NumberTooSmallBlunder;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.trick.DistortionTrick;
@@ -27,7 +28,10 @@ public abstract class AbstractMetaTrick<T extends AbstractMetaTrick<T>> extends 
     }
 
     protected Optional<SpellPart> findNode(SpellPart node, List<NumberFragment> address) {
-        for (var index : address) {
+        for (var index : address) { // TODO im pretty sure we can check for negetive addresses here -ash REMOVE SUB TREE HAS SEPRATE LOGIC I THINK?
+            if (index.asInt() < 0) {
+                throw new NumberTooSmallBlunder(this, 0);
+            }
             var subParts = node.subParts;
             if (subParts.size() > index.asInt()) {
                 node = subParts.get(index.asInt());
