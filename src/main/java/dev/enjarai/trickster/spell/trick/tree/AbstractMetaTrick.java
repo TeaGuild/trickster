@@ -28,7 +28,7 @@ public abstract class AbstractMetaTrick<T extends AbstractMetaTrick<T>> extends 
     }
 
     protected Optional<SpellPart> findNode(SpellPart node, List<NumberFragment> address) {
-        for (var index : address) { // TODO im pretty sure we can check for negetive addresses here -ash REMOVE SUB TREE HAS SEPRATE LOGIC I THINK?
+        for (var index : address) {
             if (index.asInt() < 0) {
                 throw new NumberTooSmallBlunder(this, 0);
             }
