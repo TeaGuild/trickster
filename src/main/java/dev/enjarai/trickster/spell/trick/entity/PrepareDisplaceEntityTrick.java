@@ -11,11 +11,12 @@ import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
+import org.joml.Vector3d;
 
 public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick> {
     public PrepareDisplaceEntityTrick() {
         super(
-            Pattern.of(6, 7, 8).add(Pattern.of(3, 7, 5)).add(Pattern.of(0, 7, 2)),
+            Pattern.of(6, 1, 8).add(Pattern.of(0, 7, 2)),
             Signature.of(FragmentType.ENTITY.wardOf(), PrepareDisplaceEntityTrick::run, FragmentType.DISPLACE)
         );
     }
@@ -29,7 +30,12 @@ public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick
             throw new EntityCannotBeDisplacedBlunder(this, entity);
         }
 
-        ctx.useMana(this, 128);
+        var vector = entity.getPos().toVector3d().sub(ctx.source().getPos(), new Vector3d());
+
+        var distanceFromAnchor = (float) vector.length();
+        var manaUse = 120 + (float) Math.pow(1.35, distanceFromAnchor);
+
+        ctx.useMana(this, manaUse);
         return DisplaceFragment.fromEntity(entity)
             .orElseThrow(() -> new TooManyDisplacementsBlunder(this, entity));
     }

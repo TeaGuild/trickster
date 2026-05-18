@@ -61,20 +61,6 @@ unless the ploy is recast periodically.
 
 ;;;;;
 
-<|ploy@trickster:templates|trick-id=trickster:prepare_displace,cost=128G|>
-
-Creates a temporary displacement fragment from an entity.
-These fragments can only be used for five seconds after creation.
-
-;;;;;
-
-<|ploy@trickster:templates|trick-id=trickster:displace,cost=20G + 1.35G^offset + distance * 3G|>
-
-Consumes a displacement fragment to teleport its entity to the given position relative to the caster.
-If the entity is not the caster, a delay is applied.
-
-;;;;;
-
 <|ploy@trickster:templates|trick-id=trickster:polymorph,cost=8000G|>
 
 Changes the first entity's appearance to match the second, returning the first.

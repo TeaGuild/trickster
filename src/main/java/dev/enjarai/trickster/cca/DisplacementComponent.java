@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -118,14 +119,27 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
 
         if (!instant) {
             ModEntityComponents.GRACE.get(entity).triggerGrace("displacement", CHARGE_TICKS);
+            entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.BLOCK_PORTAL_TRIGGER, SoundCategory.PLAYERS, 1.0F, 2.0F);
         }
-        entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.BLOCK_PORTAL_TRIGGER, SoundCategory.PLAYERS, 1.0F, 2.0F);
     }
 
     public void cancelTeleport() {
         destination = Optional.empty();
         initialPosition = Optional.empty();
         ModEntityComponents.GRACE.get(entity).cancelGrace("displacement");
+
+        var server = this.entity.getWorld().getServer();
+        if (server != null) {
+            var sound = SoundEvents.BLOCK_PORTAL_TRIGGER;
+            var category = SoundCategory.PLAYERS;
+
+            var packet = new StopSoundS2CPacket(sound.getId(), category);
+            server.getPlayerManager().sendToAround(
+                null, entity.getX(), entity.getY(), entity.getZ(),
+                sound.getDistanceToTravel(1), entity.getWorld().getRegistryKey(),
+                packet
+            );
+        }
     }
 
     private static class TeleportReference {
