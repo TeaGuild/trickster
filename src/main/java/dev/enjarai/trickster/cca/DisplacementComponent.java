@@ -114,6 +114,8 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
             reference.used = true;
         }
 
+        this.destination.ifPresent(d -> cancelTeleport());
+
         this.destination = Optional.of(new Destination(destination, destinationWorld));
         this.initialPosition = Optional.of(entity.getPos());
 
