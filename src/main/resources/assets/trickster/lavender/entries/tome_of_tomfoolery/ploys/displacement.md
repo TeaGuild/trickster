@@ -47,6 +47,12 @@ a teleport can be canceled
 
 ;;;;;
 
+<|trick@trickster:templates|trick-id=trickster:get_displacements|>
+
+Given an entity, returns the amount of displacements it has available immediately.
+
+;;;;;
+
 <|trick@trickster:templates|trick-id=trickster:get_position|>
 
 Given a displacement fragment, returns the position of its entity.

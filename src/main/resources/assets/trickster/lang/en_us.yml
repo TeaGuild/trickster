@@ -143,6 +143,7 @@ trickster:
     change_weight: Ploy of Featherweight
     prepare_displace: Ploy of the Entitled
     displace: Ploy of the Usurper
+    get_displacements: Ingress of the Despot
     store_entity: Containment Ploy
     release_entity: Extrication Ploy
 

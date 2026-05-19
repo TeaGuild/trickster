@@ -142,6 +142,10 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
         }
     }
 
+    public int getAvailableSlots() {
+        return MAX_BURST - teleportReferences.size();
+    }
+
     private static class TeleportReference {
         final long timeCreated;
         boolean used;
