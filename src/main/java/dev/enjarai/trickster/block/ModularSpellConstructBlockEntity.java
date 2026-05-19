@@ -190,6 +190,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        this.generateLoot(null);
         var nbt = new NbtCompound();
         writeNetNbt(nbt, registryLookup);
         return nbt;

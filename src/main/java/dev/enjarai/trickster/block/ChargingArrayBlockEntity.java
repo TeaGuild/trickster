@@ -81,6 +81,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        this.generateLoot(null);
         return createNbt(registryLookup);
     }
 

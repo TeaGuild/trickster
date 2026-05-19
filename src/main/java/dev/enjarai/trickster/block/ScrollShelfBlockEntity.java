@@ -48,6 +48,7 @@ public class ScrollShelfBlockEntity extends ScreenlessLootableBlockEntity {
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        this.generateLoot(null);
         return createNbt(registryLookup);
     }
 

@@ -49,7 +49,6 @@ public abstract class ScreenlessLootableBlockEntity extends BlockEntity implemen
         if (containerLootComponent != null) {
             this.lootTable = containerLootComponent.lootTable();
             this.lootTableSeed = containerLootComponent.seed();
-            this.generateLoot(null);
         }
     }
 
@@ -65,7 +64,6 @@ public abstract class ScreenlessLootableBlockEntity extends BlockEntity implemen
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
         readLootTable(nbt);
-        this.generateLoot(null);
     }
 
     @Override
