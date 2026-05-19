@@ -28,11 +28,22 @@ If the entity is not the caster, a delay is applied.
 
 ;;;;;
 
+A couple caveats of note:
+
+
 Distance for displacement is calculated from the subjects current position to the casters,
 and an additional cost of 1000 Gandalfs will be added if they are in different dimensions.
 
 
-Displacement fragments can only be used once before becoming invalid.
+Only three displacement fragments can be created for any given entity per five seconds, 
+each of which only be used once before becoming invalid.
+
+
+nether cords are scaled when going between dims
+using a displacement fragment in usurper expires it
+an entity can only have 3 associated displacement fragments at the sometime. Consumed (used by usurper) still count towards this!
+entities cannot be teleported into blocks or below the world
+a teleport can be canceled
 
 ;;;;;
 
