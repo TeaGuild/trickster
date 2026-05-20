@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.spell.trick.block;
 
+import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.ModBlocks;
 import dev.enjarai.trickster.particle.ModParticles;
 import dev.enjarai.trickster.spell.Pattern;
@@ -13,12 +14,16 @@ import dev.enjarai.trickster.spell.fragment.VoidFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 import dev.enjarai.trickster.util.Trolling;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.PistonBlock;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class SwapBlockTrick extends Trick<SwapBlockTrick> {
     public SwapBlockTrick() {
         super(Pattern.of(3, 4, 5, 8, 4, 0, 3, 6, 4, 2, 5),
-                Signature.of(FragmentType.VECTOR, FragmentType.VECTOR, SwapBlockTrick::run, FragmentType.VOID));
+            Signature.of(FragmentType.VECTOR, FragmentType.VECTOR, SwapBlockTrick::run, FragmentType.VOID));
     }
 
     public VoidFragment run(SpellContext ctx, VectorFragment pos1, VectorFragment pos2) {
@@ -42,12 +47,8 @@ public class SwapBlockTrick extends Trick<SwapBlockTrick> {
             throw new BlockUnoccupiedBlunder(this, pos2);
         }
 
-        if (state1.isIn(ModBlocks.CANNOT_SWAP)) {
-            throw new BlockInvalidBlunder(this);
-        }
-        if (state2.isIn(ModBlocks.CANNOT_SWAP)) {
-            throw new BlockInvalidBlunder(this);
-        }
+        expectCanSwap(world, blockPos1, state1);
+        expectCanSwap(world, blockPos2, state2);
 
         ctx.useMana(this, (float) (60 + (pos1.vector().distance(pos2.vector()))));
 
@@ -77,12 +78,22 @@ public class SwapBlockTrick extends Trick<SwapBlockTrick> {
         var particlePos1 = blockPos1.toCenterPos();
         var particlePos2 = blockPos2.toCenterPos();
         world.spawnParticles(
-                ModParticles.PROTECTED_BLOCK, particlePos1.x, particlePos1.y, particlePos1.z,
-                1, 0, 0, 0, 0);
+            ModParticles.PROTECTED_BLOCK, particlePos1.x, particlePos1.y, particlePos1.z,
+            1, 0, 0, 0, 0);
         world.spawnParticles(
-                ModParticles.PROTECTED_BLOCK, particlePos2.x, particlePos2.y, particlePos2.z,
-                1, 0, 0, 0, 0);
+            ModParticles.PROTECTED_BLOCK, particlePos2.x, particlePos2.y, particlePos2.z,
+            1, 0, 0, 0, 0);
 
         return VoidFragment.INSTANCE;
     }
+
+    private void expectCanSwap(World world, BlockPos blockPos, BlockState state) {
+        if (state.isIn(ModBlocks.CANNOT_SWAP)
+            || (!Trickster.CONFIG.allowUnbreakableBlockSwap() && state.getHardness(world, blockPos) < 0)
+            || (!Trickster.CONFIG.allowExtendedPistonSwap() && state.get(PistonBlock.EXTENDED))
+        ) {
+            throw new BlockInvalidBlunder(this, state.getBlock());
+        }
+    }
+
 }
