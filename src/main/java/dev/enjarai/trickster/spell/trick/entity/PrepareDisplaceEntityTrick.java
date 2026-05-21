@@ -17,7 +17,7 @@ public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick
     public PrepareDisplaceEntityTrick() {
         super(
             Pattern.of(6, 1, 8).add(Pattern.of(0, 7, 2)),
-            Signature.of(FragmentType.ENTITY.wardOf(), PrepareDisplaceEntityTrick::run, FragmentType.DISPLACE)
+            Signature.of(FragmentType.ENTITY, PrepareDisplaceEntityTrick::run, FragmentType.DISPLACE)
         );
     }
 
