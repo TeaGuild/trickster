@@ -5,7 +5,10 @@
   "category": "trickster:ploys",
   "additional_search_terms": [
     "Ploy of the Entitled",
-    "Ploy of the Usurper"
+    "Ploy of the Usurper",
+    "Ingress of the Despot",
+    "Dimensional Ingress",
+    "Locational Ingress"
   ]
 }
 ```
