@@ -32,8 +32,8 @@ public class MapArgType<K, V> implements ArgType<HashMap<K, V>> {
 
         for (var entry : map.map()) {
             result = result.put(
-                    keyType.compose(trick, ctx, List.of(entry._1)),
-                    valueType.compose(trick, ctx, List.of(entry._2))
+                keyType.compose(trick, ctx, List.of(entry._1)),
+                valueType.compose(trick, ctx, List.of(entry._2))
             );
         }
 
@@ -69,16 +69,11 @@ public class MapArgType<K, V> implements ArgType<HashMap<K, V>> {
     }
 
     @Override
-    public ArgType<HashMap<K, V>> wardOf() {
-        return new MapArgType<>(keyType.wardOf(), valueType.wardOf());
-    }
-
-    @Override
     public MutableText asText() {
         return Text.literal("{")
-                .append(keyType.asText())
-                .append(": ")
-                .append(valueType.asText())
-                .append("}");
+            .append(keyType.asText())
+            .append(": ")
+            .append(valueType.asText())
+            .append("}");
     }
 }

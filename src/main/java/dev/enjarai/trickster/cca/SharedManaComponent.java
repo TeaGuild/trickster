@@ -39,12 +39,12 @@ public class SharedManaComponent implements AutoSyncedComponent, ServerTickingCo
 
     @Override
     public void readFromNbt(NbtCompound tag, WrapperLookup registryLookup) {
-        // We use persistent state
+        // we use persistent state
     }
 
     @Override
     public void writeToNbt(NbtCompound tag, WrapperLookup registryLookup) {
-        // We use persistent state
+        // we use persistent state
     }
 
     @Override
@@ -56,10 +56,10 @@ public class SharedManaComponent implements AutoSyncedComponent, ServerTickingCo
     public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity player) {
         var uuids = subscribers.getOrDefault(player.getUuid(), Set.of());
         buf.write(
-                POOLS_ENDEC.endec(), pools.entrySet()
-                        .stream()
-                        .filter(entry -> uuids.contains(entry.getKey()))
-                        .collect(Collectors.toMap(HashMap.Entry::getKey, HashMap.Entry::getValue))
+            POOLS_ENDEC.endec(), pools.entrySet()
+                .stream()
+                .filter(entry -> uuids.contains(entry.getKey()))
+                .collect(Collectors.toMap(HashMap.Entry::getKey, HashMap.Entry::getValue))
         );
     }
 

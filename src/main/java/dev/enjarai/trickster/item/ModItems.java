@@ -52,8 +52,6 @@ public class ModItems {
     public static final SpellAccessory TORMENT_ON_A_CHAIN = register("torment_on_a_chain", new SpellAccessory());
     public static final CollarItem COLLAR = register("collar", new CollarItem(new Item.Settings()));
     public static final LeashItem LEASH = register("leash", new LeashItem(new Item.Settings()));
-    public static final Item WARDING_CHARM = register("warding_charm",
-        new Item(new Item.Settings().maxCount(1)));
     public static final LuminousBottleItem LUMINOUS_BOTTLE = register("luminous_bottle",
         new LuminousBottleItem(new Item.Settings().maxCount(12)
             .recipeRemainder(Items.GLASS_BOTTLE)
@@ -187,7 +185,6 @@ public class ModItems {
             entries.add(WAND);
             entries.add(AMETHYST_WHORL);
             entries.add(TORMENT_ON_A_CHAIN);
-            entries.add(WARDING_CHARM);
             entries.add(MACRO_RING);
             entries.add(LUMINOUS_BOTTLE);
             entries.add(ESOTERIC_MANA);

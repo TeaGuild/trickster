@@ -15,7 +15,6 @@ public class ModCriteria {
     public static final InscribeSpellCriterion INSCRIBE_SPELL = register("inscribe_spell", new InscribeSpellCriterion());
     public static final UseMacroCriterion USE_MACRO = register("use_macro", new UseMacroCriterion());
     public static final UseTormentOnAChainCriterion USE_TORMENT_ON_A_CHAIN = register("use_torment_on_a_chain", new UseTormentOnAChainCriterion());
-    public static final TriggerWardCriterion TRIGGER_WARD = register("trigger_ward", new TriggerWardCriterion());
     public static final CreateKnotCriterion CREATE_KNOT = register("create_knot", new CreateKnotCriterion());
     public static final UseCostPloyCriterion USE_COST_PLOY = register("use_cost_ploy", new UseCostPloyCriterion());
     public static final CrackKnotCriterion CRACK_KNOT = register("crack_knot", new CrackKnotCriterion());

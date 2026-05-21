@@ -4,6 +4,7 @@ import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.blunder.AddressNotInTreeBlunder;
+import dev.enjarai.trickster.spell.blunder.NumberTooSmallBlunder;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.type.Signature;
@@ -22,6 +23,9 @@ public class RemoveSubtreeTrick extends AbstractMetaTrick<RemoveSubtreeTrick> {
         SpellPart prev = null;
         var node = newSpell;
         for (var index : address) {
+            if (index.asInt() < 0) {
+                throw new NumberTooSmallBlunder(this, 0);
+            }
             var subParts = node.subParts;
             if (subParts.size() > index.asInt()) {
                 var newNode = subParts.get(index.asInt());

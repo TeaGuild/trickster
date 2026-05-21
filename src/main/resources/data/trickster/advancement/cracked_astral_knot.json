@@ -7,13 +7,13 @@
       "text": "Venture Capital Investments"
     },
     "description": {
-      "text": "Crack an Astral Knot"
+      "text": "Acquire a Cracked Astral Knot"
     },
     "frame": "task",
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:crack_knot",
+  "parent": "trickster:find_cracked_knot",
   "criteria": {
     "pickup_astral_knot": {
       "trigger": "minecraft:inventory_changed",

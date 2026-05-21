@@ -17,7 +17,6 @@ import java.util.List;
 import static dev.enjarai.trickster.item.ModItems.*;
 
 public class ModModelGenerator extends FabricModelProvider {
-
     public static final List<Pair<BlockItem, BlockItem>> STAIRS = List.of(
         new Pair<>(GILDED_TUFF, GILDED_TUFF_STAIRS),
         new Pair<>(GILDED_TUFF_BRICKS, GILDED_TUFF_BRICK_STAIRS)
@@ -176,7 +175,6 @@ public class ModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(WRITTEN_SCROLL, Models.GENERATED);
 
         itemModelGenerator.register(TOME_OF_TOMFOOLERY, Models.GENERATED);
-        itemModelGenerator.register(WARDING_CHARM, Models.GENERATED);
         itemModelGenerator.register(AMETHYST_WHORL, Models.GENERATED);
         itemModelGenerator.register(TORMENT_ON_A_CHAIN, Models.GENERATED);
         itemModelGenerator.register(COLLAR, Models.GENERATED);

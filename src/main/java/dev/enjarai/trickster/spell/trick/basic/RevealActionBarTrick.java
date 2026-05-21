@@ -4,13 +4,11 @@ import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.BlunderException;
-import dev.enjarai.trickster.spell.blunder.NoPlayerBlunder;
 import dev.enjarai.trickster.spell.fragment.VoidFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.ArgType;
 import dev.enjarai.trickster.spell.type.RetType;
 import dev.enjarai.trickster.spell.type.Signature;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 import java.util.List;
@@ -21,10 +19,8 @@ public class RevealActionBarTrick extends Trick<RevealActionBarTrick> {
     }
 
     public Fragment reveal(SpellContext ctx, List<Fragment> fragments) throws BlunderException {
-        ServerPlayerEntity playerEntity = ctx.source().getPlayer().orElseThrow((() -> new NoPlayerBlunder(this)));
-
         if (fragments.isEmpty()) {
-            playerEntity.sendMessage(Text.empty(), true);
+            ctx.source().showActionBarMessage(Text.empty());
             return VoidFragment.INSTANCE;
         }
 
@@ -46,7 +42,7 @@ public class RevealActionBarTrick extends Trick<RevealActionBarTrick> {
         }
 
         Text finalResult = result;
-        playerEntity.sendMessage(Text.of(finalResult), true);
+        ctx.source().showActionBarMessage(Text.of(finalResult));
 
         return first;
     }

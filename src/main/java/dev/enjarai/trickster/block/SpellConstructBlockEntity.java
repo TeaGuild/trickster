@@ -12,6 +12,7 @@ import dev.enjarai.trickster.spell.execution.source.BlockSpellSource;
 import dev.enjarai.trickster.spell.fragment.VoidFragment;
 import dev.enjarai.trickster.spell.blunder.BlunderException;
 import io.wispforest.endec.impl.KeyedEndec;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,6 +36,7 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     public static final KeyedEndec<Fragment> CROW_MIND_ENDEC = Fragment.ENDEC.keyed("crow_mind", () -> VoidFragment.INSTANCE);
     public static final KeyedEndec<SpellExecutor> EXECUTOR_ENDEC = SpellExecutor.ENDEC.nullableOf().keyed("executor", () -> null);
     public static final KeyedEndec<SpellExecutor> EXECUTOR_NET_ENDEC = SpellExecutor.NET_ENDEC.nullableOf().keyed("executor", () -> null);
+    public static final KeyedEndec<Text> SHOWCASE_TEXT_ENDEC = MinecraftEndecs.TEXT.nullableOf().keyed("showcase_text", () -> null);
 
     public int age;
     public Fragment crowMind = VoidFragment.INSTANCE;
@@ -42,6 +44,7 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
     private ItemStack stack = ItemStack.EMPTY;
     public SpellExecutor executor = null;
+    private Text showcaseText = null;
 
     public SpellConstructBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.SPELL_CONSTRUCT_ENTITY, pos, state);
@@ -61,6 +64,7 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
         colors = nbt.getIntArray("colors");
 
         executor = nbt.getBoolean("net") ? nbt.get(EXECUTOR_NET_ENDEC) : nbt.get(EXECUTOR_ENDEC);
+        showcaseText = nbt.get(SHOWCASE_TEXT_ENDEC);
 
         if (colors.length == 0) {
             colors = new int[] { 0xffffff };
@@ -90,6 +94,8 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
         }
 
         nbt.putIntArray("colors", colors);
+
+        nbt.put(SHOWCASE_TEXT_ENDEC, showcaseText);
     }
 
     public void tick() {
@@ -98,7 +104,13 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
         if (getWorld() instanceof ServerWorld serverWorld) {
             if (executor != null) {
-                var source = new BlockSpellSource<>(serverWorld, getPos(), this);
+                var source = new BlockSpellSource<>(serverWorld, getPos(), this) {
+                    @Override
+                    public void showMessage(Text message) {
+                        showcaseText = message;
+                        markDirtyAndUpdateClients();
+                    }
+                };
 
                 if (!(executor instanceof ErroredSpellExecutor)) {
                     var error = Optional.<Text>empty();
@@ -115,16 +127,17 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                         if (executor.run(source, new TickData().withCanUseMana(canUseMana).withExecutionLimit(executionLimit)).isPresent()) {
                             executor = null;
                             updateClient = true;
+                            resetShowcaseText();
                         }
                     } catch (BlunderException blunder) {
                         error = Optional.of(
-                                blunder.createMessage()
-                                        .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
+                            blunder.createMessage()
+                                .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
                         );
                     } catch (Throwable e) {
                         error = Optional.of(
-                                Text.literal("Uncaught exception in spell: " + e.getMessage())
-                                        .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
+                            Text.literal("Uncaught exception in spell: " + e.getMessage())
+                                .append(" (").append(executor.getDeepestState().formatStackTrace()).append(")")
                         );
                         Trickster.LOGGER.error("Uncaught exception in spell", e);
                     }
@@ -136,6 +149,7 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                     if (error.isPresent()) {
                         playCastSound(serverWorld, getPos(), 0.5f, 0.1f);
                         updateClient = true;
+                        resetShowcaseText();
                     }
                 }
             }
@@ -161,6 +175,7 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                 //                            || executor instanceof ErroredSpellExecutor
                 //                ) {
                 executor = new DefaultSpellExecutor(spell, List.of());
+                resetShowcaseText();
                 markDirtyAndUpdateClients();
                 //                }
             }
@@ -258,6 +273,14 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     @Override
     public Fragment getCrowMind() {
         return crowMind;
+    }
+
+    public Text getShowcaseText() {
+        return showcaseText;
+    }
+
+    public void resetShowcaseText() {
+        showcaseText = null;
     }
 
     public void markDirtyAndUpdateClients() {

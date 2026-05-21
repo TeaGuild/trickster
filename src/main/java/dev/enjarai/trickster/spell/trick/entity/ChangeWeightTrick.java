@@ -18,14 +18,14 @@ import net.minecraft.entity.LivingEntity;
 
 public class ChangeWeightTrick extends Trick<ChangeWeightTrick> {
     public ChangeWeightTrick() {
-        super(Pattern.of(0, 3, 6, 7, 4, 1, 2, 5, 8), Signature.of(FragmentType.ENTITY.wardOf(), FragmentType.NUMBER, ChangeWeightTrick::change, FragmentType.ENTITY));
+        super(Pattern.of(0, 3, 6, 7, 4, 1, 2, 5, 8), Signature.of(FragmentType.ENTITY, FragmentType.NUMBER, ChangeWeightTrick::change, FragmentType.ENTITY));
         overload(Signature.of(FragmentType.VECTOR, FragmentType.NUMBER, ChangeWeightTrick::change, FragmentType.ENTITY));
     }
 
     public EntityFragment change(SpellContext ctx, EntityFragment target, NumberFragment number) {
         var entity = target
-                .getEntity(ctx)
-                .orElseThrow(() -> new UnknownEntityBlunder(this));
+            .getEntity(ctx)
+            .orElseThrow(() -> new UnknownEntityBlunder(this));
         var weight = number.number();
 
         if (weight > 1) {
@@ -75,14 +75,14 @@ public class ChangeWeightTrick extends Trick<ChangeWeightTrick> {
         ctx.useMana(this, 10 + (float) (30 * (1 - weight)));
 
         var levitatingBlock = LevitatingBlockEntity.spawnFromBlock(
-                ctx.source().getWorld(), target.toBlockPos(), state, (float) weight, ctx.source().getCaster().orElse(null)
+            ctx.source().getWorld(), target.toBlockPos(), state, (float) weight, ctx.source().getCaster().orElse(null)
         );
         ModEntityComponents.GRACE.get(levitatingBlock).triggerGrace("weight", 20);
 
         var particlePos = target.toBlockPos().toCenterPos();
         ctx.source().getWorld().spawnParticles(
-                ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
-                1, 0, 0, 0, 0
+            ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
+            1, 0, 0, 0, 0
         );
 
         return EntityFragment.from(levitatingBlock);
