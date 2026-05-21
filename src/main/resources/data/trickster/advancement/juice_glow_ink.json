@@ -15,7 +15,7 @@
   },
   "parent": "trickster:root",
   "criteria": {
-    "brew_mana": {
+    "juice_glow_ink": {
       "trigger": "trickster:brew_item",
       "conditions": {
         "item": "trickster:luminous_bottle"
