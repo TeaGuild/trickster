@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:luminous_bottle"
+    },
+    "title": {
+      "text": "Light in a Bottle"
+    },
+    "description": {
+      "text": "Juice Glow Ink for a more effective alternative"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "trickster:root",
+  "criteria": {
+    "brew_mana": {
+      "trigger": "trickster:brew_item",
+      "conditions": {
+        "item": "trickster:luminous_bottle"
+      }
+    }
+  }
+}

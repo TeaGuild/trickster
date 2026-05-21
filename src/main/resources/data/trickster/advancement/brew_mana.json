@@ -7,13 +7,13 @@
       "text": "Mixin' in the Brewing Stand"
     },
     "description": {
-      "text": "Brew Esoteric Mana in a brewing stand to get more bang for your buck"
+      "text": "Create Esoteric Mana in a brewing stand"
     },
     "frame": "task",
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "trickster:root",
+  "parent": "trickster:luminous_bottle",
   "criteria": {
     "brew_mana": {
       "trigger": "trickster:brew_item",
