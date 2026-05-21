@@ -58,7 +58,7 @@ public class TricksterTemplateExpanders {
     public static DomContent revisionTemplate(Map<String, String> properties, PageContext context) {
         var id = properties.get("revision-id");
         var revision = Revisions.REGISTRY.get(Identifier.of(id));
-        var title = revision.getName().toString();
+        var title = revision.getName().getString();
         var pattern = revision.pattern();
 
         context.addSearchEntry(new SearchEntry(
