@@ -64,7 +64,7 @@ public abstract class ItemMixin {
     private void trickster$getSpellTooltipData(ItemStack stack, CallbackInfoReturnable<Optional<TooltipData>> cir) {
         var comp = stack.get(ModComponents.FRAGMENT);
 
-        if (comp != null && !comp.closed()) {
+        if (comp != null && comp.hasTooltip()) {
             cir.setReturnValue(Optional.of(new FragmentTooltipData(comp.value())));
         }
     }
