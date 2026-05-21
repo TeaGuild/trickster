@@ -10,6 +10,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import org.joml.Vector3d;
 import org.ladysnake.cca.api.v3.component.Component;
@@ -54,6 +55,18 @@ public interface SpellSource {
 
     default Optional<Vector3d> getFacing() {
         return Optional.empty();
+    }
+
+    default void showChatMessage(Text message) {
+        showMessage(message);
+    }
+
+    default void showActionBarMessage(Text message) {
+        showMessage(message);
+    }
+
+    default void showMessage(Text message) {
+
     }
 
     <T extends Component> Optional<T> getComponent(ComponentKey<T> key);

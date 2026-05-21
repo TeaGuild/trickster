@@ -7,7 +7,7 @@
       "text": "This Doesn't Look Safe..."
     },
     "description": {
-      "text": "Find a Rusted Spell Core"
+      "text": "Acquire a Rusted Spell Core"
     },
     "frame": "task",
     "announce_to_chat": true,

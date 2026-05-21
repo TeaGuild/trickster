@@ -18,20 +18,20 @@ import java.util.HashMap;
 
 public class DisplaceEntityTrick extends Trick<DisplaceEntityTrick> {
     private static final TickData.Key<HashMap<EntityFragment, Float>> COMPOUND_LEN = new TickData.Key<>(
-            Trickster.id("displace_compound_len"), null
+        Trickster.id("displace_compound_len"), null
     );
 
     public DisplaceEntityTrick() {
         super(
-                Pattern.of(1, 5, 7, 3, 1, 8, 3, 2, 7, 0, 5, 6, 1),
-                Signature.of(FragmentType.ENTITY.wardOf(), FragmentType.VECTOR, DisplaceEntityTrick::run, FragmentType.ENTITY)
+            Pattern.of(1, 5, 7, 3, 1, 8, 3, 2, 7, 0, 5, 6, 1),
+            Signature.of(FragmentType.ENTITY, FragmentType.VECTOR, DisplaceEntityTrick::run, FragmentType.ENTITY)
         );
     }
 
     public EntityFragment run(SpellContext ctx, EntityFragment target, VectorFragment v) {
         var entity = target
-                .getEntity(ctx)
-                .orElseThrow(() -> new UnknownEntityBlunder(this));
+            .getEntity(ctx)
+            .orElseThrow(() -> new UnknownEntityBlunder(this));
         var vector = v.vector();
 
         if (entity.getType().isIn(ModEntities.CANNOT_DISPLACE))

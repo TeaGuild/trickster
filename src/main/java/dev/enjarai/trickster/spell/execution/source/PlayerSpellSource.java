@@ -7,6 +7,7 @@ import dev.enjarai.trickster.spell.CrowMindAttachment;
 import dev.enjarai.trickster.spell.fragment.slot.StorageSource;
 import dev.enjarai.trickster.spell.fragment.slot.VariantType;
 import dev.enjarai.trickster.spell.mana.PlayerManaPool;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.execution.SpellExecutionManager;
@@ -72,25 +73,25 @@ public class PlayerSpellSource implements SpellSource {
         }
 
         return Optional
-                .ofNullable(player.getMainHandStack())
-                .filter(filter)
-                .or(
-                        () -> Optional.ofNullable(player.getOffHandStack())
-                                .filter(filter)
-                );
+            .ofNullable(player.getMainHandStack())
+            .filter(filter)
+            .or(
+                () -> Optional.ofNullable(player.getOffHandStack())
+                    .filter(filter)
+            );
     }
 
     @Override
     public Optional<SlotFragment> getOtherHandSlot() {
         if (slot == EquipmentSlot.MAINHAND) {
             return Optional.of(new SlotFragment(
-                    new StorageSource.Slot(PlayerInventory.OFF_HAND_SLOT, StorageSource.Caster.INSTANCE),
-                    VariantType.ITEM
+                new StorageSource.Slot(PlayerInventory.OFF_HAND_SLOT, StorageSource.Caster.INSTANCE),
+                VariantType.ITEM
             ));
         } else if (slot == EquipmentSlot.OFFHAND) {
             return Optional.of(new SlotFragment(
-                    new StorageSource.Slot(player.getInventory().selectedSlot, StorageSource.Caster.INSTANCE),
-                    VariantType.ITEM
+                new StorageSource.Slot(player.getInventory().selectedSlot, StorageSource.Caster.INSTANCE),
+                VariantType.ITEM
             ));
         } else {
             return Optional.empty();
@@ -100,6 +101,16 @@ public class PlayerSpellSource implements SpellSource {
     @Override
     public Optional<SpellExecutionManager> getExecutionManager() {
         return Optional.of(executionManager);
+    }
+
+    @Override
+    public void showChatMessage(Text message) {
+        player.sendMessage(message, false);
+    }
+
+    @Override
+    public void showActionBarMessage(Text message) {
+        player.sendMessage(message, true);
     }
 
     @Override
@@ -124,7 +135,7 @@ public class PlayerSpellSource implements SpellSource {
 
     public static boolean isSpellStack(ItemStack stack) {
         return stack.contains(ModComponents.FRAGMENT) ||
-                (stack.contains(DataComponentTypes.CONTAINER) && stack.contains(ModComponents.SELECTED_SLOT));
+            (stack.contains(DataComponentTypes.CONTAINER) && stack.contains(ModComponents.SELECTED_SLOT));
     }
 
     @Override
