@@ -1,2 +1,0 @@
-item/scroll_and_quill%s.json
-item/written_scroll%s.json
