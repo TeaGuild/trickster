@@ -13,7 +13,7 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "trickster:luminous_bottle",
+  "parent": "trickster:juice_glow_ink",
   "criteria": {
     "brew_mana": {
       "trigger": "trickster:brew_item",
