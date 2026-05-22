@@ -95,5 +95,4 @@ public class SwapBlockTrick extends Trick<SwapBlockTrick> {
             throw new BlockInvalidBlunder(this, state.getBlock());
         }
     }
-
 }
