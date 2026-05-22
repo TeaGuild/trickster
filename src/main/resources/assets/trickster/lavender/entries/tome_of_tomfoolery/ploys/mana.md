@@ -11,16 +11,16 @@
 }
 ```
 
-*mun en kon suli o lawa e mi*
+*"mun en kon suli o lawa e mi*
 
 
 *o pana tawa mi*
 
 
-*o pona e mi*
+*o pona e mi"*
 
 
--- jan Enali
+— jan Enali
 
 ;;;;;
 

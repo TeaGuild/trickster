@@ -562,10 +562,10 @@ text.config.trickster-config:
     invertTopHatScrolling: Invert hat scrolling
     allowScrollInSpellScreen: Allow scrolling to zoom while editing
     keyZoomSpeed: Editor key zoom speed
-    revealToHotbar: Write revealed values to action bar
     maxExecutionsPerSpellPerTick: Max operations per tick per spell
-    allowSwapBedrock: Permit block swapping of bedrock
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
+    allowUnbreakableBlockSwap: Allow block swapping of unbreakable blocks
+    allowExtendedPistonSwap: Allow block swapping of extended pistons
 
     dragDrawing: Draw by dragging
     animateLines: Animate pattern glyphs
