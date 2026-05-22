@@ -9,7 +9,7 @@
       "item": "minecraft:feather"
     },
     {
-      "item": "minecraft:glow_ink_sac"
+      "tag": "c:inks/glowing"
     }
   ],
   "result": {

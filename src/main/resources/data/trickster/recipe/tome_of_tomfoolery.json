@@ -6,7 +6,7 @@
       "item": "minecraft:book"
     },
     {
-      "item": "minecraft:glow_ink_sac"
+      "tag": "c:inks/glowing"
     }
   ],
   "result": {

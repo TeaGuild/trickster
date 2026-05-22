@@ -8,6 +8,7 @@ import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.effects.ModEffects;
 import io.wispforest.lavender.book.LavenderBookItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -51,6 +52,18 @@ public class ModItems {
     public static final SpellAccessory TORMENT_ON_A_CHAIN = register("torment_on_a_chain", new SpellAccessory());
     public static final CollarItem COLLAR = register("collar", new CollarItem(new Item.Settings()));
     public static final LeashItem LEASH = register("leash", new LeashItem(new Item.Settings()));
+    public static final LuminousBottleItem LUMINOUS_BOTTLE = register("luminous_bottle",
+        new LuminousBottleItem(new Item.Settings().maxCount(12)
+            .recipeRemainder(Items.GLASS_BOTTLE)
+            .food(new FoodComponent.Builder()
+                .nutrition(0)
+                .saturationModifier(0)
+                .alwaysEdible()
+                .usingConvertsTo(Items.GLASS_BOTTLE)
+                .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 30 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 30 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 120 * 20), 1)
+                .build())));
     public static final EsotericManaItem ESOTERIC_MANA = register("esoteric_mana",
         new EsotericManaItem(new Item.Settings().maxCount(12)
             .recipeRemainder(Items.GLASS_BOTTLE)
@@ -59,10 +72,10 @@ public class ModItems {
                 .saturationModifier(0)
                 .alwaysEdible()
                 .usingConvertsTo(Items.GLASS_BOTTLE)
-                .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 60 * 20), 1)
-                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 60 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 30 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 30 * 20), 1)
                 .statusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 60 * 20), 1)
-                .statusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60 * 20), 1)
+                .statusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 30 * 20), 1)
                 .statusEffect(new StatusEffectInstance(ModEffects.MANA_BOOST, 60 * 20), 1)
                 .build())));
     public static final SpellCoreItem SPELL_CORE = register("spell_core", new SpellCoreItem());
@@ -173,6 +186,7 @@ public class ModItems {
             entries.add(AMETHYST_WHORL);
             entries.add(TORMENT_ON_A_CHAIN);
             entries.add(MACRO_RING);
+            entries.add(LUMINOUS_BOTTLE);
             entries.add(ESOTERIC_MANA);
             entries.add(SPELL_RESONATOR_ITEM);
             entries.add(SCROLL_SHELF_BLOCK_ITEM);
@@ -223,6 +237,14 @@ public class ModItems {
 
     public static void register() {
         Registry.register(Registries.ITEM_GROUP, Trickster.id("trickster"), ITEM_GROUP);
+
+        FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
+            builder.registerItemRecipe(Items.GLASS_BOTTLE, Items.GLOW_INK_SAC, ModItems.LUMINOUS_BOTTLE);
+            builder.registerItemRecipe(ModItems.LUMINOUS_BOTTLE, Items.AMETHYST_SHARD, ModItems.ESOTERIC_MANA);
+            builder.registerPotionType(Items.GLASS_BOTTLE);
+            builder.registerPotionType(ModItems.LUMINOUS_BOTTLE);
+            builder.registerPotionType(ModItems.ESOTERIC_MANA);
+        });
     }
 
     public record DyedVariant(Item original, Item variant, DyeColor color) {
