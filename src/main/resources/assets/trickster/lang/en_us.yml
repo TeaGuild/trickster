@@ -532,7 +532,6 @@ text.config.trickster-config:
     allowUnbreakableBlockSwap: Allow block swapping of unbreakable blocks
     allowExtendedPistonSwap: Allow block swapping of extended pistons
 
-
     dragDrawing: Draw by dragging
     animateLines: Animate pattern glyphs
     barsHorizontal: Show spell-created bars horizontally
