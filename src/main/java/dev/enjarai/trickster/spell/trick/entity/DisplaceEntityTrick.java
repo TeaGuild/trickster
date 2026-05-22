@@ -1,48 +1,68 @@
 package dev.enjarai.trickster.spell.trick.entity;
 
-import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.EntityCannotBeDisplacedBlunder;
+import dev.enjarai.trickster.spell.blunder.InvalidDisplacementBlunder;
+import dev.enjarai.trickster.spell.blunder.NotEnoughRoomToDisplaceBlunder;
 import dev.enjarai.trickster.spell.blunder.UnknownEntityBlunder;
-import dev.enjarai.trickster.spell.execution.TickData;
-import dev.enjarai.trickster.spell.fragment.EntityFragment;
-import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.fragment.VectorFragment;
+import dev.enjarai.trickster.spell.fragment.*;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
-
-import java.util.HashMap;
+import org.joml.Vector3d;
 
 public class DisplaceEntityTrick extends Trick<DisplaceEntityTrick> {
-    private static final TickData.Key<HashMap<EntityFragment, Float>> COMPOUND_LEN = new TickData.Key<>(
-        Trickster.id("displace_compound_len"), null
-    );
-
     public DisplaceEntityTrick() {
         super(
-            Pattern.of(1, 5, 7, 3, 1, 8, 3, 2, 7, 0, 5, 6, 1),
-            Signature.of(FragmentType.ENTITY, FragmentType.VECTOR, DisplaceEntityTrick::run, FragmentType.ENTITY)
+            Pattern.of(2, 5, 8).add(Pattern.of(1, 5, 7)).add(Pattern.of(0, 5, 6)),
+            Signature.of(FragmentType.DISPLACE, FragmentType.VECTOR, DisplaceEntityTrick::run, FragmentType.VOID)
         );
     }
 
-    public EntityFragment run(SpellContext ctx, EntityFragment target, VectorFragment v) {
+    public VoidFragment run(SpellContext ctx, DisplaceFragment target, VectorFragment v) {
         var entity = target
             .getEntity(ctx)
             .orElseThrow(() -> new UnknownEntityBlunder(this));
         var vector = v.vector();
+        var destination = ctx.source().getPos().add(vector, new Vector3d());
 
-        if (entity.getType().isIn(ModEntities.CANNOT_DISPLACE))
+        if (entity.getType().isIn(ModEntities.CANNOT_DISPLACE)) {
             throw new EntityCannotBeDisplacedBlunder(this, entity);
+        }
 
-        var map = COMPOUND_LEN.set(ctx.data(), COMPOUND_LEN.get(ctx.data()).orElse(new HashMap<>()));
-        var length = (float) vector.length() + map.getOrDefault(target, 0f);
-        ctx.useMana(this, 20 + (float) Math.pow(1.35, length));
-        map.put(target, length);
+        if (!target.isValid(ctx)) {
+            throw new InvalidDisplacementBlunder(this);
+        }
 
-        ModEntityComponents.DISPLACEMENT.get(entity).modify(vector);
-        return target;
+        var destinationWorld = ctx.source().getWorld();
+        var inVoid = destination.y < destinationWorld.getDimension().minY();
+        if (inVoid || !destinationWorld.isSpaceEmpty(entity,
+            entity.getDimensions(entity.getPose()).getBoxAt(destination.x, destination.y, destination.z))) {
+
+            throw new NotEnoughRoomToDisplaceBlunder(this, entity, new VectorFragment(destination));
+        }
+
+        // keep this: relative location calculation
+        var distanceFromAnchor = (float) vector.length();
+        var manaUse = 20 + (float) Math.pow(1.35, distanceFromAnchor);
+
+        if (!destinationWorld.getRegistryKey().equals(target.sourceWorld())) {
+            var scaledSource = entity.getPos().toVector3d().mul(entity.getWorld().getDimension().coordinateScale());
+            var scaledDestination = ctx.source().getPos().mul(destinationWorld.getDimension().coordinateScale());
+            manaUse += 1000;
+            manaUse += (float) (scaledSource.distance(scaledDestination) * 3);
+        } else {
+            manaUse += (float) (entity.getPos().toVector3d().distance(ctx.source().getPos()) * 3);
+        }
+
+        ctx.useMana(this, manaUse);
+
+        var instant = ctx.source().getCaster()
+            .map(c -> c.getUuid().equals(entity.getUuid()))
+            .orElse(false);
+        target.consume(ctx, destinationWorld, destination, instant);
+
+        return VoidFragment.INSTANCE;
     }
 }

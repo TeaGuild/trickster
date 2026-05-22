@@ -61,13 +61,6 @@ unless the ploy is recast periodically.
 
 ;;;;;
 
-<|ploy@trickster:templates|trick-id=trickster:displace,cost=20G + 1.35G^length|>
-
-Displaces the given entity by the given vector after two seconds. 
-This ploy has the same aggressive and stacking cost scaling as Kinetic Ploy.
-
-;;;;;
-
 <|ploy@trickster:templates|trick-id=trickster:polymorph,cost=8000G|>
 
 Changes the first entity's appearance to match the second, returning the first.

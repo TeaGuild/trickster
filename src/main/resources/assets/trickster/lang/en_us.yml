@@ -141,7 +141,9 @@ trickster:
     get_velocity: Movement Ingress
     add_velocity: Kinetic Ploy
     change_weight: Ploy of Featherweight
+    prepare_displace: Ploy of the Entitled
     displace: Ploy of the Usurper
+    get_displacements: Ingress of the Despot
     store_entity: Containment Ploy
     release_entity: Extrication Ploy
 
@@ -258,7 +260,7 @@ trickster:
     type_fragment: Argumentative Distortion
     hash_values: Decaying Distortion
     pin_chunk: Ploy of Celestial Pin
-    get_dimension: Dimensional Delusion
+    get_dimension: Dimensional Ingress
     show_bar: Ploy of Clarity
     clear_bar: Ploy of Obfuscation
 
@@ -335,6 +337,7 @@ trickster:
       entity_type: EntityType
       string: String
       dimension: Dimension
+      displace: Displacement
       color: Color
     class:
       Fragment: Any
@@ -375,6 +378,9 @@ trickster:
     entity: '%s'
     slot: slot %d at %s
     merged: '%d storages'
+
+  displace:
+    reference: Displacement %s
 
 item.trickster:
   tome_of_tomfoolery: Tome of Tomfoolery
