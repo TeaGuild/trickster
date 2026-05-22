@@ -6,9 +6,13 @@
 }
 ```
 
+Documented here are scribing patterns that form the foundation of crafting spells.
+
+;;;;;
+
 <|revision@trickster:templates|revision-id=trickster:add_subcircle|>
 
-Can be used to add a new subcircle to any circle. 
+Can be used to add a new subcircle to any circle.
 
 ;;;;;
 
