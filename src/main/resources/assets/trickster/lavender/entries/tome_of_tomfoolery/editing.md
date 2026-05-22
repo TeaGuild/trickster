@@ -6,9 +6,29 @@
 }
 ```
 
+*"The spell is your canvas. An arbitrarily large and complex canvas, but a canvas nonetheless.*
+
+
+*And just like you need to know each brush at your disposal to paint effectively, 
+you must be familiar with the scribing patterns to create spells effectively.*
+
+;;;;;
+
+*And so we begin, with the very basics of spell scribing."*
+
+
+— An excerpt from a lecture by Prof. Citrine
+
+---
+
+Unlike other patterns, scribing patterns will immediately disappear when drawn, 
+and modify the structure of the spell when they do. They cannot be used as [Macros](^trickster:concepts/macro).
+
+;;;;;
+
 <|revision@trickster:templates|revision-id=trickster:add_subcircle|>
 
-Can be used to add a new subcircle to any circle. 
+Can be used to add a new subcircle to any circle.
 
 ;;;;;
 

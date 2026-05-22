@@ -1,11 +1,8 @@
 package dev.enjarai.trickster.spell.trick;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.advancement.criterion.ModCriteria;
-import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.compat.inline.PatternData;
-import dev.enjarai.trickster.item.component.FragmentComponent;
 import dev.enjarai.trickster.spell.EvaluationResult;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
@@ -14,14 +11,8 @@ import dev.enjarai.trickster.spell.blunder.BlunderException;
 import dev.enjarai.trickster.spell.blunder.CantEditBlockBlunder;
 import dev.enjarai.trickster.spell.blunder.InvalidInputsBlunder;
 import dev.enjarai.trickster.spell.blunder.NotLoadedBlunder;
-import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.fragment.ListFragment;
-import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.type.*;
-import io.vavr.collection.HashMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -97,26 +88,6 @@ public abstract class Trick<T extends Trick<T>> {
             if (!ctx.source().getWorld().isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ()))) {
                 throw new NotLoadedBlunder(this, pos);
             }
-        }
-    }
-
-    protected void tryWard(SpellContext triggerCtx, Entity target, List<Fragment> fragments) throws BlunderException {
-        if (target instanceof ServerPlayerEntity player) {
-            var triggerCaster = triggerCtx.source().getCaster();
-
-            if (triggerCaster.map(c -> c.equals(player)).orElse(false)) {
-                return;
-            }
-
-            ModCriteria.TRIGGER_WARD.trigger(player);
-
-            var sourceFragment = triggerCaster
-                .<Fragment>map(EntityFragment::from)
-                .orElse(new VectorFragment(triggerCtx.source().getPos()));
-            var charmMap = FragmentComponent.getUserMergedMap(player, "charm", HashMap::empty);
-            var spell = charmMap.get(getPattern());
-            var caster = ModEntityComponents.CASTER.get(player);
-            spell.peek(s -> caster.queueSpellAndCast(s, List.of(sourceFragment, new ListFragment(fragments)), Optional.empty()));
         }
     }
 

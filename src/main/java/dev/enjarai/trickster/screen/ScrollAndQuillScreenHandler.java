@@ -132,16 +132,16 @@ public class ScrollAndQuillScreenHandler extends ScreenHandler implements Revisi
     }
 
     @Override
-    public void delegateToServer(Revision revision, SpellView view, Consumer<SpellPart> responseHandler) {
+    public void delegateToServer(Revision revision, SpellView view, Consumer<Optional<SpellPart>> responseHandler) {
         delegateToServer(revision.pattern(), view, responseHandler);
     }
 
     @Override
-    public void delegateToServer(Pattern revision, SpellView view, Consumer<SpellPart> responseHandler) {
+    public void delegateToServer(Pattern revision, SpellView view, Consumer<Optional<SpellPart>> responseHandler) {
         delegateToServer(player().getRandom().nextInt(), revision, view, responseHandler);
     }
 
-    private void delegateToServer(int sync, Pattern revision, SpellView view, Consumer<SpellPart> responseHandler) {
+    private void delegateToServer(int sync, Pattern revision, SpellView view, Consumer<Optional<SpellPart>> responseHandler) {
         var server = player().getServer();
         if (server != null) {
             server.execute(() -> {
@@ -181,8 +181,8 @@ public class ScrollAndQuillScreenHandler extends ScreenHandler implements Revisi
                 if (view.beingReplaced) {
                     view.beingReplaced = false;
                     view.loading = false;
+                    responseHandler.accept(part);
                     part.ifPresent(p -> {
-                        responseHandler.accept(p);
                         updateSpell(view.getUpperParent().part);
                     });
                 }

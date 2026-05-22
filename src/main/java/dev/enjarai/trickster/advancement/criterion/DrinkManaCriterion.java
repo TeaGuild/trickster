@@ -10,22 +10,20 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Optional;
 
-public class TriggerWardCriterion extends AbstractCriterion<TriggerWardCriterion.Conditions> {
+public class DrinkManaCriterion extends AbstractCriterion<DrinkManaCriterion.Conditions> {
     @Override
-    public Codec<TriggerWardCriterion.Conditions> getConditionsCodec() {
-        return TriggerWardCriterion.Conditions.CODEC;
+    public Codec<DrinkManaCriterion.Conditions> getConditionsCodec() {
+        return DrinkManaCriterion.Conditions.CODEC;
     }
 
     public void trigger(ServerPlayerEntity player) {
         super.trigger(player, conditions -> true);
     }
 
-    public record Conditions(Optional<LootContextPredicate> player) implements AbstractCriterion.Conditions
-    {
-        public static final Codec<TriggerWardCriterion.Conditions> CODEC = RecordCodecBuilder.create(instance ->
-                instance.group(
-                        EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(TriggerWardCriterion.Conditions::player)
-                ).apply(instance, TriggerWardCriterion.Conditions::new)
+    public record Conditions(Optional<LootContextPredicate> player) implements AbstractCriterion.Conditions {
+        public static final Codec<DrinkManaCriterion.Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(DrinkManaCriterion.Conditions::player)
+        ).apply(instance, DrinkManaCriterion.Conditions::new)
         );
 
         @Override

@@ -6,15 +6,16 @@ import dev.enjarai.trickster.spell.SpellView;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
 public interface RevisionContext {
     void updateSpell(SpellPart sp);
 
-    void delegateToServer(Revision revision, SpellView view, Consumer<SpellPart> responseHandler);
+    void delegateToServer(Revision revision, SpellView view, Consumer<Optional<SpellPart>> responseHandler);
 
-    void delegateToServer(Pattern revision, SpellView view, Consumer<SpellPart> responseHandler);
+    void delegateToServer(Pattern revision, SpellView view, Consumer<Optional<SpellPart>> responseHandler);
 
     Set<Pattern> getMacros();
 
@@ -39,9 +40,9 @@ public interface RevisionContext {
         }
 
         @Override
-        public void delegateToServer(Revision revision, SpellView view, Consumer<SpellPart> responseHandler) {}
+        public void delegateToServer(Revision revision, SpellView view, Consumer<Optional<SpellPart>> responseHandler) {}
 
         @Override
-        public void delegateToServer(Pattern revision, SpellView view, Consumer<SpellPart> responseHandler) {}
+        public void delegateToServer(Pattern revision, SpellView view, Consumer<Optional<SpellPart>> responseHandler) {}
     };
 }

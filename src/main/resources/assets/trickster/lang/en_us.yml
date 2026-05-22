@@ -141,7 +141,9 @@ trickster:
     get_velocity: Movement Ingress
     add_velocity: Kinetic Ploy
     change_weight: Ploy of Featherweight
+    prepare_displace: Ploy of the Entitled
     displace: Ploy of the Usurper
+    get_displacements: Ingress of the Despot
     store_entity: Containment Ploy
     release_entity: Extrication Ploy
 
@@ -152,6 +154,7 @@ trickster:
     summon_fireball: Pyromancer's Ploy
     summon_dragon_breath: Dragon's Ploy
     summon_tnt: Demolitionist's Ploy
+    summon_wind_charge: Aang's Ploy
 
     block_find_entity: Embracing Ingress
     range_find_entity: Ingress of Shared Fate
@@ -257,7 +260,7 @@ trickster:
     type_fragment: Argumentative Distortion
     hash_values: Decaying Distortion
     pin_chunk: Ploy of Celestial Pin
-    get_dimension: Dimensional Delusion
+    get_dimension: Dimensional Ingress
     show_bar: Ploy of Clarity
     clear_bar: Ploy of Obfuscation
 
@@ -334,6 +337,7 @@ trickster:
       entity_type: EntityType
       string: String
       dimension: Dimension
+      displace: Displacement
       color: Color
     class:
       Fragment: Any
@@ -374,6 +378,9 @@ trickster:
     entity: '%s'
     slot: slot %d at %s
     merged: '%d storages'
+
+  displace:
+    reference: Displacement %s
 
 item.trickster:
   tome_of_tomfoolery: Tome of Tomfoolery
@@ -416,7 +423,8 @@ item.trickster:
   written_scroll_yellow: Yellow Written Scroll
 
   warding_charm: Warding Charm
-  spell_ink: Spell Ink
+  esoteric_mana: Esoteric Mana
+  luminous_bottle: Luminous Bottle
   top_hat: Top Hat
   witch_hat: Witch Hat
   fez: Fez
@@ -519,10 +527,10 @@ text.config.trickster-config:
     invertTopHatScrolling: Invert hat scrolling
     allowScrollInSpellScreen: Allow scrolling to zoom while editing
     keyZoomSpeed: Editor key zoom speed
-    revealToHotbar: Write revealed values to action bar
     maxExecutionsPerSpellPerTick: Max operations per tick per spell
-    allowSwapBedrock: Permit block swapping of bedrock
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
+    allowUnbreakableBlockSwap: Allow block swapping of unbreakable blocks
+    allowExtendedPistonSwap: Allow block swapping of extended pistons
 
     dragDrawing: Draw by dragging
     animateLines: Animate pattern glyphs

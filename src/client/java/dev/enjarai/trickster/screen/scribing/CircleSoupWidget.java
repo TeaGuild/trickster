@@ -28,10 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CircleSoupWidget extends StatefulWidget {
     public static final double FORK_THRESHOLD_FORWARDS = 1;
@@ -569,11 +566,11 @@ public class CircleSoupWidget extends StatefulWidget {
                 childCircles.forEach(c -> c.markPonder(ponder));
             }
 
-            private void delegationCallback(SpellPart newPart) {
+            private void delegationCallback(Optional<SpellPart> newPart) {
                 setState(() -> {
                     isRunningMacro = false;
                 });
-                partView.replace(newPart);
+                newPart.ifPresent(partView::replace);
             }
 
             private void discard() {

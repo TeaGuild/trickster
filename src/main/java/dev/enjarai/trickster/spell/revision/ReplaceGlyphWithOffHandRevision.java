@@ -15,7 +15,7 @@ public class ReplaceGlyphWithOffHandRevision implements Revision {
 
     @Override
     public void apply(RevisionContext ctx, SpellView view) {
-        ctx.delegateToServer(this, view, view::replaceGlyph);
+        ctx.delegateToServer(this, view, part -> part.ifPresent(view::replaceGlyph));
     }
 
     @Override

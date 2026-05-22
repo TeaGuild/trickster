@@ -8,6 +8,7 @@ import dev.enjarai.trickster.item.KnotItem;
 import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.execution.executor.DefaultSpellExecutor;
 import io.wispforest.endec.impl.KeyedEndec;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -50,8 +51,11 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
         .optionalOf().listOf().keyed("executors", () -> null);
     public static final KeyedEndec<List<Optional<SpellExecutor>>> EXECUTORS_NET_ENDEC = SpellExecutor.NET_ENDEC
         .optionalOf().listOf().keyed("executors", List.of());
+    public static final KeyedEndec<List<Optional<Text>>> SHOWCASE_TEXT_ENDEC = MinecraftEndecs.TEXT
+        .optionalOf().listOf().keyed("showcase_text", List.of());
 
     public final DefaultedList<Optional<SpellExecutor>> executors = DefaultedList.ofSize(4, Optional.empty());
+    private final DefaultedList<Optional<Text>> showcaseTexts = DefaultedList.ofSize(4, Optional.empty());
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
     private Fragment crowMind = VoidFragment.INSTANCE;
     public int age;
@@ -76,6 +80,12 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
         for (int i = 0; i < Math.min(newExecutors.size(), 4); i++) {
             executors.set(i, newExecutors.get(i));
         }
+
+        showcaseTexts.clear();
+        var newShowcaseTexts = nbt.get(SHOWCASE_TEXT_ENDEC);
+        for (int i = 0; i < Math.min(newShowcaseTexts.size(), 4); i++) {
+            showcaseTexts.set(i, newShowcaseTexts.get(i));
+        }
     }
 
     @Override
@@ -94,7 +104,10 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
 
     protected void writeCommonNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
+
         Inventories.writeNbt(nbt, this.inventory, true, registryLookup);
+
+        nbt.put(SHOWCASE_TEXT_ENDEC, showcaseTexts);
     }
 
     public void tick() {
@@ -102,8 +115,6 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
         boolean updateClient = false;
 
         if (getWorld() instanceof ServerWorld serverWorld) {
-            var source = new BlockSpellSource<>(serverWorld, getPos(), this);
-
             float knotExecutionLimitMultiplier = 1;
             boolean canUseMana = true;
             var knotStack = inventory.getFirst();
@@ -121,6 +132,14 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                     var executor = executors.get(executorSlot).get();
                     var error = Optional.<Text>empty();
 
+                    var source = new BlockSpellSource<>(serverWorld, getPos(), this) {
+                        @Override
+                        public void showMessage(Text message) {
+                            showcaseTexts.set(executorSlot, Optional.of(message));
+                            markDirtyAndUpdateClients();
+                        }
+                    };
+
                     if (executor instanceof ErroredSpellExecutor) {
                         continue;
                     }
@@ -134,6 +153,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                             if (executor.run(source, tickData.withExecutionLimit(executionLimit)).isPresent()) {
                                 executors.set(executorSlot, Optional.empty());
                                 updateClient = true;
+                                resetShowcaseText(executorSlot);
                             }
                         } catch (BlunderException blunder) {
                             error = Optional.of(
@@ -154,6 +174,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                         if (error.isPresent()) {
                             playCastSound(serverWorld, getPos(), 0.5f, 0.1f);
                             updateClient = true;
+                            resetShowcaseText(executorSlot);
                         }
                     }
                 }
@@ -232,6 +253,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                 }
 
                 executors.set(slot - 1, Optional.empty());
+                resetShowcaseText(slot - 1);
             }
 
             return itemStack;
@@ -344,15 +366,26 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     @Override
     public void killAll() {
         executors.clear();
+        showcaseTexts.clear();
     }
 
     @Override
     public boolean kill(int index) {
         if (executors.get(index).isPresent()) {
             executors.set(index, Optional.empty());
+            resetShowcaseText(index);
+            markDirtyAndUpdateClients();
             return true;
         }
 
         return false;
+    }
+
+    public Text getShowcaseText(int index) {
+        return showcaseTexts.get(index).orElse(null);
+    }
+
+    public void resetShowcaseText(int index) {
+        showcaseTexts.set(index, Optional.empty());
     }
 }

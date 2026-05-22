@@ -1,22 +1,22 @@
 {
   "display": {
     "icon": {
-      "id": "trickster:spell_ink"
+      "id": "minecraft:glass_bottle"
     },
     "title": {
       "text": "Why'd You Do That?"
     },
     "description": {
-      "text": "Do not the Spell Ink!"
+      "text": "Drink Esoteric Mana"
     },
     "frame": "task",
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:root",
+  "parent": "trickster:brew_mana",
   "criteria": {
-    "drink_spell_ink": {
-      "trigger": "trickster:drink_spell_ink"
+    "drink_mana": {
+      "trigger": "trickster:drink_mana"
     }
   }
 }
