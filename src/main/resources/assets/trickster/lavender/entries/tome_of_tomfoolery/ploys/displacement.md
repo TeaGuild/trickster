@@ -15,14 +15,21 @@
 
 *"They tell stories of it, you know."*
 
+
 *"They say it can walk through walls, 
 that it can make you disappear without a trace."*
 
+
 *"They say this to their children. It's amusing to them. They don't think it's real."*
+
+;;;;;
 
 *"But I met it once. And let me tell you, it's real. And if you met it too, you'd wish it wasn't."*
 
+
 -- An anonymous interviewee
+
+---
 
 ;;;;;
 
@@ -49,13 +56,6 @@ and an additional cost of 1000 Gandalfs will be added if they are in different d
 
 Only three displacement fragments can be created for any given entity per five seconds, 
 each of which only be used once before becoming invalid.
-
-
-nether cords are scaled when going between dims
-using a displacement fragment in usurper expires it
-an entity can only have 3 associated displacement fragments at the sometime. Consumed (used by usurper) still count towards this!
-entities cannot be teleported into blocks or below the world
-a teleport can be canceled
 
 ;;;;;
 
