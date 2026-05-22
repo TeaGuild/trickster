@@ -16,14 +16,14 @@
 }
 ```
 
-*"You've read up on the Manton Effect before, I expect? It's a weird one."*
+*"You've read up on the Manton Effect before, I expect? It's a weird one.*
 
 
-*"No one is quite sure why these limitations exist as they are, or if we just haven't found the right methods yet.
+*No one is quite sure why these limitations exist as they are, or if we just haven't found the right methods yet.
 Regardless, one must keep them in mind at all times."*
 
 
--- An excerpt from a lecture by Prof. Olivine.
+— An excerpt from a lecture by Prof. Olivine
 
 ;;;;;
 
