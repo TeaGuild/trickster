@@ -7,7 +7,7 @@
     "Positioning Delusion",
     "Directional Delusion",
     "Reflection Delusion",
-    "Dimensional Delusion",
+    "Dimensional Ingress",
     "Authority Delusion",
     "Crowning Delusion",
     "Delusion of Order",
