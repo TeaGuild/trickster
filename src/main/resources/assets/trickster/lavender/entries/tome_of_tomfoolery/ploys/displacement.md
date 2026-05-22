@@ -13,21 +13,21 @@
 }
 ```
 
-*"They tell stories of it, you know."*
+*"They tell stories of it, you know.*
 
 
-*"They say it can walk through walls, 
-that it can make you disappear without a trace."*
+*They say it can walk through walls, 
+that it can make you disappear without a trace.*
 
 
-*"They say this to their children. It's amusing to them. They don't think it's real."*
+*They say this to their children. It's amusing to them. They don't think it's real.*
 
 ;;;;;
 
-*"But I met it once. And let me tell you, it's real. And if you met it too, you'd wish it wasn't."*
+*But I met it once. And let me tell you, it's real. And if you met it too, you'd wish it wasn't."*
 
 
--- An anonymous interviewee
+— An anonymous interviewee
 
 ---
 
