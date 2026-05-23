@@ -6,7 +6,10 @@
 }
 ```
 
-*put something silly here*
+*"I was gonna write something here but Evy is stupid and can't understand basic English."*
+
+
+— An excerpt from a lecture by Prof. Citrine
 
 ;;;;;
 
