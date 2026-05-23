@@ -1,0 +1,84 @@
+{
+  "name": "trickster:managrid/rubble_patch",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 40,
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "trickster:terrain_matching_ocean",
+          "location": "trickster:managrid/rubble_patch/dirt/large_1",
+          "processors": []
+        },
+        "condition": {
+          "type": "lithostitched:in_biome",
+          "biomes": "#trickster:has_rubble_patch/dirt"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "trickster:terrain_matching_ocean",
+          "location": "trickster:managrid/rubble_patch/dirt/small_1",
+          "processors": []
+        },
+        "condition": {
+          "type": "lithostitched:in_biome",
+          "biomes": "#trickster:has_rubble_patch/dirt"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "trickster:terrain_matching_ocean",
+          "location": "trickster:managrid/rubble_patch/sand/large_1",
+          "processors": []
+        },
+        "condition": {
+          "type": "lithostitched:in_biome",
+          "biomes": "#trickster:has_rubble_patch/sand"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "trickster:terrain_matching_ocean",
+          "location": "trickster:managrid/rubble_patch/sand/small_1",
+          "processors": []
+        },
+        "condition": {
+          "type": "lithostitched:in_biome",
+          "biomes": "#trickster:has_rubble_patch/sand"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    }
+  ]
+}

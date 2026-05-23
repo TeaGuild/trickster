@@ -26,6 +26,7 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
                 addDrop(block);
             }
         }
+
         addDrop(ModBlocks.LIGHT_SCONCE);
     }
 }

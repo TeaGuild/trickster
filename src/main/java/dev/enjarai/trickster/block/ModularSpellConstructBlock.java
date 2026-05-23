@@ -9,6 +9,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -17,6 +19,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
@@ -30,61 +33,65 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class ModularSpellConstructBlock extends BlockWithEntity {
+public class ModularSpellConstructBlock extends BlockWithEntity implements Waterloggable {
     public static final int GRID_WIDTH = 3;
     public static final int GRID_HEIGHT = 3;
 
     public static final DirectionProperty FACING = Properties.FACING;
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public static final VoxelShape[] SHAPES = new VoxelShape[] {
-            VoxelShapes.union(
-                    createCuboidShape(0, 6, 0, 16, 8, 16),
-                    createCuboidShape(1, 8, 1, 15, 14, 15),
-                    createCuboidShape(0, 14, 0, 16, 16, 16)
-            ),
-            VoxelShapes.union(
-                    createCuboidShape(0, 0, 0, 16, 2, 16),
-                    createCuboidShape(1, 2, 1, 15, 8, 15),
-                    createCuboidShape(0, 8, 0, 16, 10, 16)
-            ),
-            VoxelShapes.union(
-                    createCuboidShape(0, 0, 6, 16, 16, 8),
-                    createCuboidShape(1, 1, 8, 15, 15, 14),
-                    createCuboidShape(0, 0, 14, 16, 16, 16)
-            ),
-            VoxelShapes.union(
-                    createCuboidShape(0, 0, 0, 16, 16, 2),
-                    createCuboidShape(1, 1, 2, 15, 15, 8),
-                    createCuboidShape(0, 0, 8, 16, 16, 10)
-            ),
-            VoxelShapes.union(
-                    createCuboidShape(6, 0, 0, 8, 16, 16),
-                    createCuboidShape(8, 1, 1, 14, 15, 15),
-                    createCuboidShape(14, 0, 0, 16, 16, 16)
-            ),
-            VoxelShapes.union(
-                    createCuboidShape(0, 0, 0, 2, 16, 16),
-                    createCuboidShape(2, 1, 1, 8, 15, 15),
-                    createCuboidShape(8, 0, 0, 10, 16, 16)
-            )
+        VoxelShapes.union(
+            createCuboidShape(0, 6, 0, 16, 8, 16),
+            createCuboidShape(1, 8, 1, 15, 14, 15),
+            createCuboidShape(0, 14, 0, 16, 16, 16)
+        ),
+        VoxelShapes.union(
+            createCuboidShape(0, 0, 0, 16, 2, 16),
+            createCuboidShape(1, 2, 1, 15, 8, 15),
+            createCuboidShape(0, 8, 0, 16, 10, 16)
+        ),
+        VoxelShapes.union(
+            createCuboidShape(0, 0, 6, 16, 16, 8),
+            createCuboidShape(1, 1, 8, 15, 15, 14),
+            createCuboidShape(0, 0, 14, 16, 16, 16)
+        ),
+        VoxelShapes.union(
+            createCuboidShape(0, 0, 0, 16, 16, 2),
+            createCuboidShape(1, 1, 2, 15, 15, 8),
+            createCuboidShape(0, 0, 8, 16, 16, 10)
+        ),
+        VoxelShapes.union(
+            createCuboidShape(6, 0, 0, 8, 16, 16),
+            createCuboidShape(8, 1, 1, 14, 15, 15),
+            createCuboidShape(14, 0, 0, 16, 16, 16)
+        ),
+        VoxelShapes.union(
+            createCuboidShape(0, 0, 0, 2, 16, 16),
+            createCuboidShape(2, 1, 1, 8, 15, 15),
+            createCuboidShape(8, 0, 0, 10, 16, 16)
+        )
     };
 
     protected ModularSpellConstructBlock() {
         super(AbstractBlock.Settings.create()
-                .strength(1.5F)
-                .sounds(BlockSoundGroup.STONE)
-                .solid());
-        setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.UP));
+            .strength(1.5F)
+            .sounds(BlockSoundGroup.STONE)
+            .solid());
+        setDefaultState(getStateManager().getDefaultState()
+            .with(FACING, Direction.UP)
+            .with(WATERLOGGED, false));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, WATERLOGGED);
     }
 
     public static Optional<Integer> getSlotForHitPos(BlockHitResult hit, BlockState state) {
@@ -148,7 +155,7 @@ public class ModularSpellConstructBlock extends BlockWithEntity {
                 }
 
                 return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-            }).orElse(ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION);
+            }).orElse(ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
         } else {
             return ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
@@ -247,7 +254,24 @@ public class ModularSpellConstructBlock extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getSide());
+        WorldAccess worldAccess = ctx.getWorld();
+        BlockPos blockPos = ctx.getBlockPos();
+        return this.getDefaultState()
+            .with(FACING, ctx.getSide())
+            .with(WATERLOGGED, worldAccess.getFluidState(blockPos).getFluid() == Fluids.WATER);
+    }
+
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (state.get(WATERLOGGED)) {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    @Override
+    protected FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     @Override

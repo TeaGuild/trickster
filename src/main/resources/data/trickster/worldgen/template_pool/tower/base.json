@@ -1,0 +1,15 @@
+{
+  "name": "trickster:tower/base",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:tower/base",
+        "processors": []
+      }
+    }
+  ]
+}

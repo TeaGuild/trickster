@@ -1,4 +1,4 @@
-package dev.enjarai.trickster.datagen;
+package dev.enjarai.trickster.loot;
 
 import java.util.Random;
 
@@ -14,8 +14,8 @@ import net.minecraft.loot.function.LootFunctionType;
 
 public record RandomManaLootFunction(float fractionalMinimum, float fractionalMaximum) implements LootFunction {
     public static final MapCodec<RandomManaLootFunction> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Codec.FLOAT.fieldOf("min").forGetter(RandomManaLootFunction::fractionalMinimum),
-                Codec.FLOAT.fieldOf("max").forGetter(RandomManaLootFunction::fractionalMaximum)
+        Codec.FLOAT.fieldOf("min").forGetter(RandomManaLootFunction::fractionalMinimum),
+        Codec.FLOAT.fieldOf("max").forGetter(RandomManaLootFunction::fractionalMaximum)
     ).apply(instance, RandomManaLootFunction::new));
 
     private static final Random random = new Random();

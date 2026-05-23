@@ -2,6 +2,7 @@ package dev.enjarai.trickster.net;
 
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.mixin.client.WorldRendererAccessor;
+import dev.enjarai.trickster.particle.ManaMoveParticles;
 import dev.enjarai.trickster.particle.StorageMoveParticles;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.SpellPart;
@@ -18,12 +19,12 @@ public class ModClientNetworking {
             var pos = message.pos();
 
             ChunkSectionPos.forEachChunkSectionAround(pos, chunk -> ((WorldRendererAccessor) access.runtime().worldRenderer)
-                    .trickster$scheduleChunkRender(
-                            ChunkSectionPos.unpackX(chunk),
-                            ChunkSectionPos.unpackY(chunk),
-                            ChunkSectionPos.unpackZ(chunk),
-                            true
-                    ));
+                .trickster$scheduleChunkRender(
+                    ChunkSectionPos.unpackX(chunk),
+                    ChunkSectionPos.unpackY(chunk),
+                    ChunkSectionPos.unpackZ(chunk),
+                    true
+                ));
         });
         ModNetworking.CHANNEL.registerClientbound(GrabClipboardSpellPacket.class, (message, access) -> {
             var clipboard = access.runtime().keyboard.getClipboard();
@@ -69,5 +70,6 @@ public class ModClientNetworking {
             }
         });
         ModNetworking.CHANNEL.registerClientbound(StorageMoveParticlePacket.class, StorageMoveParticlePacket.ENDEC, StorageMoveParticles::drawLine);
+        ModNetworking.CHANNEL.registerClientbound(ManaMoveParticlePacket.class, ManaMoveParticlePacket.ENDEC, ManaMoveParticles::drawLine);
     }
 }

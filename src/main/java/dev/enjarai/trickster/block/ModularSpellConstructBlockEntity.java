@@ -45,7 +45,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class ModularSpellConstructBlockEntity extends BlockEntity implements Inventory, CrowMind, SpellExecutionManager, SpellCastingBlockEntity {
+public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEntity implements CrowMind, SpellExecutionManager, SpellCastingBlockEntity {
     public static final KeyedEndec<Fragment> CROW_MIND_ENDEC = Fragment.ENDEC.keyed("crow_mind", () -> VoidFragment.INSTANCE);
     public static final KeyedEndec<List<Optional<SpellExecutor>>> EXECUTORS_ENDEC = SpellExecutor.ENDEC
         .optionalOf().listOf().keyed("executors", () -> null);
@@ -211,6 +211,7 @@ public class ModularSpellConstructBlockEntity extends BlockEntity implements Inv
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        this.generateLoot(null);
         var nbt = new NbtCompound();
         writeNetNbt(nbt, registryLookup);
         return nbt;

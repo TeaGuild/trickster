@@ -1,0 +1,15 @@
+{
+  "name": "trickster:tower/roof",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:tower/segment/roof",
+        "processors": []
+      }
+    }
+  ]
+}

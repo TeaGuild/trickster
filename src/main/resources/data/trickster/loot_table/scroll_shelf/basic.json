@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:tag",
+          "expand": true,
+          "functions": [],
+          "name": "trickster:scroll_and_quills"
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:binomial",
+        "n": 3,
+        "p": 0.5
+      }
+    }
+  ],
+  "functions": [],
+  "random_sequence": "trickster:scroll_shelf/basic"
+}
