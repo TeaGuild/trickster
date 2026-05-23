@@ -119,7 +119,7 @@ public class ModularSpellConstructBlockEntityRenderer implements BlockEntityRend
                 this.renderer.renderCircle(
                     matrices, executor.get().spell(),
                     0, 0, 0.2f, 0,
-                    tickDelta, 1f, normal, null
+                    tickDelta, 1f, 1f, normal, null
                 );
             }
 

@@ -17,7 +17,8 @@ public class BlockTypeRenderer implements FragmentRenderer<BlockTypeFragment> {
     static float HEIGHT = 0.4f;
 
     @Override
-    public void render(BlockTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(BlockTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var block = fragment.block();
 

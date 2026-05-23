@@ -14,7 +14,8 @@ public class FluidTypeRenderer implements FragmentRenderer<FluidTypeFragment> {
     public static final Identifier TEXTURE = Trickster.id("textures/fragment/fluid_type.png");
 
     @Override
-    public void render(FluidTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(FluidTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var stack = fragment.fluid().getBucketItem().getDefaultStack();
         matrices.push();

@@ -65,6 +65,7 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
             0,
             tickDelta,
             1.0f,
+            1.0f,
             new Vec3d(facing.x(), facing.y(), facing.z()),
             null
         );

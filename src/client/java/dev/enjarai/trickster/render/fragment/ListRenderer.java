@@ -14,7 +14,8 @@ import static dev.enjarai.trickster.render.CircleRenderer.GLYPH_LAYER;
 
 public class ListRenderer implements FragmentRenderer<ListFragment> {
     @Override
-    public void render(ListFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(ListFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var fragments = fragment.fragments();
         var layout = calculateLayout(fragment);
@@ -39,9 +40,9 @@ public class ListRenderer implements FragmentRenderer<ListFragment> {
             FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(element.type()));
             if (renderer != null) {
                 //noinspection unchecked
-                renderer.render(element, matrices, vertexConsumers, 0, offset, 0.4f, alpha, normal, tickDelta, delegator);
+                renderer.render(element, matrices, vertexConsumers, 0, offset, 0.4f, forcedAlpha, forcedAlpha, normal, tickDelta, delegator);
             } else {
-                FragmentRenderer.renderAsText(element, matrices, vertexConsumers, 0, offset, 0.4f, alpha);
+                FragmentRenderer.renderAsText(element, matrices, vertexConsumers, 0, offset, 0.4f, forcedAlpha);
             }
 
             offsetAcc += elementHeight;
@@ -51,8 +52,8 @@ public class ListRenderer implements FragmentRenderer<ListFragment> {
 
         float lineWidth = 0.025f;
         float bracketHeight = Math.max(height, 0.1f);
-        renderBracket(matrices, vertexConsumers, 0, width * 0.5f, 0, bracketHeight, alpha, lineWidth);
-        renderBracket(matrices, vertexConsumers, (float) Math.PI, -width * 0.5f, 0, bracketHeight, alpha, lineWidth);
+        renderBracket(matrices, vertexConsumers, 0, width * 0.5f, 0, bracketHeight, forcedAlpha, lineWidth);
+        renderBracket(matrices, vertexConsumers, (float) Math.PI, -width * 0.5f, 0, bracketHeight, forcedAlpha, lineWidth);
 
         matrices.pop();
     }

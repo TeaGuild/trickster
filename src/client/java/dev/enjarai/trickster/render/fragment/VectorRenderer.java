@@ -16,16 +16,18 @@ public class VectorRenderer implements FragmentRenderer<VectorFragment> {
     public static final double angle = Math.PI * 11 / 12;
 
     @Override
-    public void render(VectorFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(VectorFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
 
         var vec = fragment.vector();
 
-        renderVector(vec, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+        renderVector(vec, matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, tickDelta, delegator);
 
     }
 
-    public static void renderVector(Vector3dc vec, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public static void renderVector(Vector3dc vec, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
 
         var vs = new double[] { vec.x(), vec.y(), vec.z() };
@@ -45,7 +47,7 @@ public class VectorRenderer implements FragmentRenderer<VectorFragment> {
             var angle = Math.PI * 11 / 12 + Math.PI / 1.5 * i;
             NumberRenderer.renderNumber(vs[i], matrices, vertexConsumers,
                 x + (float) Math.cos(angle) * radius / 2.5f, y + (float) Math.sin(angle) * radius / 2.5f,
-                radius / 2, alpha, normal, tickDelta, delegator);
+                radius / 2, forcedAlpha, normal, tickDelta, delegator);
         }
         matrices.pop();
     }

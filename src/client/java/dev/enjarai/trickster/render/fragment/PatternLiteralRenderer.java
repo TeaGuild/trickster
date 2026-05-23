@@ -16,7 +16,7 @@ public class PatternLiteralRenderer implements FragmentRenderer<Pattern> {
     @Override
     public void render(
         Pattern fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-        float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+        float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal, float tickDelta,
         CircleRenderer delegator
     ) {
         PatternRenderer.renderPattern(fragment, matrices, vertexConsumers, x, y, size / PATTERN_TO_PART_RATIO, alpha, delegator);

@@ -72,7 +72,8 @@ public interface FragmentRenderer<T extends Fragment> {
         matrices.pop();
     }
 
-    void render(T fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta, CircleRenderer delegator);
+    void render(T fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y,
+        float radius, float alpha, float forcedAlpha, Vec3d normal, float tickDelta, CircleRenderer delegator);
 
     float getProportionalHeight(T fragment);
 

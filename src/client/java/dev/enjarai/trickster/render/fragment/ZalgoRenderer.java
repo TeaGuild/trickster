@@ -17,7 +17,8 @@ public class ZalgoRenderer implements FragmentRenderer<ZalgoFragment> {
     public static final Random rand = new Random();
 
     @Override
-    public void render(ZalgoFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(ZalgoFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         rand.setSeed(MinecraftClient.getInstance().world.getTime() * 6767);
         for (int i = 0; i < 4; i++) {

@@ -93,6 +93,7 @@ public class CircleWidget extends StatefulWidget {
                 ctx.getMatrices(), widget().partView.part,
                 RADIUS, RADIUS, RADIUS, widget().startingAngle, 0,
                 (float) Math.clamp(1 / (widget().radius / ctx.getScaledWindowHeight() * 3), 0.0, widget().hiddenByPonder ? 0.1 : 0.8),
+                widget().hiddenByPonder ? 0.1f : 0.8f,
                 new Vec3d(-1, 0, 0), drawingPattern
             );
             CircleRenderer.VERTEX_CONSUMERS.draw();

@@ -136,20 +136,20 @@ public class CircleRenderer {
     public void renderCircle(
         MatrixStack matrices, SpellPart entry,
         double x, double y, double radius, double startingAngle, float delta,
-        float alpha, Vec3d normal, @Nullable List<Byte> drawingPattern
+        float alpha, float forcedAlpha, Vec3d normal, @Nullable List<Byte> drawingPattern
     ) {
-        renderCircle(matrices, entry, x, y, radius, startingAngle, delta, alpha, normal, drawingPattern, 0);
+        renderCircle(matrices, entry, x, y, radius, startingAngle, delta, alpha, forcedAlpha, normal, drawingPattern, 0);
     }
 
     public void renderCircle(
         MatrixStack matrices, SpellPart entry,
         double x, double y, double radius, double startingAngle, float delta,
-        float alpha, Vec3d normal, @Nullable List<Byte> drawingPattern, int recursions
+        float alpha, float forcedAlpha, Vec3d normal, @Nullable List<Byte> drawingPattern, int recursions
     ) {
         var vertexConsumers = VERTEX_CONSUMERS;
 
         var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(entry.glyph.type()));
-        if (renderer == null || renderer.renderCircle()) {
+        if (renderer == null || renderer.renderCircle() || drawingPattern != null) {
             drawTexturedQuad(
                 matrices, vertexConsumers, CIRCLE_TEXTURE,
                 (float) (x - radius), (float) (x + radius), (float) (y - radius), (float) (y + radius),
@@ -161,7 +161,7 @@ public class CircleRenderer {
             if (recursions < this.recursions) {
                 renderCircle(
                     matrices, glyph, x, y, radius / 3,
-                    startingAngle, delta, alpha / 2, normal,
+                    startingAngle, delta, alpha / 2, forcedAlpha / 2, normal,
                     drawingPattern, recursions + 1
                 );
             }
@@ -170,7 +170,7 @@ public class CircleRenderer {
                 matrices.push();
                 drawSide(
                     matrices, vertexConsumers, (float) x, (float) y, (float) radius,
-                    alpha, normal, delta, entry.glyph, drawingPattern
+                    alpha, forcedAlpha, normal, delta, entry.glyph, drawingPattern
                 );
                 matrices.pop();
             } else {
@@ -200,7 +200,7 @@ public class CircleRenderer {
             if (recursions < this.recursions) {
                 renderCircle(
                     matrices, child, subX, subY, entry.subRadius(radius),
-                    angle, delta, alpha / 3 * 2, normal,
+                    angle, delta, alpha / 3 * 2, forcedAlpha / 3 * 2, normal,
                     drawingPattern, recursions + 1
                 );
             }
@@ -249,7 +249,7 @@ public class CircleRenderer {
 
     private void drawSide(
         MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y,
-        float radius, float alpha, Vec3d normal, float delta,
+        float radius, float alpha, float forcedAlpha, Vec3d normal, float delta,
         Fragment glyph, @Nullable List<Byte> drawingPattern
     ) {
         float patternRadius = radius / PATTERN_TO_PART_RATIO;
@@ -313,7 +313,7 @@ public class CircleRenderer {
 
             if (renderer != null) {
                 //noinspection unchecked
-                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this);
+                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, delta, this);
                 renderDots = renderer.renderRedrawDots();
             } else {
                 FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, alpha);

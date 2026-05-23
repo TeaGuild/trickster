@@ -22,7 +22,8 @@ public class EntityTypeRenderer implements FragmentRenderer<EntityTypeFragment> 
     public static ItemEntity dummyItem;
 
     @Override
-    public void render(EntityTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(EntityTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var entity = fragment.entityType().create(MinecraftClient.getInstance().world);
 

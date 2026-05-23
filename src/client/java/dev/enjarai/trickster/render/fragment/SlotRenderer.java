@@ -16,10 +16,11 @@ import java.util.Stack;
 
 public class SlotRenderer implements FragmentRenderer<SlotFragment> {
     @Override
-    public void render(SlotFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(SlotFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
 
-        renderSlot(fragment, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+        renderSlot(fragment, matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, tickDelta, delegator);
 
         var type = fragment.variantType();
 
@@ -42,7 +43,8 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
         );
     }
 
-    public static void renderSlot(SlotFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public static void renderSlot(SlotFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
 
         var slotStack = new Stack<Integer>();
@@ -53,7 +55,7 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
             source = next;
         }
 
-        ContainerRenderer.renderStorage(new ContainerFragment(source, fragment.variantType()), matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+        ContainerRenderer.renderStorage(new ContainerFragment(source, fragment.variantType()), matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, tickDelta, delegator);
 
         int i = 0;
         var off = 0.7 * radius;

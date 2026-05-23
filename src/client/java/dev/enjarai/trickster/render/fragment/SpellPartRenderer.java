@@ -8,11 +8,11 @@ import net.minecraft.util.math.Vec3d;
 
 public class SpellPartRenderer implements FragmentRenderer<SpellPart> {
     @Override
-    public void render(SpellPart fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(SpellPart fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal, float tickDelta,
         CircleRenderer delegator) {
         var renderer = new CircleRenderer(true, false, 3);
 
-        renderer.renderCircle(matrices, fragment, x, y, radius / 4, 0.0f, tickDelta, alpha, normal, null);
+        renderer.renderCircle(matrices, fragment, x, y, radius / 4, 0.0f, tickDelta, alpha, forcedAlpha, normal, null);
     }
 
     @Override

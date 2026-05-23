@@ -20,7 +20,8 @@ public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
     static float HEIGHT = 0.4f;
 
     @Override
-    public void render(ItemTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(ItemTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var stack = fragment.item().getDefaultStack();
         matrices.push();

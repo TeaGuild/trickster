@@ -17,11 +17,8 @@ public class VoidRenderer implements FragmentRenderer<VoidFragment> {
     static final Identifier TEXTURE = Trickster.id("textures/fragment/void/square.png");
     static final Identifier CORE = Trickster.id("textures/fragment/void/core.png");
 
-    static int tick = 0;
-    static float lastDt = 0;
-
     @Override
-    public void render(VoidFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(VoidFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal, float tickDelta,
         CircleRenderer delegator) {
         float time = System.currentTimeMillis() % 1048576 / 50f;
         float r = 0.3f, g = 0, b = 1, a = 1;

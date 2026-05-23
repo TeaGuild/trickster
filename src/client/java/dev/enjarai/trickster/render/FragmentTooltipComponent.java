@@ -69,7 +69,7 @@ public class FragmentTooltipComponent implements TooltipComponent {
 
         matrices.push();
         if (fragmentRenderer != null) {
-            fragmentRenderer.render(fragment, matrices, context.getVertexConsumers(), x + getWidth(textRenderer) / 2f, y + getHeight() / 2f, radius, 1, new Vec3d(0, 0, -1), delta, renderer);
+            fragmentRenderer.render(fragment, matrices, context.getVertexConsumers(), x + getWidth(textRenderer) / 2f, y + getHeight() / 2f, radius, 1, 1, new Vec3d(0, 0, -1), delta, renderer);
         }
 
         CircleRenderer.VERTEX_CONSUMERS.draw();

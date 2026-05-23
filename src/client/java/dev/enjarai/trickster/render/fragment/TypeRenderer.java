@@ -12,7 +12,7 @@ public class TypeRenderer implements FragmentRenderer<TypeFragment> {
     public static final String TEXTURE_PATTERN = "textures/fragment/type/%s.png";
 
     @Override
-    public void render(TypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(TypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal, float tickDelta,
         CircleRenderer delegator) {
         var id = FragmentType.REGISTRY.getId(fragment.typeType());
         Identifier texture = Identifier.of(id.getNamespace(), String.format(TEXTURE_PATTERN, id.getPath()));

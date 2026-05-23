@@ -23,7 +23,8 @@ public class EntityRenderer implements FragmentRenderer<EntityFragment> {
     public static final int MAX_DEPTH = 4;
 
     @Override
-    public void render(EntityFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(EntityFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var entityOp = fragment.getEntity(MinecraftClient.getInstance().world, true);
 

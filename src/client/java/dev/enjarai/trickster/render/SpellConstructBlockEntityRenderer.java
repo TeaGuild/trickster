@@ -72,7 +72,7 @@ public class SpellConstructBlockEntityRenderer implements BlockEntityRenderer<Sp
             this.renderer.renderCircle(
                 matrices, entity.executor.spell(),
                 0, 0, 0.5f, 0,
-                tickDelta, 1, normal, null
+                tickDelta, 1, 1, normal, null
             );
             CircleRenderer.VERTEX_CONSUMERS.draw();
         }

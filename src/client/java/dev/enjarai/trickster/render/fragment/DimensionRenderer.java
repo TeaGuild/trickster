@@ -15,7 +15,8 @@ public class DimensionRenderer implements FragmentRenderer<DimensionFragment> {
     public static final Identifier FALLBACK = Trickster.id("textures/fragment/dimension/missing.png");
 
     @Override
-    public void render(DimensionFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(DimensionFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var id = fragment.world().getValue();
         Identifier texture = Identifier.of(Trickster.MOD_ID, String.format(TEXTURE_PATTERN, id.getNamespace(), id.getPath()));

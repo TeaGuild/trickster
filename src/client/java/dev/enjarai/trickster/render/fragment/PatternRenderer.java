@@ -13,7 +13,7 @@ import static dev.enjarai.trickster.screen.scribing.CircleWidget.isCircleClickab
 
 public class PatternRenderer implements FragmentRenderer<PatternGlyph> {
     @Override
-    public void render(PatternGlyph fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, Vec3d normal, float tickDelta,
+    public void render(PatternGlyph fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal, float tickDelta,
         CircleRenderer delegator) {
         renderPattern(fragment.pattern(), matrices, vertexConsumers, x, y, size / PATTERN_TO_PART_RATIO, alpha, delegator);
     }

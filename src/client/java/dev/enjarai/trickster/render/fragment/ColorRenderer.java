@@ -23,7 +23,8 @@ public class ColorRenderer implements FragmentRenderer<ColorFragment> {
     static float lastDt = 0;
 
     @Override
-    public void render(ColorFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(ColorFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var col = fragment.color();
         float time = System.currentTimeMillis() % 1048576 / 50f;

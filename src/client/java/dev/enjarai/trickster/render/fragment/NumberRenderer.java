@@ -110,10 +110,11 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
     }
 
     @Override
-    public void render(NumberFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(NumberFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var value = fragment.number();
-        renderNumber(value, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+        renderNumber(value, matrices, vertexConsumers, x, y, radius, forcedAlpha, normal, tickDelta, delegator);
     }
 
     @Override

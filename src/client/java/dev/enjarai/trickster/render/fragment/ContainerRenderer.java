@@ -20,9 +20,10 @@ import java.util.UUID;
 
 public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
     @Override
-    public void render(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
-        renderStorage(fragment, matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+        renderStorage(fragment, matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, tickDelta, delegator);
 
         var type = fragment.variantType();
 
@@ -50,7 +51,8 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
         return 1;
     }
 
-    public static void renderStorage(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal,
+    public static void renderStorage(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha,
+        Vec3d normal,
         float tickDelta,
         CircleRenderer delegator) {
 
@@ -81,7 +83,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
             matrices.push();
             matrices.translate(0, 0, delegator.inUI ? radius * 0.55f : radius * -0.55f);
              */
-            VectorRenderer.renderVector(pos.toCenterPos().toVector3d(), matrices, vertexConsumers, x, y, radius * 0.6f, 1, normal, tickDelta, delegator);
+            VectorRenderer.renderVector(pos.toCenterPos().toVector3d(), matrices, vertexConsumers, x, y, radius * 0.6f, alpha, forcedAlpha, normal, tickDelta, delegator);
             //matrices.pop();
 
         } else if (source instanceof StorageSource.Entity(UUID uuid)) {
@@ -100,7 +102,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
                 alpha * delegator.getCircleTransparency(), delegator.inUI
             );
         } else if (source instanceof StorageSource.Slot slot) {
-            SlotRenderer.renderSlot(new SlotFragment(slot, fragment.variantType()), matrices, vertexConsumers, x, y, radius, alpha, normal, tickDelta, delegator);
+            SlotRenderer.renderSlot(new SlotFragment(slot, fragment.variantType()), matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, tickDelta, delegator);
         } else {
             FragmentRenderer.renderAsText(fragment, matrices, vertexConsumers, x, y, radius, alpha);
         }
