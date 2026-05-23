@@ -37,27 +37,24 @@ Vectors are simply 3 numbers on a circle.
 
 ;;;;;
 
-![](trickster:textures/gui/img/containers.png,fit)
+<|spell-preview@trickster:templates|spell=YxEpKcpMzi4uSS2yKi5IzcmJL0gsKhFECBYklgCpPAYgYGJkBpIgzMDIKIxQkpyfV5KYmZdaxJacCBLgQ0hllqTmgnQyENLKmpSTn5zNwCDlwMChUMaPUJGWU5qZAjYCACpCMzCrAAAA|>
 
 Containers are a hexagon around their source, colored blue for items, orange for fluids.
 
 ;;;;;
 
-![](trickster:textures/gui/img/slots.png,fit)
+<|spell-preview@trickster:templates|spell=YxEpKcpMzi4uSS2yKi5IzcmJL0gsKuFDEszJL2FgYGBiS04E8ZFkMktScxkAyDwzwkAAAAA=|>
 
 Slots are a double-diamond instead, with their index shown above.
 
 ;;;;;
 
-![](trickster:textures/gui/img/slot_container.png,fit)
+<|spell-preview@trickster:templates|spell=YxEpKcpMzi4uSS2yKi5IzcmJL0gsKhFGCCbn55UkZualFrEU5+SXMDAwMLElJ4Jk+BFq0nJKM1MYAMz70BBLAAAA|>
 
 Here is a container of a slot,
 
 ;;;;;
 
-![](trickster:textures/gui/img/slot_slot.png,fit)
+<|spell-preview@trickster:templates|spell=YxEpKcpMzi4uSS2yKi5IzcmJL0gsKuFDEszJL2EAAhYog4ktOREkwY9QkpZTmpnCAABoLQNASgAAAA==|>
 
 and a slot of that container.
-
-
-
