@@ -28,8 +28,10 @@
 - Changed map and list renderers to be more dynamic. (@Master-Bw3)
 - Renamed Spell Ink to Esoteric Mana. (@enjarai)
   - Esoteric Mana can now be used to instantly refill knots by a certain amount.
+  - Esoteric Mana also has a new texture. (@aurakle)
 - Added Luminous Bottles. (@enjarai)
   - These can be made in a brewing stand, and are an intermediate for more efficiently creating Esoteric Mana.
+- Various minor Tome improvements. (@aurakle)
 - Made the position of spell slots on the inventory screen configurable. (@AshAxolotl)
 - Added spell slots to the creative mode inventory screen. (@AshAxolotl)
 - Added a trick overload to get the size of maps. (@AshAxolotl)
