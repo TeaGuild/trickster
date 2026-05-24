@@ -6,10 +6,14 @@
 }
 ```
 
-*"I was gonna write something here but Evy is stupid and can't understand basic English."*
+*"While an understanding of the natural representation of fragments is not strictly necessary,
+it is not unlikely that one finds themself in a situation where they have no other options.*
 
 
-— An excerpt from a lecture by Prof. Citrine
+*As such, what you learn today will be required to pass this course."*
+
+
+— An excerpt from a lecture by Prof. Olivine
 
 ;;;;;
 
