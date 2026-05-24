@@ -264,8 +264,14 @@ publishMods {
             requires {
                 slug = "accessories"
             }
+            requires {
+                slug = "lithostitched"
+            }
             embeds {
                 slug = "cardinal-components-api"
+            }
+            optional {
+                slug = "inline"
             }
         }
     }
@@ -299,8 +305,14 @@ publishMods {
             requires {
                 slug = "accessories"
             }
+            requires {
+                slug = "lithostitched"
+            }
             embeds {
                 slug = "cardinal-components-api"
+            }
+            optional {
+                slug = "inline"
             }
         }
     }
