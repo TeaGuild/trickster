@@ -12,6 +12,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.Optional;
 import java.util.Stack;
 
 public class SlotRenderer implements FragmentRenderer<SlotFragment> {
@@ -55,7 +56,8 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
             source = next;
         }
 
-        ContainerRenderer.renderStorage(new ContainerFragment(source, fragment.variantType()), matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, tickDelta, delegator);
+        ContainerRenderer.renderStorage(new ContainerFragment(source, fragment.variantType(), Optional.empty()), matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, tickDelta,
+            delegator);
 
         int i = 0;
         var off = 0.7 * radius;

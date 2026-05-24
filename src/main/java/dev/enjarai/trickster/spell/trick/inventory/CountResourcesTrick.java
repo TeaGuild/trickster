@@ -14,8 +14,8 @@ import dev.enjarai.trickster.spell.type.Signature;
 public class CountResourcesTrick extends Trick<CountResourcesTrick> {
     public CountResourcesTrick() {
         super(
-                Pattern.of(4, 3, 6, 8, 5, 4, 6, 0, 4, 8, 2, 4, 1),
-                Signature.of(FragmentType.CONTAINER, ArgType.simple(ResourceVariantFragment.class), CountResourcesTrick::run, FragmentType.NUMBER)
+            Pattern.of(4, 3, 6, 8, 5, 4, 6, 0, 4, 8, 2, 4, 1),
+            Signature.of(FragmentType.CONTAINER, ArgType.simple(ResourceVariantFragment.class), CountResourcesTrick::run, FragmentType.NUMBER)
         );
     }
 
@@ -28,7 +28,7 @@ public class CountResourcesTrick extends Trick<CountResourcesTrick> {
         long sum = 0;
         var storage = container.getStorage(this, ctx, variantType);
         for (var view : storage.nonEmptyViews()) {
-            if (res.resourceMatches(this, ctx, view.getResource())) {
+            if (res.resourceMatches(view.getResource())) {
                 sum += view.getAmount();
             }
         }

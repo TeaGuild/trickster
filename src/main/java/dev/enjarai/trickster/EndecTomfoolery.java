@@ -43,19 +43,19 @@ public class EndecTomfoolery {
                 throw new IllegalStateException("Vector array must have three elements");
             }
         }).xmap(
-                components -> constructor.apply(components.get(0), components.get(1), components.get(2)),
-                vector -> List.of(xGetter.apply(vector), yGetter.apply(vector), zGetter.apply(vector))
+            components -> constructor.apply(components.get(0), components.get(1), components.get(2)),
+            vector -> List.of(xGetter.apply(vector), yGetter.apply(vector), zGetter.apply(vector))
         );
     }
 
     public static <T, A extends T> Endec<T> withAlternative(Endec<T> primary, Endec<A> alternative) {
         return new EitherEndec<T, A>(
-                primary,
-                alternative,
-                false
+            primary,
+            alternative,
+            false
         ).xmap(
-                Either::unwrap,
-                Either::left
+            Either::unwrap,
+            Either::left
         );
     }
 
@@ -79,22 +79,22 @@ public class EndecTomfoolery {
 
     public static <T> Endec<Optional<T>> forcedSafeOptionalOf(Endec<T> endec) {
         return Endec.of(
-                (ctx, serializer, value) -> {
-                    try (var struct = serializer.struct()) {
-                        struct.field("present", ctx, Endec.BOOLEAN, value.isPresent());
-                        value.ifPresent(t -> struct.field("value", ctx, endec, t));
-                    }
-                },
-                (ctx, deserializer) -> {
-                    var struct = deserializer.struct();
-                    //noinspection DataFlowIssue
-                    if (struct.field("present", ctx, Endec.BOOLEAN)) {
-                        //noinspection DataFlowIssue
-                        return Optional.of(struct.field("value", ctx, endec));
-                    } else {
-                        return Optional.empty();
-                    }
+            (ctx, serializer, value) -> {
+                try (var struct = serializer.struct()) {
+                    struct.field("present", ctx, Endec.BOOLEAN, value.isPresent());
+                    value.ifPresent(t -> struct.field("value", ctx, endec, t));
                 }
+            },
+            (ctx, deserializer) -> {
+                var struct = deserializer.struct();
+                //noinspection DataFlowIssue
+                if (struct.field("present", ctx, Endec.BOOLEAN)) {
+                    //noinspection DataFlowIssue
+                    return Optional.of(struct.field("value", ctx, endec));
+                } else {
+                    return Optional.empty();
+                }
+            }
         );
     }
 
@@ -112,69 +112,69 @@ public class EndecTomfoolery {
 
     public static <T> StructEndec<T> funnyFieldOf(Endec<T> endec, String key) {
         return StructEndecBuilder.of(
-                endec.fieldOf(key, Function.identity()),
-                Function.identity()
+            endec.fieldOf(key, Function.identity()),
+            Function.identity()
         );
     }
 
     public static <T> Endec<T> asBytes(Endec<T> endec) {
         return Endec.of(
-                (ctx, serializer, value) -> {
-                    var buf = Unpooled.buffer();
-                    endec.encode(
-                            SerializationContext.empty().withAttributes(EndecTomfoolery.UBER_COMPACT_ATTRIBUTE),
-                            ByteBufSerializer.of(buf), value
-                    );
+            (ctx, serializer, value) -> {
+                var buf = Unpooled.buffer();
+                endec.encode(
+                    SerializationContext.empty().withAttributes(EndecTomfoolery.UBER_COMPACT_ATTRIBUTE),
+                    ByteBufSerializer.of(buf), value
+                );
 
-                    var byteStream = new ByteArrayOutputStream(buf.writerIndex());
-                    try (byteStream) {
-                        try (GZIPOutputStream zipStream = new GZIPOutputStream(byteStream)) {
-                            buf.readBytes(zipStream, buf.writerIndex());
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException("Failed to encode endec as bytes", e);
-                    } finally {
-                        buf.release();
+                var byteStream = new ByteArrayOutputStream(buf.writerIndex());
+                try (byteStream) {
+                    try (GZIPOutputStream zipStream = new GZIPOutputStream(byteStream)) {
+                        buf.readBytes(zipStream, buf.writerIndex());
                     }
-
-                    var bytes = byteStream.toByteArray();
-                    serializer.writeBytes(ctx, bytes);
-                },
-                (ctx, serializer) -> {
-                    var buf = Unpooled.buffer();
-
-                    var bytes = serializer.readBytes(ctx);
-                    try (var byteStream = new ByteArrayInputStream(bytes);) {
-                        try (var zipStream = new GZIPInputStream(byteStream)) {
-                            buf.writeBytes(zipStream.readAllBytes());
-                        }
-                    } catch (Exception e) {
-                        buf.release();
-                        throw new RuntimeException("Failed to decode endec as bytes", e);
-                    }
-
-                    try {
-                        return endec.decode(
-                                SerializationContext.empty().withAttributes(EndecTomfoolery.UBER_COMPACT_ATTRIBUTE),
-                                ByteBufDeserializer.of(buf)
-                        );
-                    } finally {
-                        buf.release();
-                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to encode endec as bytes", e);
+                } finally {
+                    buf.release();
                 }
+
+                var bytes = byteStream.toByteArray();
+                serializer.writeBytes(ctx, bytes);
+            },
+            (ctx, serializer) -> {
+                var buf = Unpooled.buffer();
+
+                var bytes = serializer.readBytes(ctx);
+                try (var byteStream = new ByteArrayInputStream(bytes);) {
+                    try (var zipStream = new GZIPInputStream(byteStream)) {
+                        buf.writeBytes(zipStream.readAllBytes());
+                    }
+                } catch (Exception e) {
+                    buf.release();
+                    throw new RuntimeException("Failed to decode endec as bytes", e);
+                }
+
+                try {
+                    return endec.decode(
+                        SerializationContext.empty().withAttributes(EndecTomfoolery.UBER_COMPACT_ATTRIBUTE),
+                        ByteBufDeserializer.of(buf)
+                    );
+                } finally {
+                    buf.release();
+                }
+            }
         );
     }
 
     public static <T> Endec<T> withFallback(Endec<T> endec, Supplier<T> fallback) {
         return Endec.of(
-                endec::encode,
-                (ctx, serializer) -> {
-                    try {
-                        return endec.decode(ctx, serializer);
-                    } catch (Exception e) {
-                        return fallback.get();
-                    }
+            endec::encode,
+            (ctx, serializer) -> {
+                try {
+                    return endec.decode(ctx, serializer);
+                } catch (Exception e) {
+                    return fallback.get();
                 }
+            }
         );
     }
 
@@ -258,6 +258,31 @@ public class EndecTomfoolery {
                 }
 
                 return protocol.decode(ctx, deserializer);
+            }
+        };
+    }
+
+    public static <T> Endec<T> protocolOptional(byte minVersion, Endec<T> endec, Supplier<T> defaultValue) {
+        var unit = EndecTomfoolery.unit(defaultValue);
+        return new Endec<>() {
+            @Override
+            public void encode(SerializationContext ctx, Serializer<?> serializer, T value) {
+                var protocolVersion = ctx.getAttributeValue(PROTOCOL_VERSION_ATTRIBUTE);
+                if (protocolVersion == null || protocolVersion >= minVersion) {
+                    endec.encode(ctx, serializer, value);
+                }
+
+                unit.encode(ctx, serializer, value);
+            }
+
+            @Override
+            public T decode(SerializationContext ctx, Deserializer<?> deserializer) {
+                var protocolVersion = ctx.getAttributeValue(PROTOCOL_VERSION_ATTRIBUTE);
+                if (protocolVersion == null || protocolVersion >= minVersion) {
+                    return endec.decode(ctx, deserializer);
+                }
+
+                return unit.decode(ctx, deserializer);
             }
         };
     }

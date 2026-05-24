@@ -247,6 +247,7 @@ trickster:
     get_fluid_container: Basin Ingress
     get_slots: Collector's Ingress
     get_inventory_size: Ingress of Extent
+    filter_container: Ingress of Discrimination
     drop_stack_from_slot: Ploy of Offering
     swap_slot: Swindler's Ploy
     move_resource: Organizer's Ploy
