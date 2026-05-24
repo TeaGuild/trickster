@@ -1,21 +1,21 @@
 {
   "removed": [
-    "trickster:cracked_amethyst_knot",
-    "trickster:quartz_knot",
-    "trickster:cracked_quartz_knot",
-    "trickster:cracked_emerald_knot",
-    "trickster:cracked_diamond_knot",
-    "trickster:echo_knot",
-    "trickster:cracked_echo_knot",
-    "trickster:astral_knot",
-    "trickster:cracked_astral_knot",
-    "trickster:ominous_spell_core",
-    "trickster:rusted_spell_core",
-    "trickster:inert_spawner",
-    "trickster:nan",
-    "trickster:nothing",
-    "trickster:leash",
-    "trickster:collar"
+    "item:trickster:cracked_amethyst_knot",
+    "item:trickster:quartz_knot",
+    "item:trickster:cracked_quartz_knot",
+    "item:trickster:cracked_emerald_knot",
+    "item:trickster:cracked_diamond_knot",
+    "item:trickster:echo_knot",
+    "item:trickster:cracked_echo_knot",
+    "item:trickster:astral_knot",
+    "item:trickster:cracked_astral_knot",
+    "item:trickster:ominous_spell_core",
+    "item:trickster:rusted_spell_core",
+    "item:trickster:inert_spawner",
+    "item:trickster:nan",
+    "item:trickster:nothing",
+    "item:trickster:leash",
+    "item:trickster:collar"
   ],
   "disable": true
 }
