@@ -33,7 +33,7 @@ that it can make you disappear without a trace.*
 
 ;;;;;
 
-<|ploy@trickster:templates|trick-id=trickster:prepare_displace,cost=120G + 1.35G^offset|>
+<|ploy@trickster:templates|trick-id=trickster:prepare_displace,cost=120G + 1.35G^distance|>
 
 Creates a temporary displacement fragment from an entity.
 These fragments can only be used for five seconds after creation.
