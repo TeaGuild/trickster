@@ -180,7 +180,6 @@ public class ModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(COLLAR, Models.GENERATED);
         itemModelGenerator.register(LEASH, Models.GENERATED);
         itemModelGenerator.register(MACRO_RING, Models.GENERATED);
-        itemModelGenerator.register(MONOCLE, Models.GENERATED);
         itemModelGenerator.register(LUMINOUS_BOTTLE, Models.GENERATED);
         itemModelGenerator.register(ESOTERIC_MANA, Models.GENERATED);
         itemModelGenerator.register(SPELL_RESONATOR_ITEM, Models.GENERATED);

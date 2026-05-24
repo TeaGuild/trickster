@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-24T06:05:07.630747254	Trickster/Model Definitions
+// 1.21.1	2026-05-24T06:24:00.907059345	Trickster/Model Definitions
 e6e9c340bf2b1d2b6312829ed88b4accec0a4eb4 assets/trickster/models/item/gilded_tuff_bricks.json
 6dc7c543a47ff87c75946af0c8de4abf1b61d98f assets/trickster/models/item/gilded_polished_tuff.json
 1d20d3356c7098ceded88807637ed3ced7cb8d26 assets/trickster/models/item/cracked_echo_knot.json
@@ -107,7 +107,6 @@ b1b58c33f70e10632bb128929a2cc5548313f19a assets/trickster/models/item/ominous_sp
 5ca64d8e509123eff8b7a73885efb5caa4ac14df assets/trickster/models/block/gilded_tuff_brick_slab.json
 f1968641f7837fe2083a928582b12d565cf59ce0 assets/trickster/models/item/spell_construct.json
 be7b41b3a8c2cd0dff3cab33c7aec03ed6e3a013 assets/trickster/models/item/nothing.json
-6a1bd8574555611ce4711add3b0098992e8c02e5 assets/trickster/models/item/monocle.json
 ca6ef796b6b584f9fcefc5fa0f6c27b69f8e10c7 assets/trickster/models/block/gilded_tuff_slab_top.json
 a88f5d2d7eeaa038ff4dea2e1f3a4aa1d7113949 assets/trickster/models/item/gilded_tuff_slab.json
 032bd4c0ea04699e58ffbf43c29d1bf96fa19eb5 assets/trickster/models/block/scroll_shelf.json
