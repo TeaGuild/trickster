@@ -116,7 +116,8 @@ public class ListRenderer implements FragmentRenderer<ListFragment> {
             maxElementWidth = Math.max(maxElementWidth, FragmentRenderer.getFragmentProportionalWidth(element));
             height += FragmentRenderer.getFragmentProportionalHeight(element);
         }
-        float width = maxElementWidth + 0.1f;
+        float width = Math.max(maxElementWidth + 0.1f, 0.2f);
+        height = Math.max(height, 0.2f);
 
         float diagonal = (float) Math.sqrt(width * width + height * height);
 
