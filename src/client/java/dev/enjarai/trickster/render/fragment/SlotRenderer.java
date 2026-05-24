@@ -65,7 +65,7 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
             i++;
             matrices.push();
             matrices.translate(off * Math.sin(angle), -off * Math.cos(angle), 0.55 * radius);
-            NumberRenderer.renderNumber(idx, matrices, vertexConsumers, x, y, radius * Math.min(0.5f, 2f / c), alpha, normal, tickDelta, delegator);
+            NumberRenderer.renderNumber(idx, matrices, vertexConsumers, x, y, radius * Math.min(0.5f, 2f / c), forcedAlpha, normal, tickDelta, delegator);
             matrices.pop();
         }
     }
