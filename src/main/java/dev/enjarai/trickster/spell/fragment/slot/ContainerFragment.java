@@ -1,7 +1,9 @@
 package dev.enjarai.trickster.spell.fragment.slot;
 
+import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
+import dev.enjarai.trickster.spell.fragment.ZalgoFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
@@ -31,6 +33,14 @@ public record ContainerFragment(StorageSource source, VariantType<?> variantType
     @Override
     public int getWeight() {
         return 32 + source.getWeight();
+    }
+
+    @Override
+    public Fragment applyEphemeral() {
+        if (source.isEphemeral()) {
+            return new ZalgoFragment();
+        }
+        return this;
     }
 
     public Storage<?> getStorage(Trick<?> trick, SpellContext ctx) {

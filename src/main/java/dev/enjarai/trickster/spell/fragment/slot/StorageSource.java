@@ -63,6 +63,10 @@ public sealed interface StorageSource {
         return 32;
     }
 
+    default boolean isEphemeral() {
+        return false;
+    }
+
     record Caster() implements StorageSource {
         public static final Caster INSTANCE = new Caster();
         public static final StructEndec<Caster> ENDEC = EndecTomfoolery.unit(INSTANCE);
@@ -182,6 +186,11 @@ public sealed interface StorageSource {
 
             return entity.getPos().toVector3d();
         }
+
+        @Override
+        public boolean isEphemeral() {
+            return true;
+        }
     }
 
     record Slot(int slot, StorageSource source) implements StorageSource {
@@ -240,6 +249,11 @@ public sealed interface StorageSource {
                 throw new NoSuchSlotBlunder(trick);
             }
         }
+
+        @Override
+        public boolean isEphemeral() {
+            return source.isEphemeral();
+        }
     }
 
     record Merged(List<StorageSource> sources) implements StorageSource {
@@ -275,6 +289,11 @@ public sealed interface StorageSource {
         @Override
         public Vector3dc getPosition(Trick<?> trick, SpellContext ctx) {
             return null; // TODO gotta figure out how the fuck this is supposed to work
+        }
+
+        @Override
+        public boolean isEphemeral() {
+            return sources.stream().anyMatch(StorageSource::isEphemeral);
         }
     }
 }

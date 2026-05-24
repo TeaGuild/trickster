@@ -6,7 +6,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
+import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
+import dev.enjarai.trickster.spell.fragment.ZalgoFragment;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -72,6 +74,14 @@ public record SlotFragment(StorageSource.Slot slot, VariantType<?> variantType) 
     @Override
     public int getWeight() {
         return 32 + slot.getWeight();
+    }
+
+    @Override
+    public Fragment applyEphemeral() {
+        if (slot.isEphemeral()) {
+            return new ZalgoFragment();
+        }
+        return this;
     }
 
     public static List<SlotFragment> getSlots(Trick<?> trick, SpellContext ctx, StorageSource source, VariantType<?> type) {
