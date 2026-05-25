@@ -84,6 +84,9 @@
     "recommends": {
         "inline": "^1.2.2"
     },
+    "conflicts": {
+        "immediatelyfast": "*"
+    },
     "breaks": {
         "optifabric": "*"
     }
