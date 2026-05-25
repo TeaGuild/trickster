@@ -136,13 +136,14 @@ dependencies {
 
     modApi("io.wispforest:accessories-fabric:${property('deps.accessories')}")
 
-    modApi "com.samsthenerd.inline:inline-fabric:${property 'deps.inline'}"
+    modApi("maven.modrinth:lithostitched:${property('deps.lithostitched')}")
 
     // Optional compat
+    modCompileOnly modLocalRuntime("com.samsthenerd.inline:inline-fabric:${property 'deps.inline'}")
     modCompileOnly modLocalRuntime("maven.modrinth:transmog:${property('deps.transmog')}")
 
     modClientCompileOnly modLocalRuntime("mod.master_bw3:coleus:${property('deps.coleus')}")
-    compileOnly "com.j2html:j2html:${property('deps.j2html')}"
+    compileOnly("com.j2html:j2html:${property('deps.j2html')}")
 }
 
 processResources {
@@ -263,8 +264,14 @@ publishMods {
             requires {
                 slug = "accessories"
             }
+            requires {
+                slug = "lithostitched"
+            }
             embeds {
                 slug = "cardinal-components-api"
+            }
+            optional {
+                slug = "inline"
             }
         }
     }
@@ -298,8 +305,14 @@ publishMods {
             requires {
                 slug = "accessories"
             }
+            requires {
+                slug = "lithostitched"
+            }
             embeds {
                 slug = "cardinal-components-api"
+            }
+            optional {
+                slug = "inline"
             }
         }
     }

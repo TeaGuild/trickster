@@ -66,8 +66,8 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
             var hash = key.getValue().hashCode();
             if (INT_ID_LOOKUP.containsKey(hash)) {
                 Trickster.LOGGER.error(
-                        "WARNING: Hashcode collision between two fragment types, spell imports and exports may not work as expected. ({} overrode {})",
-                        key.getValue(), INT_ID_LOOKUP.get(hash)
+                    "WARNING: Hashcode collision between two fragment types, spell imports and exports may not work as expected. ({} overrode {})",
+                    key.getValue(), INT_ID_LOOKUP.get(hash)
                 );
                 throw new IllegalStateException("WARNING: Hashcode collision between two fragment types");
             }
@@ -88,7 +88,7 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
     public static final FragmentType<EntityFragment> ENTITY = register("entity", EntityFragment.ENDEC, 0x338888);
     public static final FragmentType<ZalgoFragment> ZALGO = register("zalgo", ZalgoFragment.ENDEC, 0x444444);
     public static final FragmentType<ItemTypeFragment> ITEM_TYPE = register("item_type", ItemTypeFragment.ENDEC, 0x2266aa);
-    public static final FragmentType<FluidTypeFragment> FLUID_TYPE = register("fluid_type", FluidTypeFragment.ENDEC, 0x132ea8);
+    public static final FragmentType<FluidTypeFragment> FLUID_TYPE = register("fluid_type", FluidTypeFragment.ENDEC, 0xaa6622);
     public static final FragmentType<SlotFragment> SLOT = register("slot", SlotFragment.ENDEC, 0x77aaee);
     public static final FragmentType<ContainerFragment> CONTAINER = register("container", ContainerFragment.ENDEC, 0xbbbbff);
     public static final FragmentType<BlockTypeFragment> BLOCK_TYPE = register("block_type", BlockTypeFragment.ENDEC, 0x44aa33);
@@ -97,6 +97,7 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
     public static final FragmentType<StringFragment> STRING = register("string", StringFragment.ENDEC, 0xaabb77);
     public static final FragmentType<MapFragment> MAP = register("map", MapFragment.ENDEC);
     public static final FragmentType<ColorFragment> COLOR = register("color", ColorFragment.ENDEC, 0xff0055);
+    public static final FragmentType<DisplaceFragment> DISPLACE = register("displace", DisplaceFragment.ENDEC, 0x44cc88);
     public static final FragmentType<BooleanFragment> BOOLEAN = Registry.register(REGISTRY, Trickster.id("boolean"), new FragmentType<>(BooleanFragment.ENDEC, OptionalInt.of(0xaa3355)) {
         @Override
         public BooleanFragment compose(Trick<?> trick, SpellContext ctx, List<Fragment> fragments) {
@@ -184,42 +185,6 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
         return fragments.getFirst().type() == this;
     }
 
-    @Override
-    public ArgType<T> wardOf() {
-        return new ArgType<>() {
-            @Override
-            public int argc(List<Fragment> fragments) {
-                return FragmentType.this.argc(fragments);
-            }
-
-            @Override
-            public T compose(Trick<?> trick, SpellContext ctx, List<Fragment> fragments) {
-                var result = FragmentType.this.compose(trick, ctx, fragments);
-
-                if (result instanceof EntityFragment entity) {
-                    ArgType.tryWard(trick, ctx, entity, fragments);
-                }
-
-                return result;
-            }
-
-            @Override
-            public boolean match(List<Fragment> fragments) {
-                return FragmentType.this.match(fragments);
-            }
-
-            @Override
-            public ArgType<T> wardOf() {
-                return this;
-            }
-
-            @Override
-            public MutableText asText() {
-                return FragmentType.this.asText();
-            }
-        };
-    }
-
     public StructEndec<T> endec() {
         return endec;
     }
@@ -234,7 +199,7 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (FragmentType) obj;
         return Objects.equals(this.endec, that.endec) &&
-                Objects.equals(this.color, that.color);
+            Objects.equals(this.color, that.color);
     }
 
     @Override
@@ -245,7 +210,7 @@ public class FragmentType<T extends Fragment> implements RetType<T>, ArgType<T> 
     @Override
     public String toString() {
         return "FragmentType[" +
-                "endec=" + endec + ", " +
-                "color=" + color + ']';
+            "endec=" + endec + ", " +
+            "color=" + color + ']';
     }
 }

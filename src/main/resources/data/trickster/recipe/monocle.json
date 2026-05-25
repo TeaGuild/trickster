@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "AG ",
+        "GPG",
+        " GC"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:gold_nugget"
+        },
+        "P": {
+            "item": "minecraft:glass_pane"
+        },
+        "A": {
+            "item": "minecraft:amethyst_shard"
+        },
+        "C": {
+            "item": "minecraft:chain"
+        }
+    },
+    "result": {
+        "id": "trickster:monocle",
+        "count": 1
+    }
+}

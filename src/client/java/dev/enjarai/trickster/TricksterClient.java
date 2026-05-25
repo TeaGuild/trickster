@@ -38,7 +38,10 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -58,6 +61,9 @@ public class TricksterClient implements ClientModInitializer {
         ScrollAndQuillItem.screenOpener = (text, hand) -> {
             MinecraftClient.getInstance().setScreen(new SignScrollScreen(text, hand));
         };
+
+        ModContainer modContainer = FabricLoader.getInstance().getModContainer(Trickster.MOD_ID).orElseThrow(() -> new IllegalStateException("Trickster's ModContainer couldn't be found!"));
+        ResourceManagerHelper.registerBuiltinResourcePack(Trickster.id("trickster_accents"), modContainer, ResourcePackActivationType.NORMAL);
 
         FleckRenderer.register();
         FragmentRenderer.register();

@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.screen;
 
+import dev.enjarai.trickster.ModKeyBindings;
 import dev.enjarai.trickster.spell.SpellView;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.screen.scribing.CircleSoupWidget;

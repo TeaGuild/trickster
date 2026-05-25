@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "GCG",
+        "PGP",
+        "A A"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:gold_nugget"
+        },
+        "P": {
+            "item": "minecraft:glass_pane"
+        },
+        "A": {
+            "item": "minecraft:amethyst_shard"
+        },
+        "C": {
+            "item": "minecraft:chain"
+        }
+    },
+    "result": {
+        "id": "trickster:glasses",
+        "count": 1
+    }
+}

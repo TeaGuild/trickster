@@ -54,6 +54,8 @@ public class SpellCircleRenderer {
         new BufferAllocator(2048)
     );
 
+    public static final float FADE_SPEED = 0.04f;
+
     public final boolean inUI;
     private final boolean inEditor;
     private final double precisionOffset;
@@ -67,6 +69,9 @@ public class SpellCircleRenderer {
     private float r = 1f, g = 1f, b = 1f;
     private float circleTransparency = 1f;
     private boolean recurse;
+
+    public float textFadeDir = 0;
+    public float textFade = 0;
 
     public SpellCircleRenderer(Boolean inUI, double precisionOffset) {
         this(inUI, precisionOffset, true);
@@ -142,6 +147,8 @@ public class SpellCircleRenderer {
 
     public void renderPart(MatrixStack matrices, VertexConsumerProvider vertexConsumers, SpellPart entry, double x, double y, double radius, double startingAngle, float delta,
         Function<Float, Float> alphaGetter, Vec3d normal) {
+
+        textFade = Math.clamp(textFade + (textFadeDir * FADE_SPEED * 2), 0, 1);
         renderPartWithoutDrawing(matrices, vertexConsumers, entry, x, y, radius, startingAngle, delta, alphaGetter, normal);
         VERTEX_CONSUMERS.draw();
     }
@@ -155,12 +162,15 @@ public class SpellCircleRenderer {
         Function<Float, Float> alphaGetter, Vec3d normal) {
         var alpha = alphaGetter.apply(toLocalSpace(radius));
 
-        drawTexturedQuad(
-            matrices, vertexConsumers, CIRCLE_TEXTURE,
-            toLocalSpace(x - radius), toLocalSpace(x + radius), toLocalSpace(y - radius), toLocalSpace(y + radius),
-            0,
-            r, g, b, alpha * circleTransparency, inUI
-        );
+        var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(entry.glyph.type()));
+        if (renderer == null || renderer.renderCircle()) {
+            drawTexturedQuad(
+                matrices, vertexConsumers, CIRCLE_TEXTURE,
+                toLocalSpace(x - radius), toLocalSpace(x + radius), toLocalSpace(y - radius), toLocalSpace(y + radius),
+                0,
+                r, g, b, alpha * circleTransparency, inUI
+            );
+        }
         drawGlyph(
             matrices, vertexConsumers, entry,
             x, y, radius, startingAngle,
@@ -223,7 +233,7 @@ public class SpellCircleRenderer {
         //        );
     }
 
-    protected void drawGlyph(MatrixStack matrices, VertexConsumerProvider vertexConsumers, SpellPart parent, double x, double y, double radius, double startingAngle, float delta,
+    public void drawGlyph(MatrixStack matrices, VertexConsumerProvider vertexConsumers, SpellPart parent, double x, double y, double radius, double startingAngle, float delta,
         Function<Float, Float> alphaGetter, Vec3d normal) {
         var glyph = parent.getGlyph();
         if (glyph instanceof SpellPart part) {
@@ -252,8 +262,14 @@ public class SpellCircleRenderer {
         var alpha = alphaGetter.apply(radius);
         var patternRadius = radius / PATTERN_TO_PART_RATIO;
         var pixelSize = patternRadius / PART_PIXEL_RADIUS;
+        var renderText = true;
+        var ogAlpha = alpha;
+        alpha *= (1 - textFade * 0.5f);
 
         if (glyph instanceof PatternGlyph pattern) {
+            if (pattern.pattern().isEmpty()) {
+                renderText = false;
+            }
 
             var isDrawing = inEditor && drawingPartGetter.get() == parent;
             var drawingPattern = inEditor ? drawingPatternGetter.get() : null;
@@ -304,12 +320,13 @@ public class SpellCircleRenderer {
 
             var renderDots = true;
 
-            if (renderer != null) {
+            if (renderer == null) {
+                FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, ogAlpha);
+                renderText = false;
+            } else {
                 //noinspection unchecked
                 //                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this); TODO
                 renderDots = renderer.renderRedrawDots();
-            } else {
-                FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, alpha);
             }
 
             if (inEditor && inUI && renderDots) {
@@ -337,9 +354,15 @@ public class SpellCircleRenderer {
                         pos.x - dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y - dotSize,
-                        0, r, g, b, 0.25f);
+                        radius, r, g, b, 0.25f);
                 }
             }
+        }
+        if (renderText && textFade > 0) {
+            matrices.push();
+            matrices.translate(0, 0, radius * 2f);
+            FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, textFade);
+            matrices.pop();
         }
     }
 
@@ -465,10 +488,21 @@ public class SpellCircleRenderer {
         float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4,
         float z, float r, float g, float b, float alpha) {
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(GLYPH_LAYER);
+        VertexConsumer vertexConsumer;
+
+        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getDebugQuads());
         vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x3, y3, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x4, y4, z).color(r, g, b, alpha);
+
+        z += 0.001f;
+
+        //        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getDebugLineStrip(1));
+        //        vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
+        //        vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);
+        //        vertexConsumer.vertex(matrix4f, x3, y3, z).color(r, g, b, alpha);
+        //        vertexConsumer.vertex(matrix4f, x4, y4, z).color(r, g, b, alpha);
+        //        vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
     }
 }

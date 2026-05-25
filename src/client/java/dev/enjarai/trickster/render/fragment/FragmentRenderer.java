@@ -24,10 +24,21 @@ public interface FragmentRenderer<T extends Fragment> {
     PatternLiteralRenderer PATTERN_LITERAL = register(FragmentType.PATTERN_LITERAL, new PatternLiteralRenderer());
     ItemTypeRenderer ITEM_TYPE = register(FragmentType.ITEM_TYPE, new ItemTypeRenderer());
     BlockTypeRenderer BLOCK_TYPE = register(FragmentType.BLOCK_TYPE, new BlockTypeRenderer());
-    // EntityRenderer ENTITY = register(FragmentType.ENTITY, new EntityRenderer());
+    FluidTypeRenderer FLUID_TYPE = register(FragmentType.FLUID_TYPE, new FluidTypeRenderer());
+    EntityRenderer ENTITY = register(FragmentType.ENTITY, new EntityRenderer());
+    //EntityTypeRenderer ENTITY_TYPE = register(FragmentType.ENTITY_TYPE, new EntityTypeRenderer());
     ListRenderer LIST = register(FragmentType.LIST, new ListRenderer());
     MapRenderer MAP = register(FragmentType.MAP, new MapRenderer());
     ColorRenderer COLOR = register(FragmentType.COLOR, new ColorRenderer());
+    TypeRenderer TYPE = register(FragmentType.TYPE, new TypeRenderer());
+    NumberRenderer NUMBER = register(FragmentType.NUMBER, new NumberRenderer());
+    VectorRenderer VECTOR = register(FragmentType.VECTOR, new VectorRenderer());
+    BooleanRenderer BOOLEAN = register(FragmentType.BOOLEAN, new BooleanRenderer());
+    ContainerRenderer CONTAINER = register(FragmentType.CONTAINER, new ContainerRenderer());
+    SlotRenderer SLOT = register(FragmentType.SLOT, new SlotRenderer());
+    //DimensionRenderer DIMENSION = register(FragmentType.DIMENSION, new DimensionRenderer()); // disabled until a decision is made
+    VoidRenderer VOID = register(FragmentType.VOID, new VoidRenderer());
+    ZalgoRenderer ZALGO = register(FragmentType.ZALGO, new ZalgoRenderer());
     SpellPartRenderer SPELL_PART = register(FragmentType.SPELL_PART, new SpellPartRenderer());
 
     static <T extends FragmentRenderer<F>, F extends Fragment> T register(FragmentType<F> type, T renderer) {
@@ -46,7 +57,7 @@ public interface FragmentRenderer<T extends Fragment> {
 
         matrices.push();
         matrices.translate(x, y, 0);
-        matrices.scale(radius / 1.3f / width, radius / 1.3f / width, 1);
+        matrices.scale(radius / width, radius / width, 1);
 
         var color = ColorHelper.Argb.withAlpha((int) (alpha * 0xff), 0xffffff);
 
@@ -61,7 +72,8 @@ public interface FragmentRenderer<T extends Fragment> {
         matrices.pop();
     }
 
-    void render(T fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta, CircleRenderer delegator);
+    void render(T fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y,
+        float radius, float alpha, float forcedAlpha, Vec3d normal, float tickDelta, CircleRenderer delegator);
 
     float getProportionalHeight(T fragment);
 
@@ -74,6 +86,10 @@ public interface FragmentRenderer<T extends Fragment> {
     }
 
     default boolean doubleSided() {
+        return true;
+    }
+
+    default boolean renderCircle() {
         return true;
     }
 

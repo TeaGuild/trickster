@@ -36,6 +36,12 @@ public class TricksterConfigModel {
     public float maxBlockBreakingHardness = 55.5f;
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+    public boolean allowUnbreakableBlockSwap = true;
+
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+    public boolean allowExtendedPistonSwap = true;
+
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @PredicateConstraint("requirePositive")
     public float whorlRechargeRate = 0.5f;
 

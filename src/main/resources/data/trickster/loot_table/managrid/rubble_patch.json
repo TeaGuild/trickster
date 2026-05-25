@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:archaeology",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "trickster:cracked_amethyst_knot"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:tuff"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:copper_ingot"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "trickster:managrid/branch",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 50,
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "name": "trickster:managrid/branch_turn",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "trickster:terrain_matching_ocean",
+          "location": "trickster:managrid/branch",
+          "processors": []
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true,
+        "max_count": 3
+      }
+    }
+  ]
+}

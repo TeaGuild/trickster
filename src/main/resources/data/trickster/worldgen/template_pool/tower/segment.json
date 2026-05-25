@@ -1,0 +1,33 @@
+{
+  "name": "trickster:tower/segment",
+  "fallback": "trickster:tower/roof",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:tower/segment/roof",
+        "processors": []
+      }
+    },
+    {
+      "weight": 80,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:tower/segment/standard",
+        "processors": []
+      }
+    },
+    {
+      "weight": 30,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:tower/segment/window",
+        "processors": []
+      }
+    }
+  ]
+}

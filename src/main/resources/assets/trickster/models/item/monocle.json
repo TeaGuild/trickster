@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "trickster:item/monocle"
+  },
+  "display": {
+    "face": {
+      "translation": [8, 0, 0]
+    }
+  }
+}

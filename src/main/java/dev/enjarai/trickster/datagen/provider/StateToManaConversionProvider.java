@@ -23,6 +23,7 @@ import java.util.concurrent.CompletableFuture;
 
 public abstract class StateToManaConversionProvider implements DataProvider {
     protected final DataOutput.PathResolver pathResolver;
+
     private final CompletableFuture<RegistryWrapper.WrapperLookup> registryLookupFuture;
     private final Map<TagEntry, Builder> builders = Maps.newLinkedHashMap();
 
@@ -36,27 +37,27 @@ public abstract class StateToManaConversionProvider implements DataProvider {
     @Override
     public CompletableFuture<?> run(DataWriter writer) {
         return this.getRegistryLookupFuture()
-                .thenCompose(wrapperLookup -> CompletableFuture.allOf(
-                        this.builders
-                                .entrySet()
-                                .stream()
-                                .map(
-                                        entry -> {
-                                            TagEntryAccessor accessor = (TagEntryAccessor) entry.getKey();
-                                            Identifier identifier = accessor.isTag() ? accessor.getId().withPrefixedPath("tags/") : accessor.getId();
-                                            Path path = this.pathResolver.resolveJson(identifier);
-                                            return DataProvider
-                                                    .writeCodecToPath(
-                                                            writer,
-                                                            wrapperLookup,
-                                                            StateToManaConversionLoader.ConversionData.CODEC,
-                                                            entry.getValue().build(),
-                                                            path
-                                                    );
-                                        }
-                                )
-                                .toArray(CompletableFuture[]::new)
-                ));
+            .thenCompose(wrapperLookup -> CompletableFuture.allOf(
+                this.builders
+                    .entrySet()
+                    .stream()
+                    .map(
+                        entry -> {
+                            TagEntryAccessor accessor = (TagEntryAccessor) entry.getKey();
+                            Identifier identifier = accessor.isTag() ? accessor.getId().withPrefixedPath("tags/") : accessor.getId();
+                            Path path = this.pathResolver.resolveJson(identifier);
+                            return DataProvider
+                                .writeCodecToPath(
+                                    writer,
+                                    wrapperLookup,
+                                    StateToManaConversionLoader.ConversionData.CODEC,
+                                    entry.getValue().build(),
+                                    path
+                                );
+                        }
+                    )
+                    .toArray(CompletableFuture[]::new)
+            ));
     }
 
     protected CompletableFuture<RegistryWrapper.WrapperLookup> getRegistryLookupFuture() {

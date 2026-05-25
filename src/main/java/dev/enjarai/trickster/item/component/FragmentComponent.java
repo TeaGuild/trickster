@@ -30,19 +30,19 @@ import java.util.stream.Collectors;
 public record FragmentComponent(Fragment value, Optional<Text> name, boolean immutable, boolean closed) {
 
     private static final Endec<FragmentComponent> OLD_ENDEC = StructEndecBuilder.of(
-            SpellPart.ENDEC.fieldOf("spell", comp -> {
-                throw new IllegalStateException("Serializing as a spell is no longer supported");
-            }),
-            Endec.BOOLEAN.optionalFieldOf("immutable", FragmentComponent::immutable, false),
-            Endec.BOOLEAN.optionalFieldOf("closed", FragmentComponent::closed, false),
-            (value, immutable, closed) -> new FragmentComponent(value, Optional.empty(), immutable, closed)
+        SpellPart.ENDEC.fieldOf("spell", comp -> {
+            throw new IllegalStateException("Serializing as a spell is no longer supported");
+        }),
+        Endec.BOOLEAN.optionalFieldOf("immutable", FragmentComponent::immutable, false),
+        Endec.BOOLEAN.optionalFieldOf("closed", FragmentComponent::closed, false),
+        (value, immutable, closed) -> new FragmentComponent(value, Optional.empty(), immutable, closed)
     );
     private static final Endec<FragmentComponent> NEW_ENDEC = StructEndecBuilder.of(
-            Fragment.COMPACT_ENDEC.fieldOf("value", FragmentComponent::value),
-            EndecTomfoolery.safeOptionalOf(CodecUtils.toEndec(TextCodecs.STRINGIFIED_CODEC)).fieldOf("name", FragmentComponent::name),
-            Endec.BOOLEAN.optionalFieldOf("immutable", FragmentComponent::immutable, false),
-            Endec.BOOLEAN.optionalFieldOf("closed", FragmentComponent::closed, false),
-            FragmentComponent::new
+        Fragment.COMPACT_ENDEC.fieldOf("value", FragmentComponent::value),
+        EndecTomfoolery.safeOptionalOf(CodecUtils.toEndec(TextCodecs.STRINGIFIED_CODEC)).fieldOf("name", FragmentComponent::name),
+        Endec.BOOLEAN.optionalFieldOf("immutable", FragmentComponent::immutable, false),
+        Endec.BOOLEAN.optionalFieldOf("closed", FragmentComponent::closed, false),
+        FragmentComponent::new
     );
     public static final Endec<FragmentComponent> ENDEC = EndecTomfoolery.withAlternative(NEW_ENDEC, OLD_ENDEC);
 
@@ -58,14 +58,24 @@ public record FragmentComponent(Fragment value, Optional<Text> name, boolean imm
         return new FragmentComponent(value, name, immutable, true);
     }
 
+    public boolean hasTooltip() {
+        if (closed) return false;
+
+        if (value instanceof SpellPart spell) {
+            return !spell.isEmpty();
+        }
+
+        return true;
+    }
+
     public static Optional<SpellPart> getSpellPart(ItemStack stack) {
         return getFragment(stack)
-                .flatMap(value -> {
-                    if (value instanceof SpellPart spell)
-                        return Optional.of(spell);
+            .flatMap(value -> {
+                if (value instanceof SpellPart spell)
+                    return Optional.of(spell);
 
-                    return Optional.empty();
-                });
+                return Optional.empty();
+            });
     }
 
     /**
@@ -152,10 +162,10 @@ public record FragmentComponent(Fragment value, Optional<Text> name, boolean imm
 
     public static Optional<Fragment> getFragment(ItemStack stack) {
         return getReferencedStack(stack)
-                .filter(stack2 -> stack2.contains(ModComponents.FRAGMENT))
-                .map(stack2 -> stack2.get(ModComponents.FRAGMENT))
-                .filter(component -> !component.closed())
-                .map(FragmentComponent::value);
+            .filter(stack2 -> stack2.contains(ModComponents.FRAGMENT))
+            .map(stack2 -> stack2.get(ModComponents.FRAGMENT))
+            .filter(component -> !component.closed())
+            .map(FragmentComponent::value);
     }
 
     public static boolean setValue(ItemStack stack, Fragment value, Optional<Text> name, boolean closed) {
@@ -174,8 +184,8 @@ public record FragmentComponent(Fragment value, Optional<Text> name, boolean imm
 
         if (stack.isIn(ModItems.HOLDABLE_HAT) && stack.contains(DataComponentTypes.CONTAINER) && stack.contains(ModComponents.SELECTED_SLOT)) {
             stackOptional = stack.get(DataComponentTypes.CONTAINER).stream()
-                    .skip(stack.get(ModComponents.SELECTED_SLOT).slot())
-                    .findFirst();
+                .skip(stack.get(ModComponents.SELECTED_SLOT).slot())
+                .findFirst();
         }
 
         return stackOptional;
@@ -209,20 +219,20 @@ public record FragmentComponent(Fragment value, Optional<Text> name, boolean imm
     @SuppressWarnings("unchecked")
     public static <T extends Fragment> Optional<T> getValue(ItemStack stack, Class<T> clazz) {
         return Optional.ofNullable(stack)
-                .filter(stack2 -> stack2.contains(ModComponents.FRAGMENT))
-                .map(stack2 -> stack2.get(ModComponents.FRAGMENT))
-                .map(FragmentComponent::value)
-                .flatMap(value -> {
-                    if (value.getClass() == clazz)
-                        return Optional.of((T) value);
+            .filter(stack2 -> stack2.contains(ModComponents.FRAGMENT))
+            .map(stack2 -> stack2.get(ModComponents.FRAGMENT))
+            .map(FragmentComponent::value)
+            .flatMap(value -> {
+                if (value.getClass() == clazz)
+                    return Optional.of((T) value);
 
-                    return Optional.empty();
-                });
+                return Optional.empty();
+            });
     }
 
     public static Optional<HashMap<Pattern, SpellPart>> getMap(ItemStack stack) {
         return getValue(stack, MapFragment.class)
-                .map(MapFragment::getMacroMap);
+            .map(MapFragment::getMacroMap);
     }
 
     public static Optional<HashMap<Pattern, SpellPart>> getUserMergedMap(PlayerEntity user, String type) {

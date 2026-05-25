@@ -60,7 +60,7 @@ public abstract class PlayerRendererMixin {
 
             this.trickster$renderer.renderCircle(
                 matrices, spell.get(), 0, 0, 0.5f, 0, tickDelta,
-                1f, rot, null
+                1f, 1f, rot, null
             );
             matrices.pop();
         }

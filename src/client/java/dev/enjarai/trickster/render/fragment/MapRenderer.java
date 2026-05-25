@@ -20,7 +20,8 @@ public class MapRenderer implements FragmentRenderer<MapFragment> {
     private final static float HORIZONTAL_SPACING = 0.6f;
 
     @Override
-    public void render(MapFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, Vec3d normal, float tickDelta,
+    public void render(MapFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta,
         CircleRenderer delegator) {
         var map = fragment.map();
         var layout = calculateLayout(fragment);
@@ -45,20 +46,24 @@ public class MapRenderer implements FragmentRenderer<MapFragment> {
             var key = entry._1();
             var val = entry._2();
 
+            //noinspection rawtypes
             FragmentRenderer keyRenderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(key.type()));
             if (keyRenderer != null) {
-                keyRenderer.render(key, matrices, vertexConsumers, -(elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha, normal, tickDelta, delegator);
+                //noinspection unchecked
+                keyRenderer.render(key, matrices, vertexConsumers, -(elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, forcedAlpha, forcedAlpha, normal, tickDelta, delegator);
             } else {
-                FragmentRenderer.renderAsText(key, matrices, vertexConsumers, -(elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha);
+                FragmentRenderer.renderAsText(key, matrices, vertexConsumers, -(elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, forcedAlpha);
             }
 
-            renderArrow(matrices, vertexConsumers, 0, offset, 0.02f, alpha);
+            renderArrow(matrices, vertexConsumers, 0, offset, 0.02f, forcedAlpha);
 
+            //noinspection rawtypes
             FragmentRenderer valRenderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(val.type()));
             if (valRenderer != null) {
-                valRenderer.render(val, matrices, vertexConsumers, (elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha, normal, tickDelta, delegator);
+                //noinspection unchecked
+                valRenderer.render(val, matrices, vertexConsumers, (elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, forcedAlpha, forcedAlpha, normal, tickDelta, delegator);
             } else {
-                FragmentRenderer.renderAsText(val, matrices, vertexConsumers, (elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, alpha);
+                FragmentRenderer.renderAsText(val, matrices, vertexConsumers, (elementWidth + HORIZONTAL_SPACING) * 0.5f, offset, 0.4f, forcedAlpha);
             }
 
             offsetAcc += entryHeight;
@@ -67,8 +72,8 @@ public class MapRenderer implements FragmentRenderer<MapFragment> {
         matrices.pop();
 
         var bracketHeight = Math.max(height + 0.15f, 0.5f);
-        renderBrace(matrices, vertexConsumers, 0, width / 2f, 0, bracketHeight, alpha);
-        renderBrace(matrices, vertexConsumers, (float) Math.PI, -width / 2f, 0, bracketHeight, alpha);
+        renderBrace(matrices, vertexConsumers, 0, width / 2f, 0, bracketHeight, forcedAlpha);
+        renderBrace(matrices, vertexConsumers, (float) Math.PI, -width / 2f, 0, bracketHeight, forcedAlpha);
 
         matrices.pop();
     }

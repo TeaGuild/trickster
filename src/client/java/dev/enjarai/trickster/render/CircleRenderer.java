@@ -55,6 +55,8 @@ public class CircleRenderer {
         new BufferAllocator(2048)
     );
 
+    public static final float FADE_SPEED = 0.2f;
+
     public final boolean inUI;
     public final boolean inEditor;
     public final int recursions;
@@ -67,6 +69,8 @@ public class CircleRenderer {
     private float r = 1f, g = 1f, b = 1f;
     private float circleTransparency = 1f;
     private int loading = -1;
+
+    public double textFade = 0;
 
     public CircleRenderer(Boolean inUI, boolean inEditor, int recursions) {
         this.inUI = inUI;
@@ -132,29 +136,32 @@ public class CircleRenderer {
     public void renderCircle(
         MatrixStack matrices, SpellPart entry,
         double x, double y, double radius, double startingAngle, float delta,
-        float alpha, Vec3d normal, @Nullable List<Byte> drawingPattern
+        float alpha, float forcedAlpha, Vec3d normal, @Nullable List<Byte> drawingPattern
     ) {
-        renderCircle(matrices, entry, x, y, radius, startingAngle, delta, alpha, normal, drawingPattern, 0);
+        renderCircle(matrices, entry, x, y, radius, startingAngle, delta, alpha, forcedAlpha, normal, drawingPattern, 0);
     }
 
     public void renderCircle(
         MatrixStack matrices, SpellPart entry,
         double x, double y, double radius, double startingAngle, float delta,
-        float alpha, Vec3d normal, @Nullable List<Byte> drawingPattern, int recursions
+        float alpha, float forcedAlpha, Vec3d normal, @Nullable List<Byte> drawingPattern, int recursions
     ) {
         var vertexConsumers = VERTEX_CONSUMERS;
 
-        drawTexturedQuad(
-            matrices, vertexConsumers, CIRCLE_TEXTURE,
-            (float) (x - radius), (float) (x + radius), (float) (y - radius), (float) (y + radius),
-            0,
-            r, g, b, alpha * circleTransparency, inUI
-        );
+        var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(entry.glyph.type()));
+        if (renderer == null || renderer.renderCircle() || drawingPattern != null) {
+            drawTexturedQuad(
+                matrices, vertexConsumers, CIRCLE_TEXTURE,
+                (float) (x - radius), (float) (x + radius), (float) (y - radius), (float) (y + radius),
+                0,
+                r, g, b, alpha * circleTransparency, inUI
+            );
+        }
         if (entry.glyph instanceof SpellPart glyph) {
             if (recursions < this.recursions) {
                 renderCircle(
                     matrices, glyph, x, y, radius / 3,
-                    startingAngle, delta, alpha / 2, normal,
+                    startingAngle, delta, alpha / 2, forcedAlpha / 2, normal,
                     drawingPattern, recursions + 1
                 );
             }
@@ -163,7 +170,7 @@ public class CircleRenderer {
                 matrices.push();
                 drawSide(
                     matrices, vertexConsumers, (float) x, (float) y, (float) radius,
-                    alpha, normal, delta, entry.glyph, drawingPattern
+                    alpha, forcedAlpha, normal, delta, entry.glyph, drawingPattern
                 );
                 matrices.pop();
             } else {
@@ -193,7 +200,7 @@ public class CircleRenderer {
             if (recursions < this.recursions) {
                 renderCircle(
                     matrices, child, subX, subY, entry.subRadius(radius),
-                    angle, delta, alpha / 3 * 2, normal,
+                    angle, delta, alpha / 3 * 2, forcedAlpha / 3 * 2, normal,
                     drawingPattern, recursions + 1
                 );
             }
@@ -242,15 +249,22 @@ public class CircleRenderer {
 
     private void drawSide(
         MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y,
-        float radius, float alpha, Vec3d normal, float delta,
+        float radius, float alpha, float forcedAlpha, Vec3d normal, float delta,
         Fragment glyph, @Nullable List<Byte> drawingPattern
     ) {
         float patternRadius = radius / PATTERN_TO_PART_RATIO;
         float pixelSize = patternRadius / PART_PIXEL_RADIUS;
 
+        alpha *= (float) (1 - textFade * 0.5f);
+        var renderText = true;
+
         var isDrawing = drawingPattern != null;
 
         if (glyph instanceof PatternGlyph || isDrawing) {
+            if (!(glyph instanceof PatternGlyph pattern) || pattern.pattern().isEmpty()) {
+                renderText = false;
+            }
+
             var patternList = isDrawing ? Pattern.from(drawingPattern) : ((PatternGlyph) glyph).pattern();
 
             for (int i = 0; i < 9; i++) {
@@ -299,7 +313,7 @@ public class CircleRenderer {
 
             if (renderer != null) {
                 //noinspection unchecked
-                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, normal, delta, this);
+                renderer.render(glyph, matrices, vertexConsumers, x, y, radius, alpha, forcedAlpha, normal, delta, this);
                 renderDots = renderer.renderRedrawDots();
             } else {
                 FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, alpha);
@@ -333,6 +347,13 @@ public class CircleRenderer {
                         0, r, g, b, 0.25f);
                 }
             }
+        }
+
+        if (renderText && textFade > 0.05) {
+            matrices.push();
+            matrices.translate(0, 0, radius * 2f);
+            FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, (float) textFade);
+            matrices.pop();
         }
     }
 

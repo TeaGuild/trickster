@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:tag",
+          "expand": true,
+          "functions": [],
+          "name": "trickster:basic_and_cracked_knots"
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:binomial",
+        "n": 3,
+        "p": 0.5
+      }
+    }
+  ],
+  "functions": [
+    {
+      "function": "trickster:random_mana",
+      "min": 0.0,
+      "max": 0.5
+    }
+  ],
+  "random_sequence": "trickster:charging_array/basic"
+}

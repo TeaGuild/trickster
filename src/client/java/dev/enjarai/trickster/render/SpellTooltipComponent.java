@@ -45,7 +45,7 @@ public class SpellTooltipComponent implements TooltipComponent {
         //noinspection IntegerDivisionInFloatingPointContext
         renderer.renderCircle(
             matrices, spell, x + getWidth(textRenderer) / 2, y + getHeight() / 2, size,
-            0.0, delta, 1, new Vec3d(0, 0, -1), null
+            0.0, delta, 1, 1, new Vec3d(0, 0, -1), null
         );
         CircleRenderer.VERTEX_CONSUMERS.draw();
         matrices.pop();

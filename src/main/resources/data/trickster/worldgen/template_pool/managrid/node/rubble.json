@@ -1,0 +1,24 @@
+{
+  "name": "trickster:managrid/node/rubble",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "trickster:terrain_matching_ocean",
+        "location": "trickster:managrid/node/rubble_1",
+        "processors": "trickster:oxidize"
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "trickster:terrain_matching_ocean",
+        "location": "trickster:managrid/node/rubble_2",
+        "processors": "trickster:oxidize"
+      }
+    }
+  ]
+}

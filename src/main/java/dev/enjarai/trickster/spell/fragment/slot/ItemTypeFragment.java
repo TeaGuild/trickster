@@ -1,9 +1,6 @@
 package dev.enjarai.trickster.spell.fragment.slot;
 
-import dev.enjarai.trickster.spell.Fragment;
-import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.trick.Trick;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
@@ -12,10 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 
-public record ItemTypeFragment(Item item) implements Fragment, ResourceVariantFragment<ItemVariant> {
+public record ItemTypeFragment(Item item) implements ResourceVariantFragment<ItemVariant> {
     public static final StructEndec<ItemTypeFragment> ENDEC = StructEndecBuilder.of(
-            MinecraftEndecs.ofRegistry(Registries.ITEM).fieldOf("item", ItemTypeFragment::item),
-            ItemTypeFragment::new
+        MinecraftEndecs.ofRegistry(Registries.ITEM).fieldOf("item", ItemTypeFragment::item),
+        ItemTypeFragment::new
     );
 
     @Override
@@ -39,7 +36,7 @@ public record ItemTypeFragment(Item item) implements Fragment, ResourceVariantFr
     }
 
     @Override
-    public boolean resourceMatches(Trick<?> trick, SpellContext ctx, ItemVariant resource) {
+    public boolean resourceMatches(ItemVariant resource) {
         return resource.isOf(item);
     }
 }

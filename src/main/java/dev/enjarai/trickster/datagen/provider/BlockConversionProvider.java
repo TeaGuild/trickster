@@ -24,6 +24,7 @@ import net.minecraft.util.Identifier;
 
 public abstract class BlockConversionProvider implements DataProvider {
     protected final DataOutput.PathResolver pathResolver;
+
     private final String type;
     private final CompletableFuture<RegistryWrapper.WrapperLookup> registryLookupFuture;
     private final Map<Identifier, Builder> builders = Maps.newLinkedHashMap();
@@ -39,21 +40,20 @@ public abstract class BlockConversionProvider implements DataProvider {
     @Override
     public CompletableFuture<?> run(DataWriter writer) {
         return this.getRegistryLookupFuture()
-          .thenCompose(wrapperLookup ->
-            CompletableFuture.allOf(
-              this.builders
-                .entrySet()
-                .stream()
-                .map(
-                  entry -> {
-                      Identifier identifier = entry.getKey();
-                      List<BlockConversionLoader.WeightedValue> values = entry.getValue().build();
-                      Path path = this.pathResolver.resolveJson(identifier);
-                      return DataProvider
-                        .writeCodecToPath(writer, wrapperLookup, BlockConversionLoader.Replaceable.CODEC, new BlockConversionLoader.Replaceable(false, values), path);
-                  }
-                )
-                .toArray(CompletableFuture[]::new)
+            .thenCompose(wrapperLookup -> CompletableFuture.allOf(
+                this.builders
+                    .entrySet()
+                    .stream()
+                    .map(
+                        entry -> {
+                            Identifier identifier = entry.getKey();
+                            List<BlockConversionLoader.WeightedValue> values = entry.getValue().build();
+                            Path path = this.pathResolver.resolveJson(identifier);
+                            return DataProvider
+                                .writeCodecToPath(writer, wrapperLookup, BlockConversionLoader.Replaceable.CODEC, new BlockConversionLoader.Replaceable(false, values), path);
+                        }
+                    )
+                    .toArray(CompletableFuture[]::new)
             ));
     }
 

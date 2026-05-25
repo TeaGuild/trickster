@@ -28,6 +28,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public non-sealed interface Fragment extends EvaluationResult, SpellInstruction {
+    byte PROTOCOL_VERSION = 5;
     int MAX_WEIGHT = 64000;
     Text TRUNCATED_VALUE_TEXT = Text.literal(" [...]")
         .setStyle(
@@ -136,11 +137,11 @@ public non-sealed interface Fragment extends EvaluationResult, SpellInstruction 
 
     default byte[] toBytes() {
         var buf = Unpooled.buffer();
-        buf.writeByte(4); // Protocol version
+        buf.writeByte(PROTOCOL_VERSION); // Protocol version
         ENDEC.encode(
             SerializationContext.empty().withAttributes(
                 EndecTomfoolery.UBER_COMPACT_ATTRIBUTE,
-                EndecTomfoolery.PROTOCOL_VERSION_ATTRIBUTE.instance((byte) 4)
+                EndecTomfoolery.PROTOCOL_VERSION_ATTRIBUTE.instance(PROTOCOL_VERSION)
             ),
             ByteBufSerializer.of(buf), this
         );

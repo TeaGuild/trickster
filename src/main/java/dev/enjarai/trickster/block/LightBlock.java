@@ -39,7 +39,9 @@ public class LightBlock extends BlockWithEntity implements Waterloggable, Staina
             .noBlockBreakParticles().sounds(BlockSoundGroup.AMETHYST_BLOCK)
             .replaceable()
             .pistonBehavior(PistonBehavior.DESTROY));
-        setDefaultState(getStateManager().getDefaultState().with(LIGHT_LEVEL, 15).with(WATERLOGGED, false));
+        setDefaultState(getStateManager().getDefaultState()
+            .with(LIGHT_LEVEL, 15)
+            .with(WATERLOGGED, false));
     }
 
     public LightBlock(Settings settings) {

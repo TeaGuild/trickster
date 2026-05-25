@@ -1,0 +1,17 @@
+{
+  "type": "lithostitched:jigsaw",
+  "biomes": "#trickster:has_structure/observatory",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "start_pool": "trickster:observatory",
+  "start_jigsaw_name": "minecraft:center",
+  "size": 1,
+  "start_height": {
+    "absolute": -1
+  },
+  "start_projection": "WORLD_SURFACE",
+  "max_distance_from_center": 64,
+  "use_expansion_hack": false,
+  "fixed_rotation": true,
+  "spawn_overrides": {}
+}
