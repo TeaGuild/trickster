@@ -50,7 +50,7 @@ trickster:
 
   item_group: Trickster
 
-  scroll_hat: 
+  scroll_hat:
     named: 'Selected slot: %d [%s]'
     unnamed: 'Selected slot: %d'
   scroll_executable: Single-use (%f kiloGandalfs)
@@ -141,7 +141,9 @@ trickster:
     get_velocity: Movement Ingress
     add_velocity: Kinetic Ploy
     change_weight: Ploy of Featherweight
+    prepare_displace: Ploy of the Entitled
     displace: Ploy of the Usurper
+    get_displacements: Ingress of the Despot
     store_entity: Containment Ploy
     release_entity: Extrication Ploy
 
@@ -152,6 +154,7 @@ trickster:
     summon_fireball: Pyromancer's Ploy
     summon_dragon_breath: Dragon's Ploy
     summon_tnt: Demolitionist's Ploy
+    summon_wind_charge: Aang's Ploy
 
     block_find_entity: Embracing Ingress
     range_find_entity: Ingress of Shared Fate
@@ -244,6 +247,7 @@ trickster:
     get_fluid_container: Basin Ingress
     get_slots: Collector's Ingress
     get_inventory_size: Ingress of Extent
+    filter_container: Ingress of Discrimination
     drop_stack_from_slot: Ploy of Offering
     swap_slot: Swindler's Ploy
     move_resource: Organizer's Ploy
@@ -257,7 +261,7 @@ trickster:
     type_fragment: Argumentative Distortion
     hash_values: Decaying Distortion
     pin_chunk: Ploy of Celestial Pin
-    get_dimension: Dimensional Delusion
+    get_dimension: Dimensional Ingress
     show_bar: Ploy of Clarity
     clear_bar: Ploy of Obfuscation
 
@@ -293,6 +297,26 @@ trickster:
     item_to_glow_color: Vibrant Ingress
     paint: Ploy of Pigmentation
 
+  revision: (Scribing Pattern)
+  revision.trickster:
+    add_subcircle: Extensive Revision
+    add_inner_circle: Inner Revision
+    to_subcircle: Split Revision
+    to_inner_circle: Growth Revision
+    remove_self: Grafting Revision
+    remove_self_recursive: Pruning Revision
+    remove_outer: Ascension Revision
+    add_outer_subcircle: Devotion Revision
+    rotate_cw: Shifting Revision
+    rotate_ccw: Reverse Shifting Revision
+    swap: Shuffling Revision
+    splice: Notulist's Revision
+    splice_inner: Inner Notulist's Revision
+    splice_evaluate: Grand Revision
+    write: Plagiarist's Revision
+    quote_pattern: Interpretation Revision
+    write_path: Address Revision
+
   fragment:
     trickster:
       type: Type
@@ -314,6 +338,7 @@ trickster:
       entity_type: EntityType
       string: String
       dimension: Dimension
+      displace: Displacement
       color: Color
     class:
       Fragment: Any
@@ -346,6 +371,7 @@ trickster:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s
     expected_overweight_fragment: Result fragment is overweight (%d/%d)
     missing_fragment: Missing at index %d, expected %s
+    unknown_trick: Pattern is not a known trick
 
   storage:
     caster: caster
@@ -353,6 +379,9 @@ trickster:
     entity: '%s'
     slot: slot %d at %s
     merged: '%d storages'
+
+  displace:
+    reference: Displacement %s
 
 item.trickster:
   tome_of_tomfoolery: Tome of Tomfoolery
@@ -375,6 +404,22 @@ item.trickster:
   scroll_and_quill_red: Red Scroll and Quill
   scroll_and_quill_white: White Scroll and Quill
   scroll_and_quill_yellow: Yellow Scroll and Quill
+  scroll_and_quill_maroon: Maroon Scroll and Quill
+  scroll_and_quill_rose: Rose Scroll and Quill
+  scroll_and_quill_coral: Coral Scroll and Quill
+  scroll_and_quill_ginger: Ginger Scroll and Quill
+  scroll_and_quill_tan: Tan Scroll and Quill
+  scroll_and_quill_beige: Beige Scroll and Quill
+  scroll_and_quill_amber: Amber Blue Scroll and Quill
+  scroll_and_quill_olive: Olive Gray Scroll and Quill
+  scroll_and_quill_forest: Forest Scroll and Quill
+  scroll_and_quill_verdant: Verdant Scroll and Quill
+  scroll_and_quill_teal: Teal Scroll and Quill
+  scroll_and_quill_mint: Mint Scroll and Quill
+  scroll_and_quill_aqua: Aqua Scroll and Quill
+  scroll_and_quill_slate: Slate Scroll and Quill
+  scroll_and_quill_navy: Navy Scroll and Quill
+  scroll_and_quill_indigo: Indigo Scroll and Quill
 
   written_scroll: Written Scroll
   written_scroll_black: Black Written Scroll
@@ -393,9 +438,25 @@ item.trickster:
   written_scroll_red: Red Written Scroll
   written_scroll_white: White Written Scroll
   written_scroll_yellow: Yellow Written Scroll
+  written_scroll_maroon: Maroon Written Scroll
+  written_scroll_rose: Rose Written Scroll
+  written_scroll_coral: Coral Written Scroll
+  written_scroll_ginger: Ginger Written Scroll
+  written_scroll_tan: Tan Written Scroll
+  written_scroll_beige: Beige Written Scroll
+  written_scroll_amber: Amber Blue Written Scroll
+  written_scroll_olive: Olive Gray Written Scroll
+  written_scroll_forest: Forest Written Scroll
+  written_scroll_verdant: Verdant Written Scroll
+  written_scroll_teal: Teal Written Scroll
+  written_scroll_mint: Mint Written Scroll
+  written_scroll_aqua: Aqua Written Scroll
+  written_scroll_slate: Slate Written Scroll
+  written_scroll_navy: Navy Written Scroll
+  written_scroll_indigo: Indigo Written Scroll
 
-  warding_charm: Warding Charm
-  spell_ink: Spell Ink
+  esoteric_mana: Esoteric Mana
+  luminous_bottle: Luminous Bottle
   top_hat: Top Hat
   witch_hat: Witch Hat
   fez: Fez
@@ -405,6 +466,8 @@ item.trickster:
   collar: Acolyte's Bindings
   leash: Archmage's Tether
   torment_on_a_chain: Torment on a Chain
+  monocle: Monocle
+  glasses: Glasses
 
   amethyst_knot: Amethyst Knot
   cracked_amethyst_knot: Cracked Amethyst Knot
@@ -431,10 +494,25 @@ block.trickster:
   spell_construct: Spell Construct
   modular_spell_construct: Modular Spell Construct
   light: Light
+  light_sconce: Light Sconce
   scroll_shelf: Scroll Shelf
   charging_array: Charging Array
   inert_spawner: Inert Spawner
   color_block: Infused Ceramic
+  gilded_tuff: Gilded Tuff
+  gilded_tuff_stairs: Gilded Tuff Stairs
+  gilded_tuff_slab: Gilded Tuff Slab
+  gilded_tuff_wall: Gilded Tuff Wall
+  gilded_polished_tuff: Gilded Polished Tuff
+  gilded_polished_tuff_stairs: Gilded Polished Tuff Stairs
+  gilded_polished_tuff_slab: Gilded Polished Tuff Slab
+  gilded_polished_tuff_wall: Gilded Polished Tuff Wall
+  gilded_tuff_bricks: Gilded Tuff Bricks
+  gilded_tuff_brick_stairs: Gilded Tuff Bricks Stairs
+  gilded_tuff_brick_slab: Gilded Tuff Bricks Slab
+  gilded_tuff_brick_wall: Gilded Tuff Bricks Wall
+  gilded_chiseled_tuff: Gilded Chiseled Tuff
+  gilded_chiseled_tuff_bricks: Gilded Chiseled Tuff Bricks
 
 entity.trickster:
   levitating_block: Levitating Block
@@ -461,6 +539,7 @@ key:
   trickster:
     take_hat: Take Hat
     modify_spell: Modify Spell (Creative only)
+    show_fragment_text: Reveal Fragments
 
 accessories.slot:
   collar: Collar
@@ -492,13 +571,26 @@ text.config.trickster-config:
     invertTopHatScrolling: Invert hat scrolling
     allowScrollInSpellScreen: Allow scrolling to zoom while editing
     keyZoomSpeed: Editor key zoom speed
-    revealToHotbar: Write revealed values to action bar
     maxExecutionsPerSpellPerTick: Max operations per tick per spell
-    allowSwapBedrock: Permit block swapping of bedrock
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
+    allowUnbreakableBlockSwap: Allow block swapping of unbreakable blocks
+    allowExtendedPistonSwap: Allow block swapping of extended pistons
 
     dragDrawing: Draw by dragging
     animateLines: Animate patterns
     barsHorizontal: Show spell-created bars horizontally
     disableOffhandScrollOpening: Require scroll in main hand to edit
     adjacentPixelCollisionOffset: Offset factor of adjacent pixels
+    spellSlotPosition: Spell slot position
+    creativeSpellSlotPosition: Creative spell slot position
+
+  enum.spellSlotPositions:
+    top_left: Top Left
+    top_right: Top Right
+    bottom_left: Bottom Left
+    bottom_right: Bottom Right
+    left_top: Left Top
+    left_bottom: Left Bottom
+    right_top: Right Top
+    right_bottom: Right Bottom
+    hidden: Hidden

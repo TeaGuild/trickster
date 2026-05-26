@@ -1,5 +1,7 @@
 package dev.enjarai.trickster.spell.trick.entity;
 
+import dev.enjarai.trickster.entity.ModEntities;
+import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.OutOfRangeBlunder;
@@ -12,12 +14,13 @@ import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Box;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class RangeFindEntityTrick extends Trick<RangeFindEntityTrick> {
     public RangeFindEntityTrick() {
         super(Pattern.of(3, 1, 0, 3, 6, 7, 8, 5, 7),
-                Signature.of(FragmentType.VECTOR, FragmentType.NUMBER, FragmentType.ENTITY_TYPE.variadicOfArg().unpack(), RangeFindEntityTrick::run, FragmentType.ENTITY.listOfRet()));
+            Signature.of(FragmentType.VECTOR, FragmentType.NUMBER, FragmentType.ENTITY_TYPE.variadicOfArg().unpack(), RangeFindEntityTrick::run, FragmentType.ENTITY.listOfRet()));
     }
 
     public List<EntityFragment> run(SpellContext ctx, VectorFragment posFragment, NumberFragment rangeFragment, List<EntityTypeFragment> typeFragments) {
@@ -38,17 +41,21 @@ public class RangeFindEntityTrick extends Trick<RangeFindEntityTrick> {
         var world = ctx.source().getWorld();
 
         world.collectEntitiesByType(
-                TypeFilter.instanceOf(Entity.class), new Box(
-                        pos.x() - range, pos.y() - range, pos.z() - range,
-                        pos.x() + range, pos.y() + range, pos.z() + range
-                ),
-                e -> e.getPos().squaredDistanceTo(pos.x(), pos.y(), pos.z()) <= squaredRange && world.getEntity(e.getUuid()) != null && (types.isEmpty() || types.contains(e.getType())),
-                entities
+            TypeFilter.instanceOf(Entity.class), new Box(
+                pos.x() - range, pos.y() - range, pos.z() - range,
+                pos.x() + range, pos.y() + range, pos.z() + range
+            ),
+            e -> e.getPos().squaredDistanceTo(pos.x(), pos.y(), pos.z()) <= squaredRange
+                && world.getEntity(e.getUuid()) != null && (types.isEmpty() || types.contains(e.getType()))
+                && (e.getType().isIn(ModEntities.INVISIBLE_EXCEPTION) || !e.isInvisible()),
+            entities,
+            Fragment.MAX_WEIGHT / 32 - 16
         );
 
         return entities.stream()
-                .filter(EntityFragment::isValidEntity)
-                .map(EntityFragment::from)
-                .toList();
+            .filter(EntityFragment::isValidEntity)
+            .sorted(Comparator.comparingDouble(e -> e.getPos().toVector3d().distance(pos)))
+            .map(EntityFragment::from)
+            .toList();
     }
 }

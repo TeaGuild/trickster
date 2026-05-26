@@ -24,22 +24,29 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         }
 
         double limit = n.number() / slots.size();
-        var result = new Object() {
-            float r = 0;
-        };
+        float result = 0;
 
         for (var slot : slots) {
             var distance = ctx.source().getPos().distance(slot.getSourceOrCasterPos(this, ctx));
             float r = Trickster.CONFIG.manaTransferEfficiency();
             double tax = Math.max(0, 1 - r / (distance + r - 16));
+            var moved = new Object() {
+                float v = 0;
+            };
             slot.applyItemModifier(this, ctx, stack -> {
-                result.r += affect(ctx, stack, (float) limit, tax);
+                moved.v = affect(ctx, stack, (float) limit, tax);
                 return stack;
             });
+            if (moved.v > 1) {
+                createParticles(ctx, slot, moved.v);
+            }
+            result += moved.v;
         }
 
-        return new NumberFragment(result.r);
+        return new NumberFragment(result);
     }
+
+    protected abstract void createParticles(SpellContext ctx, SlotFragment slot, float v);
 
     /**
      * @return the amount of mana fulfilled by the item.

@@ -22,6 +22,8 @@ public class TricksterConfigModel {
     public boolean allowScrollInSpellScreen = true;
     public double keyZoomSpeed = 1.0;
     public boolean animateLines = true;
+    public SpellSlotPositions spellSlotPosition = SpellSlotPositions.BOTTOM_RIGHT;
+    public SpellSlotPositions creativeSpellSlotPosition = SpellSlotPositions.RIGHT_BOTTOM;
 
     @SectionHeader("server")
 
@@ -32,6 +34,12 @@ public class TricksterConfigModel {
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @PredicateConstraint("requirePositive")
     public float maxBlockBreakingHardness = 55.5f;
+
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+    public boolean allowUnbreakableBlockSwap = true;
+
+    @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+    public boolean allowExtendedPistonSwap = true;
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @PredicateConstraint("requirePositive")
@@ -76,5 +84,17 @@ public class TricksterConfigModel {
 
     public static boolean requirePositive(float value) {
         return value >= 0;
+    }
+
+    public enum SpellSlotPositions {
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT,
+        LEFT_TOP,
+        LEFT_BOTTOM,
+        RIGHT_TOP,
+        RIGHT_BOTTOM,
+        HIDDEN
     }
 }

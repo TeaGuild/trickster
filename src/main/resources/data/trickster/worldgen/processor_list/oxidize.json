@@ -1,0 +1,7 @@
+[
+  {
+    "processor_type": "trickster:oxidize",
+    "min": "exposed",
+    "max": "oxidized"
+  }
+]

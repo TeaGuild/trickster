@@ -1,0 +1,24 @@
+{
+  "name": "trickster:tower/exterior_panels",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:tower/exterior_panels/panel_a",
+        "processors": []
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:tower/exterior_panels/panel_b",
+        "processors": []
+      }
+    }
+  ]
+}

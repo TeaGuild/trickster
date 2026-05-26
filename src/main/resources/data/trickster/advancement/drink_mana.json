@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:glass_bottle"
+    },
+    "title": {
+      "text": "Why'd You Do That?"
+    },
+    "description": {
+      "text": "Drink Esoteric Mana"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "trickster:brew_mana",
+  "criteria": {
+    "drink_mana": {
+      "trigger": "trickster:drink_mana"
+    }
+  }
+}

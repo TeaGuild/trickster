@@ -41,7 +41,7 @@ public class MoveResourceTrick extends Trick<MoveResourceTrick> {
                     if (allowedResources.isEmpty()) return true;
 
                     for (var resource : allowedResources) {
-                        if (resource.resourceMatches(this, ctx, v)) {
+                        if (resource.resourceMatches(v)) {
                             return true;
                         }
                     }

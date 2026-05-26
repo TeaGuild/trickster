@@ -8,8 +8,8 @@ import net.minecraft.text.Text;
 
 public class BooleanFragment implements Fragment {
     public static final StructEndec<BooleanFragment> ENDEC = StructEndecBuilder.of(
-            Endec.BOOLEAN.fieldOf("bool", BooleanFragment::asBoolean),
-            BooleanFragment::of
+        Endec.BOOLEAN.fieldOf("bool", BooleanFragment::asBoolean),
+        BooleanFragment::of
     );
     public static final BooleanFragment TRUE = new BooleanFragment(true);
     public static final BooleanFragment FALSE = new BooleanFragment(false);
@@ -28,6 +28,11 @@ public class BooleanFragment implements Fragment {
     @Override
     public Text asText() {
         return Text.literal("" + bool);
+    }
+
+    @Override
+    public Text asFormattedText() {
+        return asText().copy().withColor(bool ? 0x33ab89 : 0xaa3355);
     }
 
     @Override

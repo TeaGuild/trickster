@@ -35,6 +35,13 @@ repositories {
     maven {
         url "https://maven.enjarai.dev/mirrors"
     }
+
+    maven {
+        url 'https://maven.blamejared.com'
+        content {
+            includeGroup 'com.samsthenerd.inline'
+        }
+    }
 }
 
 build {
@@ -129,11 +136,14 @@ dependencies {
 
     modApi("io.wispforest:accessories-fabric:${property('deps.accessories')}")
 
+    modApi("maven.modrinth:lithostitched:${property('deps.lithostitched')}")
+
     // Optional compat
+    modCompileOnly modLocalRuntime("com.samsthenerd.inline:inline-fabric:${property 'deps.inline'}")
     modCompileOnly modLocalRuntime("maven.modrinth:transmog:${property('deps.transmog')}")
 
     modClientCompileOnly modLocalRuntime("mod.master_bw3:coleus:${property('deps.coleus')}")
-    compileOnly "com.j2html:j2html:${property('deps.j2html')}"
+    compileOnly("com.j2html:j2html:${property('deps.j2html')}")
 }
 
 processResources {
@@ -246,6 +256,7 @@ publishMods {
             }
             requires {
                 slug = "owo-lib"
+                version = "0.13.0-alpha.15+1.21"
             }
             requires {
                 slug = "lavender"
@@ -253,8 +264,14 @@ publishMods {
             requires {
                 slug = "accessories"
             }
+            requires {
+                slug = "lithostitched"
+            }
             embeds {
                 slug = "cardinal-components-api"
+            }
+            optional {
+                slug = "inline"
             }
         }
     }
@@ -288,8 +305,14 @@ publishMods {
             requires {
                 slug = "accessories"
             }
+            requires {
+                slug = "lithostitched"
+            }
             embeds {
                 slug = "cardinal-components-api"
+            }
+            optional {
+                slug = "inline"
             }
         }
     }

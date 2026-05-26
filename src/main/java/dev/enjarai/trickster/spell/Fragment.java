@@ -28,34 +28,35 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public non-sealed interface Fragment extends EvaluationResult, SpellInstruction {
+    byte PROTOCOL_VERSION = 5;
     int MAX_WEIGHT = 64000;
     Text TRUNCATED_VALUE_TEXT = Text.literal(" [...]")
-            .setStyle(
-                    Style.EMPTY
-                            .withColor(Formatting.RED)
-                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable(Trickster.MOD_ID + ".text.value_truncated")))
-            );
+        .setStyle(
+            Style.EMPTY
+                .withColor(Formatting.RED)
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable(Trickster.MOD_ID + ".text.value_truncated")))
+        );
     @SuppressWarnings("unchecked")
     StructEndec<Fragment> ENDEC = EndecTomfoolery.lazyStruct(
-            () -> (StructEndec<Fragment>) Endec.dispatchedStruct(
-                    FragmentType::endec,
-                    Fragment::type,
-                    Endec.ifAttr(
-                            EndecTomfoolery.UBER_COMPACT_ATTRIBUTE, EndecTomfoolery.protocolVersionAlternatives(
-                                    Map.of(
-                                            (byte) 1, FragmentType.INT_ID_ENDEC,
-                                            (byte) 2, FragmentType.INT_ID_ENDEC,
-                                            (byte) 3, FragmentType.INT_ID_ENDEC
-                                    ),
-                                    MinecraftEndecs.ofRegistry(FragmentType.REGISTRY)
-                            )
-                    )
-                            .orElse(MinecraftEndecs.ofRegistry(FragmentType.REGISTRY))
+        () -> (StructEndec<Fragment>) Endec.dispatchedStruct(
+            FragmentType::endec,
+            Fragment::type,
+            Endec.ifAttr(
+                EndecTomfoolery.UBER_COMPACT_ATTRIBUTE, EndecTomfoolery.protocolVersionAlternatives(
+                    Map.of(
+                        (byte) 1, FragmentType.INT_ID_ENDEC,
+                        (byte) 2, FragmentType.INT_ID_ENDEC,
+                        (byte) 3, FragmentType.INT_ID_ENDEC
+                    ),
+                    MinecraftEndecs.ofRegistry(FragmentType.REGISTRY)
+                )
             )
+                .orElse(MinecraftEndecs.ofRegistry(FragmentType.REGISTRY))
+        )
     );
     Endec<Fragment> COMPACT_ENDEC = EndecTomfoolery.withAlternative(
-            Endec.BYTES.xmap(Fragment::fromBytes, Fragment::toBytes),
-            ENDEC
+        Endec.BYTES.xmap(Fragment::fromBytes, Fragment::toBytes),
+        ENDEC
     );
 
     FragmentType<?> type();
@@ -79,9 +80,9 @@ public non-sealed interface Fragment extends EvaluationResult, SpellInstruction 
         siblings.clear();
         siblings.addAll(newSiblings);
         return text.append(
-                size != newSiblings.size()
-                        ? TRUNCATED_VALUE_TEXT
-                        : Text.of("")
+            size != newSiblings.size()
+                ? TRUNCATED_VALUE_TEXT
+                : Text.of("")
         );
     }
 
@@ -136,13 +137,13 @@ public non-sealed interface Fragment extends EvaluationResult, SpellInstruction 
 
     default byte[] toBytes() {
         var buf = Unpooled.buffer();
-        buf.writeByte(4); // Protocol version
+        buf.writeByte(PROTOCOL_VERSION); // Protocol version
         ENDEC.encode(
-                SerializationContext.empty().withAttributes(
-                        EndecTomfoolery.UBER_COMPACT_ATTRIBUTE,
-                        EndecTomfoolery.PROTOCOL_VERSION_ATTRIBUTE.instance((byte) 4)
-                ),
-                ByteBufSerializer.of(buf), this
+            SerializationContext.empty().withAttributes(
+                EndecTomfoolery.UBER_COMPACT_ATTRIBUTE,
+                EndecTomfoolery.PROTOCOL_VERSION_ATTRIBUTE.instance(PROTOCOL_VERSION)
+            ),
+            ByteBufSerializer.of(buf), this
         );
 
         var byteStream = new ByteArrayOutputStream(buf.writerIndex());
@@ -192,11 +193,11 @@ public non-sealed interface Fragment extends EvaluationResult, SpellInstruction 
             Fragment result;
             try {
                 result = ENDEC.decode(
-                        SerializationContext.empty().withAttributes(
-                                EndecTomfoolery.UBER_COMPACT_ATTRIBUTE,
-                                EndecTomfoolery.PROTOCOL_VERSION_ATTRIBUTE.instance(protocolVersion)
-                        ),
-                        ByteBufDeserializer.of(buf)
+                    SerializationContext.empty().withAttributes(
+                        EndecTomfoolery.UBER_COMPACT_ATTRIBUTE,
+                        EndecTomfoolery.PROTOCOL_VERSION_ATTRIBUTE.instance(protocolVersion)
+                    ),
+                    ByteBufDeserializer.of(buf)
                 );
             } finally {
                 buf.release();

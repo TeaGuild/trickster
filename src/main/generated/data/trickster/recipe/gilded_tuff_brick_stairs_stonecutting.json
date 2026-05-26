@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "trickster:gilded_tuff_full_blocks"
+  },
+  "result": {
+    "count": 1,
+    "id": "trickster:gilded_tuff_brick_stairs"
+  }
+}

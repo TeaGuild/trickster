@@ -11,7 +11,7 @@ import dev.enjarai.trickster.effects.ModEffects;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.fleck.FleckType;
 import dev.enjarai.trickster.item.ModItems;
-import dev.enjarai.trickster.datagen.ModLoot;
+import dev.enjarai.trickster.loot.ModLoot;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.item.recipe.ModRecipes;
 import dev.enjarai.trickster.misc.ModDamageTypes;
@@ -24,7 +24,9 @@ import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.mana.ManaPoolType;
 import dev.enjarai.trickster.spell.mana.generation.ManaHandlerType;
+import dev.enjarai.trickster.spell.revision.Revisions;
 import dev.enjarai.trickster.spell.trick.Tricks;
+import dev.enjarai.trickster.worldgen.processor.ModProcessorTypes;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -53,9 +55,9 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
     public static final Logger LOGGER = ProperLogger.getLogger(MOD_ID);
 
     public static final Set<UUID> THE_MAKERS_OF_KIBTY = Set.of(
-            UUID.fromString("ffa85ed0-9178-4b48-9b96-73b13d6f258e"),
-            UUID.fromString("7ae9dffd-5669-4922-b6d6-f2d7d0045fc7"),
-            UUID.fromString("5421f63a-e698-4391-a18e-412a390b002c")
+        UUID.fromString("ffa85ed0-9178-4b48-9b96-73b13d6f258e"),
+        UUID.fromString("7ae9dffd-5669-4922-b6d6-f2d7d0045fc7"),
+        UUID.fromString("5421f63a-e698-4391-a18e-412a390b002c")
     );
 
     public static final Identifier SPELL_CIRCLE_ATTRIBUTE = id("spell_circle");
@@ -85,7 +87,10 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
         ModCriteria.register();
         ModLoot.register();
         ModEntities.register();
+        ModProcessorTypes.register();
+
         Tricks.register();
+        Revisions.register();
         FragmentType.register();
         ManaPoolType.register();
         ManaHandlerType.register();
@@ -120,9 +125,9 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
     @Override
     public void registerConversations(ConversationManager conversationManager) {
         conversationManager.registerSource(
-                JsonSource.fromUrl("https://raw.githubusercontent.com/enjarai/trickster/master/src/main/resources/cicada/trickster/conversations.json")
-                        .or(JsonSource.fromResource("cicada/trickster/conversations.json")),
-                LOGGER::info
+            JsonSource.fromUrl("https://raw.githubusercontent.com/enjarai/trickster/master/src/main/resources/cicada/trickster/conversations.json")
+                .or(JsonSource.fromResource("cicada/trickster/conversations.json")),
+            LOGGER::info
         );
     }
 

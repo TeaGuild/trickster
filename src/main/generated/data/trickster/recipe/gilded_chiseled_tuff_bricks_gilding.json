@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "gilded_tuff",
+  "key": {
+    "b": {
+      "item": "minecraft:chiseled_tuff_bricks"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "bbb",
+    "bgb",
+    "bbb"
+  ],
+  "result": {
+    "count": 8,
+    "id": "trickster:gilded_chiseled_tuff_bricks"
+  }
+}

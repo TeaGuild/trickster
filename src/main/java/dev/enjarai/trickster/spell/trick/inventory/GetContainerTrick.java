@@ -1,5 +1,7 @@
 package dev.enjarai.trickster.spell.trick.inventory;
 
+import java.util.Optional;
+
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.UnknownEntityBlunder;
@@ -34,18 +36,18 @@ public class GetContainerTrick extends Trick<GetContainerTrick> {
     }
 
     public ContainerFragment fromCaster(SpellContext ctx) {
-        return new ContainerFragment(StorageSource.Caster.INSTANCE, variantType);
+        return new ContainerFragment(StorageSource.Caster.INSTANCE, variantType, Optional.empty());
     }
 
     public ContainerFragment fromVector(SpellContext ctx, VectorFragment pos) {
-        return new ContainerFragment(new StorageSource.Block(pos.toBlockPos()), variantType);
+        return new ContainerFragment(new StorageSource.Block(pos.toBlockPos()), variantType, Optional.empty());
     }
 
     public ContainerFragment fromEntity(SpellContext ctx, EntityFragment entity) {
-        return new ContainerFragment(new StorageSource.Entity(entity.getEntity(ctx).orElseThrow(() -> new UnknownEntityBlunder(this)).getUuid()), variantType);
+        return new ContainerFragment(new StorageSource.Entity(entity.getEntity(ctx).orElseThrow(() -> new UnknownEntityBlunder(this)).getUuid()), variantType, Optional.empty());
     }
 
     public ContainerFragment fromSlot(SpellContext ctx, SlotFragment slot) {
-        return new ContainerFragment(slot.slot(), variantType);
+        return new ContainerFragment(slot.slot(), variantType, Optional.empty());
     }
 }

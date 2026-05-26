@@ -1,0 +1,59 @@
+{
+  "name": "trickster:managrid/node",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 100,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "name": "trickster:managrid/node_forced",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "rigid",
+          "location": "trickster:managrid/node/intact",
+          "processors": "trickster:oxidize"
+        },
+        "allowed_depth": [0, 2],
+        "forced_count": 1,
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    },
+    {
+      "weight": 100,
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      }
+    },
+    {
+      "weight": 50,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "name": "trickster:managrid/node/ruined",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "rigid",
+          "location": "trickster:managrid/node/ruined",
+          "processors": "trickster:oxidize"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    },
+    {
+      "weight": 20,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "name": "trickster:managrid/node/intact",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "rigid",
+          "location": "trickster:managrid/node/intact",
+          "processors": "trickster:oxidize"
+        },
+        "allow_bounding_box_collisions": true,
+        "other_pieces_can_intersect": true
+      }
+    }
+  ]
+}

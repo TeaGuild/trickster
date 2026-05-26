@@ -1,9 +1,6 @@
 package dev.enjarai.trickster.spell.fragment.slot;
 
-import dev.enjarai.trickster.spell.Fragment;
-import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.trick.Trick;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
@@ -15,10 +12,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 
-public record FluidTypeFragment(Fluid fluid) implements Fragment, ResourceVariantFragment<FluidVariant> {
+public record FluidTypeFragment(Fluid fluid) implements ResourceVariantFragment<FluidVariant> {
     public static final StructEndec<FluidTypeFragment> ENDEC = StructEndecBuilder.of(
-            MinecraftEndecs.ofRegistry(Registries.FLUID).fieldOf("fluid", FluidTypeFragment::fluid),
-            FluidTypeFragment::new
+        MinecraftEndecs.ofRegistry(Registries.FLUID).fieldOf("fluid", FluidTypeFragment::fluid),
+        FluidTypeFragment::new
     );
 
     @Override
@@ -49,7 +46,7 @@ public record FluidTypeFragment(Fluid fluid) implements Fragment, ResourceVarian
     }
 
     @Override
-    public boolean resourceMatches(Trick<?> trick, SpellContext ctx, FluidVariant resource) {
+    public boolean resourceMatches(FluidVariant resource) {
         return resource.isOf(fluid);
     }
 }

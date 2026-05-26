@@ -10,10 +10,11 @@ import net.minecraft.registry.tag.TagKey;
 
 public class ModEntities {
     public static final EntityType<LevitatingBlockEntity> LEVITATING_BLOCK = Registry.register(Registries.ENTITY_TYPE, Trickster.id("levitating_block"),
-            EntityType.Builder.create(LevitatingBlockEntity::new, SpawnGroup.MISC).dimensions(1, 1).build());
+        EntityType.Builder.create(LevitatingBlockEntity::new, SpawnGroup.MISC).dimensions(1, 1).build());
 
     public static final TagKey<EntityType<?>> CANNOT_STORE = TagKey.of(RegistryKeys.ENTITY_TYPE, Trickster.id("cannot_store"));
     public static final TagKey<EntityType<?>> CANNOT_DISPLACE = TagKey.of(RegistryKeys.ENTITY_TYPE, Trickster.id("cannot_displace"));
+    public static final TagKey<EntityType<?>> INVISIBLE_EXCEPTION = TagKey.of(RegistryKeys.ENTITY_TYPE, Trickster.id("invisible_exception"));
 
     public static void register() {
 

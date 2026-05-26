@@ -1,9 +1,8 @@
 package dev.enjarai.trickster.spell.trick;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.advancement.criterion.ModCriteria;
-import dev.enjarai.trickster.cca.ModEntityComponents;
-import dev.enjarai.trickster.item.component.FragmentComponent;
+import dev.enjarai.trickster.compat.ModCompat;
+import dev.enjarai.trickster.compat.inline.PatternData;
 import dev.enjarai.trickster.spell.EvaluationResult;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
@@ -12,14 +11,8 @@ import dev.enjarai.trickster.spell.blunder.BlunderException;
 import dev.enjarai.trickster.spell.blunder.CantEditBlockBlunder;
 import dev.enjarai.trickster.spell.blunder.InvalidInputsBlunder;
 import dev.enjarai.trickster.spell.blunder.NotLoadedBlunder;
-import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.fragment.ListFragment;
-import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.type.*;
-import io.vavr.collection.HashMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -98,26 +91,6 @@ public abstract class Trick<T extends Trick<T>> {
         }
     }
 
-    protected void tryWard(SpellContext triggerCtx, Entity target, List<Fragment> fragments) throws BlunderException {
-        if (target instanceof ServerPlayerEntity player) {
-            var triggerCaster = triggerCtx.source().getCaster();
-
-            if (triggerCaster.map(c -> c.equals(player)).orElse(false)) {
-                return;
-            }
-
-            ModCriteria.TRIGGER_WARD.trigger(player);
-
-            var sourceFragment = triggerCaster
-                    .<Fragment>map(EntityFragment::from)
-                    .orElse(new VectorFragment(triggerCtx.source().getPos()));
-            var charmMap = FragmentComponent.getUserMergedMap(player, "charm", HashMap::empty);
-            var spell = charmMap.get(getPattern());
-            var caster = ModEntityComponents.CASTER.get(player);
-            spell.peek(s -> caster.queueSpellAndCast(s, List.of(sourceFragment, new ListFragment(fragments)), Optional.empty()));
-        }
-    }
-
     public @Nullable Set<UUID> restricted() {
         return null;
     }
@@ -130,9 +103,16 @@ public abstract class Trick<T extends Trick<T>> {
         }
 
         return Text.literal("").append(
-                Text.translatable(Trickster.MOD_ID + ".trick." + id.getNamespace() + "." + id.getPath())
-                        .withColor(FragmentType.PATTERN.color().getAsInt())
+            Text.translatable(Trickster.MOD_ID + ".trick." + id.getNamespace() + "." + id.getPath())
+                .withColor(FragmentType.PATTERN.color().getAsInt())
         );
+    }
+
+    public MutableText getIconAndName() {
+        if (!ModCompat.INLINE_LOADED) return getName();
+        var id = Tricks.REGISTRY.getId(this);
+        return Text.empty().append(PatternData.make(pattern, PatternData.getStyle(pattern, false).withColor(FragmentType.PATTERN.color().getAsInt())).append(" ")
+            .append(id == null ? Text.literal("Unregistered") : Text.translatable(Trickster.MOD_ID + ".trick." + id.getNamespace() + "." + id.getPath())));
     }
 
     public List<Signature<T>> getSignatures() {

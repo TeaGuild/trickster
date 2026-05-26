@@ -35,11 +35,17 @@ public class LightBlock extends BlockWithEntity implements Waterloggable, Staina
 
     protected LightBlock() {
         super(Settings.create()
-                .noCollision().luminance(STATE_TO_LUMINANCE).breakInstantly()
-                .noBlockBreakParticles().sounds(BlockSoundGroup.AMETHYST_BLOCK)
-                .replaceable()
-                .pistonBehavior(PistonBehavior.DESTROY));
-        setDefaultState(getStateManager().getDefaultState().with(LIGHT_LEVEL, 15).with(WATERLOGGED, false));
+            .noCollision().luminance(STATE_TO_LUMINANCE).breakInstantly()
+            .noBlockBreakParticles().sounds(BlockSoundGroup.AMETHYST_BLOCK)
+            .replaceable()
+            .pistonBehavior(PistonBehavior.DESTROY));
+        setDefaultState(getStateManager().getDefaultState()
+            .with(LIGHT_LEVEL, 15)
+            .with(WATERLOGGED, false));
+    }
+
+    public LightBlock(Settings settings) {
+        super(settings);
     }
 
     // TODO decide if we can make this work?
@@ -67,11 +73,11 @@ public class LightBlock extends BlockWithEntity implements Waterloggable, Staina
             var colors = coloredBlockEntity.getColors();
             for (int i = 0; i < max; i++) {
                 world.addParticle(
-                        new SpellParticleOptions(colors[random.nextInt(colors.length)]),
-                        particlePos.x, particlePos.y, particlePos.z,
-                        random.nextFloat() * 0.005f - 0.0025f,
-                        random.nextFloat() * 0.02f + 0.01f,
-                        random.nextFloat() * 0.005f - 0.0025f
+                    new SpellParticleOptions(colors[random.nextInt(colors.length)]),
+                    particlePos.x, particlePos.y, particlePos.z,
+                    random.nextFloat() * 0.005f - 0.0025f,
+                    random.nextFloat() * 0.02f + 0.01f,
+                    random.nextFloat() * 0.005f - 0.0025f
                 );
             }
         }

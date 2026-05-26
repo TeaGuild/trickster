@@ -1,0 +1,17 @@
+{
+  "type": "lithostitched:jigsaw",
+  "biomes": "#trickster:has_structure/managrid",
+  "step": "surface_structures",
+  "terrain_adaptation": "none",
+  "start_pool": "trickster:managrid/branch_guaranteed",
+  "size": 20,
+  "start_height": {
+    "absolute": 1
+  },
+  "start_projection": "WORLD_SURFACE",
+  "liquid_settings": "apply_waterlogging",
+  "max_distance_from_center": 64,
+  "use_expansion_hack": false,
+  "fixed_rotation": false,
+  "spawn_overrides": {}
+}

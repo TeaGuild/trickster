@@ -1,0 +1,15 @@
+{
+  "type": "lithostitched:add_template_pool_elements",
+  "template_pools": "minecraft:ancient_city/structures",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "trickster:ancient_shrine",
+        "processors": "minecraft:ancient_city_generic_degradation"
+      }
+    }
+  ]
+}
