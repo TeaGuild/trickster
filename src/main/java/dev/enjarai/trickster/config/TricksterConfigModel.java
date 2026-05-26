@@ -21,7 +21,6 @@ public class TricksterConfigModel {
     public boolean invertTopHatScrolling = false;
     public boolean allowScrollInSpellScreen = true;
     public double keyZoomSpeed = 1.0;
-    public boolean animateLines = true;
     public SpellSlotPositions spellSlotPosition = SpellSlotPositions.BOTTOM_RIGHT;
     public SpellSlotPositions creativeSpellSlotPosition = SpellSlotPositions.RIGHT_BOTTOM;
 
@@ -61,6 +60,8 @@ public class TricksterConfigModel {
     public float dotSize = 1f;
     @PredicateConstraint("requirePositive")
     public float circleOpacity = 0.8f;
+    @PredicateConstraint("requirePositive")
+    public float ponderOpacity = 0.1f;
     @PredicateConstraint("requirePositive")
     public float patternOpacity = 0.7f;
     @PredicateConstraint("requirePositive")

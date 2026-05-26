@@ -560,6 +560,7 @@ text.config.trickster-config:
     patternSize: Pattern line thickness
     dotSize: Pattern dot size
     circleOpacity: Spell circle opacity
+    ponderOpacity: Unpondered circle opacity
     patternOpacity: Pattern opacity
     patternEdgeGap: Pattern line separation
     outlinePatterns: Outline patterns
