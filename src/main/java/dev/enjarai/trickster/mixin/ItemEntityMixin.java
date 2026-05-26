@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,19 +25,18 @@ public abstract class ItemEntityMixin extends Entity {
     public abstract ItemStack getStack();
 
     @Inject(
-            method = "tick", at = @At(
-                    value = "INVOKE", target = "Lnet/minecraft/entity/Entity;tick()V"
-            )
+        method = "tick", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/entity/Entity;tick()V"
+        )
     )
     private void chargeCrystal(CallbackInfo ci) {
-        if (getWorld() instanceof ServerWorld world)
-            ManaComponent.tryRecharge(world, getPos(), getStack());
+        ManaComponent.tryRecharge(getWorld(), getPos(), getStack());
     }
 
     @WrapWithCondition(
-            method = "tick", at = @At(
-                    value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;discard()V", ordinal = 1
-            )
+        method = "tick", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;discard()V", ordinal = 1
+        )
     )
     private boolean cancelDespawn(ItemEntity instance) {
         if (getStack().isIn(ModItems.CANT_DESPAWN))

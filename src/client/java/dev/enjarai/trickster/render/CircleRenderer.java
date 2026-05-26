@@ -141,7 +141,7 @@ public class CircleRenderer {
         renderCircle(matrices, entry, x, y, radius, startingAngle, delta, alpha, forcedAlpha, normal, drawingPattern, 0);
     }
 
-    public void renderCircle(
+    private void renderCircle(
         MatrixStack matrices, SpellPart entry,
         double x, double y, double radius, double startingAngle, float delta,
         float alpha, float forcedAlpha, Vec3d normal, @Nullable List<Byte> drawingPattern, int recursions
