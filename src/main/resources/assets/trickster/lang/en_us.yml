@@ -327,7 +327,7 @@ trickster:
       map: Map
       void: Void
       pattern: Pattern
-      pattern_literal: PatternLiteral
+      pattern_literal: Pattern Literal
       spell_part: Spell
       entity: Entity
       slot: Slot
@@ -335,7 +335,7 @@ trickster:
       zalgo: §kZalgo
       item_type: Item
       block_type: Block
-      entity_type: EntityType
+      entity_type: Entity Type
       string: String
       dimension: Dimension
       displace: Displacement
@@ -363,9 +363,9 @@ trickster:
       ZalgoFragment: §kZalgo
       ItemTypeFragment: Item
       BlockTypeFragment: Block
-      EntityTypeFragment: EntityType
+      EntityTypeFragment: Entity Type
       StorageFragment: Storage
-      ResourceVariantFragment: ResourceType
+      ResourceVariantFragment: Resource Type
 
   blunder:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s
