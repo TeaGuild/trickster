@@ -1,47 +1,6 @@
-- Rewrote the spell editing screen. (@enjarai)
-  - This allows for a few new interactions, and should make future additions easier.
-  - You can now press F while hovering over a circle to "focus" on it, partially hiding all other branches of the spell.
-    - In this mode, you can only interact with the focused circle and its children.
-    - Press F again to exit.
-  - Macros now no longer have an execution limit, and will keep running for as long as the spell screen is open.
-  - The Mirror now no longer has an execution limit.
-    - The Mirror has been generally changed to have an additional button in the interface that triggers evaluation of your spell.
-- Added custom renderers for almost all fragment types. (@BlueMoonJune)
-  - Numbers in particular are shown in a custom base-8 circular format.
-  - Fragments can still be seen as their text representation using a Scryglass.
-- Added a new palette of blocks: Gilded Tuff. (@BlueMoonJune)
-  - Includes multiple variants with stairs, slabs, and walls.
-  - Can be crafted with Tuff and Gold Nuggets
-- Added Light Sconces. (@BlueMoonJune)
-  - These blocks can be placed on walls, floors, and ceilings, or in midair.
-  - They occupy the same block space as Lights conjured by spells.
-  - They are purely decorative.
-- Added rare structures to the world. (@BlueMoonJune, @aurakle, and @enjarai)
-  - These structures contain tidbits of lore.
-  - They occur very infrequently, and only in specific biomes.
-  - They have no bearing on progression.
-- Reworked Ploy of the Usurper. (@enjarai)
-  - Teleportation now requires anchorpoints on both sides.
-  - The new system also doubles as a blink ploy.
-  - Made changes to make involuntary teleportation more difficult.
-- Added compatibility with the Inline mod to render patterns in text. (@poolcritter)
-- Changed map and list renderers to be more dynamic. (@Master-Bw3)
-- Renamed Spell Ink to Esoteric Mana. (@enjarai)
-  - Esoteric Mana can now be used to instantly refill knots by a certain amount.
-  - Esoteric Mana also has a new texture. (@aurakle)
-- Added Luminous Bottles. (@enjarai)
-  - These can be made in a brewing stand, and are an intermediate for more efficiently creating Esoteric Mana.
-- Various minor Tome improvements. (@aurakle)
-- Made the position of spell slots on the inventory screen configurable. (@AshAxolotl)
-- Added spell slots to the creative mode inventory screen. (@AshAxolotl)
-- Added a trick overload to get the size of maps. (@AshAxolotl)
-- Changed the way player velocity is acquired to be more representative of the player's actual velocity. (@enjarai)
-- Changed Shared Fate to ignore invisible entities. (@AshAxolotl)
-- Added more config options related to block swapping. (@AshAxolotl)
-- Removed the Warding Charm and the old Ward system. (@aurakle)
-  - This will be replaced by a new system in the near future.
-- Fixed floating point issues with spell construct renderers at high coordinates. (@enjarai)
-- Fixed issues with color mixing. (@BlueMoonJune)
-- Fixed the tax calculation of the conduits ploys. (@BlueMoonJune)
-- Fixed bars not hiding with the rest of the UI. (@AshAxolotl)
-- Fixed an issue with negative addresses in reflective ploys. (@AshAxolotl)
+- Fixed a performance issue with in-world circle rendering. (@enjarai)
+- Fixed a server-side performance issue where Knot charging particles would be individually sent by the server. (@enjarai)
+- Fixed overlapping slot fragments in lists. (@enjarai)
+- Fixed certain items showing up in tags and recipes when they shouldn't. (@AshAxolotl)
+- Miscellaneous metadata/book corrections. (@aurakle)
+- Removed a built-in resource pack that snuck through PR review. (@aurakle)
