@@ -31,21 +31,24 @@ public class ListRenderer implements FragmentRenderer<ListFragment> {
         matrices.push();
         matrices.translate(0, -0.5 * height, 0);
 
-        var offsetAcc = 0.0f;
-        for (Fragment element : fragments) {
-            var elementHeight = FragmentRenderer.getFragmentProportionalHeight(element);
-            var offset = offsetAcc + elementHeight / 2;
+        // Culling in world
+        if (delegator.inUI || fragments.size() <= 16) {
+            var offsetAcc = 0.0f;
+            for (Fragment element : fragments) {
+                var elementHeight = FragmentRenderer.getFragmentProportionalHeight(element);
+                var offset = offsetAcc + elementHeight / 2;
 
-            //noinspection rawtypes
-            FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(element.type()));
-            if (renderer != null) {
-                //noinspection unchecked
-                renderer.render(element, matrices, vertexConsumers, 0, offset, 0.4f, forcedAlpha, forcedAlpha, normal, tickDelta, delegator);
-            } else {
-                FragmentRenderer.renderAsText(element, matrices, vertexConsumers, 0, offset, 0.4f, forcedAlpha);
+                //noinspection rawtypes
+                FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(element.type()));
+                if (renderer != null) {
+                    //noinspection unchecked
+                    renderer.render(element, matrices, vertexConsumers, 0, offset, 0.4f, forcedAlpha, forcedAlpha, normal, tickDelta, delegator);
+                } else {
+                    FragmentRenderer.renderAsText(element, matrices, vertexConsumers, 0, offset, 0.4f, forcedAlpha);
+                }
+
+                offsetAcc += elementHeight;
             }
-
-            offsetAcc += elementHeight;
         }
 
         matrices.pop();

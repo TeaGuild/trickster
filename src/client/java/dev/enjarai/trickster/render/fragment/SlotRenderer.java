@@ -74,6 +74,6 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
 
     @Override
     public float getProportionalHeight(SlotFragment fragment) {
-        return 0.6f;
+        return 0.8f;
     }
 }

@@ -48,7 +48,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
 
     @Override
     public float getProportionalHeight(ContainerFragment fragment) {
-        return 1;
+        return 0.8f;
     }
 
     public static void renderStorage(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha,
