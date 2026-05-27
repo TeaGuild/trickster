@@ -12,11 +12,11 @@ import org.joml.Quaternionf;
 
 public class NumberRenderer implements FragmentRenderer<NumberFragment> {
 
-    public static final Identifier RING_0 = Trickster.id("textures/fragment/number/ring_0.png");
-    public static final Identifier RING_45 = Trickster.id("textures/fragment/number/ring_45.png");
-    public static final Identifier NEEDLE_0 = Trickster.id("textures/fragment/number/needle_0.png");
-    public static final Identifier NEEDLE_45 = Trickster.id("textures/fragment/number/needle_45.png");
-    public static final Identifier POINT = Trickster.id("textures/fragment/number/point.png");
+    public static final Identifier RING_0 = Trickster.id("fragment/number/ring_0");
+    public static final Identifier RING_45 = Trickster.id("fragment/number/ring_45");
+    public static final Identifier NEEDLE_0 = Trickster.id("fragment/number/needle_0");
+    public static final Identifier NEEDLE_45 = Trickster.id("fragment/number/needle_45");
+    public static final Identifier POINT = Trickster.id("fragment/number/point");
 
     public static final float SPACING = 0.7f;
 

@@ -16,7 +16,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class ItemTypeRenderer implements FragmentRenderer<ItemTypeFragment> {
-    public static final Identifier TEXTURE = Trickster.id("textures/fragment/item_type.png");
+    public static final Identifier TEXTURE = Trickster.id("fragment/item_type");
     static float HEIGHT = 0.4f;
 
     @Override

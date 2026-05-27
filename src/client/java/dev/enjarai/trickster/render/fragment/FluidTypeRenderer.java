@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class FluidTypeRenderer implements FragmentRenderer<FluidTypeFragment> {
 
-    public static final Identifier TEXTURE = Trickster.id("textures/fragment/fluid_type.png");
+    public static final Identifier TEXTURE = Trickster.id("fragment/fluid_type");
 
     @Override
     public void render(FluidTypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,

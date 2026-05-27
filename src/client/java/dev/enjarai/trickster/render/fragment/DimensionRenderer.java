@@ -11,8 +11,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class DimensionRenderer implements FragmentRenderer<DimensionFragment> {
-    public static final String TEXTURE_PATTERN = "textures/fragment/dimension/%s/%s.png";
-    public static final Identifier FALLBACK = Trickster.id("textures/fragment/dimension/missing.png");
+    public static final String TEXTURE_PATTERN = "fragment/dimension/%s/%s";
+    public static final Identifier FALLBACK = Trickster.id("fragment/dimension/missing");
 
     @Override
     public void render(DimensionFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,

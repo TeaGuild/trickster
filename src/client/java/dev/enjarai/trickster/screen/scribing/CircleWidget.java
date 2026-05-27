@@ -32,7 +32,7 @@ import static dev.enjarai.trickster.render.CircleRenderer.PART_PIXEL_RADIUS;
 import static dev.enjarai.trickster.render.CircleRenderer.PATTERN_TO_PART_RATIO;
 
 public class CircleWidget extends StatefulWidget {
-    public static final Identifier CIRCLE_TEXTURE = Trickster.id("textures/gui/circle_8.png");
+    public static final Identifier CIRCLE_TEXTURE = Trickster.id("fragment/spell/circle_8");
 
     public static final Byte MIDDLE_DOT = 4;
     public static final Byte DOT_COUNT = 9;
@@ -86,17 +86,21 @@ public class CircleWidget extends StatefulWidget {
         private List<Byte> drawingPattern;
 
         private void draw(BraidDrawContext ctx, WidgetTransform transform) {
-            widget().renderer.setMousePosition(mouseInside ? mouseX : -9999, mouseInside ? mouseY : -9999);
-            widget().renderer.setLineToMouse(mouseInside);
-            widget().renderer.setLoading(widget().partView.loading ? (int) (System.currentTimeMillis() / 250 % 2) : -1);
-            widget().renderer.renderCircle(
-                ctx.getMatrices(), widget().partView.part,
-                RADIUS, RADIUS, RADIUS, widget().startingAngle, 0,
-                (float) Math.clamp(1 / (widget().radius / ctx.getScaledWindowHeight() * 3), 0.0, widget().hiddenByPonder ? 0.1 : 0.8),
-                widget().hiddenByPonder ? 0.1f : 0.8f,
-                new Vec3d(-1, 0, 0), drawingPattern
-            );
-            CircleRenderer.VERTEX_CONSUMERS.draw();
+            var bounds = context().instance().computeGlobalBounds();
+
+            if (bounds.intersects(0, Double.MIN_VALUE, 0, ctx.getScaledWindowWidth(), Double.MAX_VALUE, ctx.getScaledWindowHeight())) {
+                widget().renderer.setMousePosition(mouseInside ? mouseX : -9999, mouseInside ? mouseY : -9999);
+                widget().renderer.setLineToMouse(mouseInside);
+                widget().renderer.setLoading(widget().partView.loading ? (int) (System.currentTimeMillis() / 250 % 2) : -1);
+                widget().renderer.renderCircle(
+                    ctx.getMatrices(), widget().partView.part,
+                    RADIUS, RADIUS, RADIUS, widget().startingAngle, 0,
+                    (float) Math.clamp(1 / (widget().radius / ctx.getScaledWindowHeight() * 3), 0.0, widget().hiddenByPonder ? 0.1 : 0.8),
+                    widget().hiddenByPonder ? 0.1f : 0.8f,
+                    new Vec3d(-1, 0, 0), drawingPattern
+                );
+                CircleRenderer.VERTEX_CONSUMERS.draw();
+            }
         }
 
         private void drawCastButton(BraidDrawContext ctx, WidgetTransform transform) {

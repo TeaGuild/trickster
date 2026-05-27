@@ -38,7 +38,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
         var b = ColorHelper.Argb.getBlue(color) / 255f;
 
         CircleRenderer.drawTexturedQuad(
-            matrices, vertexConsumers, Trickster.id("textures/fragment/container.png"),
+            matrices, vertexConsumers, Trickster.id("fragment/container"),
             x - radius, x + radius, y - radius, y + radius,
             0.001f,
             delegator.getR() * r, delegator.getG() * g, delegator.getB() * b,
@@ -95,7 +95,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
             );
         } else if (source instanceof StorageSource.Caster) {
             CircleRenderer.drawTexturedQuad(
-                matrices, vertexConsumers, Trickster.id("textures/fragment/caster_container.png"),
+                matrices, vertexConsumers, Trickster.id("fragment/caster_container"),
                 x - radius, x + radius, y - radius, y + radius,
                 0.001f,
                 delegator.getR(), delegator.getG(), delegator.getB(),

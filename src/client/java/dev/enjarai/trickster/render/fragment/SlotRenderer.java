@@ -36,7 +36,7 @@ public class SlotRenderer implements FragmentRenderer<SlotFragment> {
         var b = ColorHelper.Argb.getBlue(color) / 255f;
 
         CircleRenderer.drawTexturedQuad(
-            matrices, vertexConsumers, Trickster.id("textures/fragment/slot.png"),
+            matrices, vertexConsumers, Trickster.id("fragment/slot"),
             x - radius, x + radius, y - radius, y + radius,
             0.001f,
             delegator.getR() * r, delegator.getG() * g, delegator.getB() * b,

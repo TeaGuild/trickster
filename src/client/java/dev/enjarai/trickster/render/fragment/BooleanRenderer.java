@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class BooleanRenderer implements FragmentRenderer<BooleanFragment> {
-    public static final Identifier TRUE = Trickster.id("textures/fragment/boolean/true.png");
-    public static final Identifier FALSE = Trickster.id("textures/fragment/boolean/false.png");;
+    public static final Identifier TRUE = Trickster.id("fragment/boolean/true");
+    public static final Identifier FALSE = Trickster.id("fragment/boolean/false");
 
     @Override
     public void render(BooleanFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal,
