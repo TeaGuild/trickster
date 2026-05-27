@@ -33,7 +33,7 @@ Given a number between zero and one, multiplies the given entity's effective gra
 
 ;;;;;
 
-<|ploy@trickster:templates|trick-id=trickster:add_velocity,cost=12G + length^3 * 16G|>
+<|ploy@trickster:templates|trick-id=trickster:add_velocity,cost=3G + length^3 * 16G|>
 
 Applies the given vector as velocity to the given entity.
 
