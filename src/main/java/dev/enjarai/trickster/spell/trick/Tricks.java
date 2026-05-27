@@ -294,6 +294,8 @@ public class Tricks {
     // Flecks
     public static final LineFleckTrick DRAW_LINE = register("draw_line", new LineFleckTrick());
     public static final SpellFleckTrick DRAW_SPELL = register("draw_spell", new SpellFleckTrick());
+    public static final EntitySpellFleckTrick ENTITY_DRAW_SPELL = register("entity_draw_spell", new EntitySpellFleckTrick());
+    public static final EntityHeadSpellFleckTrick ENTITY_HEAD_DRAW_SPELL = register("entity_head_draw_spell", new EntityHeadSpellFleckTrick());
     public static final GetFlecksTrick GET_FLECKS = register("get_flecks", new GetFlecksTrick());
     public static final DeleteFleckTrick DELETE_FLECK = register("delete_fleck", new DeleteFleckTrick());
 

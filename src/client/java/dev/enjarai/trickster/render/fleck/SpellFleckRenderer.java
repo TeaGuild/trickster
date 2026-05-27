@@ -22,20 +22,32 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
 
         matrices.push();
 
-        var position = fleck.pos();
-        var facing = fleck.facing();
+        var position = fleck.pos().getPos(world, tickDelta);
+        if (position == null) {
+            return;
+        }
+
+        var facing = fleck.pos().transformFacing(fleck.facing(), world, tickDelta);
         var spell = fleck.spell();
         var size = fleck.size();
         var roll = fleck.roll();
 
-        var oldPosition = fleck.pos();
-        var oldFacing = fleck.facing();
+        var oldPosition = fleck.pos().getPos(world, tickDelta);
+        if (oldPosition == null) {
+            return;
+        }
+
+        var oldFacing = fleck.pos().transformFacing(fleck.facing(), world, tickDelta);
         var oldSize = fleck.size();
         var oldRoll = fleck.roll();
 
         if (lastFleck != null) {
-            oldPosition = lastFleck.pos();
-            oldFacing = lastFleck.facing();
+            oldPosition = lastFleck.pos().getPos(world, tickDelta);
+            if (oldPosition == null) {
+                return;
+            }
+
+            oldFacing = lastFleck.pos().transformFacing(lastFleck.facing(), world, tickDelta);
             oldSize = lastFleck.size();
             oldRoll = lastFleck.roll();
         }
