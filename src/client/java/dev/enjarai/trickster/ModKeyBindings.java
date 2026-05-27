@@ -23,7 +23,8 @@ public class ModKeyBindings {
     public static void register() {
         KeyBindingHelper.registerKeyBinding(TAKE_HAT);
         KeyBindingHelper.registerKeyBinding(MODIFY_SPELL);
-        KeyBindingHelper.registerKeyBinding(SHOW_FRAGMENT_TEXT);
+        // TODO isnt used currently, so shouldnt show up in the keybinds screen
+        //        KeyBindingHelper.registerKeyBinding(SHOW_FRAGMENT_TEXT);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             var player = client.player;
