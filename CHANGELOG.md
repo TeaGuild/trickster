@@ -1,1 +1,1 @@
-- Tweaked some ploy costs. (@enjarai)
+- Removed mana transfer particles temporarily. (@aurakle)
