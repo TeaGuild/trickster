@@ -1,5 +1,1 @@
-- Massively improved performance for fragment rendering *everywhere*. (@enjarai)
-- Improved culling in the editor. (@enjarai)
-- Spell flecks can now be created relative to an entity or its head, greatly simplifying UI-like flecks. (@enjarai)
-- Fixed an issue where the Scryglass keybind would work without having a Scryglass equipped. (@enjarai)
-- Made the vector creation trick default to 0 for each argument if nothing or void is provided. (@aurakle)
+- Tweaked some ploy costs. (@enjarai)
