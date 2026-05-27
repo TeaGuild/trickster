@@ -256,6 +256,7 @@ public class CircleRenderer {
         float pixelSize = patternRadius / PART_PIXEL_RADIUS;
 
         alpha *= (float) (1 - textFade * 0.5f);
+        forcedAlpha *= (float) (1 - textFade * 0.5f);
         var renderText = true;
 
         var isDrawing = drawingPattern != null;
