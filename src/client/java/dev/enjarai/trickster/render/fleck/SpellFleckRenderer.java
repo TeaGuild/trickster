@@ -69,6 +69,7 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
             new Vec3d(facing.x(), facing.y(), facing.z()),
             null
         );
+        CircleRenderer.VERTEX_CONSUMERS.draw();
 
         matrices.pop();
     }
