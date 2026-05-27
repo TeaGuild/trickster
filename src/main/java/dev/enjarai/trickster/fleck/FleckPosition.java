@@ -6,6 +6,7 @@ import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
@@ -31,8 +32,8 @@ public interface FleckPosition {
     @Nullable
     Vector3f getPos(World world, float tickDelta);
 
-    default Vector3f transformFacing(Vector3fc vector, World world, float tickDelta) {
-        return vector.get(new Vector3f());
+    default Quaternionf transformFacing(Vector3fc facing, World world, float tickDelta) {
+        return new Quaternionf().lookAlong(facing, new Vector3f(0, -1, 0)).invert();
     }
 
     Identifier getId();

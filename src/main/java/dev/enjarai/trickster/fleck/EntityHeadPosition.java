@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
@@ -37,15 +38,15 @@ public record EntityHeadPosition(int entityId, Vector3fc position) implements Fl
     }
 
     @Override
-    public Vector3f transformFacing(Vector3fc facing, World world, float tickDelta) {
+    public Quaternionf transformFacing(Vector3fc facing, World world, float tickDelta) {
         var entity = world.getEntityById(entityId);
-        var newFacing = new Vector3f(facing);
+        var newFacing = new Quaternionf().lookAlong(facing, new Vector3f(0, -1, 0));
         if (entity == null) {
             return newFacing;
         }
 
-        newFacing.rotateX(entity.getPitch(tickDelta) * MathHelper.RADIANS_PER_DEGREE);
-        newFacing.rotateY(-entity.getYaw(tickDelta) * MathHelper.RADIANS_PER_DEGREE);
+        newFacing.rotateY(entity.getYaw(tickDelta) * MathHelper.RADIANS_PER_DEGREE);
+        newFacing.rotateX(-entity.getPitch(tickDelta) * MathHelper.RADIANS_PER_DEGREE);
 
         return newFacing;
     }
