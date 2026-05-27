@@ -45,10 +45,10 @@ public record EntityHeadPosition(int entityId, Vector3fc position) implements Fl
             return newFacing;
         }
 
-        newFacing.rotateY(entity.getYaw(tickDelta) * MathHelper.RADIANS_PER_DEGREE);
         newFacing.rotateX(-entity.getPitch(tickDelta) * MathHelper.RADIANS_PER_DEGREE);
+        newFacing.rotateY(entity.getYaw(tickDelta) * MathHelper.RADIANS_PER_DEGREE);
 
-        return newFacing;
+        return newFacing.invert();
     }
 
     @Override
