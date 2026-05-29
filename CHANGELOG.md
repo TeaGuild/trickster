@@ -1,1 +1,4 @@
 - Removed mana transfer particles temporarily. (@aurakle)
+- Made mirrors require Esoteric Mana instead of an Amethyst Shard. (@aurakle)
+- Fixed a mistake in an advancement description. (@aurakle)
+- Fixed issues with mana-storing items having incorrect component equality. (@aurakle)
