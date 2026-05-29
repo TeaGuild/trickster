@@ -10,10 +10,10 @@ public record ManaPoolType<T extends ManaPool>(StructEndec<T> endec) {
     public static final RegistryKey<Registry<ManaPoolType<?>>> REGISTRY_KEY = RegistryKey.ofRegistry(Trickster.id("mana_pool_type"));
     public static final Registry<ManaPoolType<?>> REGISTRY = FabricRegistryBuilder.createSimple(REGISTRY_KEY).buildAndRegister();
 
-    public static final ManaPoolType<SimpleManaPool> SIMPLE = register("simple", SimpleManaPool.ENDEC);
-    public static final ManaPoolType<SharedManaPool> SHARED = register("shared", SharedManaPool.ENDEC);
     public static final ManaPoolType<InfiniteManaPool> INFINITE = register("infinite", InfiniteManaPool.ENDEC);
+    public static final ManaPoolType<SimpleManaPool> SIMPLE = register("simple", SimpleManaPool.ENDEC);
     public static final ManaPoolType<SavingsManaPool> SAVINGS = register("savings", SavingsManaPool.ENDEC);
+    public static final ManaPoolType<SharedManaPool> SHARED = register("shared", SharedManaPool.ENDEC);
 
     private static <T extends MutableManaPool> ManaPoolType<T> register(String name, StructEndec<T> endec) {
         return Registry.register(REGISTRY, Trickster.id(name), new ManaPoolType<>(endec));

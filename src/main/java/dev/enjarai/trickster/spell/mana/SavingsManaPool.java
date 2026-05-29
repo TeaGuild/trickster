@@ -7,11 +7,11 @@ import net.minecraft.world.World;
 
 public class SavingsManaPool extends SimpleManaPool {
     public static final StructEndec<SavingsManaPool> ENDEC = StructEndecBuilder.of(
-            Endec.FLOAT.fieldOf("mana", pool -> pool.mana),
-            Endec.FLOAT.fieldOf("max_mana", pool -> pool.maxMana),
-            Endec.FLOAT.fieldOf("interest", pool -> pool.interest),
-            Endec.LONG.fieldOf("last_update_time", pool -> pool.lastUpdateTime),
-            SavingsManaPool::new
+        Endec.FLOAT.fieldOf("mana", pool -> pool.mana),
+        Endec.FLOAT.fieldOf("max_mana", pool -> pool.maxMana),
+        Endec.FLOAT.fieldOf("interest", pool -> pool.interest),
+        Endec.LONG.fieldOf("last_update_time", pool -> pool.lastUpdateTime),
+        SavingsManaPool::new
     );
 
     protected final float interest;
@@ -53,5 +53,13 @@ public class SavingsManaPool extends SimpleManaPool {
     @Override
     public MutableManaPool makeClone(World world) {
         return new SavingsManaPool(mana, maxMana, interest, lastUpdateTime);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof SavingsManaPool pool
+            && pool.interest == this.interest
+            && pool.lastUpdateTime == this.lastUpdateTime
+            && super.equals(pool);
     }
 }

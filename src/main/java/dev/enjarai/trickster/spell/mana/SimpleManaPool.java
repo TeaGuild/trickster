@@ -7,9 +7,9 @@ import net.minecraft.world.World;
 
 public class SimpleManaPool implements MutableManaPool {
     public static final StructEndec<SimpleManaPool> ENDEC = StructEndecBuilder.of(
-            Endec.FLOAT.fieldOf("mana", simpleManaPool -> simpleManaPool.mana),
-            Endec.FLOAT.fieldOf("max_mana", simpleManaPool -> simpleManaPool.maxMana),
-            SimpleManaPool::new
+        Endec.FLOAT.fieldOf("mana", simpleManaPool -> simpleManaPool.mana),
+        Endec.FLOAT.fieldOf("max_mana", simpleManaPool -> simpleManaPool.maxMana),
+        SimpleManaPool::new
     );
 
     protected float maxMana;
@@ -52,6 +52,18 @@ public class SimpleManaPool implements MutableManaPool {
     @Override
     public MutableManaPool makeClone(World world) {
         return new SimpleManaPool(mana, maxMana);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof SimpleManaPool pool
+            && pool.maxMana == this.maxMana
+            && pool.mana == this.mana;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (maxMana + mana);
     }
 
     public static SimpleManaPool getSingleUse(float mana) {
