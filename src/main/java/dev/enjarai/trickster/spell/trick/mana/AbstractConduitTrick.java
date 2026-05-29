@@ -38,7 +38,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
                 return stack;
             });
             if (moved.v > 1) {
-                // createParticles(ctx, slot, moved.v);
+                createParticles(ctx, slot, moved.v);
             }
             result += moved.v;
         }

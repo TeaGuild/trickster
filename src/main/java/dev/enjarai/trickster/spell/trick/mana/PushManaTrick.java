@@ -17,6 +17,12 @@ public class PushManaTrick extends AbstractConduitTrick {
     protected void createParticles(SpellContext ctx, SlotFragment slot, float v) {
         var fromPos = slot.getSourceOrCasterPos(this, ctx);
         var toPos = ctx.source().getPos();
+
+        var distance = fromPos.distance(toPos);
+        if (distance < 0.5) {
+            return;
+        }
+
         ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
             .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
             .send(new ManaMoveParticlePacket(fromPos, toPos, v));
