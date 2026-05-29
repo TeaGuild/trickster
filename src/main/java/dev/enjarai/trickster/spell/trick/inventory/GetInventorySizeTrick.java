@@ -13,6 +13,8 @@ import dev.enjarai.trickster.spell.fragment.slot.VariantType;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 
+import java.util.Optional;
+
 public class GetInventorySizeTrick extends Trick<GetInventorySizeTrick> {
     private final VariantType<?> variantType;
 
@@ -29,7 +31,7 @@ public class GetInventorySizeTrick extends Trick<GetInventorySizeTrick> {
     }
 
     public NumberFragment fromVector(SpellContext ctx, VectorFragment pos) {
-        return new StorageSource.Block(pos.toBlockPos()).getInventoryLength(this, ctx, variantType);
+        return new StorageSource.Block(pos.toBlockPos(), Optional.empty()).getInventoryLength(this, ctx, variantType);
     }
 
     public NumberFragment fromEntity(SpellContext ctx, EntityFragment entity) {

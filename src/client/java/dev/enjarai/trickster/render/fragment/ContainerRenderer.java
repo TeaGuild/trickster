@@ -14,8 +14,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
@@ -51,14 +53,15 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
         return 0.8f;
     }
 
-    public static void renderStorage(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha,
-        Vec3d normal,
-        float tickDelta,
-        CircleRenderer delegator) {
+    public static void renderStorage(ContainerFragment fragment, MatrixStack matrices,
+        VertexConsumerProvider vertexConsumers,
+        float x, float y, float radius,
+        float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta, CircleRenderer delegator) {
 
         var source = fragment.source();
 
-        if (source instanceof StorageSource.Block(BlockPos pos)) {
+        if (source instanceof StorageSource.Block(BlockPos pos,Optional<Direction>unused)) {
             /*
             matrices.push();
             matrices.translate(x, y, delegator.inUI ? radius * 0.5 : 0);

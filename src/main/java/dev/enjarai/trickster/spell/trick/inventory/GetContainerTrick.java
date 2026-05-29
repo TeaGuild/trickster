@@ -21,13 +21,13 @@ public class GetContainerTrick extends Trick<GetContainerTrick> {
     public GetContainerTrick(Pattern pattern, VariantType<?> variantType) {
         super(pattern, Signature.of(GetContainerTrick::fromCaster, FragmentType.CONTAINER));
         this.variantType = variantType;
-        overload(Signature.of(FragmentType.VECTOR, GetContainerTrick::fromVector, FragmentType.CONTAINER));
+        overload(Signature.of(FragmentType.VECTOR, FragmentType.VECTOR.optionalOfArg(), GetContainerTrick::fromVector, FragmentType.CONTAINER));
         overload(Signature.of(FragmentType.ENTITY, GetContainerTrick::fromEntity, FragmentType.CONTAINER));
         overload(Signature.of(FragmentType.SLOT, GetContainerTrick::fromSlot, FragmentType.CONTAINER));
     }
 
     public GetContainerTrick(Pattern pattern, VariantType<?> variantType, boolean allowEntities) {
-        super(pattern, Signature.of(FragmentType.VECTOR, GetContainerTrick::fromVector, FragmentType.CONTAINER));
+        super(pattern, Signature.of(FragmentType.VECTOR, FragmentType.VECTOR.optionalOfArg(), GetContainerTrick::fromVector, FragmentType.CONTAINER));
         this.variantType = variantType;
         if (allowEntities) {
             overload(Signature.of(FragmentType.ENTITY, GetContainerTrick::fromEntity, FragmentType.CONTAINER));
@@ -39,8 +39,8 @@ public class GetContainerTrick extends Trick<GetContainerTrick> {
         return new ContainerFragment(StorageSource.Caster.INSTANCE, variantType, Optional.empty());
     }
 
-    public ContainerFragment fromVector(SpellContext ctx, VectorFragment pos) {
-        return new ContainerFragment(new StorageSource.Block(pos.toBlockPos()), variantType, Optional.empty());
+    public ContainerFragment fromVector(SpellContext ctx, VectorFragment pos, Optional<VectorFragment> face) {
+        return new ContainerFragment(new StorageSource.Block(pos.toBlockPos(), face.map(VectorFragment::toDirection)), variantType, Optional.empty());
     }
 
     public ContainerFragment fromEntity(SpellContext ctx, EntityFragment entity) {

@@ -67,6 +67,9 @@ Returns a slot reference of the caster's offhand.
 
 Returns a reference to the item container of the passed value, or of the caster.
 
+
+If the container is a block, an additional vector can be provided to define the side from which to interact with it.
+
 ;;;;;
 
 <|trick@trickster:templates|trick-id=trickster:get_fluid_container|>
