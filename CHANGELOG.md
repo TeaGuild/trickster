@@ -1,5 +1,5 @@
 - Made mirrors require Esoteric Mana instead of an Amethyst Shard. (@aurakle)
 - Fixed a mistake in an advancement description. (@aurakle)
 - Fixed issues with mana-storing items having incorrect component equality. (@aurakle)
-- Fixed a possible divide-by-zero related to particles. (@enjarai)
+- Fixed a disconnect on dedicated servers when mana transfer particles are sent to the client. (@enjarai)
 - Add sided storage support to container fragments. (@enjarai)
