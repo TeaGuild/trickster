@@ -31,6 +31,7 @@ public class ModNetworking {
         CHANNEL.registerClientboundDeferred(EchoSetClipboardPacket.class, EchoSetClipboardPacket.ENDEC);
         CHANNEL.registerClientboundDeferred(MladyAnimationPacket.class);
         CHANNEL.registerClientboundDeferred(StorageMoveParticlePacket.class, StorageMoveParticlePacket.ENDEC);
+        CHANNEL.registerClientboundDeferred(ManaMoveParticlePacket.class, ManaMoveParticlePacket.ENDEC);
     }
 
     @SuppressWarnings("unchecked")
