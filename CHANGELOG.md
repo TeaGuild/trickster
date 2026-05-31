@@ -3,3 +3,4 @@
 - Fixed issues with mana-storing items having incorrect component equality. (@aurakle)
 - Fixed a disconnect on dedicated servers when mana transfer particles are sent to the client. (@enjarai)
 - Add sided storage support to container fragments. (@enjarai)
+- Improved performance of Conduit ploys. (@enjarai)
