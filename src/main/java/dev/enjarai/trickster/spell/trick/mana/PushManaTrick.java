@@ -29,6 +29,11 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
+    protected boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx) {
+        return !ctx.getManaPool().isEmpty(ctx.source().getWorld());
+    }
+
+    @Override
     protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage) {
         var world = ctx.source().getWorld();
         var self = ctx.source().getManaPool();
