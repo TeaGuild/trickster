@@ -30,18 +30,26 @@ public class PushManaTrick extends AbstractConduitTrick {
 
     @Override
     protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage) {
-        var comp = stack.get(ModComponents.MANA);
-
-        if (comp == null)
-            return 0;
-
-        var taxedMult = 1 - (float) taxPercentage;
-
         var world = ctx.source().getWorld();
         var self = ctx.source().getManaPool();
-        var taken = limit - self.use(limit, world);
-        comp = stack.get(ModComponents.MANA);
+
+        if (self.isEmpty(world)) {
+            return 0;
+        }
+
+        var comp = stack.get(ModComponents.MANA);
+        if (comp == null) {
+            return 0;
+        }
+
+        if (comp.pool().isFull(world)) {
+            return 0;
+        }
+
+        var taxedMult = 1 - (float) taxPercentage;
         var target = comp.pool().makeClone(world);
+
+        var taken = limit - self.use(limit, world);
         var leftover = target.refill(taken * taxedMult, world); //leftover is how much taxed mana could not be inserted
         leftover /= taxedMult; //untax the leftover mana; it wasnt transferred so it shouldnt be taxed
         stack.set(ModComponents.MANA, comp.with(target));

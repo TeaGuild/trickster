@@ -30,16 +30,25 @@ public class PullManaTrick extends AbstractConduitTrick {
 
     @Override
     protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage) {
-        var comp = stack.get(ModComponents.MANA);
-
-        if (comp == null)
-            return 0;
-
-        var taxedMult = 1 - (float) taxPercentage;
-
         var world = ctx.source().getWorld();
         var self = ctx.source().getManaPool();
+
+        if (self.isFull(world)) {
+            return 0;
+        }
+
+        var comp = stack.get(ModComponents.MANA);
+        if (comp == null) {
+            return 0;
+        }
+
+        if (comp.pool().isEmpty(world)) {
+            return 0;
+        }
+
+        var taxedMult = 1 - (float) taxPercentage;
         var target = comp.pool().makeClone(world);
+
         var taken = limit - target.use(limit, world);
         stack.set(ModComponents.MANA, comp.with(target));
         var leftover = self.refill(taken * taxedMult, world); //leftover is how much taxed mana could not be inserted

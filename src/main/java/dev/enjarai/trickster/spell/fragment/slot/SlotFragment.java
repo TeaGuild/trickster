@@ -85,6 +85,10 @@ public record SlotFragment(StorageSource.Slot slot, VariantType<?> variantType) 
             tempStack = modifier.apply(tempStack);
 
             var newResource = ItemVariant.of(tempStack);
+            if (resource.equals(newResource)) {
+                return false;
+            }
+
             var given = slot.insert(newResource, taken, trans);
 
             if (given != taken) {
