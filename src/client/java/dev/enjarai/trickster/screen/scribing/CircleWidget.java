@@ -159,7 +159,7 @@ public class CircleWidget extends StatefulWidget {
             if (oldWidget.nextKey != widget().nextKey && widget().nextKey >= 0) {
                 if (widget().nextKey == GLFW.GLFW_KEY_KP_ENTER) {
                     if (drawingPattern != null) {
-                        finishDrawing(drawingPattern.size() > 1, SharedState.get(context(), CircleSoupState.class));
+                        finishDrawing(drawingPattern.size() > 0, SharedState.get(context(), CircleSoupState.class));
                     }
 
                     return;
