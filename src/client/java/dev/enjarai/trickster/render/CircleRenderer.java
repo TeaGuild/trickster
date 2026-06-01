@@ -41,8 +41,8 @@ public class CircleRenderer {
     public static final RenderLayer CIRCLE_TEXTURE_LAYER = RenderLayer.getEntityTranslucent(CIRCLE_TEXTURE);
     public static final RenderLayer GLYPH_LAYER = RenderLayer.of(
         "trickster:glyph", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS,
-        786432, RenderLayer.MultiPhaseParameters.builder()
-            .program(GUI_PROGRAM)
+        1536, RenderLayer.MultiPhaseParameters.builder()
+            .program(COLOR_PROGRAM)
             .transparency(TRANSLUCENT_TRANSPARENCY)
             .depthTest(LEQUAL_DEPTH_TEST)
             .cull(DISABLE_CULLING)

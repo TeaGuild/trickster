@@ -14,9 +14,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
@@ -68,10 +66,10 @@ public class MerlinKeeperTracker implements TooltipAppender {
             var usageUnit = Unit.getMerlinUnit(usage);
 
             tooltip.add(
-                    (usage > 0
-                            ? Text.translatable(Trickster.MOD_ID + ".merlin.draining", "%.2f ".formatted(usageUnit.correct(usage)) + usageUnit.shortName())
-                            : Text.translatable(Trickster.MOD_ID + ".merlin.filling", "%.2f ".formatted(usageUnit.correct(-usage)) + usageUnit.shortName()))
-                            .styled(s -> s.withColor(0xaaaabb))
+                (usage > 0
+                    ? Text.translatable(Trickster.MOD_ID + ".merlin.draining", "%.2f ".formatted(usageUnit.correct(usage)) + usageUnit.shortName())
+                    : Text.translatable(Trickster.MOD_ID + ".merlin.filling", "%.2f ".formatted(usageUnit.correct(-usage)) + usageUnit.shortName()))
+                    .styled(s -> s.withColor(0xaaaabb))
             );
         }
 
@@ -89,12 +87,12 @@ public class MerlinKeeperTracker implements TooltipAppender {
                 }
 
                 tooltip.add(
-                        Text.literal(
-                                str.formatted(
-                                        ImGoingToStabWhoeverInventedTime.howLongIsThisQuestionMark(timeUntilDrained)
-                                )
+                    Text.literal(
+                        str.formatted(
+                            ImGoingToStabWhoeverInventedTime.howLongIsThisQuestionMark(timeUntilDrained)
                         )
-                                .styled(s -> s.withColor(0xaaaabb))
+                    )
+                        .styled(s -> s.withColor(0xaaaabb))
                 );
             }
 
@@ -104,19 +102,19 @@ public class MerlinKeeperTracker implements TooltipAppender {
             var maxUnit = Unit.getGandalfUnit(max);
 
             tooltip.add(
-                    Text.translatable(
-                            Trickster.MOD_ID + ".gandalf.stored",
-                            ("%.1f " + currentUnit.shortName() + " / %.1f " + maxUnit.shortName())
-                                    .formatted(currentUnit.correct(current), maxUnit.correct(max))
-                    )
-                            .styled(s -> s.withColor(0xaaaabb))
+                Text.translatable(
+                    Trickster.MOD_ID + ".gandalf.stored",
+                    ("%.1f " + currentUnit.shortName() + " / %.1f " + maxUnit.shortName())
+                        .formatted(currentUnit.correct(current), maxUnit.correct(max))
+                )
+                    .styled(s -> s.withColor(0xaaaabb))
             );
 
             if (pool instanceof SharedManaPool shared && MinecraftClient.getInstance().world != null) {
                 tooltip.add(
-                        Text
-                                .literal(shared.uuid().toString())
-                                .setStyle(Style.EMPTY.withFormatting(Formatting.LIGHT_PURPLE))
+                    Text
+                        .literal(shared.uuid().toString())
+                        .withColor((int) shared.uuid().getLeastSignificantBits())
                 );
             }
         }
@@ -146,8 +144,8 @@ public class MerlinKeeperTracker implements TooltipAppender {
             }
 
             return MathHelper.lerp(
-                    (float) (MinecraftClient.getInstance().player.age % tickSpan) / tickSpan,
-                    prevLastMerlins - lastMerlins, lastMerlins - latestMerlins
+                (float) (MinecraftClient.getInstance().player.age % tickSpan) / tickSpan,
+                prevLastMerlins - lastMerlins, lastMerlins - latestMerlins
             ) / tickSpan;
         }
     }
