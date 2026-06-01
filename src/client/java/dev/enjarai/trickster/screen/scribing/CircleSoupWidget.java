@@ -399,6 +399,7 @@ public class CircleSoupWidget extends StatefulWidget {
                         angle, radius, child, path.push(i)
                     );
                     circle.parentCircle = this;
+                    circle.isPondered = isPondered;
 
                     childCircles.add(circle);
                     addCircle(circle);
@@ -584,9 +585,17 @@ public class CircleSoupWidget extends StatefulWidget {
                 return State.this.isPondering && !isPondered;
             }
 
+            public boolean shownByPonder() {
+                return State.this.isPondering && isPondered;
+            }
+
             private void markPonder(boolean ponder) {
                 isPondered = ponder;
-                childCircles.forEach(c -> c.markPonder(ponder));
+                childCircles.forEach(c -> {
+                    if (!c.partView.isInner) {
+                        c.markPonder(ponder);
+                    }
+                });
             }
 
             private void delegationCallback(Optional<SpellPart> newPart) {

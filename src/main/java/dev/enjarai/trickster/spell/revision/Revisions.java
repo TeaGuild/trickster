@@ -23,7 +23,7 @@ public class Revisions {
     public static final Revision INSERT_PARENT_CIRCLE = register(Trickster.id("to_subcircle"), new InsertParentCircleRevision());
     public static final Revision INTO_INNER_CIRCLE = register(Trickster.id("to_inner_circle"), new IntoInnerCircleRevision());
     public static final Revision REPLACE_OUTER_CIRCLE = register(Trickster.id("remove_outer"), new ReplaceOuterCircleRevision());
-    public static final Revision CREATE_OUTER_SUBCIRCLE = register(Trickster.id("add_outer_subcircle"), new CreateOuterSubcircleRevision());
+//    public static final Revision CREATE_OUTER_SUBCIRCLE = register(Trickster.id("add_outer_subcircle"), new CreateOuterSubcircleRevision());
     public static final Revision DELETE_CIRCLE = register(Trickster.id("remove_self"), new DeleteCircleRevision());
     public static final Revision DELETE_BRANCH = register(Trickster.id("remove_self_recursive"), new DeleteBranchRevision());
     public static final Revision SWAP_SUBCIRCLE = register(Trickster.id("swap"), new SwapSubcircleRevision());

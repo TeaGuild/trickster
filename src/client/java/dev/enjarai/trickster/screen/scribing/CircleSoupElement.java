@@ -126,6 +126,7 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
                                         c::updatePattern,
                                         widget().mutable,
                                         c.hiddenByPonder(),
+                                        c.partView.inner != null && !c.shownByPonder(),
                                         widget().allowsEval ? c::triggerEval : null
                                     )
                                 ))

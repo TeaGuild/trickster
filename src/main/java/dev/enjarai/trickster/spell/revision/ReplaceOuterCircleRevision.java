@@ -11,7 +11,7 @@ public class ReplaceOuterCircleRevision implements Revision {
 
     @Override
     public void apply(RevisionContext ctx, SpellView view) {
-        if (view.parent != null) {
+        if (view.parent != null && view.isInner) {
             view.parent.replace(view);
         }
     }

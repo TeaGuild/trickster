@@ -72,6 +72,7 @@ public class CircleRenderer {
     private float r = 1f, g = 1f, b = 1f;
     private float circleTransparency = 1f;
     private int loading = -1;
+    private boolean considerInners = true;
 
     public double textFade = 0;
 
@@ -102,6 +103,10 @@ public class CircleRenderer {
 
     public void setLoading(int loading) {
         this.loading = loading;
+    }
+
+    public void setConsiderInners(boolean considerInners) {
+        this.considerInners = considerInners;
     }
 
     public boolean isInEditor() {
@@ -160,7 +165,7 @@ public class CircleRenderer {
                 r, g, b, alpha * circleTransparency, inUI
             );
         }
-        if (entry.glyph instanceof SpellPart glyph) {
+        if (considerInners && entry.glyph instanceof SpellPart glyph) {
             if (recursions < this.recursions) {
                 renderCircle(
                     matrices, glyph, x, y, radius / 3,
@@ -264,12 +269,20 @@ public class CircleRenderer {
 
         var isDrawing = drawingPattern != null;
 
-        if (glyph instanceof PatternGlyph || isDrawing) {
+        Pattern patternList = null;
+
+        if (isDrawing) {
+            patternList = Pattern.from(drawingPattern);
+        } else if (glyph instanceof PatternGlyph pattern) {
+            patternList = pattern.pattern();
+        } else if (glyph instanceof SpellPart && !considerInners) {
+            patternList = Pattern.EMPTY;
+        }
+
+        if (patternList != null) {
             if (!(glyph instanceof PatternGlyph pattern) || pattern.pattern().isEmpty()) {
                 renderText = false;
             }
-
-            var patternList = isDrawing ? Pattern.from(drawingPattern) : ((PatternGlyph) glyph).pattern();
 
             for (int i = 0; i < 9; i++) {
                 var pos = getPatternDotPosition(x, y, i, patternRadius);

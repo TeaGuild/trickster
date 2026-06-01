@@ -53,10 +53,11 @@ public class CircleWidget extends StatefulWidget {
     private final Consumer<Pattern> updatePattern;
     private final boolean mutable;
     private final boolean hiddenByPonder;
+    private final boolean hasInner;
     @Nullable
     private final Runnable eval;
 
-    public CircleWidget(CircleRenderer renderer, double radius, double startingAngle, SpellView partView, Consumer<Pattern> updatePattern, boolean mutable, boolean hiddenByPonder,
+    public CircleWidget(CircleRenderer renderer, double radius, double startingAngle, SpellView partView, Consumer<Pattern> updatePattern, boolean mutable, boolean hiddenByPonder, boolean hasInner,
         @Nullable Runnable eval) {
         this.renderer = renderer;
         this.radius = radius;
@@ -65,6 +66,7 @@ public class CircleWidget extends StatefulWidget {
         this.updatePattern = updatePattern;
         this.mutable = mutable;
         this.hiddenByPonder = hiddenByPonder;
+        this.hasInner = hasInner;
         this.eval = eval;
     }
 
@@ -92,6 +94,7 @@ public class CircleWidget extends StatefulWidget {
                 widget().renderer.setMousePosition(mouseInside ? mouseX : -9999, mouseInside ? mouseY : -9999);
                 widget().renderer.setLineToMouse(mouseInside);
                 widget().renderer.setLoading(widget().partView.loading ? (int) (System.currentTimeMillis() / 250 % 2) : -1);
+                widget().renderer.setConsiderInners(widget().hasInner);
                 widget().renderer.renderCircle(
                     ctx.getMatrices(), widget().partView.part,
                     RADIUS, RADIUS, RADIUS, widget().startingAngle, 0,
@@ -161,7 +164,7 @@ public class CircleWidget extends StatefulWidget {
                 return false;
             }
 
-            if (widget().partView.inner != null) {
+            if (widget().hasInner) {
                 return false;
             }
 
