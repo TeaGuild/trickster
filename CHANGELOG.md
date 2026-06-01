@@ -1,2 +1,2 @@
-- Added configuration options for pattern and circle rendering. (@BlueMoonJune)
-- Fixed pattern rendering with Iris shaders. (@BlueMoonJune)
+- Added the ability to focus on outer circles, making them drawable without removing their inner. (@enjarai)
+- Removed Devotion Revision. (@enjarai)
