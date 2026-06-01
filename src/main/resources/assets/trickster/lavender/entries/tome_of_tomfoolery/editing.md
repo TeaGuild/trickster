@@ -132,18 +132,6 @@ When Ascension Revision is drawn in the blue circle, it deletes and replaces the
 
 ;;;;;
 
-<|revision@trickster:templates|revision-id=trickster:add_outer_subcircle|>
-
-Adds a new subcircle to the outer circle.
-
-;;;;;
-
-![](trickster:textures/gui/img/devotion_revision.png,fit)
-
-When Devotion Revision is drawn in the blue circle, the green circle is created.
-
-;;;;;
-
 <|revision@trickster:templates|revision-id=trickster:rotate_cw|>
 
 Shifts the subcircles of the circle it is drawn in, clockwise, so that the last subcircle is now the first.
