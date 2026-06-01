@@ -20,6 +20,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,10 +55,12 @@ public class CircleWidget extends StatefulWidget {
     private final boolean mutable;
     private final boolean hiddenByPonder;
     private final boolean hasInner;
+    private final int nextKey;
     @Nullable
     private final Runnable eval;
 
     public CircleWidget(CircleRenderer renderer, double radius, double startingAngle, SpellView partView, Consumer<Pattern> updatePattern, boolean mutable, boolean hiddenByPonder, boolean hasInner,
+        int nextKey,
         @Nullable Runnable eval) {
         this.renderer = renderer;
         this.radius = radius;
@@ -67,6 +70,7 @@ public class CircleWidget extends StatefulWidget {
         this.mutable = mutable;
         this.hiddenByPonder = hiddenByPonder;
         this.hasInner = hasInner;
+        this.nextKey = nextKey;
         this.eval = eval;
     }
 
@@ -150,6 +154,35 @@ public class CircleWidget extends StatefulWidget {
             );
         }
 
+        @Override
+        public void didUpdateWidget(CircleWidget oldWidget) {
+            if (oldWidget.nextKey != widget().nextKey && widget().nextKey >= 0) {
+                if (widget().nextKey == GLFW.GLFW_KEY_KP_ENTER) {
+                    if (drawingPattern != null) {
+                        finishDrawing(drawingPattern.size() > 1, SharedState.get(context(), CircleSoupState.class));
+                    }
+
+                    return;
+                }
+
+                drawPoint(
+                    switch (widget().nextKey) {
+                        case GLFW.GLFW_KEY_KP_7 -> (byte) 0;
+                        case GLFW.GLFW_KEY_KP_8 -> (byte) 1;
+                        case GLFW.GLFW_KEY_KP_9 -> (byte) 2;
+                        case GLFW.GLFW_KEY_KP_4 -> (byte) 3;
+                        case GLFW.GLFW_KEY_KP_5 -> (byte) 4;
+                        case GLFW.GLFW_KEY_KP_6 -> (byte) 5;
+                        case GLFW.GLFW_KEY_KP_1 -> (byte) 6;
+                        case GLFW.GLFW_KEY_KP_2 -> (byte) 7;
+                        case GLFW.GLFW_KEY_KP_3 -> (byte) 8;
+                        default -> (byte) -1;
+                    },
+                    SharedState.get(context(), CircleSoupState.class)
+                );
+            }
+        }
+
         public boolean mouseClick(double x, double y, int button, CircleSoupState state) {
             if (!widget().mutable || state.dragging || widget().partView.beingReplaced || widget().hiddenByPonder) {
                 return false;
@@ -219,6 +252,26 @@ public class CircleWidget extends StatefulWidget {
             widget().eval.run();
 
             return true;
+        }
+
+        public void drawPoint(byte dot, CircleSoupState state) {
+            if (dot < 0) {
+                return;
+            }
+
+            if (drawingPattern == null) {
+                startDrawing(state).add(dot);
+            } else {
+                var moves = possibleMoves(drawingPattern);
+                if (moves.get(dot) != null) {
+                    boolean removing = drawingPattern.size() > moves.get(dot).size();
+                    drawingPattern = moves.get(dot);
+
+                    MinecraftClient.getInstance().getSoundManager().play(
+                        PositionedSoundInstance.master(ModSounds.DRAW, ModSounds.randomPitch(removing ? 0.6f : 1.0f, 0.2f))
+                    );
+                }
+            }
         }
 
         public void finishDrawing(boolean apply, CircleSoupState state) {

@@ -62,6 +62,8 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
         private DoubleLerp radius;
         private DoubleLerp centerOffset;
 
+        private int nextKey;
+
         @Override
         protected void updateLerps() {
             var c = widget().circleState;
@@ -104,7 +106,17 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
                                     if (keyCode == GLFW.GLFW_KEY_F) {
                                         return c.tryPonder();
                                     }
-                                    return false;
+                                    setState(() -> {
+                                        nextKey = keyCode;
+                                    });
+                                    return (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_9) || keyCode == GLFW.GLFW_KEY_KP_ENTER;
+                                }).keyUpCallback((keyCode, modifiers) -> {
+                                    if (keyCode == nextKey) {
+                                        setState(() -> {
+                                            nextKey = -1;
+                                        });
+                                    }
+                                    return (keyCode >= GLFW.GLFW_KEY_KP_0 && keyCode <= GLFW.GLFW_KEY_KP_9) || keyCode == GLFW.GLFW_KEY_KP_ENTER;
                                 }),
                                 new Builder(context1 -> new MouseArea(
                                     a -> a
@@ -127,6 +139,7 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
                                         widget().mutable,
                                         c.hiddenByPonder(),
                                         c.partView.inner != null && !c.shownByPonder(),
+                                        nextKey,
                                         widget().allowsEval ? c::triggerEval : null
                                     )
                                 ))
