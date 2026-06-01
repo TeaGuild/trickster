@@ -292,19 +292,19 @@ public class CircleRenderer {
                     pos.x - dotSize, pos.y + dotSize,
                     pos.x + dotSize, pos.y + dotSize,
                     pos.x + dotSize, pos.y - dotSize,
-                    0, (isDrawing && isLinked ? 0.8f : 1) * r, (isDrawing && isLinked ? 0.5f : 1) * g, 1 * b, 0.7f * alpha);
+                    0, (isDrawing && isLinked ? 0.8f : 1) * r, (isDrawing && isLinked ? 0.5f : 1) * g, 1 * b, Trickster.CONFIG.patternOpacity() * alpha);
             }
 
             for (var line : patternList.entries()) {
                 var first = getPatternDotPosition(x, y, line.p1(), patternRadius);
                 var second = getPatternDotPosition(x, y, line.p2(), patternRadius);
-                drawGlyphLine(matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b, 0.7f * alpha, inUI, renderTime);
+                drawGlyphLine(matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b, Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime);
             }
 
             if (isDrawing && lineToMouse) {
                 var last = getPatternDotPosition(x, y, drawingPattern.getLast(), patternRadius);
                 var now = new Vector2f((float) mouseX, (float) mouseY);
-                drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b, 0.7f * alpha, inUI, renderTime);
+                drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b, Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime);
             }
         } else {
             //noinspection rawtypes
