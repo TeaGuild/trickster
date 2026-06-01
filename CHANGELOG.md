@@ -1,1 +1,2 @@
-- Improved performance of Conduit ploys (again). (@enjarai)
+- Added configuration options for pattern and circle rendering. (@BlueMoonJune)
+- Fixed pattern rendering with Iris shaders. (@BlueMoonJune)
