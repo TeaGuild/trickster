@@ -1,2 +1,1 @@
-- Added the ability to focus on outer circles, making them drawable without removing their inner. (@enjarai)
-- Removed Devotion Revision. (@enjarai)
+- Added the ability to draw patterns with the numpad. (@enjarai)
