@@ -23,14 +23,23 @@ public class LineFleckRenderer implements FleckRenderer<LineFleck> {
     @Override
     public void render(LineFleck fleck, LineFleck lastFleck, WorldRenderContext context, ClientWorld world, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int color) {
 
-        var pos1 = fleck.pos().get(new Vector3f());
-        var pos2 = fleck.pos2().get(new Vector3f());
+        var pos1 = fleck.pos().getPos(world, tickDelta);
+        var pos2 = fleck.pos2().getPos(world, tickDelta);
         var size = fleck.size();
 
+        if (pos1 == null || pos2 == null) {
+            return;
+        }
+
         if (lastFleck != null) {
-            var oldPos1 = lastFleck.pos();
-            var oldPos2 = lastFleck.pos2();
+            var oldPos1 = lastFleck.pos().getPos(world, tickDelta);
+            var oldPos2 = lastFleck.pos2().getPos(world, tickDelta);
             var oldSize = lastFleck.size();
+
+            if (oldPos1 == null || oldPos2 == null) {
+                return;
+            }
+
             oldPos1.lerp(pos1, tickDelta, pos1);
             oldPos2.lerp(pos2, tickDelta, pos2);
             size = MathHelper.lerp(tickDelta, oldSize, size);
@@ -59,8 +68,8 @@ public class LineFleckRenderer implements FleckRenderer<LineFleck> {
         matrices.push();
         matrices.translate(-camPos.x, -camPos.y, -camPos.z);
         matrices.multiplyPositionMatrix(new Matrix4f().billboardCylindrical(
-                start, camPos,
-                start.sub(end, new Vector3f()).normalize())
+            start, camPos,
+            start.sub(end, new Vector3f()).normalize())
         );
 
         MatrixStack.Entry top = matrices.peek();
@@ -77,32 +86,32 @@ public class LineFleckRenderer implements FleckRenderer<LineFleck> {
         var topRightUV = new Vector2f(cornerOffset, 0).lerp(new Vector2f(1, 1 - cornerOffset), uvfactor);
 
         buffer.vertex(positionMatrix, width, 0, 0) // top left
-                .color(argb)
-                .texture(cornerOffset, 0)
-                .overlay(OverlayTexture.DEFAULT_UV)
-                .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
-                .normal(top, 0, 1, 0);
+            .color(argb)
+            .texture(cornerOffset, 0)
+            .overlay(OverlayTexture.DEFAULT_UV)
+            .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
+            .normal(top, 0, 1, 0);
 
         buffer.vertex(positionMatrix, width, -distance, 0) //top right
-                .color(argb)
-                .texture(topRightUV.x, topRightUV.y)
-                .overlay(OverlayTexture.DEFAULT_UV)
-                .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
-                .normal(top, 0, 1, 0);
+            .color(argb)
+            .texture(topRightUV.x, topRightUV.y)
+            .overlay(OverlayTexture.DEFAULT_UV)
+            .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
+            .normal(top, 0, 1, 0);
 
         buffer.vertex(positionMatrix, -width, -distance, 0) //bottom right
-                .color(argb)
-                .texture(topLeftUV.x, topLeftUV.y)
-                .overlay(OverlayTexture.DEFAULT_UV)
-                .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
-                .normal(top, 0, 1, 0);
+            .color(argb)
+            .texture(topLeftUV.x, topLeftUV.y)
+            .overlay(OverlayTexture.DEFAULT_UV)
+            .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
+            .normal(top, 0, 1, 0);
 
         buffer.vertex(positionMatrix, -width, 0, 0)//bottom left
-                .color(argb)
-                .texture(0, cornerOffset)
-                .overlay(OverlayTexture.DEFAULT_UV)
-                .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
-                .normal(top, 0, 1, 0);
+            .color(argb)
+            .texture(0, cornerOffset)
+            .overlay(OverlayTexture.DEFAULT_UV)
+            .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
+            .normal(top, 0, 1, 0);
 
         matrices.pop();
     }

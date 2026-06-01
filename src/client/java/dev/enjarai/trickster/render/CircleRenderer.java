@@ -12,6 +12,7 @@ import io.wispforest.owo.ui.core.Color;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.BufferAllocator;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -27,11 +28,12 @@ import static dev.enjarai.trickster.screen.scribing.CircleWidget.isCircleClickab
 import static net.minecraft.client.render.RenderPhase.*;
 
 public class CircleRenderer {
-    public static final Identifier CIRCLE_TEXTURE = Trickster.id("textures/gui/circle_48.png");
-    public static final Identifier CIRCLE_TEXTURE_WORLD = Trickster.id("textures/gui/circle_48_world.png");
+    public static final Identifier CIRCLE_TEXTURE = Trickster.id("fragment/spell/circle_48");
+    public static final Identifier CIRCLE_TEXTURE_WORLD = Trickster.id("fragment/spell/circle_48_world");
+    public static final Identifier FRAGMENT_ATLAS = Trickster.id("textures/atlas/fragment.png");
     public static final Identifier[] LOADING_TEXTURES = new Identifier[] {
-        Trickster.id("textures/gui/spinner_1.png"),
-        Trickster.id("textures/gui/spinner_2.png"),
+        Trickster.id("fragment/spell/spinner_1"),
+        Trickster.id("fragment/spell/spinner_2"),
     };
     public static final float PATTERN_TO_PART_RATIO = 2.5f;
     public static final int PART_PIXEL_RADIUS = 24;
@@ -40,8 +42,8 @@ public class CircleRenderer {
     public static final RenderLayer CIRCLE_TEXTURE_LAYER = RenderLayer.getEntityTranslucent(CIRCLE_TEXTURE);
     public static final RenderLayer GLYPH_LAYER = RenderLayer.of(
         "trickster:glyph", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS,
-        786432, RenderLayer.MultiPhaseParameters.builder()
-            .program(GUI_PROGRAM)
+        1536, RenderLayer.MultiPhaseParameters.builder()
+            .program(COLOR_PROGRAM)
             .transparency(TRANSLUCENT_TRANSPARENCY)
             .depthTest(LEQUAL_DEPTH_TEST)
             .cull(DISABLE_CULLING)
@@ -142,7 +144,7 @@ public class CircleRenderer {
         renderCircle(matrices, entry, x, y, radius, startingAngle, delta, alpha, forcedAlpha, normal, drawingPattern, 0);
     }
 
-    public void renderCircle(
+    private void renderCircle(
         MatrixStack matrices, SpellPart entry,
         double x, double y, double radius, double startingAngle, float delta,
         float alpha, float forcedAlpha, Vec3d normal, @Nullable List<Byte> drawingPattern, int recursions
@@ -257,6 +259,7 @@ public class CircleRenderer {
         float pixelSize = patternRadius / PART_PIXEL_RADIUS;
 
         alpha *= (float) (1 - textFade * 0.5f);
+        forcedAlpha *= (float) (1 - textFade * 0.5f);
         var renderText = true;
 
         var isDrawing = drawingPattern != null;
@@ -427,25 +430,37 @@ public class CircleRenderer {
         RenderSystem.enableDepthTest();
         var matrixEntry = matrices.peek();
         var position = matrixEntry.getPositionMatrix();
-        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture));
+        var spriteId = new SpriteIdentifier(FRAGMENT_ATLAS, texture);
+        //        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(spriteId.getAtlasId()));
+        var vertexConsumer = spriteId.getVertexConsumer(vertexConsumers, RenderLayer::getEntityTranslucent);
+
+        //        var minV = 0;
+        //        var minU = 0;
+        //        var maxV = 1;
+        //        var maxU = 1;
+
+        var minV = spriteId.getSprite().getMinV();
+        var maxU = spriteId.getSprite().getMaxU();
+        var maxV = spriteId.getSprite().getMaxV();
+        var minU = spriteId.getSprite().getMinU();
 
         if (!inGui) {
-            vertexConsumer.vertex(position, x1, y1, z).texture(0, 0).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x1, y1, z).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
-            vertexConsumer.vertex(position, x1, y2, z).texture(0, 1).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x1, y2, z).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
-            vertexConsumer.vertex(position, x2, y2, z).texture(1, 1).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y2, z).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
-            vertexConsumer.vertex(position, x2, y1, z).texture(1, 0).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y1, z).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
         } else {
-            vertexConsumer.vertex(position, x1, y1, z).texture(0, 0).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x1, y1, z).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
-            vertexConsumer.vertex(position, x1, y2, z).texture(0, 1).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x1, y2, z).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
-            vertexConsumer.vertex(position, x2, y2, z).texture(1, 1).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y2, z).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
-            vertexConsumer.vertex(position, x2, y1, z).texture(1, 0).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y1, z).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
         }
     }
@@ -458,7 +473,7 @@ public class CircleRenderer {
         z += 0.01f;
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         VertexConsumer vertexConsumer;
-        vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getDebugQuads());
+        vertexConsumer = vertexConsumers.getBuffer(GLYPH_LAYER);
         vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x3, y3, z).color(r, g, b, alpha);

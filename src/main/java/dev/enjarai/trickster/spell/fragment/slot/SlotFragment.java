@@ -3,7 +3,6 @@ package dev.enjarai.trickster.spell.fragment.slot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Function;
 
 import dev.enjarai.trickster.spell.Fragment;
@@ -14,52 +13,21 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import org.joml.Vector3dc;
 
-import com.mojang.datafixers.util.Either;
-
-import dev.enjarai.trickster.EndecTomfoolery;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.*;
 import dev.enjarai.trickster.spell.trick.Trick;
-import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
-import io.wispforest.owo.serialization.endec.EitherEndec;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
 
 public record SlotFragment(StorageSource.Slot slot, VariantType<?> variantType) implements StorageFragment {
-
-    public static final StructEndec<SlotFragment> V1_ENDEC = StructEndecBuilder.of(
-            Endec.INT.fieldOf("slot", f -> {
-                throw new UnsupportedOperationException();
-            }),
-            EndecTomfoolery.safeOptionalOf(new EitherEndec<>(EndecTomfoolery.ALWAYS_READABLE_BLOCK_POS, EndecTomfoolery.UUID, true)).fieldOf("source", f -> {
-                throw new UnsupportedOperationException();
-            }),
-            SlotFragment::new
+    public static final StructEndec<SlotFragment> ENDEC = StructEndecBuilder.of(
+        StorageSource.Slot.ENDEC.fieldOf("slot", SlotFragment::slot),
+        VariantType.ENDEC.fieldOf("variant_type", SlotFragment::variantType),
+        SlotFragment::new
     );
-    public static final StructEndec<SlotFragment> ENDEC = EndecTomfoolery.backwardsCompat(
-            StructEndecBuilder.of(
-                    StorageSource.Slot.ENDEC.fieldOf("slot", SlotFragment::slot),
-                    VariantType.ENDEC.fieldOf("variant_type", SlotFragment::variantType),
-                    SlotFragment::new
-            ),
-            V1_ENDEC
-    );
-
-    private SlotFragment(int slot, Optional<Either<BlockPos, UUID>> source) {
-        this(new StorageSource.Slot(slot, source
-                .map(e -> e
-                        .<StorageSource>map(
-                                StorageSource.Block::new,
-                                StorageSource.Entity::new
-                        )
-                )
-                .orElse(StorageSource.Caster.INSTANCE)
-        ), VariantType.ITEM);
-    }
 
     @Override
     public FragmentType<?> type() {
@@ -117,6 +85,10 @@ public record SlotFragment(StorageSource.Slot slot, VariantType<?> variantType) 
             tempStack = modifier.apply(tempStack);
 
             var newResource = ItemVariant.of(tempStack);
+            if (resource.equals(newResource)) {
+                return false;
+            }
+
             var given = slot.insert(newResource, taken, trans);
 
             if (given != taken) {

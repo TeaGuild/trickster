@@ -14,8 +14,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
@@ -38,7 +40,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
         var b = ColorHelper.Argb.getBlue(color) / 255f;
 
         CircleRenderer.drawTexturedQuad(
-            matrices, vertexConsumers, Trickster.id("textures/fragment/container.png"),
+            matrices, vertexConsumers, Trickster.id("fragment/container"),
             x - radius, x + radius, y - radius, y + radius,
             0.001f,
             delegator.getR() * r, delegator.getG() * g, delegator.getB() * b,
@@ -48,17 +50,18 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
 
     @Override
     public float getProportionalHeight(ContainerFragment fragment) {
-        return 1;
+        return 0.8f;
     }
 
-    public static void renderStorage(ContainerFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float radius, float alpha, float forcedAlpha,
-        Vec3d normal,
-        float tickDelta,
-        CircleRenderer delegator) {
+    public static void renderStorage(ContainerFragment fragment, MatrixStack matrices,
+        VertexConsumerProvider vertexConsumers,
+        float x, float y, float radius,
+        float alpha, float forcedAlpha, Vec3d normal,
+        float tickDelta, CircleRenderer delegator) {
 
         var source = fragment.source();
 
-        if (source instanceof StorageSource.Block(BlockPos pos)) {
+        if (source instanceof StorageSource.Block(BlockPos pos,Optional<Direction>unused)) {
             /*
             matrices.push();
             matrices.translate(x, y, delegator.inUI ? radius * 0.5 : 0);
@@ -95,7 +98,7 @@ public class ContainerRenderer implements FragmentRenderer<ContainerFragment> {
             );
         } else if (source instanceof StorageSource.Caster) {
             CircleRenderer.drawTexturedQuad(
-                matrices, vertexConsumers, Trickster.id("textures/fragment/caster_container.png"),
+                matrices, vertexConsumers, Trickster.id("fragment/caster_container"),
                 x - radius, x + radius, y - radius, y + radius,
                 0.001f,
                 delegator.getR(), delegator.getG(), delegator.getB(),

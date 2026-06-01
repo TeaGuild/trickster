@@ -13,7 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Random;
 
 public class ZalgoRenderer implements FragmentRenderer<ZalgoFragment> {
-    public static final String TEXTURE_PATTERN = "textures/fragment/zalgo/piece_%d.png";
+    public static final String TEXTURE_PATTERN = "fragment/zalgo/piece_%d";
     public static final Random rand = new Random();
 
     @Override

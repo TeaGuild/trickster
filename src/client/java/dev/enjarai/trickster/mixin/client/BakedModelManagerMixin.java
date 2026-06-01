@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.mixin.client;
 
 import dev.enjarai.trickster.Trickster;
+import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.render.ModularSpellConstructBlockEntityRenderer;
 import dev.enjarai.trickster.render.ScrollShelfBlockEntityRenderer;
 import net.minecraft.client.render.model.BakedModelManager;
@@ -19,16 +20,17 @@ import java.util.Map;
 @Mixin(BakedModelManager.class)
 public class BakedModelManagerMixin {
     @Final
-    @Shadow @Mutable
+    @Shadow
+    @Mutable
     private static Map<Identifier, Identifier> LAYERS_TO_LOADERS;
 
     @Inject(
-            method = "<clinit>",
-            at = @At("TAIL")
+        method = "<clinit>", at = @At("TAIL")
     )
     private static void appendToAtlases(CallbackInfo ci) {
         LAYERS_TO_LOADERS = new HashMap<>(LAYERS_TO_LOADERS);
         LAYERS_TO_LOADERS.put(ScrollShelfBlockEntityRenderer.ATLAS_ID, Trickster.id("scroll_shelf"));
         LAYERS_TO_LOADERS.put(ModularSpellConstructBlockEntityRenderer.ATLAS_ID, Trickster.id("modular_spell_construct"));
+        LAYERS_TO_LOADERS.put(CircleRenderer.FRAGMENT_ATLAS, Trickster.id("fragment"));
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
@@ -22,20 +23,32 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
 
         matrices.push();
 
-        var position = fleck.pos();
-        var facing = fleck.facing();
+        var position = fleck.pos().getPos(world, tickDelta);
+        if (position == null) {
+            return;
+        }
+
+        var facing = fleck.pos().transformFacing(fleck.facing(), world, tickDelta);
         var spell = fleck.spell();
         var size = fleck.size();
         var roll = fleck.roll();
 
-        var oldPosition = fleck.pos();
-        var oldFacing = fleck.facing();
+        var oldPosition = fleck.pos().getPos(world, tickDelta);
+        if (oldPosition == null) {
+            return;
+        }
+
+        var oldFacing = fleck.pos().transformFacing(fleck.facing(), world, tickDelta);
         var oldSize = fleck.size();
         var oldRoll = fleck.roll();
 
         if (lastFleck != null) {
-            oldPosition = lastFleck.pos();
-            oldFacing = lastFleck.facing();
+            oldPosition = lastFleck.pos().getPos(world, tickDelta);
+            if (oldPosition == null) {
+                return;
+            }
+
+            oldFacing = lastFleck.pos().transformFacing(lastFleck.facing(), world, tickDelta);
             oldSize = lastFleck.size();
             oldRoll = lastFleck.roll();
         }
@@ -44,18 +57,20 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
         //float lerpAmount = position.distance(oldPosition) > 1 ? 1.0f : tickDelta
 
         var targetPosition = oldPosition.lerp(position, tickDelta, new Vector3f()).sub(context.camera().getPos().toVector3f());
-        var targetFacing = oldFacing.lerp(facing, tickDelta, new Vector3f()).normalize();
+        var targetFacing = oldFacing.slerp(facing, tickDelta, new Quaternionf());
         var targetSize = MathHelper.lerp(tickDelta, oldSize, size);
         var targetRoll = MathHelper.lerp(tickDelta, oldRoll, roll);
 
-        var yaw = (float) Math.atan2(targetFacing.x(), targetFacing.z());
-        var pitch = (float) (Math.asin(-targetFacing.y()) + Math.PI);
+        //        var yaw = (float) Math.atan2(targetFacing.x(), targetFacing.z());
+        //        var pitch = (float) (Math.asin(-targetFacing.y()) + Math.PI);
 
         matrices.translate(targetPosition.x(), targetPosition.y(), targetPosition.z()); //translate over to the position of the spellfleck.
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotation(yaw));
-        matrices.multiply(RotationAxis.POSITIVE_X.rotation(pitch));
+        //        matrices.multiply(RotationAxis.POSITIVE_Y.rotation(yaw));
+        //        matrices.multiply(RotationAxis.POSITIVE_X.rotation(pitch));
+        matrices.multiply(targetFacing);
         matrices.multiply(RotationAxis.POSITIVE_Z.rotation(targetRoll));
 
+        var facingVec = new Vector3f(0, 0, 1).rotate(targetFacing);
         renderer.renderCircle(
             matrices,
             spell,
@@ -66,9 +81,10 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
             tickDelta,
             1.0f,
             1.0f,
-            new Vec3d(facing.x(), facing.y(), facing.z()),
+            new Vec3d(facingVec.x(), facingVec.y(), facingVec.z()),
             null
         );
+        CircleRenderer.VERTEX_CONSUMERS.draw();
 
         matrices.pop();
     }

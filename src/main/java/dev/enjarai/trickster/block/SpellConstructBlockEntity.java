@@ -154,14 +154,14 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                 }
             }
 
-            ManaComponent.tryRecharge(serverWorld, getPos().toCenterPos(), stack);
-
             if (updateClient) {
                 markDirtyAndUpdateClients();
             } else {
                 markDirty();
             }
         }
+
+        ManaComponent.tryRecharge(getWorld(), getPos().toCenterPos(), stack);
     }
 
     public void refreshExecutor() {

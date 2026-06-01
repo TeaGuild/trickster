@@ -178,21 +178,6 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                         }
                     }
                 }
-
-                ManaComponent.tryRecharge(
-                    serverWorld,
-                    getPos()
-                        .toCenterPos()
-                        .add(
-                            new Vec3d(
-                                getCachedState()
-                                    .get(ModularSpellConstructBlock.FACING)
-                                    .getUnitVector()
-                                    .mul(0.3f, new Vector3f())
-                            )
-                        ),
-                    stack
-                );
             }
 
             if (updateClient) {
@@ -201,6 +186,21 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                 markDirty();
             }
         }
+
+        ManaComponent.tryRecharge(
+            getWorld(),
+            getPos()
+                .toCenterPos()
+                .add(
+                    new Vec3d(
+                        getCachedState()
+                            .get(ModularSpellConstructBlock.FACING)
+                            .getUnitVector()
+                            .mul(0.3f, new Vector3f())
+                    )
+                ),
+            inventory.getFirst()
+        );
     }
 
     @Nullable

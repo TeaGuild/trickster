@@ -1,6 +1,7 @@
 package dev.enjarai.trickster;
 
 import dev.enjarai.trickster.cca.ModGlobalComponents;
+import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.net.SubscribeToPoolPacket;
@@ -10,9 +11,19 @@ import net.minecraft.client.MinecraftClient;
 public class ClientUtils {
     public static void trySubscribe(ManaComponent manaComponent) {
         if (manaComponent.pool() instanceof SharedManaPool sharedPool &&
-                MinecraftClient.getInstance().world != null &&
-                ModGlobalComponents.SHARED_MANA.get(MinecraftClient.getInstance().world.getScoreboard()).get(sharedPool.uuid()).isEmpty()) {
+            MinecraftClient.getInstance().world != null &&
+            ModGlobalComponents.SHARED_MANA.get(MinecraftClient.getInstance().world.getScoreboard()).get(sharedPool.uuid()).isEmpty()) {
             ModNetworking.CHANNEL.clientHandle().send(new SubscribeToPoolPacket(sharedPool.uuid()));
         }
+    }
+
+    public static boolean hasScryglass() {
+        var player = MinecraftClient.getInstance().player;
+        if (player == null) return false;
+
+        var capability = player.accessoriesCapability();
+        if (capability == null) return false;
+
+        return capability.isEquipped(i -> i.isIn(ModItems.SCRYGLASS));
     }
 }

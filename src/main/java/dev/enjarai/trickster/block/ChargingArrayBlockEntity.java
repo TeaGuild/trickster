@@ -15,7 +15,6 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -46,30 +45,28 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
     public void tick() {
         age++;
 
-        if (getWorld() instanceof ServerWorld serverWorld) {
-            for (int i = 0; i < inventory.size(); i++) {
-                var stack = inventory.get(i);
+        for (int i = 0; i < inventory.size(); i++) {
+            var stack = inventory.get(i);
 
-                var x = (i % 3 - 1) / 16f * 15f;
-                //noinspection IntegerDivisionInFloatingPointContext
-                var y = (i / 3 - 1) / 16f * 15f;
+            var x = (i % 3 - 1) / 16f * 15f;
+            //noinspection IntegerDivisionInFloatingPointContext
+            var y = (i / 3 - 1) / 16f * 15f;
 
-                var facing = getCachedState().get(ChargingArrayBlock.FACING);
+            var facing = getCachedState().get(ChargingArrayBlock.FACING);
 
-                ManaComponent.tryRecharge(
-                    serverWorld,
-                    getPos()
-                        .toCenterPos()
-                        .add(new Vec3d(facing
-                            .getUnitVector()
-                            .mul(-0.3f, new Vector3f())
-                        ))
-                        .add(new Vec3d(new Vector3f(x / 3f, 0, y / 3f)
-                            .rotate(facing.getRotationQuaternion())
-                        )),
-                    stack
-                );
-            }
+            ManaComponent.tryRecharge(
+                getWorld(),
+                getPos()
+                    .toCenterPos()
+                    .add(new Vec3d(facing
+                        .getUnitVector()
+                        .mul(-0.3f, new Vector3f())
+                    ))
+                    .add(new Vec3d(new Vector3f(x / 3f, 0, y / 3f)
+                        .rotate(facing.getRotationQuaternion())
+                    )),
+                stack
+            );
         }
     }
 

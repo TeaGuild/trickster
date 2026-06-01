@@ -9,6 +9,7 @@ import dev.enjarai.trickster.spell.trick.Trick;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
+import io.wispforest.owo.serialization.CodecUtils;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -21,10 +22,12 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import org.joml.Vector3dc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public sealed interface StorageSource {
@@ -81,8 +84,8 @@ public sealed interface StorageSource {
         public <T> Storage<T> getStorage(Trick<?> trick, SpellContext ctx, VariantType<T> variant) throws BlunderException {
             if (variant == VariantType.ITEM) {
                 return ctx.source().getInventory()
-                        .<Storage>map(i -> InventoryStorage.of(i, null))
-                        .orElseGet(Storage::empty);
+                    .<Storage>map(i -> InventoryStorage.of(i, null))
+                    .orElseGet(Storage::empty);
             }
 
             return Storage.empty();
@@ -99,10 +102,12 @@ public sealed interface StorageSource {
         }
     }
 
-    record Block(BlockPos pos) implements StorageSource {
+    record Block(BlockPos pos, Optional<Direction> face) implements StorageSource {
         public static final StructEndec<Block> ENDEC = StructEndecBuilder.of(
-                MinecraftEndecs.BLOCK_POS.fieldOf("pos", Block::pos),
-                Block::new
+            MinecraftEndecs.BLOCK_POS.fieldOf("pos", Block::pos),
+            EndecTomfoolery.protocolOptional((byte) 6, CodecUtils.toEndec(Direction.CODEC).optionalOf(), Optional::empty)
+                .fieldOf("face", Block::face),
+            Block::new
         );
 
         @Override
@@ -115,7 +120,7 @@ public sealed interface StorageSource {
         public <T> Storage<T> getStorage(Trick<?> trick, SpellContext ctx, VariantType<T> variant) throws BlunderException {
             if (variant == VariantType.ITEM || variant == VariantType.FLUID) {
                 var lookup = variant == VariantType.ITEM ? ItemStorage.SIDED : FluidStorage.SIDED;
-                var storage = lookup.find(ctx.source().getWorld(), pos, null);
+                var storage = lookup.find(ctx.source().getWorld(), pos, face.orElse(null));
 
                 if (storage == null) {
                     throw new NoInventoryBlunder(trick);
@@ -130,8 +135,8 @@ public sealed interface StorageSource {
         @Override
         public Text describe() {
             return Text.translatable(
-                    "trickster.storage.block",
-                    pos.getX(), pos.getY(), pos.getZ()
+                "trickster.storage.block",
+                pos.getX(), pos.getY(), pos.getZ()
             );
         }
 
@@ -143,8 +148,8 @@ public sealed interface StorageSource {
 
     record Entity(UUID uuid) implements StorageSource {
         public static final StructEndec<Entity> ENDEC = StructEndecBuilder.of(
-                EndecTomfoolery.UUID.fieldOf("uuid", Entity::uuid),
-                Entity::new
+            EndecTomfoolery.UUID.fieldOf("uuid", Entity::uuid),
+            Entity::new
         );
 
         @Override
@@ -171,8 +176,8 @@ public sealed interface StorageSource {
         @Override
         public Text describe() {
             return Text.translatable(
-                    "trickster.storage.entity",
-                    uuid.toString()
+                "trickster.storage.entity",
+                uuid.toString()
             );
         }
 
@@ -195,9 +200,9 @@ public sealed interface StorageSource {
 
     record Slot(int slot, StorageSource source) implements StorageSource {
         public static final StructEndec<Slot> ENDEC = StructEndecBuilder.of(
-                Endec.INT.fieldOf("slot", Slot::slot),
-                StorageSource.ENDEC.fieldOf("source", Slot::source),
-                Slot::new
+            Endec.INT.fieldOf("slot", Slot::slot),
+            StorageSource.ENDEC.fieldOf("source", Slot::source),
+            Slot::new
         );
 
         @Override
@@ -227,8 +232,8 @@ public sealed interface StorageSource {
         @Override
         public Text describe() {
             return Text.translatable(
-                    "trickster.storage.slot",
-                    slot, source.describe()
+                "trickster.storage.slot",
+                slot, source.describe()
             );
         }
 
@@ -258,8 +263,8 @@ public sealed interface StorageSource {
 
     record Merged(List<StorageSource> sources) implements StorageSource {
         public static final StructEndec<Merged> ENDEC = StructEndecBuilder.of(
-                StorageSource.ENDEC.listOf().fieldOf("sources", Merged::sources),
-                Merged::new
+            StorageSource.ENDEC.listOf().fieldOf("sources", Merged::sources),
+            Merged::new
         );
 
         @Override
@@ -281,8 +286,8 @@ public sealed interface StorageSource {
         @Override
         public Text describe() {
             return Text.translatable(
-                    "trickster.storage.merged",
-                    sources.size()
+                "trickster.storage.merged",
+                sources.size()
             );
         }
 

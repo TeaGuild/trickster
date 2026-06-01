@@ -26,5 +26,13 @@ public interface ManaPool {
 
     float getMax(World world);
 
+    default boolean isFull(World world) {
+        return get(world) >= getMax(world);
+    }
+
+    default boolean isEmpty(World world) {
+        return get(world) <= 0;
+    }
+
     MutableManaPool makeClone(World world) throws UnsupportedOperationException;
 }

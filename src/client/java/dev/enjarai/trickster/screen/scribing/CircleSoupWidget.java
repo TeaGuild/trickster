@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.screen.scribing;
 
+import dev.enjarai.trickster.ClientUtils;
 import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.SpellView;
 import dev.enjarai.trickster.Trickster;
@@ -225,7 +226,9 @@ public class CircleSoupWidget extends StatefulWidget {
                         yield true;
                     }
                     case GLFW.GLFW_KEY_LEFT_ALT -> {
-                        fadering = 1;
+                        if (ClientUtils.hasScryglass()) {
+                            fadering = 1;
+                        }
                         yield true;
                     }
                     case GLFW.GLFW_KEY_ESCAPE -> {

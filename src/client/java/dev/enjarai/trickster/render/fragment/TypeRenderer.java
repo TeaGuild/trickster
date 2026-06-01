@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class TypeRenderer implements FragmentRenderer<TypeFragment> {
-    public static final String TEXTURE_PATTERN = "textures/fragment/type/%s.png";
+    public static final String TEXTURE_PATTERN = "fragment/type/%s";
 
     @Override
     public void render(TypeFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal, float tickDelta,

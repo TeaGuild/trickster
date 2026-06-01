@@ -269,6 +269,8 @@ trickster:
     spell_particle: Radiance Ploy
 
     draw_spell: Marketer's Ploy
+    entity_draw_spell: Swift Marketer's Ploy
+    entity_head_draw_spell: Observant Marketer's Ploy
     draw_line: Artist's Ploy
     get_flecks: Observer's Ingress
     delete_fleck: Orwell's Ploy

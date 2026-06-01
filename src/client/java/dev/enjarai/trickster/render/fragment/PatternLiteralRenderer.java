@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import static dev.enjarai.trickster.render.CircleRenderer.PATTERN_TO_PART_RATIO;
 
 public class PatternLiteralRenderer implements FragmentRenderer<Pattern> {
-    public static final Identifier OVERLAY_TEXTURE = Trickster.id("textures/gui/pattern_literal.png");
+    public static final Identifier OVERLAY_TEXTURE = Trickster.id("fragment/pattern_literal");
 
     @Override
     public void render(

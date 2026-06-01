@@ -28,7 +28,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public non-sealed interface Fragment extends EvaluationResult, SpellInstruction {
-    byte PROTOCOL_VERSION = 5;
+    byte PROTOCOL_VERSION = 6;
     int MAX_WEIGHT = 64000;
     Text TRUNCATED_VALUE_TEXT = Text.literal(" [...]")
         .setStyle(

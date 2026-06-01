@@ -23,6 +23,10 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
             throw new NumberIsInfiniteBlunder(this);
         }
 
+        if (!isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(ctx)) {
+            return new NumberFragment(0);
+        }
+
         double limit = n.number() / slots.size();
         float result = 0;
 
@@ -45,6 +49,8 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
         return new NumberFragment(result);
     }
+
+    protected abstract boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx);
 
     protected abstract void createParticles(SpellContext ctx, SlotFragment slot, float v);
 

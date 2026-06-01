@@ -14,8 +14,9 @@ import org.joml.Quaternionf;
 import java.util.Random;
 
 public class VoidRenderer implements FragmentRenderer<VoidFragment> {
-    static final Identifier TEXTURE = Trickster.id("textures/fragment/void/square.png");
-    static final Identifier CORE = Trickster.id("textures/fragment/void/core.png");
+    static final Identifier TEXTURE = Trickster.id("fragment/void/square");
+    static final Identifier CORE = Trickster.id("fragment/void/core");
+    static final Identifier SPIKE = Trickster.id("fragment/void/spike");
 
     @Override
     public void render(VoidFragment fragment, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, float alpha, float forcedAlpha, Vec3d normal, float tickDelta,
@@ -66,7 +67,7 @@ public class VoidRenderer implements FragmentRenderer<VoidFragment> {
             matrices.multiply(new Quaternionf(new AxisAngle4f(rot + age * rotv, 0, 0, 1)));
             matrices.scale(scale, scale, 1);
             CircleRenderer.drawTexturedQuad(
-                matrices, vertexConsumers, Trickster.id("textures/fragment/void/spike.png"),
+                matrices, vertexConsumers, SPIKE,
                 -1, 1, -1, 1,
                 age * 0.01f + 0.01f,
                 1, 1, 1,

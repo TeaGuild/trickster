@@ -11,7 +11,7 @@ import org.joml.Vector3dc;
 
 public class VectorRenderer implements FragmentRenderer<VectorFragment> {
 
-    public static final Identifier RING = Trickster.id("textures/fragment/vector_ring.png");
+    public static final Identifier RING = Trickster.id("fragment/vector_ring");
 
     public static final double angle = Math.PI * 11 / 12;
 

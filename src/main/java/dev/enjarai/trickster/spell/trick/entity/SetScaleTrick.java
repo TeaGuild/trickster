@@ -30,7 +30,7 @@ public class SetScaleTrick extends Trick<SetScaleTrick> {
         var currentScale = scaleComponent.getScale();
 
         var difference = Math.abs(scale - currentScale);
-        ctx.useMana(this, (float) (difference * difference * 100 + scale * 50));
+        ctx.useMana(this, (float) (difference * difference * 25 + scale * 25));
         scaleComponent.setScale(scale);
         ModEntityComponents.GRACE.get(livingEntity).triggerGrace("scale", 100);
 

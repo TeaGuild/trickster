@@ -16,8 +16,8 @@ import org.joml.Quaternionf;
 import java.util.Random;
 
 public class ColorRenderer implements FragmentRenderer<ColorFragment> {
-    static final Identifier TEXTURE = Trickster.id("textures/gui/square.png");
-    static final Identifier BACK_TEXTURE = Trickster.id("textures/gui/square_back.png");
+    static final Identifier TEXTURE = Trickster.id("fragment/color/square");
+    static final Identifier BACK_TEXTURE = Trickster.id("fragment/color/square_back");
 
     static int tick = 0;
     static float lastDt = 0;
