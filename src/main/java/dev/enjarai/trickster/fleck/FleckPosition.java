@@ -33,6 +33,10 @@ public interface FleckPosition {
     Vector3f getPos(World world, float tickDelta);
 
     default Quaternionf transformFacing(Vector3fc facing, World world, float tickDelta) {
+        if (facing.x() == 0 && facing.z() == 0) {
+            return new Quaternionf().rotateLocalX((float) (Math.PI / 2 * facing.y()));
+        }
+
         return new Quaternionf().lookAlong(facing, new Vector3f(0, -1, 0)).invert();
     }
 

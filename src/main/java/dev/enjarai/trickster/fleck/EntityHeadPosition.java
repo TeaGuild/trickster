@@ -40,7 +40,14 @@ public record EntityHeadPosition(int entityId, Vector3fc position) implements Fl
     @Override
     public Quaternionf transformFacing(Vector3fc facing, World world, float tickDelta) {
         var entity = world.getEntityById(entityId);
-        var newFacing = new Quaternionf().lookAlong(facing, new Vector3f(0, -1, 0));
+
+        Quaternionf newFacing;
+        if (facing.x() == 0 && facing.z() == 0) {
+            newFacing = new Quaternionf().rotateLocalX((float) (Math.PI / 2 * facing.y()));
+        } else {
+            newFacing = new Quaternionf().lookAlong(facing, new Vector3f(0, -1, 0));
+        }
+
         if (entity == null) {
             return newFacing;
         }
