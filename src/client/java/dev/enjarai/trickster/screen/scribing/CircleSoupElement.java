@@ -121,8 +121,17 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
                                 new Builder(context1 -> new MouseArea(
                                     a -> a
                                         .moveCallback((toX, toY) -> {
-                                            if (c.maybeFocusOn()) {
-                                                Focusable.of(context1).requestFocus();
+                                            toX -= RADIUS;
+                                            toY -= RADIUS;
+
+                                            if (toX * toX + toY * toY < RADIUS * RADIUS) {
+                                                if (c.maybeFocusOn()) {
+                                                    Focusable.of(context1).requestFocus();
+                                                }
+                                            } else {
+                                                if (c.maybeUnfocus()) {
+                                                    Focusable.of(context1).unfocus();
+                                                }
                                             }
                                         })
                                         .exitCallback(() -> {
@@ -139,6 +148,7 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
                                         widget().mutable,
                                         c.hiddenByPonder(),
                                         c.partView.inner != null && !c.shownByPonder(),
+                                        c.isPrimaryPonder(),
                                         nextKey,
                                         widget().allowsEval ? c::triggerEval : null
                                     )

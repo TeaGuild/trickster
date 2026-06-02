@@ -30,6 +30,7 @@ import static net.minecraft.client.render.RenderPhase.*;
 public class CircleRenderer {
     public static final Identifier CIRCLE_TEXTURE = Trickster.id("fragment/spell/circle_48");
     public static final Identifier CIRCLE_TEXTURE_WORLD = Trickster.id("fragment/spell/circle_48_world");
+    public static final Identifier CIRCLE_TEXTURE_HIGHLIGHT = Trickster.id("fragment/spell/circle_48_highlight");
     public static final Identifier FRAGMENT_ATLAS = Trickster.id("textures/atlas/fragment.png");
     public static final Identifier[] LOADING_TEXTURES = new Identifier[] {
         Trickster.id("fragment/spell/spinner_1"),
@@ -40,8 +41,18 @@ public class CircleRenderer {
     public static final int CLICK_HITBOX_SIZE = 5;
 
     public static final RenderLayer CIRCLE_TEXTURE_LAYER = RenderLayer.getEntityTranslucent(CIRCLE_TEXTURE);
-    public static final RenderLayer GLYPH_LAYER = RenderLayer.of(
-        "trickster:glyph", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS,
+    public static final RenderLayer CIRCLE_TEXTURE_WORLD_LAYER = RenderLayer.getEntityTranslucent(CIRCLE_TEXTURE_WORLD);
+    public static final RenderLayer UI_GLYPH_LAYER = RenderLayer.of(
+        "trickster:ui_glyph", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS,
+        786432, RenderLayer.MultiPhaseParameters.builder()
+            .program(GUI_PROGRAM)
+            .transparency(TRANSLUCENT_TRANSPARENCY)
+            .depthTest(LEQUAL_DEPTH_TEST)
+            .cull(DISABLE_CULLING)
+            .build(false)
+    );
+    public static final RenderLayer WORLD_GLYPH_LAYER = RenderLayer.of(
+        "trickster:world_glyph", VertexFormats.POSITION_COLOR, VertexFormat.DrawMode.QUADS,
         1536, RenderLayer.MultiPhaseParameters.builder()
             .program(COLOR_PROGRAM)
             .transparency(TRANSLUCENT_TRANSPARENCY)
@@ -53,7 +64,9 @@ public class CircleRenderer {
     public static final VertexConsumerProvider.Immediate VERTEX_CONSUMERS = VertexConsumerProvider.immediate(
         Util.make(new Object2ObjectLinkedOpenHashMap<>(), map -> {
             map.put(CIRCLE_TEXTURE_LAYER, new BufferAllocator(CIRCLE_TEXTURE_LAYER.getExpectedBufferSize()));
-            map.put(GLYPH_LAYER, new BufferAllocator(GLYPH_LAYER.getExpectedBufferSize()));
+            map.put(CIRCLE_TEXTURE_WORLD_LAYER, new BufferAllocator(CIRCLE_TEXTURE_WORLD_LAYER.getExpectedBufferSize()));
+            map.put(UI_GLYPH_LAYER, new BufferAllocator(UI_GLYPH_LAYER.getExpectedBufferSize()));
+            map.put(WORLD_GLYPH_LAYER, new BufferAllocator(WORLD_GLYPH_LAYER.getExpectedBufferSize()));
         }),
         new BufferAllocator(2048)
     );
@@ -69,6 +82,8 @@ public class CircleRenderer {
     private boolean lineToMouse;
     private long renderTime;
 
+    private Identifier circleTexture;
+
     private float r = 1f, g = 1f, b = 1f;
     private float circleTransparency = 1f;
     private int loading = -1;
@@ -76,10 +91,12 @@ public class CircleRenderer {
 
     public double textFade = 0;
 
-    public CircleRenderer(Boolean inUI, boolean inEditor, int recursions) {
+    public CircleRenderer(boolean inUI, boolean inEditor, int recursions) {
         this.inUI = inUI;
         this.inEditor = inEditor;
         this.recursions = recursions;
+
+        this.circleTexture = inUI && inEditor ? CIRCLE_TEXTURE : CIRCLE_TEXTURE_WORLD;
     }
 
     public void setMousePosition(double mouseX, double mouseY) {
@@ -93,6 +110,14 @@ public class CircleRenderer {
 
     public void setRenderTime(long renderTime) {
         this.renderTime = renderTime;
+    }
+
+    public void setCircleTexture(@Nullable Identifier circleTexture) {
+        if (circleTexture == null) {
+            this.circleTexture = inUI && inEditor ? CIRCLE_TEXTURE : CIRCLE_TEXTURE_WORLD;
+        } else {
+            this.circleTexture = circleTexture;
+        }
     }
 
     public void setColor(float r, float g, float b) {
@@ -159,7 +184,7 @@ public class CircleRenderer {
         var renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(entry.glyph.type()));
         if (renderer == null || renderer.renderCircle() || drawingPattern != null) {
             drawTexturedQuad(
-                matrices, vertexConsumers, inEditor && inUI ? CIRCLE_TEXTURE : CIRCLE_TEXTURE_WORLD,
+                matrices, vertexConsumers, circleTexture,
                 (float) (x - radius), (float) (x + radius), (float) (y - radius), (float) (y + radius),
                 0,
                 r, g, b, alpha * circleTransparency, inUI
@@ -238,12 +263,15 @@ public class CircleRenderer {
 
         Color dividerColor = Trickster.CONFIG.subcircleDividerPinColor();
 
-        drawFlatPolygon(matrices, vertexConsumers,
+        drawFlatPolygon(
+            matrices, vertexConsumers,
             lineX - perpendicularVec.x + toCenterVec.x * 0.5f, lineY - perpendicularVec.y + toCenterVec.y * 0.5f,
             lineX + perpendicularVec.x + toCenterVec.x * 0.5f, lineY + perpendicularVec.y + toCenterVec.y * 0.5f,
             lineX + perpendicularVec.x - toCenterVec.x, lineY + perpendicularVec.y - toCenterVec.y,
             lineX - perpendicularVec.x - toCenterVec.x, lineY - perpendicularVec.y - toCenterVec.y,
-            0, dividerColor.red() * r, dividerColor.green() * g, dividerColor.blue() * b, dividerColor.alpha() * (float) alpha);
+            0, dividerColor.red() * r, dividerColor.green() * g, dividerColor.blue() * b,
+            dividerColor.alpha() * (float) alpha, inUI
+        );
     }
 
     public Vector3f getDividerOffset(double distance, double startingAngle, int partCount) {
@@ -303,24 +331,36 @@ public class CircleRenderer {
 
                 float dotSize = pixelSize * dotScale;
 
-                drawFlatPolygon(matrices, vertexConsumers,
+                drawFlatPolygon(
+                    matrices, vertexConsumers,
                     pos.x - dotSize, pos.y - dotSize,
                     pos.x - dotSize, pos.y + dotSize,
                     pos.x + dotSize, pos.y + dotSize,
                     pos.x + dotSize, pos.y - dotSize,
-                    0, (isDrawing && isLinked ? 0.8f : 1) * r, (isDrawing && isLinked ? 0.5f : 1) * g, 1 * b, Trickster.CONFIG.patternOpacity() * alpha);
+                    0, (isDrawing && isLinked ? 0.8f : 1) * r,
+                    (isDrawing && isLinked ? 0.5f : 1) * g,
+                    1 * b,
+                    Trickster.CONFIG.patternOpacity() * alpha,
+                    inUI
+                );
             }
 
             for (var line : patternList.entries()) {
                 var first = getPatternDotPosition(x, y, line.p1(), patternRadius);
                 var second = getPatternDotPosition(x, y, line.p2(), patternRadius);
-                drawGlyphLine(matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b, Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime);
+                drawGlyphLine(
+                    matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b,
+                    Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime
+                );
             }
 
             if (isDrawing && lineToMouse) {
                 var last = getPatternDotPosition(x, y, drawingPattern.getLast(), patternRadius);
                 var now = new Vector2f((float) mouseX, (float) mouseY);
-                drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b, Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime);
+                drawGlyphLine(
+                    matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b,
+                    Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime
+                );
             }
         } else {
             //noinspection rawtypes
@@ -356,12 +396,14 @@ public class CircleRenderer {
 
                     var dotSize = pixelSize * dotScale;
 
-                    drawFlatPolygon(matrices, vertexConsumers,
+                    drawFlatPolygon(
+                        matrices, vertexConsumers,
                         pos.x - dotSize, pos.y - dotSize,
                         pos.x - dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y + dotSize,
                         pos.x + dotSize, pos.y - dotSize,
-                        0, r, g, b, 0.25f);
+                        0, r, g, b, 0.25f, true
+                    );
                 }
             }
         }
@@ -375,12 +417,12 @@ public class CircleRenderer {
     }
 
     public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, boolean isDrawing, float tone, float r, float g,
-        float b, float opacity, boolean animated, long renderTime) {
-        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, animated, renderTime);
+        float b, float opacity, boolean inUI, long renderTime) {
+        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime);
     }
 
     public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, float width, float height, boolean isDrawing,
-        float tone, float r, float g, float b, float opacity, boolean animated, long renderTime) {
+        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime) {
         if (last.distance(now) < pixelSize * 6) {
             return;
         }
@@ -390,12 +432,15 @@ public class CircleRenderer {
         var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize * width);
         var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * height * Trickster.CONFIG.patternEdgeGap());
 
-        drawFlatPolygon(matrices, vertexConsumers,
+        drawFlatPolygon(
+            matrices, vertexConsumers,
             last.x - parallelVec.x - directionVec.x, last.y - parallelVec.y - directionVec.y,
             last.x + parallelVec.x - directionVec.x, last.y + parallelVec.y - directionVec.y,
             now.x + parallelVec.x + directionVec.x, now.y + parallelVec.y + directionVec.y,
             now.x - parallelVec.x + directionVec.x, now.y - parallelVec.y + directionVec.y,
-            0, (isDrawing ? 0.8f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b, opacity);
+            0, (isDrawing ? 0.8f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b,
+            opacity, inUI
+        );
     }
 
     public static Vector2f getPatternDotPosition(float x, float y, int i, float radius) {
@@ -481,12 +526,11 @@ public class CircleRenderer {
     public static void drawFlatPolygon(
         MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4,
-        float z, float r, float g, float b, float alpha
+        float z, float r, float g, float b, float alpha, boolean inUI
     ) {
-        z += 0.01f;
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         VertexConsumer vertexConsumer;
-        vertexConsumer = vertexConsumers.getBuffer(GLYPH_LAYER);
+        vertexConsumer = vertexConsumers.getBuffer(getGlyphLayer(inUI));
         vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x3, y3, z).color(r, g, b, alpha);
@@ -499,5 +543,9 @@ public class CircleRenderer {
             vertexConsumer.vertex(matrix4f, x4, y4, z).color(r, g, b, alpha);
             vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
         }
+    }
+
+    public static RenderLayer getGlyphLayer(boolean inUI) {
+        return inUI ? UI_GLYPH_LAYER : WORLD_GLYPH_LAYER;
     }
 }

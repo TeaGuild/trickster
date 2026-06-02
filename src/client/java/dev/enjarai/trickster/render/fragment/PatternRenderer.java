@@ -59,12 +59,14 @@ public class PatternRenderer implements FragmentRenderer<PatternGlyph> {
 
                 var dotSize = pixelSize * dotScale;
 
-                drawFlatPolygon(matrices, vertexConsumers,
+                drawFlatPolygon(
+                    matrices, vertexConsumers,
                     pos.x - dotSize, pos.y - dotSize,
                     pos.x - dotSize, pos.y + dotSize,
                     pos.x + dotSize, pos.y + dotSize,
                     pos.x + dotSize, pos.y - dotSize,
-                    0, r, g, b, 0.7f * alpha);
+                    0, r, g, b, 0.7f * alpha, delegator.inUI
+                );
             }
 
         for (var line : pattern.entries()) {
@@ -72,7 +74,7 @@ public class PatternRenderer implements FragmentRenderer<PatternGlyph> {
             var second = getPatternDotPosition(x, y, line.p2(), size);
             drawGlyphLine(
                 matrices, vertexConsumers, first, second, pixelSize, width, height,
-                false, 1, r, g, b, 0.7f * alpha, true, //delegator.animated, TODO BWA
+                false, 1, r, g, b, 0.7f * alpha, delegator.inUI, //delegator.animated, TODO BWA
                 0
             );
         }

@@ -55,11 +55,13 @@ public class CircleWidget extends StatefulWidget {
     private final boolean mutable;
     private final boolean hiddenByPonder;
     private final boolean hasInner;
+    private final boolean highlight;
     private final int nextKey;
     @Nullable
     private final Runnable eval;
 
     public CircleWidget(CircleRenderer renderer, double radius, double startingAngle, SpellView partView, Consumer<Pattern> updatePattern, boolean mutable, boolean hiddenByPonder, boolean hasInner,
+        boolean highlight,
         int nextKey,
         @Nullable Runnable eval) {
         this.renderer = renderer;
@@ -70,6 +72,7 @@ public class CircleWidget extends StatefulWidget {
         this.mutable = mutable;
         this.hiddenByPonder = hiddenByPonder;
         this.hasInner = hasInner;
+        this.highlight = highlight;
         this.nextKey = nextKey;
         this.eval = eval;
     }
@@ -99,6 +102,7 @@ public class CircleWidget extends StatefulWidget {
                 widget().renderer.setLineToMouse(mouseInside);
                 widget().renderer.setLoading(widget().partView.loading ? (int) (System.currentTimeMillis() / 250 % 2) : -1);
                 widget().renderer.setConsiderInners(widget().hasInner);
+                widget().renderer.setCircleTexture(widget().highlight ? CircleRenderer.CIRCLE_TEXTURE_HIGHLIGHT : null);
                 widget().renderer.renderCircle(
                     ctx.getMatrices(), widget().partView.part,
                     RADIUS, RADIUS, RADIUS, widget().startingAngle, 0,
@@ -156,7 +160,15 @@ public class CircleWidget extends StatefulWidget {
 
         @Override
         public void didUpdateWidget(CircleWidget oldWidget) {
+            if (widget().hasInner && drawingPattern != null) {
+                finishDrawing(false, SharedState.get(context(), CircleSoupState.class));
+            }
+
             if (oldWidget.nextKey != widget().nextKey && widget().nextKey >= 0) {
+                if (!widget().mutable || widget().partView.beingReplaced || widget().hiddenByPonder || widget().hasInner) {
+                    return;
+                }
+
                 if (widget().nextKey == GLFW.GLFW_KEY_KP_ENTER) {
                     if (drawingPattern != null) {
                         finishDrawing(drawingPattern.size() > 0, SharedState.get(context(), CircleSoupState.class));

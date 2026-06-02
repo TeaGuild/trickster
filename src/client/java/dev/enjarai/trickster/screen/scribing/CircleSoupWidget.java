@@ -91,7 +91,7 @@ public class CircleSoupWidget extends StatefulWidget {
         private @Nullable CirclePosition rootCirclePosition;
         private boolean isRunningMacro = false;
         private @Nullable CircleState focusedCircle;
-        private boolean isPondering = false;
+        private @Nullable SpellView primaryPonder;
 
         @Override
         public void init() {
@@ -220,7 +220,7 @@ public class CircleSoupWidget extends StatefulWidget {
                         yield true;
                     }
                     case GLFW.GLFW_KEY_F -> {
-                        if (isPondering) {
+                        if (primaryPonder != null) {
                             unponder();
                         }
                         yield true;
@@ -267,7 +267,7 @@ public class CircleSoupWidget extends StatefulWidget {
 
         private void unponder() {
             setState(() -> {
-                isPondering = false;
+                primaryPonder = null;
                 circles.values().forEach(s -> s.isPondered = false);
             });
         }
@@ -376,6 +376,11 @@ public class CircleSoupWidget extends StatefulWidget {
             }
 
             public void initialize() {
+                if (primaryPonder != null && primaryPonder.uuid.equals(partView.uuid)) {
+                    primaryPonder = partView;
+                    isPondered = true;
+                }
+
                 if (radius > FORK_THRESHOLD_FORWARDS) {
                     fork();
                 }
@@ -463,6 +468,10 @@ public class CircleSoupWidget extends StatefulWidget {
                         var childState = circles.get(child);
                         parent.childCircles.add(childState);
                         childState.parentCircle = parent;
+
+                        if (primaryPonder != null && !primaryPonder.uuid.equals(childState.partView.uuid)) {
+                            parent.isPondered = childState.isPondered;
+                        }
                     }
                 }
 
@@ -570,9 +579,9 @@ public class CircleSoupWidget extends StatefulWidget {
             }
 
             public boolean tryPonder() {
-                if (!State.this.isPondering) {
+                if (State.this.primaryPonder == null) {
                     setState(() -> {
-                        State.this.isPondering = true;
+                        State.this.primaryPonder = partView;
                         markPonder(true);
                     });
 
@@ -582,11 +591,15 @@ public class CircleSoupWidget extends StatefulWidget {
             }
 
             public boolean hiddenByPonder() {
-                return State.this.isPondering && !isPondered;
+                return State.this.primaryPonder != null && !isPondered;
             }
 
             public boolean shownByPonder() {
-                return State.this.isPondering && isPondered;
+                return State.this.primaryPonder != null && isPondered;
+            }
+
+            public boolean isPrimaryPonder() {
+                return State.this.primaryPonder == partView && isPondered;
             }
 
             private void markPonder(boolean ponder) {

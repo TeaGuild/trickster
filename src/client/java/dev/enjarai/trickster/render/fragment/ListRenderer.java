@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
-import static dev.enjarai.trickster.render.CircleRenderer.GLYPH_LAYER;
+import static dev.enjarai.trickster.render.CircleRenderer.WORLD_GLYPH_LAYER;
 
 public class ListRenderer implements FragmentRenderer<ListFragment> {
     @Override
@@ -75,7 +75,7 @@ public class ListRenderer implements FragmentRenderer<ListFragment> {
         matrices.multiply(new Quaternionf().rotateZ(rotation));
 
         Matrix4f m = matrices.peek().getPositionMatrix();
-        VertexConsumer vc = vertexConsumers.getBuffer(GLYPH_LAYER);
+        VertexConsumer vc = vertexConsumers.getBuffer(WORLD_GLYPH_LAYER);
 
         // top leg
         vc.vertex(m, -legLength - lineWidth, top + lineWidth, 0).color(1f, 1f, 1f, alpha);

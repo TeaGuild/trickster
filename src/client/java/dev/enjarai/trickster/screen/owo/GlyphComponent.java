@@ -60,12 +60,14 @@ public class GlyphComponent extends BaseComponent {
                 b = Trickster.CONFIG.dotEmphasisColor().blue();
             }
 
-            drawFlatPolygon(context.getMatrices(), context.getVertexConsumers(),
+            drawFlatPolygon(
+                context.getMatrices(), context.getVertexConsumers(),
                 pos.x - dotSize, pos.y - dotSize,
                 pos.x - dotSize, pos.y + dotSize,
                 pos.x + dotSize, pos.y + dotSize,
                 pos.x + dotSize, pos.y - dotSize,
-                0, r, g, b, isLinked ? 0.9f : 0.5f);
+                0, r, g, b, isLinked ? 0.9f : 0.5f, true
+            );
         }
 
         for (var line : pattern.entries()) {
@@ -74,7 +76,7 @@ public class GlyphComponent extends BaseComponent {
             drawGlyphLine(
                 context.getMatrices(), context.getVertexConsumers(), last, now,
                 1, false, 0, 1f, 1f, 1f, 0.9f,
-                false, 0
+                true, 0
             );
         }
     }
