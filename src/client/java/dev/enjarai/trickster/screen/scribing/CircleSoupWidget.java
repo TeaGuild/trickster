@@ -350,7 +350,7 @@ public class CircleSoupWidget extends StatefulWidget {
             ));
         }
 
-        class CircleState {
+        public class CircleState {
             @Nullable
             CircleState parentCircle = null;
             final List<CircleState> childCircles = new ArrayList<>();

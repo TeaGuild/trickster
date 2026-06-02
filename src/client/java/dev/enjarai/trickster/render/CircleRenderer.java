@@ -395,7 +395,7 @@ public class CircleRenderer {
             last.x + parallelVec.x - directionVec.x, last.y + parallelVec.y - directionVec.y,
             now.x + parallelVec.x + directionVec.x, now.y + parallelVec.y + directionVec.y,
             now.x - parallelVec.x + directionVec.x, now.y - parallelVec.y + directionVec.y,
-            0, (isDrawing ? 0.5f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b, opacity);
+            0, (isDrawing ? 0.8f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b, opacity);
     }
 
     public static Vector2f getPatternDotPosition(float x, float y, int i, float radius) {
