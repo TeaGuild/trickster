@@ -5,7 +5,7 @@ import dev.enjarai.trickster.net.ManaMoveParticlePacket;
 import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
-import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
+import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import net.minecraft.item.ItemStack;
 
 public class PushManaTrick extends AbstractConduitTrick {
@@ -14,7 +14,7 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected void createParticles(SpellContext ctx, SlotFragment slot, float v) {
+    protected void createParticles(SpellContext ctx, StorageFragment slot, float v) {
         var fromPos = slot.getSourceOrCasterPos(this, ctx);
         var toPos = ctx.source().getPos();
 
@@ -34,13 +34,9 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage) {
+    protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage, long count) {
         var world = ctx.source().getWorld();
         var self = ctx.source().getManaPool();
-
-        if (self.isEmpty(world)) {
-            return 0;
-        }
 
         var comp = stack.get(ModComponents.MANA);
         if (comp == null) {
@@ -55,7 +51,8 @@ public class PushManaTrick extends AbstractConduitTrick {
         var target = comp.pool().makeClone(world);
 
         var taken = limit - self.use(limit, world);
-        var leftover = target.refill(taken * taxedMult, world); //leftover is how much taxed mana could not be inserted
+        var leftover = target.refill(taken * taxedMult / count, world); //leftover is how much taxed mana could not be inserted
+        leftover *= count;
         leftover /= taxedMult; //untax the leftover mana; it wasnt transferred so it shouldnt be taxed
         stack.set(ModComponents.MANA, comp.with(target));
         self.refill(leftover, world);

@@ -5,7 +5,7 @@ import dev.enjarai.trickster.net.ManaMoveParticlePacket;
 import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
-import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
+import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import net.minecraft.item.ItemStack;
 
 public class PullManaTrick extends AbstractConduitTrick {
@@ -14,7 +14,7 @@ public class PullManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected void createParticles(SpellContext ctx, SlotFragment slot, float v) {
+    protected void createParticles(SpellContext ctx, StorageFragment slot, float v) {
         var fromPos = slot.getSourceOrCasterPos(this, ctx);
         var toPos = ctx.source().getPos();
 
@@ -34,7 +34,7 @@ public class PullManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage) {
+    protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage, long count) {
         var world = ctx.source().getWorld();
         var self = ctx.source().getManaPool();
 
@@ -55,10 +55,9 @@ public class PullManaTrick extends AbstractConduitTrick {
         var target = comp.pool().makeClone(world);
 
         var taken = limit - target.use(limit, world);
-        stack.set(ModComponents.MANA, comp.with(target));
-        var leftover = self.refill(taken * taxedMult, world); //leftover is how much taxed mana could not be inserted
+        var leftover = self.refill(taken * taxedMult * count, world); //leftover is how much taxed mana could not be inserted
+        leftover /= count;
         leftover /= taxedMult; //untax the leftover mana; it wasnt transferred so it shouldnt be taxed
-        target = stack.get(ModComponents.MANA).pool().makeClone(world);
         target.refill(leftover, world);
         stack.set(ModComponents.MANA, comp.with(target));
         return taken - leftover;
