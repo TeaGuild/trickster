@@ -5,11 +5,26 @@
     "name": "Trickster",
     "description": "A mod about magic, creativity, and trickery.",
     "authors": [
-        "enjarai",
-        "StellarWitch7"
+        {
+            "name": "enjarai",
+            "contact": {
+                "homepage": "https://enjarai.dev"
+            }
+        },
+        {
+            "name": "aurakle",
+            "contact": {
+                "email": "trickster@aurakle.dev",
+                "homepage": "https://aurakle.dev"
+            }
+        }
+    ],
+    "contributors": [
+        "BlueMoonJune",
+        "AshAxolotl"
     ],
     "contact": {
-        "homepage": "https://enjarai.dev/",
+        "homepage": "https://modrinth.com/mod/trickster",
         "sources": "https://codeberg.org/trans-fish/trickster",
         "issues": "https://codeberg.org/trans-fish/trickster/issues"
     },
@@ -85,7 +100,8 @@
         "inline": "^1.2.2"
     },
     "conflicts": {
-        "immediatelyfast": "*"
+        "immediatelyfast": "*",
+        "supplementaries": "*"
     },
     "breaks": {
         "optifabric": "*"
