@@ -1,4 +1,1 @@
-- Made improvements to numpad drawing. (@enjarai)
-- Fixed many issues with the "focus" keybind in the spell editing screen. (@enjarai)
-- Fixed a mistake causing drawing pattern lines to be more purple than intended. (@enjarai)
-- Fixed fleck rendering when the fleck is pointing straight up or down. (@enjarai)
+- Re-worked Conduit Ploys. (@enjarai)
