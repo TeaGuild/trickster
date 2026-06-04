@@ -114,9 +114,9 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
     public static LevitatingBlockEntity spawnFromBlock(World world, BlockPos pos, BlockState state, float weight, @Nullable Entity owner) {
         LevitatingBlockEntity fallingBlockEntity = new LevitatingBlockEntity(ModEntities.LEVITATING_BLOCK, world);
         fallingBlockEntity.setPosition(
-                pos.getX() + 0.5,
-                pos.getY(),
-                pos.getZ() + 0.5
+            pos.getX() + 0.5,
+            pos.getY(),
+            pos.getZ() + 0.5
         );
         fallingBlockEntity.intersectionChecked = true;
         fallingBlockEntity.setVelocity(Vec3d.ZERO);
@@ -162,8 +162,8 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
                     BlockState blockState = this.getWorld().getBlockState(blockPos);
                     BlockSoundGroup blockSoundGroup = blockState.getSoundGroup();
                     this.getWorld().playSound(
-                            getX(), getY(), getZ(), blockSoundGroup.getStepSound(), SoundCategory.BLOCKS,
-                            blockSoundGroup.getVolume(), blockSoundGroup.getPitch(), true //  * 0.15F
+                        getX(), getY(), getZ(), blockSoundGroup.getStepSound(), SoundCategory.BLOCKS,
+                        blockSoundGroup.getVolume(), blockSoundGroup.getPitch(), true //  * 0.15F
                     );
                 }
 
@@ -193,10 +193,9 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
 
     protected void trySolidify() {
         if (this.getWeight() >= 1 && (isOnGround() || getShouldRevertNow()) &&
-                this.getVelocity().lengthSquared() < 0.2 * 0.2) {
-            var targetPos = supportingBlockPos.isPresent() ?
-                    (getBlockY() > supportingBlockPos.get().getY() ? supportingBlockPos.get().up() : supportingBlockPos.get()) :
-                    BlockPos.ofFloored(getPos().add(0, 0.49, 0));
+            this.getVelocity().lengthSquared() < 0.2 * 0.2) {
+            var targetPos = supportingBlockPos.isPresent() ? (getBlockY() > supportingBlockPos.get().getY() ? supportingBlockPos.get().up() : supportingBlockPos.get())
+                : BlockPos.ofFloored(getPos().add(0, 0.49, 0));
 
             if (getWorld().getBlockState(targetPos).isReplaceable()) {
                 // At this point we start solidifying
@@ -211,9 +210,8 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
 
                         if (this.getWorld().setBlockState(targetPos, blockState, Block.NOTIFY_ALL)) {
                             ((ServerWorld) this.getWorld())
-                                    .getChunkManager()
-                                    .chunkLoadingManager
-                                    .sendToOtherNearbyPlayers(this, new BlockUpdateS2CPacket(targetPos, this.getWorld().getBlockState(targetPos)));
+                                .getChunkManager().chunkLoadingManager
+                                .sendToOtherNearbyPlayers(this, new BlockUpdateS2CPacket(targetPos, this.getWorld().getBlockState(targetPos)));
                             this.discard();
 
                             if (!this.getBlockEntityData().isEmpty() && blockState.hasBlockEntity()) {
@@ -264,9 +262,15 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
 
         var hit = getEntityCollision(currentPos, nextPos);
         if (hit != null) {
-            hit.getEntity().damage(
+            var hardness = blockState.getHardness(getWorld(), getFallingBlockPos());
+            var speedDiff = hit.getEntity().getVelocity().subtract(velocity).length();
+
+            if (hardness > 0 && speedDiff > 0.15) {
+                hit.getEntity().damage(
                     new LevitatingBlockDamageSource(getWorld(), this, getOwner(), blockState.getBlock().getName()),
-                    (float) hit.getEntity().getVelocity().add(velocity.negate()).length() * blockState.getHardness(getWorld(), getFallingBlockPos()));
+                    (float) (Math.sqrt(speedDiff * Math.log(hardness)) + 5)
+                );
+            }
 
             hit.getEntity().setVelocity(hit.getEntity().getVelocity().add(velocity));
             this.setVelocity(velocity.multiply(0.2));
@@ -280,7 +284,7 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
     @Nullable
     protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
         return ProjectileUtil.getEntityCollision(
-                this.getWorld(), this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()).expand(1.0), this::canHit
+            this.getWorld(), this, currentPosition, nextPosition, this.getBoundingBox().stretch(this.getVelocity()).expand(1.0), this::canHit
         );
     }
 
