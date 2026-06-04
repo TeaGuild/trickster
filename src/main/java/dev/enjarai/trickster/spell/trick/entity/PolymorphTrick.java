@@ -23,7 +23,7 @@ public class PolymorphTrick extends Trick<PolymorphTrick> {
             return target;
 
         if (realTarget instanceof ServerPlayerEntity targetPlayer && realSource instanceof ServerPlayerEntity sourcePlayer) {
-            ctx.useMana(this, 8000);
+            ctx.useScaledMana(this, 8000);
 
             var component = targetPlayer.getComponent(ModEntityComponents.DISGUISE);
             var sourceComponent = sourcePlayer.getComponent(ModEntityComponents.DISGUISE);

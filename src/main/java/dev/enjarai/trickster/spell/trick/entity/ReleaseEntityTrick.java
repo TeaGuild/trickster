@@ -33,7 +33,7 @@ public class ReleaseEntityTrick extends Trick<ReleaseEntityTrick> {
 
         if (entityStorage.nbt().isPresent()) {
             var dist = player.getPos().distanceTo(new Vec3d(pos.x(), pos.y(), pos.z()));
-            ctx.useMana(this, (float) (2000 + Math.pow(dist, (dist / 5))));
+            ctx.useScaledMana(this, (float) (2000 + Math.pow(dist, (dist / 5))));
             offhand.set(ModComponents.ENTITY_STORAGE, new EntityStorageComponent(Optional.empty()));
 
             var entity = EntityType.getEntityFromNbt(entityStorage.nbt().get(), ctx.source().getWorld());

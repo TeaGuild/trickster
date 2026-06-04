@@ -89,6 +89,14 @@ public abstract class Unit {
         return precision;
     }
 
+    public static Gandalf getGandalfUnit(long value) {
+        return Gandalf.cache.apply(precisionFromValue(value));
+    }
+
+    public static Merlin getMerlinUnit(long value) {
+        return Merlin.cache.apply(precisionFromValue(value));
+    }
+
     public static class Gandalf extends Unit {
         static final Function<Integer, Gandalf> cache = Util.memoize(Gandalf::new);
 

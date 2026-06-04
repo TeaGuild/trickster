@@ -11,6 +11,8 @@ import dev.enjarai.trickster.item.component.FragmentComponent;
 import dev.enjarai.trickster.net.GrabClipboardSpellPacket;
 import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.spell.SpellPart;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.trick.Tricks;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.Vec3ArgumentType;
@@ -169,7 +171,7 @@ public class TricksterCommand {
 
             if (component != null) {
                 var pool = component.pool().makeClone(context.getSource().getWorld());
-                pool.refill(pool.getMax(context.getSource().getWorld()), context.getSource().getWorld());
+                pool.refill(ManaVariant.of(Manae.TRADITIONAL), pool.getMax(context.getSource().getWorld()), context.getSource().getWorld());
                 stack.set(ModComponents.MANA, component.with(pool));
                 player.sendMessage(Text.literal("Mana refilled"));
                 return 0;

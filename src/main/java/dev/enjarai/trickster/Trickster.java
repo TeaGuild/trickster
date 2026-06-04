@@ -23,7 +23,7 @@ import dev.enjarai.trickster.spell.execution.executor.SpellExecutorType;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.mana.ManaPoolType;
-import dev.enjarai.trickster.spell.mana.generation.ManaHandlerType;
+import dev.enjarai.trickster.spell.mana.storage.ManaStorage;
 import dev.enjarai.trickster.spell.revision.Revisions;
 import dev.enjarai.trickster.spell.trick.Tricks;
 import dev.enjarai.trickster.worldgen.processor.ModProcessorTypes;
@@ -89,11 +89,11 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
         ModEntities.register();
         ModProcessorTypes.register();
 
+        ManaStorage.register();
         Tricks.register();
         Revisions.register();
         FragmentType.register();
         ManaPoolType.register();
-        ManaHandlerType.register();
         SpellExecutorType.register();
         FleckType.register();
         DataLoader.registerLoaders();

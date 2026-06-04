@@ -26,7 +26,7 @@ public class BatteryCreationTrick extends Trick<BatteryCreationTrick> {
 
     public BatteryCreationTrick() {
         super(Pattern.of(6, 8, 5, 2, 1, 8, 7, 6, 1, 0, 3, 6), Signature.of(FragmentType.SLOT.optionalOfArg(),
-                FragmentType.SLOT.optionalOfArg(), BatteryCreationTrick::run, FragmentType.VOID));
+            FragmentType.SLOT.optionalOfArg(), BatteryCreationTrick::run, FragmentType.VOID));
     }
 
     public VoidFragment run(SpellContext ctx, Optional<SlotFragment> slot1, Optional<SlotFragment> slot2) {
@@ -51,7 +51,7 @@ public class BatteryCreationTrick extends Trick<BatteryCreationTrick> {
                 throw new ItemInvalidBlunder(this);
             }
 
-            ctx.useMana(this, type.getCreationCost());
+            ctx.useScaledMana(this, type.getCreationCost());
 
             ctx.source().offerOrDropItem(type.createStack(ctx.source().getWorld()));
             ctx.source().getPlayer().ifPresent(player -> ModCriteria.CREATE_KNOT.trigger(player, type));

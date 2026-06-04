@@ -9,14 +9,20 @@ import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import dev.enjarai.trickster.spell.fragment.slot.VariantType;
+import dev.enjarai.trickster.spell.mana.ManaPool;
+import dev.enjarai.trickster.spell.mana.storage.ManaStorage;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.ArgType;
 import dev.enjarai.trickster.spell.type.Signature;
+import dev.enjarai.trickster.util.StorageViewContainerContext;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.minecraft.item.ItemStack;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
 public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
     public AbstractConduitTrick(Pattern pattern) {
@@ -29,24 +35,25 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         }
 
         var storage = target.getStorage(this, ctx, VariantType.ITEM);
+        var variant = ManaVariant.of(Manae.TRADITIONAL); // TODO get this from elsewhere
 
-        if (!isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(ctx)) {
+        if (!isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(ctx, variant)) {
             return new NumberFragment(0);
         }
 
-        float result;
+        long result;
 
         if (storage instanceof SlottedStorage<ItemVariant> slottedStorage) {
-            result = runForSlottedStorage(ctx, slottedStorage, target, n.number());
+            result = runForSlottedStorage(ctx, slottedStorage, target, variant, n.asMana());
         } else {
-            result = runForStorage(ctx, storage, target, n.number());
+            result = runForStorage(ctx, storage, target, variant, n.asMana());
         }
 
-        return new NumberFragment(result);
+        return NumberFragment.ofMana(result);
     }
 
-    private float runForSlottedStorage(SpellContext ctx, SlottedStorage<ItemVariant> storage, StorageFragment target, double max) {
-        float result = 0;
+    private long runForSlottedStorage(SpellContext ctx, SlottedStorage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max) {
+        long result = 0;
 
         long knotCount = 0;
         for (var slot : storage.getSlots()) {
@@ -55,7 +62,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
             }
         }
 
-        double limit = max / knotCount;
+        long limit = max / knotCount;
 
         var distance = ctx.source().getPos().distance(target.getSourceOrCasterPos(this, ctx));
         float r = Trickster.CONFIG.manaTransferEfficiency();
@@ -67,40 +74,27 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
                 continue;
             }
 
-            try (var trans2 = Transaction.openOuter()) {
-                var total = slot.getAmount();
-                var taken = slot.extract(resource, Long.MAX_VALUE, trans2);
+            try (var trans = Transaction.openOuter()) {
+                var manaStorage = ManaStorage.ITEM.find(
+                    slot.getResource().toStack(),
+                    new ManaStorage.LookupContext(ContainerItemContext.ofSingleSlot(slot), ctx.source().getWorld())
+                );
 
-                if (total != taken) {
-                    continue;
-                }
+                result += affect(ctx, manaStorage, variant, limit, tax, slot.getAmount(), trans);
 
-                var tempStack = resource.toStack(1);
-                result += affect(ctx, tempStack, (float) limit, tax, taken);
-
-                var newResource = ItemVariant.of(tempStack);
-                if (resource.equals(newResource)) {
-                    continue;
-                }
-
-                var given = slot.insert(newResource, taken, trans2);
-
-                if (given != taken) {
-                    continue;
-                }
-                trans2.commit();
+                trans.commit();
             }
         }
 
         if (result > 1) {
-            createParticles(ctx, target, result);
+            createParticles(ctx, target, (float) result / ManaPool.MANA_SCALE);
         }
 
         return result;
     }
 
-    private float runForStorage(SpellContext ctx, Storage<ItemVariant> storage, StorageFragment target, double max) {
-        float result = 0;
+    private long runForStorage(SpellContext ctx, Storage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max) {
+        long result = 0;
 
         long knotCount = 0;
         for (var view : storage.nonEmptyViews()) {
@@ -109,37 +103,22 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
             }
         }
 
-        double limit = max / knotCount;
+        long limit = max / knotCount;
 
         var distance = ctx.source().getPos().distance(target.getSourceOrCasterPos(this, ctx));
         float r = Trickster.CONFIG.manaTransferEfficiency();
         double tax = Math.max(0, 1 - r / (distance + r - 16));
 
         for (var view : storage.nonEmptyViews()) {
-            var resource = view.getResource();
+            try (var trans = Transaction.openOuter()) {
+                var manaStorage = ManaStorage.ITEM.find(
+                    view.getResource().toStack(),
+                    new ManaStorage.LookupContext(new StorageViewContainerContext(view, storage), ctx.source().getWorld())
+                );
 
-            try (var trans2 = Transaction.openOuter()) {
-                var total = view.getAmount();
-                var taken = view.extract(resource, Long.MAX_VALUE, trans2);
+                result += affect(ctx, manaStorage, variant, limit, tax, view.getAmount(), trans);
 
-                if (total != taken) {
-                    continue;
-                }
-
-                var tempStack = resource.toStack(1);
-                result += affect(ctx, tempStack, (float) limit, tax, taken);
-
-                var newResource = ItemVariant.of(tempStack);
-                if (resource.equals(newResource)) {
-                    continue;
-                }
-
-                var given = storage.insert(newResource, taken, trans2);
-
-                if (given != taken) {
-                    continue;
-                }
-                trans2.commit();
+                trans.commit();
             }
         }
 
@@ -150,12 +129,12 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         return result;
     }
 
-    protected abstract boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx);
+    protected abstract boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, ManaVariant variant);
 
     protected abstract void createParticles(SpellContext ctx, StorageFragment slot, float v);
 
     /**
      * @return the amount of mana fulfilled by the item.
      */
-    protected abstract float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage, long count);
+    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, ManaVariant variant, long limit, double taxPercentage, long count, TransactionContext trans);
 }

@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.spell.mana;
 
 import dev.enjarai.trickster.EndecTomfoolery;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
@@ -8,6 +9,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public interface ManaPool {
+    long MANA_SCALE = 1000;
+    Endec<Long> LONG_OR_OLD_FLOAT_ENDEC = EndecTomfoolery.withAlternative(Endec.LONG,
+        Endec.FLOAT.xmap(f -> (long) (f * MANA_SCALE), l -> (float) l / MANA_SCALE));
     @SuppressWarnings("unchecked")
     StructEndec<ManaPool> ENDEC = EndecTomfoolery.lazyStruct(() -> (StructEndec<ManaPool>) Endec.dispatchedStruct(ManaPoolType::endec, pool -> {
         var type = pool.type();
@@ -22,9 +26,11 @@ public interface ManaPool {
     @Nullable
     ManaPoolType<?> type();
 
-    float get(World world);
+    ManaVariant getVariant(World world);
 
-    float getMax(World world);
+    long get(World world);
+
+    long getMax(World world);
 
     default boolean isFull(World world) {
         return get(world) >= getMax(world);

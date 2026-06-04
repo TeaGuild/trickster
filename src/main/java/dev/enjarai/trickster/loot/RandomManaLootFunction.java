@@ -30,7 +30,7 @@ public record RandomManaLootFunction(float fractionalMinimum, float fractionalMa
         var component = stack.get(ModComponents.MANA);
         var pool = component.pool().makeClone(lootContext.getWorld());
 
-        pool.set(pool.getMax(lootContext.getWorld()) * (random.nextFloat() * (fractionalMaximum - fractionalMinimum) + fractionalMinimum), lootContext.getWorld());
+        pool.set((long) (pool.getMax(lootContext.getWorld()) * (random.nextFloat() * (fractionalMaximum - fractionalMinimum) + fractionalMinimum)), lootContext.getWorld());
         stack.set(ModComponents.MANA, component.with(pool));
 
         return stack;

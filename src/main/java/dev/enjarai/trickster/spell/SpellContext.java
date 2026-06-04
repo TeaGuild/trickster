@@ -8,9 +8,13 @@ import dev.enjarai.trickster.spell.execution.source.SpellSource;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import dev.enjarai.trickster.spell.fragment.slot.StorageSource;
 import dev.enjarai.trickster.spell.fragment.slot.VariantType;
-import dev.enjarai.trickster.spell.mana.MutableManaPool;
+import dev.enjarai.trickster.spell.mana.ManaPool;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.trick.Trick;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -18,38 +22,60 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public record SpellContext(ExecutionState state, SpellSource source, TickData data) {
-    public void useMana(Trick<?> trickSource, float amount) throws BlunderException {
-        if (Float.isNaN(amount)) {
-            throw new IllegalStateException("Internal error: Mana used is NaN");
-        }
+    public void useScaledMana(Trick<?> trickSource, double amount) throws BlunderException {
+        useScaledMana(trickSource, ManaVariant.of(Manae.TRADITIONAL), amount, null);
+    }
+
+    public void useScaledMana(Trick<?> trickSource, ManaVariant variant, double amount) throws BlunderException {
+        useScaledMana(trickSource, variant, amount, null);
+    }
+
+    public void useScaledMana(Trick<?> trickSource, double amount, TransactionContext trans) throws BlunderException {
+        useScaledMana(trickSource, ManaVariant.of(Manae.TRADITIONAL), amount, trans);
+    }
+
+    public void useScaledMana(Trick<?> trickSource, ManaVariant variant, double amount, TransactionContext trans) throws BlunderException {
+        var actual = (long) (amount * ManaPool.MANA_SCALE);
 
         if (!data.canUseMana()) {
-            throw new NotEnoughManaBlunder(trickSource, amount);
+            throw new NotEnoughManaBlunder(trickSource, actual);
         }
 
         try {
-            state.useMana(trickSource, this, amount);
+            state.useMana(trickSource, this, variant, actual, trans);
         } catch (NotEnoughManaBlunder blunder) {
             source.getPlayer().ifPresent(ModCriteria.MANA_OVERFLUX::trigger);
             throw blunder;
         }
 
-        source.getPlayer().ifPresent((player) -> ModCriteria.MANA_USED.trigger(player, amount));
+        source.getPlayer().ifPresent((player) -> ModCriteria.MANA_USED.trigger(player, actual));
     }
 
-    public void checkMana(Trick<?> trickSource, float amount) throws BlunderException {
-        if (Float.isNaN(amount)) {
-            throw new IllegalStateException("Internal error: Mana used is NaN");
-        }
+    public void checkScaledMana(Trick<?> trickSource, double amount) throws BlunderException {
+        checkScaledMana(trickSource, ManaVariant.of(Manae.TRADITIONAL), amount, null);
+    }
 
-        if (source.getManaPool().get(source.getWorld()) < amount) {
-            source.getPlayer().ifPresent(ModCriteria.MANA_OVERFLUX::trigger);
-            throw new NotEnoughManaBlunder(trickSource, amount);
+    public void checkScaledMana(Trick<?> trickSource, ManaVariant variant, double amount) throws BlunderException {
+        checkScaledMana(trickSource, variant, amount, null);
+    }
+
+    public void checkScaledMana(Trick<?> trickSource, double amount, TransactionContext trans) throws BlunderException {
+        checkScaledMana(trickSource, ManaVariant.of(Manae.TRADITIONAL), amount, trans);
+    }
+
+    public void checkScaledMana(Trick<?> trickSource, ManaVariant variant, double amount, TransactionContext trans) throws BlunderException {
+        var actual = (long) (amount * ManaPool.MANA_SCALE);
+
+        try (var trans2 = Transaction.openNested(trans)) {
+            if (source.getManaStorage().extract(variant, actual, trans2) != actual) {
+                source.getPlayer().ifPresent(ModCriteria.MANA_OVERFLUX::trigger);
+                throw new NotEnoughManaBlunder(trickSource, actual);
+            }
         }
     }
 
-    public MutableManaPool getManaPool() {
-        return state().tryOverridePool(source.getManaPool());
+    public Storage<ManaVariant> getManaStorage() {
+        return state().tryOverridePool(source.getManaStorage(), source.getWorld());
     }
 
     // I am disappointed in myself for having written this.

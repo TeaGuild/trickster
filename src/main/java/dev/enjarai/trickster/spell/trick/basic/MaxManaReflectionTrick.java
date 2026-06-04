@@ -13,6 +13,12 @@ public class MaxManaReflectionTrick extends Trick<MaxManaReflectionTrick> {
     }
 
     public NumberFragment run(SpellContext ctx) {
-        return new NumberFragment(ctx.getManaPool().getMax(ctx.source().getWorld()));
+        long result = 0;
+
+        for (var view : ctx.getManaStorage().nonEmptyViews()) {
+            result += view.getCapacity();
+        }
+
+        return NumberFragment.ofMana(result);
     }
 }

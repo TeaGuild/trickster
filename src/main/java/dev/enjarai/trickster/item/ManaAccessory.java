@@ -3,7 +3,10 @@ package dev.enjarai.trickster.item;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
+import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.SimpleManaPool;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import io.wispforest.accessories.api.AccessoryItem;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.minecraft.item.ItemStack;
@@ -11,8 +14,11 @@ import net.minecraft.item.ItemStack;
 public class ManaAccessory extends AccessoryItem {
     public ManaAccessory() {
         super(new Settings()
-                .maxCount(1)
-                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(Trickster.CONFIG.whorlMaxMana()))));
+            .maxCount(1)
+            .component(ModComponents.MANA, new ManaComponent(
+                new SimpleManaPool((long) (Trickster.CONFIG.whorlMaxMana() * ManaPool.MANA_SCALE))
+            ))
+        );
     }
 
     @Override
@@ -25,8 +31,8 @@ public class ManaAccessory extends AccessoryItem {
         var world = reference.entity().getWorld();
         var pool = component.pool().makeClone(world);
 
-        pool.refill(Trickster.CONFIG.whorlRechargeRate(), world);
-        pool.setMax(Trickster.CONFIG.whorlMaxMana(), world);
+        pool.refill(ManaVariant.of(Manae.TRADITIONAL), (long) (Trickster.CONFIG.whorlRechargeRate() * ManaPool.MANA_SCALE), world);
+        pool.setMax((long) (Trickster.CONFIG.whorlMaxMana() * ManaPool.MANA_SCALE), world);
 
         stack.set(ModComponents.MANA, component.with(pool));
     }

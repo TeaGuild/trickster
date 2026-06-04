@@ -17,8 +17,8 @@ import java.util.Optional;
 public class SummonDragonBreathTrick extends Trick<SummonDragonBreathTrick> {
     public SummonDragonBreathTrick() {
         super(
-                Pattern.of(1, 0, 3, 6, 7, 8, 5, 2, 1, 6, 8, 1, 4, 7, 0, 2, 7),
-                Signature.of(FragmentType.VECTOR, FragmentType.SLOT.optionalOfArg(), FragmentType.SLOT.optionalOfArg(), SummonDragonBreathTrick::run, FragmentType.ENTITY)
+            Pattern.of(1, 0, 3, 6, 7, 8, 5, 2, 1, 6, 8, 1, 4, 7, 0, 2, 7),
+            Signature.of(FragmentType.VECTOR, FragmentType.SLOT.optionalOfArg(), FragmentType.SLOT.optionalOfArg(), SummonDragonBreathTrick::run, FragmentType.ENTITY)
         );
     }
 
@@ -30,7 +30,7 @@ public class SummonDragonBreathTrick extends Trick<SummonDragonBreathTrick> {
             var stack2 = ctx.getStack(this, optionalSlot2, s -> s.isOf(Items.DRAGON_BREATH)).orElseThrow(() -> new MissingItemBlunder(this));
 
             try {
-                ctx.useMana(this, cost(ctx.source().getPos().distance(pos.vector())));
+                ctx.useScaledMana(this, cost(ctx.source().getPos().distance(pos.vector())));
 
                 var projectile = EntityType.DRAGON_FIREBALL.create(world);
                 assert projectile != null;

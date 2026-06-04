@@ -53,7 +53,7 @@ public class ConjureLightTrick extends Trick<ConjureLightTrick> {
             throw new NumberTooLargeBlunder(this, 15);
         }
 
-        ctx.useMana(this, 20);
+        ctx.useScaledMana(this, 20);
         world.setBlockState(blockPos, newState.with(LightBlock.LIGHT_LEVEL, level));
 
         return pos;

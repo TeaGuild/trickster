@@ -6,16 +6,15 @@ import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.CrowMindAttachment;
 import dev.enjarai.trickster.spell.fragment.slot.StorageSource;
 import dev.enjarai.trickster.spell.fragment.slot.VariantType;
-import dev.enjarai.trickster.spell.mana.PlayerManaPool;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.storage.PlayerInventoryManaStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.execution.SpellExecutionManager;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import dev.enjarai.trickster.spell.fragment.VoidFragment;
-import dev.enjarai.trickster.spell.mana.MutableManaPool;
-import dev.enjarai.trickster.spell.mana.generation.ManaHandler;
-import dev.enjarai.trickster.spell.mana.generation.PlayerManaHandler;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -23,7 +22,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
-import dev.enjarai.trickster.spell.mana.CachedInventoryManaPool;
 import net.minecraft.server.world.ServerWorld;
 import org.joml.Vector3d;
 import org.ladysnake.cca.api.v3.component.Component;
@@ -36,7 +34,7 @@ import java.util.function.Predicate;
 public class PlayerSpellSource implements SpellSource {
     private final ServerPlayerEntity player;
     private final SpellExecutionManager executionManager;
-    private final CachedInventoryManaPool pool;
+    private final PlayerInventoryManaStorage manaStorage;
     private final EquipmentSlot slot = EquipmentSlot.MAINHAND;
 
     public PlayerSpellSource(ServerPlayerEntity player) {
@@ -46,7 +44,7 @@ public class PlayerSpellSource implements SpellSource {
     public PlayerSpellSource(ServerPlayerEntity player, SpellExecutionManager executionManager) {
         this.player = player;
         this.executionManager = executionManager;
-        this.pool = new PlayerManaPool(player);
+        this.manaStorage = new PlayerInventoryManaStorage(player);
     }
 
     @Override
@@ -129,8 +127,8 @@ public class PlayerSpellSource implements SpellSource {
     }
 
     @Override
-    public MutableManaPool getManaPool() {
-        return pool;
+    public Storage<ManaVariant> getManaStorage() {
+        return manaStorage;
     }
 
     public static boolean isSpellStack(ItemStack stack) {
@@ -170,11 +168,6 @@ public class PlayerSpellSource implements SpellSource {
     @Override
     public void setCrowMind(Fragment fragment) {
         player.setAttached(ModAttachments.CROW_MIND, new CrowMindAttachment(fragment));
-    }
-
-    @Override
-    public ManaHandler getManaHandler() {
-        return new PlayerManaHandler(player);
     }
 
     @Override

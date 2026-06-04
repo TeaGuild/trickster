@@ -52,7 +52,7 @@ public class MoveResourceTrick extends Trick<MoveResourceTrick> {
             );
 
             if (moved > 0) {
-                ctx.useMana(this, destinationSlot.getMoveCost(this, ctx, sourceSlot.getSourceOrCasterPos(this, ctx), moved));
+                ctx.useScaledMana(this, destinationSlot.getMoveCost(this, ctx, sourceSlot.getSourceOrCasterPos(this, ctx), moved), trans);
 
                 trans.commit();
                 sourceSlot.spawnMoveParticles(this, ctx, destinationSlot, moved);

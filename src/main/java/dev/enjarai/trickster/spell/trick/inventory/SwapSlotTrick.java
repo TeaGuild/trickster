@@ -38,10 +38,10 @@ public class SwapSlotTrick extends Trick<SwapSlotTrick> {
             }
 
             if (inserted1 > 0) {
-                slot1.incurCost(this, ctx, slot2.getSourceOrCasterPos(this, ctx), inserted1);
+                slot1.incurCost(this, ctx, slot2.getSourceOrCasterPos(this, ctx), inserted1, trans);
             }
             if (inserted2 > 0) {
-                slot2.incurCost(this, ctx, slot1.getSourceOrCasterPos(this, ctx), inserted2);
+                slot2.incurCost(this, ctx, slot1.getSourceOrCasterPos(this, ctx), inserted2, trans);
             }
 
             trans.commit();

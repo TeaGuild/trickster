@@ -3,6 +3,8 @@ package dev.enjarai.trickster.spell.execution;
 import dev.enjarai.trickster.EndecTomfoolery;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.mana.MutableManaPool;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.storage.PoolManaStorage;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.ExecutionLimitReachedBlunder;
@@ -10,22 +12,26 @@ import dev.enjarai.trickster.spell.blunder.NotEnoughManaBlunder;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.world.World;
 
 import java.util.*;
 
 public class ExecutionState {
     public static final int MAX_RECURSION_DEPTH = 255;
     public static final StructEndec<ExecutionState> ENDEC = StructEndecBuilder.of(
-            Endec.INT.fieldOf("recursions", ExecutionState::getRecursions),
-            Endec.INT.fieldOf("delay", ExecutionState::getDelay),
-            Endec.BOOLEAN.fieldOf("has_used_mana", ExecutionState::hasUsedMana),
-            Endec.INT.fieldOf("stacktrace_size_when_made", ExecutionState::getInitialStacktraceSize),
-            Fragment.ENDEC.listOf().fieldOf("arguments", state -> state.arguments),
-            Endec.INT.listOf().fieldOf("stacktrace", state -> state.stacktrace.stream().toList()),
-            EndecTomfoolery.safeOptionalOf(MutableManaPool.ENDEC).optionalFieldOf("pool_override", state -> state.poolOverride, Optional.empty()),
-            ExecutionState::new
+        Endec.INT.fieldOf("recursions", ExecutionState::getRecursions),
+        Endec.INT.fieldOf("delay", ExecutionState::getDelay),
+        Endec.BOOLEAN.fieldOf("has_used_mana", ExecutionState::hasUsedMana),
+        Endec.INT.fieldOf("stacktrace_size_when_made", ExecutionState::getInitialStacktraceSize),
+        Fragment.ENDEC.listOf().fieldOf("arguments", state -> state.arguments),
+        Endec.INT.listOf().fieldOf("stacktrace", state -> state.stacktrace.stream().toList()),
+        EndecTomfoolery.safeOptionalOf(MutableManaPool.ENDEC).optionalFieldOf("pool_override", state -> state.poolOverride, Optional.empty()),
+        ExecutionState::new
     );
 
     private int recursions;
@@ -80,8 +86,8 @@ public class ExecutionState {
             stacktrace.push(-3);
     }
 
-    public MutableManaPool tryOverridePool(MutableManaPool pool) {
-        return poolOverride.orElse(pool);
+    public Storage<ManaVariant> tryOverridePool(Storage<ManaVariant> storage, World world) {
+        return poolOverride.map(o -> (Storage<ManaVariant>) new PoolManaStorage(o, world)).orElse(storage);
     }
 
     public List<Fragment> getArguments() {
@@ -152,10 +158,16 @@ public class ExecutionState {
         return hasUsedMana;
     }
 
-    public void useMana(Trick<?> trickSource, SpellContext ctx, float amount) throws NotEnoughManaBlunder {
+    public void useMana(Trick<?> trickSource, SpellContext ctx, ManaVariant variant, long amount, TransactionContext trans) throws NotEnoughManaBlunder {
         hasUsedMana = true;
 
-        if (ctx.getManaPool().use(amount, ctx.source().getWorld()) > 0)
-            throw new NotEnoughManaBlunder(trickSource, amount);
+        try (var trans2 = Transaction.openNested(trans)) {
+            long extracted = ctx.getManaStorage().extract(variant, amount, trans2);
+            trans2.commit();
+
+            if (extracted != amount) {
+                throw new NotEnoughManaBlunder(trickSource, amount);
+            }
+        }
     }
 }

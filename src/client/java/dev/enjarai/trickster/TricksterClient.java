@@ -8,7 +8,6 @@ import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.compat.inline.InlineCompat;
 import dev.enjarai.trickster.item.KnotItem;
-import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.render.entity.LevitatingBlockEntityRenderer;
 import dev.enjarai.trickster.render.fleck.FleckRenderer;
 import dev.enjarai.trickster.cca.ModEntityComponents;
@@ -49,7 +48,6 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.nbt.NbtIntArray;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
@@ -129,20 +127,8 @@ public class TricksterClient implements ClientModInitializer {
         });
 
         Trickster.merlinTooltipAppender = merlinKeeperTracker;
-        KnotItem.barStepFunction = stack -> {
-            var manaComponent = stack.get(ModComponents.MANA);
-            if (manaComponent == null || MinecraftClient.getInstance().world == null) {
-                return 0;
-            }
-
-            ClientUtils.trySubscribe(manaComponent);
-
-            float poolMax = manaComponent.pool().getMax(MinecraftClient.getInstance().world);
-            return poolMax == 0 ? 0
-                : MathHelper.clamp(
-                    Math.round(manaComponent.pool().get(MinecraftClient.getInstance().world) * 13.0F / poolMax),
-                    0, 13);
-        };
+        KnotItem.worldGetter = () -> MinecraftClient.getInstance().world;
+        KnotItem.subscribeConsumer = ClientUtils::trySubscribe;
 
         WorldRenderEvents.AFTER_ENTITIES.register(FlecksRenderer::render);
 

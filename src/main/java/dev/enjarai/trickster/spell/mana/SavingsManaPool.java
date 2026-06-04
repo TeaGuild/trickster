@@ -1,5 +1,7 @@
 package dev.enjarai.trickster.spell.mana;
 
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
@@ -7,8 +9,9 @@ import net.minecraft.world.World;
 
 public class SavingsManaPool extends SimpleManaPool {
     public static final StructEndec<SavingsManaPool> ENDEC = StructEndecBuilder.of(
-        Endec.FLOAT.fieldOf("mana", pool -> pool.mana),
-        Endec.FLOAT.fieldOf("max_mana", pool -> pool.maxMana),
+        LONG_OR_OLD_FLOAT_ENDEC.fieldOf("mana", pool -> pool.mana),
+        LONG_OR_OLD_FLOAT_ENDEC.fieldOf("max_mana", pool -> pool.maxMana),
+        ManaVariant.ENDEC.optionalFieldOf("variant", pool -> pool.variant, ManaVariant.of(Manae.TRADITIONAL)),
         Endec.FLOAT.fieldOf("interest", pool -> pool.interest),
         Endec.LONG.fieldOf("last_update_time", pool -> pool.lastUpdateTime),
         SavingsManaPool::new
@@ -17,15 +20,15 @@ public class SavingsManaPool extends SimpleManaPool {
     protected final float interest;
     protected long lastUpdateTime;
 
-    protected SavingsManaPool(float mana, float maxMana, float interest, long lastUpdateTime) {
-        super(mana, maxMana);
+    protected SavingsManaPool(long mana, long maxMana, ManaVariant variant, float interest, long lastUpdateTime) {
+        super(mana, maxMana, variant);
         this.interest = interest;
         this.lastUpdateTime = lastUpdateTime;
     }
 
     // It's kinda important for this to be the only public constructor.
     // If lastUpdateTime is 0, mana should probably also be 0, or a lot of free interest will be given.
-    public SavingsManaPool(float maxMana, float interest) {
+    public SavingsManaPool(long maxMana, float interest) {
         super(maxMana);
         this.interest = interest;
     }
@@ -36,23 +39,34 @@ public class SavingsManaPool extends SimpleManaPool {
     }
 
     @Override
-    public void set(float value, World world) {
+    public void set(long value, World world) {
         lastUpdateTime = world.getTime();
+        if (value == 0) {
+            setVariant(ManaVariant.EMPTY, world);
+        }
         super.set(value, world);
     }
 
     @Override
-    public float get(World world) {
+    public long get(World world) {
         var ticksPassed = world.getTime() - lastUpdateTime; // t
         var lastMana = super.get(world); // P
 
         // P(1 + i)^t
-        return (float) Math.clamp(lastMana * Math.pow(1 + interest, ticksPassed), 0, getMax(world));
+        return (long) Math.clamp(lastMana * Math.pow(1 + interest, ticksPassed), 0, getMax(world));
+    }
+
+    @Override
+    public ManaVariant getVariant(World world) {
+        if (get(world) == 0) {
+            return ManaVariant.EMPTY;
+        }
+        return super.getVariant(world);
     }
 
     @Override
     public MutableManaPool makeClone(World world) {
-        return new SavingsManaPool(mana, maxMana, interest, lastUpdateTime);
+        return new SavingsManaPool(mana, maxMana, variant, interest, lastUpdateTime);
     }
 
     @Override

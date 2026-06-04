@@ -30,12 +30,12 @@ public class CoolTrick extends Trick<CoolTrick> {
         var blockState = world.getBlockState(blockPos);
 
         if (CampfireBlock.isLitCampfire(blockState) || CandleBlock.isLitCandle(blockState) || CandleCakeBlock.isLitCandle(blockState)) {
-            ctx.useMana(this, 0.001f);
+            ctx.useScaledMana(this, 0.001f);
 
             world.setBlockState(blockPos, blockState.with(Properties.LIT, false));
             world.emitGameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);
         } else if (!blockState.isAir()) {
-            ctx.useMana(this, 80);
+            ctx.useScaledMana(this, 80);
 
             DataLoader.getCoolLoader().convert(blockState.getBlock(), world, blockPos, ctx.source().getPlayer());
 
@@ -49,8 +49,8 @@ public class CoolTrick extends Trick<CoolTrick> {
 
             var particlePos = blockPos.toCenterPos();
             world.spawnParticles(
-                    ParticleTypes.SNOWFLAKE, particlePos.x, particlePos.y, particlePos.z,
-                    16, 0.5, 0.5, 0.5, 0
+                ParticleTypes.SNOWFLAKE, particlePos.x, particlePos.y, particlePos.z,
+                16, 0.5, 0.5, 0.5, 0
             );
         } else {
             throw new BlockInvalidBlunder(this);

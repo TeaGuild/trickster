@@ -18,7 +18,7 @@ import net.minecraft.util.math.MathHelper;
 public class PowerResonatorTrick extends Trick<PowerResonatorTrick> {
     public PowerResonatorTrick() {
         super(Pattern.of(7, 8, 6, 7, 2, 1, 0, 7),
-                Signature.of(FragmentType.VECTOR, FragmentType.NUMBER, PowerResonatorTrick::run, FragmentType.BOOLEAN));
+            Signature.of(FragmentType.VECTOR, FragmentType.NUMBER, PowerResonatorTrick::run, FragmentType.BOOLEAN));
     }
 
     public BooleanFragment run(SpellContext ctx, VectorFragment pos, NumberFragment power) {
@@ -28,7 +28,7 @@ public class PowerResonatorTrick extends Trick<PowerResonatorTrick> {
         expectCanBuild(ctx, blockPos);
 
         if (world.getBlockState(blockPos).getBlock() instanceof SpellControlledRedstoneBlock block) {
-            ctx.useMana(this, 4);
+            ctx.useScaledMana(this, 4);
             var result = block.setPower(world, blockPos, intPower);
 
             if (result) {
@@ -38,8 +38,8 @@ public class PowerResonatorTrick extends Trick<PowerResonatorTrick> {
                 // 1, 0, 0, 0, 0
                 // );
                 world.playSound(
-                        null, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5,
-                        SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 1, 1.6f + 0.1f / 3 * intPower, 0);
+                    null, blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5,
+                    SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 1, 1.6f + 0.1f / 3 * intPower, 0);
                 ctx.source().getPlayer().ifPresent(ModCriteria.TRIGGER_RESONATOR::trigger);
 
                 return BooleanFragment.TRUE;

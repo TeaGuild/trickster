@@ -6,6 +6,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.enjarai.trickster.EndecTomfoolery;
 import dev.enjarai.trickster.particle.ModParticles;
 import dev.enjarai.trickster.spell.mana.ManaPool;
+import dev.enjarai.trickster.spell.mana.SimpleManaPool;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -14,6 +17,7 @@ import net.minecraft.world.World;
 
 public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
 
+    public static final ManaComponent EMPTY = new ManaComponent(SimpleManaPool.getSingleUse(0), 0);
     public static final Codec<ManaComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         EndecTomfoolery.toCodec(ManaPool.ENDEC).fieldOf("pool").forGetter(ManaComponent::pool),
         Codec.FLOAT.fieldOf("natural_recharge_multiplier").forGetter(ManaComponent::naturalRechargeMultiplier)
@@ -54,7 +58,7 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
         chargeMultiplier *= component.naturalRechargeMultiplier();
 
         var newPool = pool.makeClone(world);
-        newPool.refill(chargeMultiplier, world);
+        newPool.refill(ManaVariant.of(Manae.TRADITIONAL), (long) (chargeMultiplier * ManaPool.MANA_SCALE), world);
         stack.set(ModComponents.MANA, component.with(newPool));
 
         var particleVelocity = world.isThundering() ? 4 : 1;

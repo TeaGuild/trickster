@@ -56,7 +56,7 @@ public class DisplaceEntityTrick extends Trick<DisplaceEntityTrick> {
             manaUse += (float) (entity.getPos().toVector3d().distance(ctx.source().getPos()) * 3);
         }
 
-        ctx.useMana(this, manaUse);
+        ctx.useScaledMana(this, manaUse);
 
         var instant = ctx.source().getCaster()
             .map(c -> c.getUuid().equals(entity.getUuid()))
