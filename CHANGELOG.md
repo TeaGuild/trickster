@@ -1,1 +1,2 @@
 - Re-worked Conduit Ploys. (@enjarai)
+- Re-worked floating block damage scaling. (@aurakle)
