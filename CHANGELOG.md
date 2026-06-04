@@ -1,2 +1,3 @@
 - Re-worked Conduit Ploys. (@enjarai)
 - Re-worked floating block damage scaling. (@aurakle)
+- Gave Infused Ceramic a hardness and resistance value. (@aurakle)

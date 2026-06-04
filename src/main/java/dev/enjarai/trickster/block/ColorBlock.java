@@ -9,9 +9,8 @@ import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class ColorBlock extends BlockWithEntity {
-
     protected ColorBlock() {
-        super(Settings.create().sounds(BlockSoundGroup.DECORATED_POT));
+        super(Settings.create().hardness(0.2f).resistance(0.2f).sounds(BlockSoundGroup.DECORATED_POT));
     }
 
     @Override
@@ -35,5 +34,4 @@ public class ColorBlock extends BlockWithEntity {
         var colB = colors[((int) t + 1) % colors.length];
         return ColorHelper.Argb.lerp(t % 1, colA, colB);
     }
-
 }
