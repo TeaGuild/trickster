@@ -31,12 +31,12 @@ public final class InfiniteManaPool implements MutableManaPool {
 
     @Override
     public long get(World world) {
-        return Long.MAX_VALUE;
+        return Long.MAX_VALUE / 3;
     }
 
     @Override
     public long getMax(World world) {
-        return Long.MAX_VALUE;
+        return Long.MAX_VALUE / 3;
     }
 
     @Override

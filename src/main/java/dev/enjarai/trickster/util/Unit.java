@@ -15,8 +15,8 @@ public abstract class Unit {
         }
     }
 
-    public float correct(float value) {
-        return (float) (value / Math.pow(1000, precision));
+    public double correct(long value) {
+        return (double) value / 1000d / Math.pow(1000, precision);
     }
 
     public String shortName() {
@@ -69,17 +69,9 @@ public abstract class Unit {
 
     protected abstract String longNameEnd();
 
-    public static Gandalf getGandalfUnit(float value) {
-        return Gandalf.cache.apply(precisionFromValue(value));
-    }
-
-    public static Merlin getMerlinUnit(float value) {
-        return Merlin.cache.apply(precisionFromValue(value));
-    }
-
-    private static int precisionFromValue(float value) {
+    private static int precisionFromValue(long value) {
         int precision = 10;
-        double d = Math.abs(value) / Math.pow(1000, precision);
+        double d = Math.abs((double) value / 1000d) / Math.pow(1000, precision);
 
         while (precision > -1 && d < 10) {
             precision -= 1;
@@ -111,7 +103,7 @@ public abstract class Unit {
 
         @Override
         protected String longNameEnd() {
-            return "Gandalf";
+            return "gandalf";
         }
     }
 
@@ -129,7 +121,7 @@ public abstract class Unit {
 
         @Override
         protected String longNameEnd() {
-            return "Merlin";
+            return "merlin";
         }
     }
 }

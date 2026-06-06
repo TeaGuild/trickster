@@ -43,7 +43,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
         }
     }
 
-    public float getUsage(ItemStack stack) {
+    public long getUsage(ItemStack stack) {
         if (MinecraftClient.getInstance().player != null) {
             var inventory = MinecraftClient.getInstance().player.getInventory();
             for (int i = 0; i < inventory.size(); i++) {
@@ -96,8 +96,8 @@ public class MerlinKeeperTracker implements TooltipAppender {
                 );
             }
 
-            float current = pool.get(world);
-            float max = pool.getMax(world);
+            long current = pool.get(world);
+            long max = pool.getMax(world);
             var currentUnit = Unit.getGandalfUnit(current);
             var maxUnit = Unit.getGandalfUnit(max);
 
@@ -121,29 +121,28 @@ public class MerlinKeeperTracker implements TooltipAppender {
     }
 
     public class MerlinUsage {
-        public float prevLastMerlins;
-        public float lastMerlins;
-        public float latestMerlins;
+        public long prevLastMerlins;
+        public long lastMerlins;
+        public long latestMerlins;
 
-        public MerlinUsage(float latest) {
+        public MerlinUsage(long latest) {
             prevLastMerlins = latest;
             lastMerlins = latest;
             latestMerlins = latest;
         }
 
-        public void update(float newMerlins) {
+        public void update(long newMerlins) {
             prevLastMerlins = lastMerlins;
             lastMerlins = latestMerlins;
             latestMerlins = newMerlins;
         }
 
-        @SuppressWarnings("resource")
-        public float getUsage() {
+        public long getUsage() {
             if (MinecraftClient.getInstance().player == null) {
                 return 0;
             }
 
-            return MathHelper.lerp(
+            return (long) MathHelper.lerp(
                 (float) (MinecraftClient.getInstance().player.age % tickSpan) / tickSpan,
                 prevLastMerlins - lastMerlins, lastMerlins - latestMerlins
             ) / tickSpan;

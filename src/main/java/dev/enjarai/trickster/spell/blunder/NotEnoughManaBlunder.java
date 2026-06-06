@@ -18,7 +18,7 @@ public class NotEnoughManaBlunder extends TrickBlunderException {
 
         return super.createMessage()
             .append("Not enough mana, at least ")
-            .append(formatFloat(unit.correct(required)))
+            .append(formatFloat((float) unit.correct(required)))
             .append(" ")
             .append(unit.shortName())
             .append(" are required.");
