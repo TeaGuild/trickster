@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.screen.scribing;
 
 import dev.enjarai.trickster.ClientUtils;
+import dev.enjarai.trickster.ModKeyBindings;
 import dev.enjarai.trickster.spell.SpellPart;
 import dev.enjarai.trickster.spell.SpellView;
 import dev.enjarai.trickster.Trickster;
@@ -185,6 +186,11 @@ public class CircleSoupWidget extends StatefulWidget {
         }
 
         private boolean keyUp(int keyCode, KeyModifiers modifiers) {
+            if (ModKeyBindings.SHOW_FRAGMENT_TEXT.matchesKey(keyCode, -1)) {
+                fadering = -1;
+                return true;
+            }
+
             return switch (keyCode) {
                 case GLFW.GLFW_KEY_W -> {
                     zoomering--;
@@ -196,16 +202,25 @@ public class CircleSoupWidget extends StatefulWidget {
                     scheduleAnimationCallback(this::doZoomering);
                     yield true;
                 }
-                case GLFW.GLFW_KEY_LEFT_ALT -> {
-                    fadering = -1;
-                    yield true;
-                }
                 default -> false;
             };
         }
 
         private Focusable.KeyDownCallback keyDown(CircleSoupState state) {
             return (keyCode, modifiers) -> {
+                if (ModKeyBindings.SHOW_FRAGMENT_TEXT.matchesKey(keyCode, -1)) {
+                    if (ClientUtils.hasScryglass()) {
+                        fadering = 1;
+                    }
+                    return true;
+                }
+                if (ModKeyBindings.PONDER.matchesKey(keyCode, -1)) {
+                    if (primaryPonder != null) {
+                        unponder();
+                    }
+                    return true;
+                }
+
                 return switch (keyCode) {
                     case GLFW.GLFW_KEY_W -> {
                         if (zoomering != 0) yield false;
@@ -217,18 +232,6 @@ public class CircleSoupWidget extends StatefulWidget {
                         if (zoomering != 0) yield false;
                         zoomering--;
                         scheduleAnimationCallback(this::doZoomering);
-                        yield true;
-                    }
-                    case GLFW.GLFW_KEY_F -> {
-                        if (primaryPonder != null) {
-                            unponder();
-                        }
-                        yield true;
-                    }
-                    case GLFW.GLFW_KEY_LEFT_ALT -> {
-                        if (ClientUtils.hasScryglass()) {
-                            fadering = 1;
-                        }
                         yield true;
                     }
                     case GLFW.GLFW_KEY_ESCAPE -> {

@@ -542,6 +542,7 @@ key:
     take_hat: Take Hat
     modify_spell: Modify Spell (Creative only)
     show_fragment_text: Reveal Fragments
+    ponder: Focus Circle
 
 accessories.slot:
   collar: Collar
