@@ -56,7 +56,7 @@ public class KnotManaStorage implements SingleSlotStorage<ManaVariant> {
 
         if (getResource().equals(mana) || isResourceBlank()) {
             long currentMana = getMana();
-            int inserted = (int) Math.min(amount, getCapacity() - currentMana);
+            long inserted = Math.min(amount, getCapacity() - currentMana);
 
             if (inserted > 0) {
                 currentMana += inserted;
