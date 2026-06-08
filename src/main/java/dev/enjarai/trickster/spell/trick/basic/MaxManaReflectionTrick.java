@@ -15,7 +15,7 @@ public class MaxManaReflectionTrick extends Trick<MaxManaReflectionTrick> {
     public NumberFragment run(SpellContext ctx) {
         long result = 0;
 
-        for (var view : ctx.getManaStorage().nonEmptyViews()) {
+        for (var view : ctx.getManaStorage()) {
             result += view.getCapacity();
         }
 
