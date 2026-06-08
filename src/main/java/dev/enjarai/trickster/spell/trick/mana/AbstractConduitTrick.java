@@ -4,6 +4,7 @@ import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.NumberIsInfiniteBlunder;
+import dev.enjarai.trickster.spell.blunder.NumberTooSmallBlunder;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
@@ -29,6 +30,10 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
     }
 
     public NumberFragment run(SpellContext ctx, NumberFragment n, StorageFragment target) {
+        if (n.number() < 0) {
+            throw new NumberTooSmallBlunder(this, 0);
+        }
+
         if (Double.isInfinite(n.number())) {
             throw new NumberIsInfiniteBlunder(this);
         }
