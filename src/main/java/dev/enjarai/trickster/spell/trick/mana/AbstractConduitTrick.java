@@ -1,7 +1,6 @@
 package dev.enjarai.trickster.spell.trick.mana;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.NumberIsInfiniteBlunder;
@@ -53,14 +52,15 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
     }
 
     private long runForSlottedStorage(SpellContext ctx, SlottedStorage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max) {
-        long result = 0;
-
         long knotCount = 0;
         for (var slot : storage.getSlots()) {
-            if (slot.getResource().getComponentMap().contains(ModComponents.MANA)) {
-                knotCount += slot.getAmount();
-            }
+            knotCount += ManaStorage.ITEM.find(
+                slot.getResource().toStack(),
+                new ManaStorage.LookupContext(ContainerItemContext.ofSingleSlot(slot), ctx.source().getWorld())
+            ) == null ? 0 : 1;
         }
+
+        if (knotCount == 0) return 0;
 
         long limit = max / knotCount;
 
@@ -68,6 +68,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         float r = Trickster.CONFIG.manaTransferEfficiency();
         double tax = Math.max(0, 1 - r / (distance + r - 16));
 
+        long result = 0;
         for (var slot : storage.getSlots()) {
             var resource = slot.getResource();
             if (resource.isBlank()) {
@@ -79,6 +80,8 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
                     slot.getResource().toStack(),
                     new ManaStorage.LookupContext(ContainerItemContext.ofSingleSlot(slot), ctx.source().getWorld())
                 );
+
+                if (manaStorage == null) continue;
 
                 result += affect(ctx, manaStorage, variant, limit, tax, slot.getAmount(), trans);
 
@@ -94,14 +97,15 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
     }
 
     private long runForStorage(SpellContext ctx, Storage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max) {
-        long result = 0;
-
         long knotCount = 0;
         for (var view : storage.nonEmptyViews()) {
-            if (view.getResource().getComponentMap().contains(ModComponents.MANA)) {
-                knotCount += view.getAmount();
-            }
+            knotCount += ManaStorage.ITEM.find(
+                view.getResource().toStack(),
+                new ManaStorage.LookupContext(new StorageViewContainerContext(view, storage), ctx.source().getWorld())
+            ) == null ? 0 : 1;
         }
+
+        if (knotCount == 0) return 0;
 
         long limit = max / knotCount;
 
@@ -109,12 +113,15 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         float r = Trickster.CONFIG.manaTransferEfficiency();
         double tax = Math.max(0, 1 - r / (distance + r - 16));
 
+        long result = 0;
         for (var view : storage.nonEmptyViews()) {
             try (var trans = Transaction.openOuter()) {
                 var manaStorage = ManaStorage.ITEM.find(
                     view.getResource().toStack(),
                     new ManaStorage.LookupContext(new StorageViewContainerContext(view, storage), ctx.source().getWorld())
                 );
+
+                if (manaStorage == null) continue;
 
                 result += affect(ctx, manaStorage, variant, limit, tax, view.getAmount(), trans);
 
