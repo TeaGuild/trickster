@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.spell.trick.entity;
 
+import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.ModBlocks;
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.entity.LevitatingBlockEntity;
@@ -14,6 +15,7 @@ import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 import net.minecraft.block.FluidBlock;
+import net.minecraft.block.PistonBlock;
 import net.minecraft.entity.LivingEntity;
 
 public class ChangeWeightTrick extends Trick<ChangeWeightTrick> {
@@ -24,8 +26,8 @@ public class ChangeWeightTrick extends Trick<ChangeWeightTrick> {
 
     public EntityFragment change(SpellContext ctx, EntityFragment target, NumberFragment number) {
         var entity = target
-                .getEntity(ctx)
-                .orElseThrow(() -> new UnknownEntityBlunder(this));
+            .getEntity(ctx)
+            .orElseThrow(() -> new UnknownEntityBlunder(this));
         var weight = number.number();
 
         if (weight > 1) {
@@ -68,21 +70,26 @@ public class ChangeWeightTrick extends Trick<ChangeWeightTrick> {
             throw new NumberTooSmallBlunder(this, 0);
         }
 
-        if (state.isAir() || state.getBlock() instanceof FluidBlock || state.isIn(ModBlocks.CANNOT_LEVITATE)) {
-            throw new BlockInvalidBlunder(this);
+        if (state.isAir()
+            || state.getBlock() instanceof FluidBlock
+            || state.isIn(ModBlocks.CANNOT_LEVITATE)
+            || (!Trickster.CONFIG.allowMovingUnbreakableBlock() && state.getHardness(world, blockPos) < 0)
+            || (!Trickster.CONFIG.allowMovingExtendedPiston() && state.contains(PistonBlock.EXTENDED) && state.get(PistonBlock.EXTENDED))
+        ) {
+            throw new BlockInvalidBlunder(this, state.getBlock());
         }
 
         ctx.useMana(this, 10 + (float) (30 * (1 - weight)));
 
         var levitatingBlock = LevitatingBlockEntity.spawnFromBlock(
-                ctx.source().getWorld(), target.toBlockPos(), state, (float) weight, ctx.source().getCaster().orElse(null)
+            ctx.source().getWorld(), target.toBlockPos(), state, (float) weight, ctx.source().getCaster().orElse(null)
         );
         ModEntityComponents.GRACE.get(levitatingBlock).triggerGrace("weight", 20);
 
         var particlePos = target.toBlockPos().toCenterPos();
         ctx.source().getWorld().spawnParticles(
-                ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
-                1, 0, 0, 0, 0
+            ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
+            1, 0, 0, 0, 0
         );
 
         return EntityFragment.from(levitatingBlock);

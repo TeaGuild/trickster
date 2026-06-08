@@ -522,8 +522,8 @@ text.config.trickster-config:
     keyZoomSpeed: Editor key zoom speed
     maxExecutionsPerSpellPerTick: Max operations per tick per spell
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
-    allowUnbreakableBlockSwap: Allow block swapping of unbreakable blocks
-    allowExtendedPistonSwap: Allow block swapping of extended pistons
+    allowMovingUnbreakableBlock: Allow tricks to move unbreakable blocks
+    allowMovingExtendedPiston: Allow tricks to move extended piston base
 
     dragDrawing: Draw by dragging
     animateLines: Animate pattern glyphs
