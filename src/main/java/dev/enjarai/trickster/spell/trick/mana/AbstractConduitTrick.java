@@ -70,11 +70,6 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
         long result = 0;
         for (var slot : storage.getSlots()) {
-            var resource = slot.getResource();
-            if (resource.isBlank()) {
-                continue;
-            }
-
             try (var trans = Transaction.openOuter()) {
                 var manaStorage = ManaStorage.ITEM.find(
                     slot.getResource().toStack(),
