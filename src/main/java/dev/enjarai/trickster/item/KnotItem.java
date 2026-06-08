@@ -317,7 +317,7 @@ public abstract class KnotItem extends Item {
             }
 
             var pool = component.pool().makeClone(player.getWorld());
-            if (pool.refill(ManaVariant.of(Manae.TRADITIONAL), 512, player.getWorld()) < 512) {
+            if (pool.refill(ManaVariant.of(Manae.TRADITIONAL), 512 * ManaPool.MANA_SCALE, player.getWorld()) < 512 * ManaPool.MANA_SCALE) {
                 stack.set(ModComponents.MANA, component.with(pool));
 
                 otherStack.decrement(1);
