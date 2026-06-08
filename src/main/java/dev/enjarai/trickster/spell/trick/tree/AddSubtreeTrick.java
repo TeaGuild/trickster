@@ -12,14 +12,15 @@ import java.util.List;
 
 public class AddSubtreeTrick extends AbstractMetaTrick<AddSubtreeTrick> {
     public AddSubtreeTrick() {
-        super(Pattern.of(2, 1, 0, 4, 8, 7, 6, 4, 2, 5, 8), Signature.of(FragmentType.SPELL_PART, ADDRESS, FragmentType.SPELL_PART, AddSubtreeTrick::add, FragmentType.SPELL_PART));
+        super(Pattern.of(2, 1, 0, 4, 8, 7, 6, 4, 2, 5, 8),
+            Signature.of(FragmentType.SPELL_PART, ADDRESS, FragmentType.SPELL_PART.variadicOfArg().unpack(), AddSubtreeTrick::add, FragmentType.SPELL_PART));
     }
 
-    public SpellPart add(SpellContext ctx, SpellPart spell, List<NumberFragment> address, SpellPart subtree) {
+    public SpellPart add(SpellContext ctx, SpellPart spell, List<NumberFragment> address, List<SpellPart> subtrees) {
         var newSpell = spell.deepClone();
         var node = findNode(newSpell, address)
-                .orElseThrow(() -> new AddressNotInTreeBlunder(this, address));
-        node.subParts.add(subtree);
+            .orElseThrow(() -> new AddressNotInTreeBlunder(this, address));
+        node.subParts.addAll(subtrees);
 
         return newSpell;
     }
