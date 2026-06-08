@@ -51,7 +51,7 @@ public class BatteryCreationTrick extends Trick<BatteryCreationTrick> {
                 throw new ItemInvalidBlunder(this);
             }
 
-            ctx.useScaledMana(this, type.getCreationCost());
+            ctx.useScaledMana(this, type.getCreationCost(), trans);
 
             ctx.source().offerOrDropItem(type.createStack(ctx.source().getWorld()));
             ctx.source().getPlayer().ifPresent(player -> ModCriteria.CREATE_KNOT.trigger(player, type));
