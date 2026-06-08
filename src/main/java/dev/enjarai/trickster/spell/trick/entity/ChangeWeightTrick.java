@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.spell.trick.entity;
 
+import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.ModBlocks;
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.entity.LevitatingBlockEntity;
@@ -14,6 +15,7 @@ import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 import net.minecraft.block.FluidBlock;
+import net.minecraft.block.PistonBlock;
 import net.minecraft.entity.LivingEntity;
 
 public class ChangeWeightTrick extends Trick<ChangeWeightTrick> {
@@ -68,8 +70,13 @@ public class ChangeWeightTrick extends Trick<ChangeWeightTrick> {
             throw new NumberTooSmallBlunder(this, 0);
         }
 
-        if (state.isAir() || state.getBlock() instanceof FluidBlock || state.isIn(ModBlocks.CANNOT_LEVITATE)) {
-            throw new BlockInvalidBlunder(this);
+        if (state.isAir()
+            || state.getBlock() instanceof FluidBlock
+            || state.isIn(ModBlocks.CANNOT_LEVITATE)
+            || (!Trickster.CONFIG.allowMovingUnbreakableBlock() && state.getHardness(world, blockPos) < 0)
+            || (!Trickster.CONFIG.allowMovingExtendedPiston() && state.contains(PistonBlock.EXTENDED) && state.get(PistonBlock.EXTENDED))
+        ) {
+            throw new BlockInvalidBlunder(this, state.getBlock());
         }
 
         ctx.useMana(this, 10 + (float) (30 * (1 - weight)));
