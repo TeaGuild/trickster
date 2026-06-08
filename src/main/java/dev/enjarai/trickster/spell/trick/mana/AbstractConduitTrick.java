@@ -78,7 +78,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
                 if (manaStorage == null) continue;
 
-                result += affect(ctx, manaStorage, variant, limit, tax, slot.getAmount(), trans);
+                result += affect(ctx, manaStorage, variant, limit / slot.getAmount(), tax, trans);
 
                 trans.commit();
             }
@@ -118,7 +118,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
                 if (manaStorage == null) continue;
 
-                result += affect(ctx, manaStorage, variant, limit, tax, view.getAmount(), trans);
+                result += affect(ctx, manaStorage, variant, limit / view.getAmount(), tax, trans);
 
                 trans.commit();
             }
@@ -138,5 +138,5 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
     /**
      * @return the amount of mana fulfilled by the item.
      */
-    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, ManaVariant variant, long limit, double taxPercentage, long count, TransactionContext trans);
+    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, ManaVariant variant, long limit, double taxPercentage, TransactionContext trans);
 }

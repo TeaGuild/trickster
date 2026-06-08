@@ -38,15 +38,13 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected long affect(SpellContext ctx, Storage<ManaVariant> target, ManaVariant variant, long limit, double taxPercentage, long count, TransactionContext trans) {
+    protected long affect(SpellContext ctx, Storage<ManaVariant> target, ManaVariant variant, long limit, double taxPercentage, TransactionContext trans) {
         var self = ctx.source().getManaStorage();
 
         var taxedMult = 1 - taxPercentage;
 
         var taken = self.extract(variant, limit, trans);
-        var leftover = taken - target.insert(variant, (long) (taken * taxedMult / count), trans); //leftover is how much taxed mana could not be inserted
-        leftover *= count;
-        leftover /= taxedMult; //untax the leftover mana; it wasnt transferred so it shouldnt be taxed
+        var leftover = taken - (long) (target.insert(variant, (long) (taken * taxedMult), trans) / taxedMult);
         self.insert(variant, leftover, trans);
         return taken - leftover;
     }

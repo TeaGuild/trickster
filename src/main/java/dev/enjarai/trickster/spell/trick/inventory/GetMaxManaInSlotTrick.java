@@ -28,7 +28,7 @@ public class GetMaxManaInSlotTrick extends Trick<GetMaxManaInSlotTrick> {
                 ctx.source().getWorld()
             ));
             if (manaStorage != null) {
-                for (var view : manaStorage.nonEmptyViews()) {
+                for (var view : manaStorage) {
                     result += view.getCapacity();
                 }
             }
