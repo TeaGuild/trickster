@@ -46,8 +46,6 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     public SpellExecutor executor = null;
     private Text showcaseText = null;
 
-    private boolean isDirty;
-
     public SpellConstructBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.SPELL_CONSTRUCT_ENTITY, pos, state);
     }
@@ -109,8 +107,10 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                 var source = new BlockSpellSource<>(serverWorld, getPos(), this) {
                     @Override
                     public void showMessage(Text message) {
-                        showcaseText = message;
-                        markDirtyAndUpdateClients();
+                        if (!message.equals(showcaseText)) {
+                            showcaseText = message;
+                            markDirtyAndUpdateClients();
+                        }
                     }
                 };
 
@@ -128,8 +128,8 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                     try {
                         if (executor.run(source, new TickData().withCanUseMana(canUseMana).withExecutionLimit(executionLimit)).isPresent()) {
                             executor = null;
-                            updateClient = true;
                             resetShowcaseText();
+                            updateClient = true;
                         }
                     } catch (BlunderException blunder) {
                         error = Optional.of(
@@ -150,8 +150,8 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
                     if (error.isPresent()) {
                         playCastSound(serverWorld, getPos(), 0.5f, 0.1f);
-                        updateClient = true;
                         resetShowcaseText();
+                        updateClient = true;
                     }
                 }
             }
@@ -187,13 +187,7 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        if (isDirty) {
-            isDirty = false;
-
-            return BlockEntityUpdateS2CPacket.create(this);
-        }
-
-        return null;
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
@@ -293,8 +287,6 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
     public void markDirtyAndUpdateClients() {
         super.markDirty();
-
-        isDirty = true;
 
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);

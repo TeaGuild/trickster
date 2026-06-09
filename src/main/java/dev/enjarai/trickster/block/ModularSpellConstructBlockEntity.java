@@ -60,8 +60,6 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     private Fragment crowMind = VoidFragment.INSTANCE;
     public int age;
 
-    private boolean isDirty;
-
     public ModularSpellConstructBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MODULAR_SPELL_CONSTRUCT_ENTITY, pos, state);
     }
@@ -137,8 +135,12 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                     var source = new BlockSpellSource<>(serverWorld, getPos(), this) {
                         @Override
                         public void showMessage(Text message) {
-                            showcaseTexts.set(executorSlot, Optional.of(message));
-                            markDirtyAndUpdateClients();
+                            var text = Optional.of(message);
+
+                            if (!text.equals(showcaseTexts.get(executorSlot))) {
+                                showcaseTexts.set(executorSlot, text);
+                                markDirtyAndUpdateClients();
+                            }
                         }
                     };
 
@@ -154,8 +156,8 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                         try {
                             if (executor.run(source, tickData.withExecutionLimit(executionLimit)).isPresent()) {
                                 executors.set(executorSlot, Optional.empty());
-                                updateClient = true;
                                 resetShowcaseText(executorSlot);
+                                updateClient = true;
                             }
                         } catch (BlunderException blunder) {
                             error = Optional.of(
@@ -175,8 +177,8 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                         });
                         if (error.isPresent()) {
                             playCastSound(serverWorld, getPos(), 0.5f, 0.1f);
-                            updateClient = true;
                             resetShowcaseText(executorSlot);
+                            updateClient = true;
                         }
                     }
                 }
@@ -208,13 +210,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        if (isDirty) {
-            isDirty = false;
-
-            return BlockEntityUpdateS2CPacket.create(this);
-        }
-
-        return null;
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
@@ -302,8 +298,6 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     public void markDirtyAndUpdateClients() {
         super.markDirty();
 
-        isDirty = true;
-
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }
@@ -334,7 +328,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     @Override
     public void setCrowMind(Fragment fragment) {
         crowMind = fragment;
-        markDirtyAndUpdateClients();
+        markDirty();
     }
 
     @Override
