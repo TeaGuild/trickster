@@ -60,6 +60,8 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     private Fragment crowMind = VoidFragment.INSTANCE;
     public int age;
 
+    private boolean isDirty;
+
     public ModularSpellConstructBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MODULAR_SPELL_CONSTRUCT_ENTITY, pos, state);
     }
@@ -206,7 +208,13 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+        if (isDirty) {
+            isDirty = false;
+
+            return BlockEntityUpdateS2CPacket.create(this);
+        }
+
+        return null;
     }
 
     @Override
@@ -293,6 +301,9 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
 
     public void markDirtyAndUpdateClients() {
         super.markDirty();
+
+        isDirty = true;
+
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }

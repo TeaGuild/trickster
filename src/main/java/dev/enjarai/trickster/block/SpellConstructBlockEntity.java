@@ -46,6 +46,8 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     public SpellExecutor executor = null;
     private Text showcaseText = null;
 
+    private boolean isDirty;
+
     public SpellConstructBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.SPELL_CONSTRUCT_ENTITY, pos, state);
     }
@@ -185,7 +187,13 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+        if (isDirty) {
+            isDirty = false;
+
+            return BlockEntityUpdateS2CPacket.create(this);
+        }
+
+        return null;
     }
 
     @Override
@@ -285,6 +293,9 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
     public void markDirtyAndUpdateClients() {
         super.markDirty();
+
+        isDirty = true;
+
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }
