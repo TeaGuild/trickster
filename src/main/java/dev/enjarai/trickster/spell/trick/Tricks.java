@@ -18,10 +18,7 @@ import dev.enjarai.trickster.spell.trick.fleck.*;
 import dev.enjarai.trickster.spell.trick.func.*;
 import dev.enjarai.trickster.spell.trick.inventory.*;
 import dev.enjarai.trickster.spell.trick.list.*;
-import dev.enjarai.trickster.spell.trick.mana.BatteryCreationTrick;
-import dev.enjarai.trickster.spell.trick.mana.DrainMatterTrick;
-import dev.enjarai.trickster.spell.trick.mana.PullManaTrick;
-import dev.enjarai.trickster.spell.trick.mana.PushManaTrick;
+import dev.enjarai.trickster.spell.trick.mana.*;
 import dev.enjarai.trickster.spell.trick.map.*;
 import dev.enjarai.trickster.spell.trick.math.*;
 import dev.enjarai.trickster.spell.trick.misc.*;
@@ -317,6 +314,7 @@ public class Tricks {
     public static final BatteryCreationTrick BATTERY_CREATION = register("battery_creation", new BatteryCreationTrick());
     public static final PushManaTrick PUSH_MANA = register("push_mana", new PushManaTrick());
     public static final PullManaTrick PULL_MANA = register("pull_mana", new PullManaTrick());
+    public static final ConvertManaTrick CONVERT_MANA = register("convert_mana", new ConvertManaTrick());
     public static final DrainMatterTrick DRAIN_MATTER = register("drain_matter", new DrainMatterTrick());
 
     // Color
