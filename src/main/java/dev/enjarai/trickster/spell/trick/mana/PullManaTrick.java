@@ -42,7 +42,7 @@ public class PullManaTrick extends AbstractConduitTrick {
     protected long affect(SpellContext ctx, Storage<ManaVariant> target, ManaVariant variant, long limit, double taxPercentage, boolean convert, TransactionContext trans) {
         var self = ctx.source().getManaStorage();
 
-        var conversionMultiplier = variant.getMana().getConversionMultiplier();
+        var conversionMultiplier = convert ? variant.getMana().getConversionMultiplier() : 1d;
         var taxedMult = 1 - taxPercentage;
 
         var taken = target.extract(variant, limit, trans);
