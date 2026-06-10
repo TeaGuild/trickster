@@ -49,6 +49,7 @@ trickster:
     filling: "Charging: %.2f"
   mana:
     type: "Type: %s"
+    stability: "Stability: %s%%"
 
   item_group: Trickster
 

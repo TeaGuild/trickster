@@ -18,7 +18,7 @@ public class PoolManaStorage extends SnapshotParticipant<Long> implements Single
 
     @Override
     public long insert(ManaVariant variant, long maxAmount, TransactionContext transaction) {
-        StoragePreconditions.notNegative(maxAmount);
+        StoragePreconditions.notBlankNotNegative(variant, maxAmount);
 
         long inserted = Math.min(maxAmount, pool.getMax(world) - pool.get(world));
 
@@ -33,7 +33,7 @@ public class PoolManaStorage extends SnapshotParticipant<Long> implements Single
 
     @Override
     public long extract(ManaVariant variant, long maxAmount, TransactionContext transaction) {
-        StoragePreconditions.notNegative(maxAmount);
+        StoragePreconditions.notBlankNotNegative(variant, maxAmount);
 
         long extracted = Math.min(maxAmount, pool.get(world));
 

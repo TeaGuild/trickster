@@ -62,7 +62,7 @@ public class KnotManaStorage implements SingleSlotStorage<ManaVariant> {
 
     @Override
     public long insert(ManaVariant mana, long amount, TransactionContext transaction) {
-        StoragePreconditions.notNegative(amount);
+        StoragePreconditions.notBlankNotNegative(mana, amount);
 
         var variant = ctx.getItemVariant();
 
@@ -86,7 +86,7 @@ public class KnotManaStorage implements SingleSlotStorage<ManaVariant> {
 
     @Override
     public long extract(ManaVariant mana, long amount, TransactionContext transaction) {
-        StoragePreconditions.notNegative(amount);
+        StoragePreconditions.notBlankNotNegative(mana, amount);
 
         var variant = ctx.getItemVariant();
 

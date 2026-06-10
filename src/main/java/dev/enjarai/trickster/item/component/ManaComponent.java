@@ -8,6 +8,9 @@ import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.SimpleManaPool;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Manae;
+import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
+import dev.enjarai.trickster.spell.mana.type.component.StabilityComponent;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -45,7 +48,7 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
         }
 
         var pool = component.pool();
-        if (pool.get(world) >= pool.getMax(world)) {
+        if (pool.get(world) >= pool.getMax(world) && !world.isThundering()) {
             return 0;
         }
 
@@ -63,7 +66,18 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
 
         var mana = world.isThundering() ? Manae.STORM : Manae.TRADITIONAL;
         var newPool = pool.makeClone(world);
-        var shouldMakeParticles = 0 == newPool.refill(ManaVariant.of(mana), (long) (chargeMultiplier * ManaPool.MANA_SCALE), world);
+
+        var variant = ManaVariant.of(mana);
+        if (mana == Manae.STORM) {
+            variant = variant.withComponentChanges(ComponentChanges.builder()
+                .add(ManaComponents.STABILITY, new StabilityComponent(world.getTime())).build());
+
+            if (newPool.getVariant(world).getMana() == Manae.STORM) {
+                newPool.setVariant(variant, world);
+            }
+        }
+
+        var shouldMakeParticles = 0 == newPool.refill(variant, (long) (chargeMultiplier * ManaPool.MANA_SCALE), world);
         stack.set(ModComponents.MANA, component.with(newPool));
 
         if (shouldMakeParticles) {

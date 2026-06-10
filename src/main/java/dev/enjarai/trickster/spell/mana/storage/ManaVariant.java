@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.TransferVariant;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentMapImpl;
+import net.minecraft.component.ComponentType;
 
 import java.util.Objects;
 
@@ -28,7 +29,7 @@ public class ManaVariant implements TransferVariant<Mana> {
     private ManaVariant(Mana mana, ComponentChanges components) {
         this.mana = mana;
         this.components = components;
-        this.componentMap = components == ComponentChanges.EMPTY ? ComponentMap.EMPTY : ComponentMapImpl.create(ComponentMap.EMPTY, components);
+        this.componentMap = components == ComponentChanges.EMPTY ? mana.getDefaultComponents() : ComponentMapImpl.create(mana.getDefaultComponents(), components);
         this.hashCode = Objects.hash(mana, components);
     }
 
@@ -54,6 +55,30 @@ public class ManaVariant implements TransferVariant<Mana> {
     @Override
     public ComponentMap getComponentMap() {
         return componentMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public ManaVariant withComponentChanges(ComponentChanges changes) {
+        var builder = ComponentChanges.builder();
+
+        for (var component : getComponents().entrySet()) {
+            if (component.getValue().isPresent()) {
+                builder.add((ComponentType<Object>) component.getKey(), component.getValue().get());
+            } else {
+                builder.remove(component.getKey());
+            }
+        }
+
+        for (var component : changes.entrySet()) {
+            if (component.getValue().isPresent()) {
+                builder.add((ComponentType<Object>) component.getKey(), component.getValue().get());
+            } else {
+                builder.remove(component.getKey());
+            }
+        }
+
+        return of(mana, builder.build());
     }
 
     public static ManaVariant of(Mana mana) {
