@@ -38,8 +38,8 @@ public class StormMana extends Mana {
             long resetLeft = Math.max(currentTime - StabilityComponent.STABLE_TIME, left.getComponentMap().get(ManaComponents.STABILITY).resetTime());
             long resetRight = Math.max(currentTime - StabilityComponent.STABLE_TIME, right.getComponentMap().get(ManaComponents.STABILITY).resetTime());
 
-            amountLeft /= 1000;
-            amountRight /= 1000;
+            amountLeft = Math.max(1, amountLeft / 1000);
+            amountRight = Math.max(1, amountRight / 1000);
 
             long weightedResetLeft = amountLeft * resetLeft;
             long weightedResetRight = amountRight * resetRight;
