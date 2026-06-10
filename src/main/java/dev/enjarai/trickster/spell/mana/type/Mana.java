@@ -2,6 +2,7 @@ package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.particle.ModParticles;
+import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import io.wispforest.endec.Endec;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
@@ -44,7 +45,7 @@ public class Mana {
         return ModParticles.SPELL_WHITE;
     }
 
-    public Optional<ManaVariant> mix(ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
+    public Optional<ManaVariant> mix(SpellContext ctx, ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
         return Optional.empty();
     }
 

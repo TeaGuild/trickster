@@ -2,12 +2,14 @@ package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.particle.ModParticles;
+import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
+import dev.enjarai.trickster.spell.mana.type.component.StabilityComponent;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.tooltip.TooltipType;
-import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
@@ -17,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class StormMana extends Mana {
+    private final ComponentChanges REMOVE_STABILITY = ComponentChanges.builder().remove(ManaComponents.STABILITY).build();
+
     public StormMana(ComponentMap defaultComponents, int color) {
         super(defaultComponents, color);
     }
@@ -27,8 +31,26 @@ public class StormMana extends Mana {
     }
 
     @Override
-    public Optional<ManaVariant> mix(ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
-        return Optional.empty(); //TODO: impl mixing for storm mana
+    public Optional<ManaVariant> mix(SpellContext ctx, ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
+        if (left.withComponentChanges(REMOVE_STABILITY).equals(right.withComponentChanges(REMOVE_STABILITY))) {
+            long currentTime = ctx.source().getWorld().getTime();
+
+            long resetLeft = Math.max(currentTime - StabilityComponent.STABLE_TIME, left.getComponentMap().get(ManaComponents.STABILITY).resetTime());
+            long resetRight = Math.max(currentTime - StabilityComponent.STABLE_TIME, right.getComponentMap().get(ManaComponents.STABILITY).resetTime());
+
+            amountLeft /= 1000;
+            amountRight /= 1000;
+
+            long weightedResetLeft = amountLeft * resetLeft;
+            long weightedResetRight = amountRight * resetRight;
+
+            long finalReset = (weightedResetLeft + weightedResetRight) / (amountLeft + amountRight);
+            var finalComp = new StabilityComponent(finalReset);
+
+            return Optional.of(left.withComponentChanges(ComponentChanges.builder().add(ManaComponents.STABILITY, finalComp).build()));
+        }
+
+        return Optional.empty();
     }
 
     @Override

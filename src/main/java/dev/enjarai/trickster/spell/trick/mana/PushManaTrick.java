@@ -74,7 +74,7 @@ public class PushManaTrick extends AbstractConduitTrick {
                             } else if (right.getMana().equals(mana)) {
                                 long inserted = target.insert(right, (long) (extracted * taxedMult), trans);
                                 long total = target.extract(right, Long.MAX_VALUE, trans);
-                                var finalVariant = mana.mix(left, inserted, right, total - inserted);
+                                var finalVariant = mana.mix(ctx, left, inserted, right, total - inserted);
                                 if (finalVariant.isPresent()) {
                                     target.insert(finalVariant.get(), total, trans);
                                 } else {
