@@ -59,7 +59,7 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
         var moonSize = world.getMoonSize();
         // Recharge most strongly at new and full moons, with no recharging halfway inbetween
         // 20x and storm mana when thundering
-        var chargeMultiplier = world.isThundering() ? 20 : Math.max(Math.max(moonSize * 2 - 1, 1 - moonSize * 2), 0);
+        var chargeMultiplier = world.isThundering() ? 25 : Math.max(Math.max(moonSize * 2 - 1, 1 - moonSize * 2), 0);
         chargeMultiplier *= component.naturalRechargeMultiplier();
 
         var newPool = pool.makeClone(world);
