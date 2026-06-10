@@ -62,21 +62,23 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
         var chargeMultiplier = world.isThundering() ? 25 : Math.max(Math.max(moonSize * 2 - 1, 1 - moonSize * 2), 0);
         chargeMultiplier *= component.naturalRechargeMultiplier();
 
+        var mana = world.isThundering() ? Manae.STORM : Manae.TRADITIONAL;
         var newPool = pool.makeClone(world);
-        var shouldMakeParticles = 0 == newPool.refill(ManaVariant.of(world.isThundering() ? Manae.STORM : Manae.TRADITIONAL), (long) (chargeMultiplier * ManaPool.MANA_SCALE), world);
+        var shouldMakeParticles = 0 == newPool.refill(ManaVariant.of(mana), (long) (chargeMultiplier * ManaPool.MANA_SCALE), world);
         stack.set(ModComponents.MANA, component.with(newPool));
 
         if (shouldMakeParticles) {
             var particleVelocity = Math.ceil(chargeMultiplier / 2f);
+            var horizontalMultiplier = world.isThundering() ? 6 : 1;
 
             var recharged = chargeMultiplier - world.random.nextFloat();
             while (recharged > 0) {
                 world.addParticle(
-                    ModParticles.SPELL_WHITE,
+                    world.isThundering() ? ModParticles.STORM_WHITE : ModParticles.SPELL_WHITE,
                     pos.getX(), pos.getY(), pos.getZ(),
-                    (world.random.nextFloat() * 0.005f - 0.0025f) * particleVelocity,
+                    (world.random.nextFloat() * 0.005f - 0.0025f) * particleVelocity * horizontalMultiplier,
                     (world.random.nextFloat() * 0.02f + 0.01f) * particleVelocity,
-                    (world.random.nextFloat() * 0.005f - 0.0025f) * particleVelocity
+                    (world.random.nextFloat() * 0.005f - 0.0025f) * particleVelocity * horizontalMultiplier
                 );
                 recharged -= world.random.nextFloat();
             }

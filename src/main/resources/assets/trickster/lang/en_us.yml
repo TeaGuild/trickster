@@ -47,6 +47,8 @@ trickster:
     idling: "Idle"
     draining: "Draining: %.2f"
     filling: "Charging: %.2f"
+  mana:
+    type: "Type: %s"
 
   item_group: Trickster
 
@@ -375,7 +377,7 @@ trickster:
 
   mana.trickster:
     traditional: Traditional
-    storm: Storm
+    storm: Tempest
 
   blunder:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s

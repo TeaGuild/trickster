@@ -1,0 +1,5 @@
+{
+  "from": "trickster:storm",
+  "to": "trickster:traditional",
+  "multiplier": 0.05
+}

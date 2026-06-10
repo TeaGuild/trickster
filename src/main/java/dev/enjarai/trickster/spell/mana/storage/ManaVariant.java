@@ -5,7 +5,6 @@ import dev.enjarai.trickster.spell.mana.type.Manae;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
 import io.wispforest.owo.serialization.CodecUtils;
-import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.fabricmc.fabric.api.transfer.v1.storage.TransferVariant;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
@@ -15,7 +14,7 @@ import java.util.Objects;
 
 public class ManaVariant implements TransferVariant<Mana> {
     public static final StructEndec<ManaVariant> ENDEC = StructEndecBuilder.of(
-        MinecraftEndecs.ofRegistry(Manae.REGISTRY).fieldOf("mana", ManaVariant::getMana),
+        Mana.ENDEC.fieldOf("mana", ManaVariant::getMana),
         CodecUtils.toEndec(ComponentChanges.CODEC).fieldOf("components", ManaVariant::getComponents),
         ManaVariant::new
     );

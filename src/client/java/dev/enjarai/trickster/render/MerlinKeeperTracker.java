@@ -111,7 +111,11 @@ public class MerlinKeeperTracker implements TooltipAppender {
             );
 
             if (!pool.isEmpty(world)) {
-                tooltip.add(pool.getVariant(world).getMana().getName());
+                var mana = pool.getVariant(world).getMana();
+                tooltip.add(Text.translatable(
+                    Trickster.MOD_ID + ".mana.type",
+                    mana.getName().withColor(mana.getColor())
+                ).styled(s -> s.withColor(0xaaaabb)));
             }
 
             if (pool instanceof SharedManaPool shared && MinecraftClient.getInstance().world != null) {

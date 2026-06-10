@@ -87,9 +87,9 @@ public class TricksterClient implements ClientModInitializer {
         LavenderBookScreen.registerFeatureFactory(Trickster.id("tome_of_tomfoolery"),
             componentSource -> List.of(new ObfuscatedFeature()));
 
-        ParticleFactoryRegistry.getInstance().register(ModParticles.HIGHLIGHT_BLOCK,
-            ProtectedBlockParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.HIGHLIGHT_BLOCK, ProtectedBlockParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPELL, SpellParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.STORM, SpellParticle.Factory::new);
 
         AccessoriesRendererRegistry.registerRenderer(ModItems.TOP_HAT, HoldableHatRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ModItems.WITCH_HAT, HoldableHatRenderer::new);
