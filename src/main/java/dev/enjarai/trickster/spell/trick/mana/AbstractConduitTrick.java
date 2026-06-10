@@ -94,7 +94,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         }
 
         if (result > 1) {
-            createParticles(ctx, target, (float) result / ManaPool.MANA_SCALE);
+            createParticles(ctx, target, variant, (float) result / ManaPool.MANA_SCALE);
         }
 
         return result;
@@ -134,7 +134,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         }
 
         if (result > 1) {
-            createParticles(ctx, target, result);
+            createParticles(ctx, target, variant, (float) result / ManaPool.MANA_SCALE);
         }
 
         return result;
@@ -142,7 +142,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
     protected abstract boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, ManaVariant variant);
 
-    protected abstract void createParticles(SpellContext ctx, StorageFragment slot, float v);
+    protected abstract void createParticles(SpellContext ctx, StorageFragment slot, ManaVariant variant, float v);
 
     /**
      * @return the amount of mana fulfilled by the item.

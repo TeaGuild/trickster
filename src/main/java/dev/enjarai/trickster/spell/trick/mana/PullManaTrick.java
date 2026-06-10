@@ -16,7 +16,7 @@ public class PullManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected void createParticles(SpellContext ctx, StorageFragment slot, float v) {
+    protected void createParticles(SpellContext ctx, StorageFragment slot, ManaVariant variant, float v) {
         var fromPos = slot.getSourceOrCasterPos(this, ctx);
         var toPos = ctx.source().getPos();
 
@@ -27,7 +27,7 @@ public class PullManaTrick extends AbstractConduitTrick {
 
         ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
             .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
-            .send(new ManaMoveParticlePacket(toPos, fromPos, v));
+            .send(new ManaMoveParticlePacket(toPos, fromPos, variant, v));
     }
 
     @Override

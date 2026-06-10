@@ -1,8 +1,10 @@
 package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
+import dev.enjarai.trickster.particle.ModParticles;
 import io.wispforest.endec.Endec;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
@@ -21,6 +23,10 @@ public class Mana {
 
     public int getColor() {
         return this.color;
+    }
+
+    public ParticleEffect getParticle() {
+        return ModParticles.SPELL_WHITE;
     }
 
     public MutableText getName() {

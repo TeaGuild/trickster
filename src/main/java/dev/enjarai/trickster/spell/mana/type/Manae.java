@@ -13,7 +13,7 @@ public class Manae {
 
     public static final Mana EMPTY = register("empty", new Mana(0x222222));
     public static final Mana TRADITIONAL = register("traditional", new Mana(0xbb99ff));
-    public static final Mana STORM = register("storm", new Mana(0x85c6f7));
+    public static final Mana STORM = register("storm", new StormMana(0x85c6f7));
 
     @ApiStatus.Internal
     public static <T extends Mana> T register(String path, T mana) {

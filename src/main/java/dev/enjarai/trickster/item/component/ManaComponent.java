@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import dev.enjarai.trickster.EndecTomfoolery;
-import dev.enjarai.trickster.particle.ModParticles;
 import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.SimpleManaPool;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
@@ -74,7 +73,7 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
             var recharged = chargeMultiplier - world.random.nextFloat();
             while (recharged > 0) {
                 world.addParticle(
-                    world.isThundering() ? ModParticles.STORM_WHITE : ModParticles.SPELL_WHITE,
+                    mana.getParticle(),
                     pos.getX(), pos.getY(), pos.getZ(),
                     (world.random.nextFloat() * 0.005f - 0.0025f) * particleVelocity * horizontalMultiplier,
                     (world.random.nextFloat() * 0.02f + 0.01f) * particleVelocity,
