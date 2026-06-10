@@ -6,8 +6,8 @@ import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Mana;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
 public class PushManaTrick extends AbstractConduitTrick {
@@ -16,7 +16,7 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected void createParticles(SpellContext ctx, StorageFragment slot, ManaVariant variant, float v) {
+    protected void createParticles(SpellContext ctx, StorageFragment slot, Mana mana, float v) {
         var fromPos = slot.getSourceOrCasterPos(this, ctx);
         var toPos = ctx.source().getPos();
 
@@ -27,25 +27,74 @@ public class PushManaTrick extends AbstractConduitTrick {
 
         ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
             .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
-            .send(new ManaMoveParticlePacket(fromPos, toPos, variant, v));
+            .send(new ManaMoveParticlePacket(fromPos, toPos, mana, v));
     }
 
     @Override
-    protected boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, ManaVariant variant) {
-        try (var trans = Transaction.openOuter()) {
-            return ctx.getManaStorage().extract(variant, 1, trans) > 0;
+    protected boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, Mana mana) {
+        for (var view : ctx.getManaStorage()) {
+            if (view.getResource().getMana().equals(mana) && view.getAmount() > 0) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     @Override
-    protected long affect(SpellContext ctx, Storage<ManaVariant> target, ManaVariant variant, long limit, double taxPercentage, TransactionContext trans) {
+    protected long affect(SpellContext ctx, Storage<ManaVariant> target, Mana mana, long limit, double taxPercentage, TransactionContext trans) {
         var self = ctx.source().getManaStorage();
 
         var taxedMult = 1 - taxPercentage;
 
-        var taken = self.extract(variant, limit, trans);
-        var inserted = target.insert(variant, (long) (taken * taxedMult), trans);
-        self.insert(variant, taken - (long) (inserted / taxedMult), trans);
-        return inserted;
+        long result = 0;
+        long taken = 0;
+
+        for (var view : self) {
+            if (taken < limit) {
+                var left = view.getResource();
+
+                if (left.getMana().equals(mana)) {
+                    long extracted = self.extract(left, limit - taken, trans);
+
+                    long given = 0;
+
+                    for (var view2 : target) {
+                        var right = view2.getResource();
+
+                        if (given < extracted) {
+                            if (right.isBlank()) {
+                                long inserted = target.insert(left, (long) (extracted * taxedMult), trans);
+                                long meow = (long) (inserted / taxedMult);
+                                self.insert(left, extracted - meow, trans);
+
+                                given += meow;
+                                taken += meow;
+                                result += inserted;
+                            } else if (right.getMana().equals(mana)) {
+                                long inserted = target.insert(right, (long) (extracted * taxedMult), trans);
+                                long total = target.extract(right, Long.MAX_VALUE, trans);
+                                var finalVariant = mana.mix(left, inserted, right, total - inserted);
+                                if (finalVariant.isPresent()) {
+                                    target.insert(finalVariant.get(), total, trans);
+                                } else {
+                                    target.insert(right, total - inserted, trans);
+                                    inserted = target.insert(left, inserted, trans);
+                                }
+
+                                long meow = (long) (inserted / taxedMult);
+                                self.insert(left, extracted - meow, trans);
+
+                                given += meow;
+                                taken += meow;
+                                result += inserted;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }

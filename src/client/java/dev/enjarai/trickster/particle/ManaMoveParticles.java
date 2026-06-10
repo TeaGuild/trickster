@@ -29,7 +29,7 @@ public class ManaMoveParticles {
                 var dist = offset.length();
                 offset.mul(1 / dist).mul(Math.sqrt(dist) / 20);
                 access.runtime().world.addParticle(
-                    packet.variant().getMana().getParticle(), true,
+                    packet.mana().getParticle(), true,
                     position.x(), position.y(), position.z(),
                     offset.x(), offset.y(), offset.z()
                 );
