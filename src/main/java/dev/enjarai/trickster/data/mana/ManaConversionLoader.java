@@ -68,11 +68,12 @@ public class ManaConversionLoader extends CompleteJsonDataLoader implements Iden
         return toOptions.get(to);
     }
 
-    public record ManaConversion(Mana from, Mana to, float multiplier) {
+    public record ManaConversion(Mana from, Mana to, float multiplier, Optional<ManaConversionCondition> condition) {
         public static final Codec<ManaConversion> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             CodecUtils.toCodec(Mana.ENDEC).fieldOf("from").forGetter(ManaConversion::from),
             CodecUtils.toCodec(Mana.ENDEC).fieldOf("to").forGetter(ManaConversion::to),
-            Codec.FLOAT.fieldOf("multiplier").forGetter(ManaConversion::multiplier)
+            Codec.FLOAT.fieldOf("multiplier").forGetter(ManaConversion::multiplier),
+            CodecUtils.toCodec(ManaConversionCondition.ENDEC).optionalFieldOf("condition").forGetter(ManaConversion::condition)
         ).apply(instance, ManaConversion::new));
     }
 }

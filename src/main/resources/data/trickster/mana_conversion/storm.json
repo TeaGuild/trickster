@@ -1,5 +1,6 @@
 {
   "from": "trickster:storm",
   "to": "trickster:traditional",
-  "multiplier": 0.05
+  "multiplier": 0.05,
+  "condition": "trickster:storm_stable"
 }
