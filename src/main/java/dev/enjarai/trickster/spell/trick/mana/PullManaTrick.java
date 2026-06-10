@@ -6,6 +6,7 @@ import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
@@ -31,21 +32,22 @@ public class PullManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, ManaVariant variant) {
+    protected boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, ManaVariant variant, boolean convert) {
         try (var trans = Transaction.openOuter()) {
-            return ctx.getManaStorage().insert(variant, 1, trans) > 0;
+            return ctx.getManaStorage().insert(convert ? ManaVariant.of(Manae.TRADITIONAL) : variant, 1, trans) > 0;
         }
     }
 
     @Override
-    protected long affect(SpellContext ctx, Storage<ManaVariant> target, ManaVariant variant, long limit, double taxPercentage, TransactionContext trans) {
+    protected long affect(SpellContext ctx, Storage<ManaVariant> target, ManaVariant variant, long limit, double taxPercentage, boolean convert, TransactionContext trans) {
         var self = ctx.source().getManaStorage();
 
+        var conversionMultiplier = variant.getMana().getConversionMultiplier();
         var taxedMult = 1 - taxPercentage;
 
         var taken = target.extract(variant, limit, trans);
-        var leftover = taken - (long) (self.insert(variant, (long) (taken * taxedMult), trans) / taxedMult);
-        target.insert(variant, leftover, trans);
-        return taken - leftover;
+        var inserted = self.insert(convert ? ManaVariant.of(Manae.TRADITIONAL) : variant, (long) (taken * conversionMultiplier * taxedMult), trans);
+        target.insert(variant, taken - (long) (inserted / conversionMultiplier / taxedMult), trans);
+        return (long) inserted;
     }
 }

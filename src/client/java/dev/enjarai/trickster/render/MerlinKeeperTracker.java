@@ -110,6 +110,10 @@ public class MerlinKeeperTracker implements TooltipAppender {
                     .styled(s -> s.withColor(0xaaaabb))
             );
 
+            if (!pool.isEmpty(world)) {
+                tooltip.add(pool.getVariant(world).getMana().getName());
+            }
+
             if (pool instanceof SharedManaPool shared && MinecraftClient.getInstance().world != null) {
                 tooltip.add(
                     Text

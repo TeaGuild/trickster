@@ -239,8 +239,9 @@ trickster:
     other_hand: Juggling Delusion
     other_hand_slot: Catch Delusion
     get_item_in_slot: Fence's Ingress
-    get_mana_in_slot: Ingress of Authority
     get_count_in_slot: Ingress of Plenitude
+    get_mana_type_in_slot: Derivate Ingress
+    get_mana_in_slot: Ingress of Authority
     get_max_mana_in_slot: Crowning Ingress
     get_slot: Intrusive Ingress
     get_item_container: Stockpile Ingress
@@ -329,7 +330,7 @@ trickster:
       map: Map
       void: Void
       pattern: Pattern
-      pattern_literal: PatternLiteral
+      pattern_literal: Pattern Literal
       spell_part: Spell
       entity: Entity
       slot: Slot
@@ -337,11 +338,12 @@ trickster:
       zalgo: §kZalgo
       item_type: Item
       block_type: Block
-      entity_type: EntityType
+      entity_type: Entity Type
       string: String
       dimension: Dimension
       displace: Displacement
       color: Color
+      mana: Mana
     class:
       Fragment: Any
       AddableFragment: Addable
@@ -365,9 +367,15 @@ trickster:
       ZalgoFragment: §kZalgo
       ItemTypeFragment: Item
       BlockTypeFragment: Block
-      EntityTypeFragment: EntityType
+      EntityTypeFragment: Entity Type
       StorageFragment: Storage
-      ResourceVariantFragment: ResourceType
+      ResourceVariantFragment: Resource Type
+      ColorFragment: Color
+      ManaFragment: Mana
+
+  mana.trickster:
+    traditional: Traditional
+    storm: Storm
 
   blunder:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s

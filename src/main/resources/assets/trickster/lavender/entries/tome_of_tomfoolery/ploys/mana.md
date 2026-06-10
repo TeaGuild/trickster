@@ -49,14 +49,17 @@ This loss follows a roughly exponential scale, reaching around 50% at or near 10
 
 The provided amount is split equally between all slots of the provided storage, even if the given slots cannot provide or store a sufficient amount of mana. Any mana that would overflow a slot is not transferred.
 
+
+The boolean fourth argument specifies whether non-traditional mana should be converted to traditional mana during the transfer.
+
 ;;;;;
 
 <|trick@trickster:templates|trick-id=trickster:push_mana|>
 
-Pushes mana into the given storage from the caster's reserves, up to an amount. Returns the amount moved.
+Pushes mana into the given storage from the caster's reserves, up to an amount. Returns the amount pushed.
 
 ;;;;;
 
 <|trick@trickster:templates|trick-id=trickster:pull_mana|>
 
-Pulls mana from the given storage into the caster's reserves, up to an amount. Returns the amount moved.
+Pulls mana from the given storage into the caster's reserves, up to an amount. Returns the amount pulled.

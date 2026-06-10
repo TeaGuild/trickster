@@ -78,7 +78,7 @@ public abstract class KnotItem extends Item {
     public static class Quartz extends KnotItem implements ChannelItem {
         public Quartz() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(128 * ManaPool.MANA_SCALE), 1 / 96f))
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(128 * ManaPool.MANA_SCALE), 0))
                 .component(ModComponents.TICK_CREATED, new TickTrackerComponent(0)),
                 0);
         }

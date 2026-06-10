@@ -16,8 +16,8 @@ import java.util.List;
 public class ListResourcesTrick extends Trick<ListResourcesTrick> {
     public ListResourcesTrick() {
         super(
-                Pattern.of(4, 3, 6, 8, 5, 4, 6, 0, 2, 8, 4, 1),
-                Signature.of(FragmentType.CONTAINER, ListResourcesTrick::run, RetType.simple(ResourceVariantFragment.class).listOfRet())
+            Pattern.of(4, 3, 6, 8, 5, 4, 6, 0, 2, 8, 4, 1),
+            Signature.of(FragmentType.CONTAINER, ListResourcesTrick::run, RetType.simple(ResourceVariantFragment.class).listOfRet())
         );
     }
 

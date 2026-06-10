@@ -1,11 +1,15 @@
 package dev.enjarai.trickster.spell.trick.mana;
 
+import java.util.Optional;
+
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.NumberIsInfiniteBlunder;
 import dev.enjarai.trickster.spell.blunder.NumberTooSmallBlunder;
+import dev.enjarai.trickster.spell.fragment.BooleanFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
+import dev.enjarai.trickster.spell.fragment.ManaFragment;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import dev.enjarai.trickster.spell.fragment.slot.VariantType;
@@ -26,10 +30,11 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
 public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
     public AbstractConduitTrick(Pattern pattern) {
-        super(pattern, Signature.of(FragmentType.NUMBER, ArgType.simple(StorageFragment.class), AbstractConduitTrick::run, FragmentType.NUMBER));
+        super(pattern, Signature.of(FragmentType.NUMBER, ArgType.simple(StorageFragment.class), FragmentType.MANA.optionalOfArg(), FragmentType.BOOLEAN.optionalOfArg(), AbstractConduitTrick::run,
+            FragmentType.NUMBER));
     }
 
-    public NumberFragment run(SpellContext ctx, NumberFragment n, StorageFragment target) {
+    public NumberFragment run(SpellContext ctx, NumberFragment n, StorageFragment target, Optional<ManaFragment> mana, Optional<BooleanFragment> overrideConvert) {
         if (n.number() < 0) {
             throw new NumberTooSmallBlunder(this, 0);
         }
@@ -39,24 +44,25 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         }
 
         var storage = target.getStorage(this, ctx, VariantType.ITEM);
-        var variant = ManaVariant.of(Manae.TRADITIONAL); // TODO get this from elsewhere
+        var variant = ManaVariant.of(mana.map(ManaFragment::mana).orElse(Manae.TRADITIONAL));
+        boolean convert = overrideConvert.map(BooleanFragment::asBoolean).orElse(false);
 
-        if (!isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(ctx, variant)) {
+        if (!isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(ctx, variant, convert)) {
             return new NumberFragment(0);
         }
 
         long result;
 
         if (storage instanceof SlottedStorage<ItemVariant> slottedStorage) {
-            result = runForSlottedStorage(ctx, slottedStorage, target, variant, n.asMana());
+            result = runForSlottedStorage(ctx, slottedStorage, target, variant, n.asMana(), convert);
         } else {
-            result = runForStorage(ctx, storage, target, variant, n.asMana());
+            result = runForStorage(ctx, storage, target, variant, n.asMana(), convert);
         }
 
         return NumberFragment.ofMana(result);
     }
 
-    private long runForSlottedStorage(SpellContext ctx, SlottedStorage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max) {
+    private long runForSlottedStorage(SpellContext ctx, SlottedStorage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max, boolean convert) {
         long knotCount = 0;
         for (var slot : storage.getSlots()) {
             knotCount += ManaStorage.ITEM.find(
@@ -83,7 +89,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
                 if (manaStorage == null) continue;
 
-                result += affect(ctx, manaStorage, variant, limit / slot.getAmount(), tax, trans);
+                result += affect(ctx, manaStorage, variant, limit / slot.getAmount(), tax, convert, trans);
 
                 trans.commit();
             }
@@ -96,7 +102,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         return result;
     }
 
-    private long runForStorage(SpellContext ctx, Storage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max) {
+    private long runForStorage(SpellContext ctx, Storage<ItemVariant> storage, StorageFragment target, ManaVariant variant, long max, boolean convert) {
         long knotCount = 0;
         for (var view : storage.nonEmptyViews()) {
             knotCount += ManaStorage.ITEM.find(
@@ -123,7 +129,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
                 if (manaStorage == null) continue;
 
-                result += affect(ctx, manaStorage, variant, limit / view.getAmount(), tax, trans);
+                result += affect(ctx, manaStorage, variant, limit / view.getAmount(), tax, convert, trans);
 
                 trans.commit();
             }
@@ -136,12 +142,12 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         return result;
     }
 
-    protected abstract boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, ManaVariant variant);
+    protected abstract boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, ManaVariant variant, boolean convert);
 
     protected abstract void createParticles(SpellContext ctx, StorageFragment slot, float v);
 
     /**
      * @return the amount of mana fulfilled by the item.
      */
-    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, ManaVariant variant, long limit, double taxPercentage, TransactionContext trans);
+    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, ManaVariant variant, long limit, double taxPercentage, boolean convert, TransactionContext trans);
 }

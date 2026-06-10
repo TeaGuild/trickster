@@ -20,7 +20,7 @@ public interface MutableManaPool extends ManaPool {
      */
     default long use(ManaVariant variant, long amount, World world) {
         if (!variant.equals(getVariant(world))) {
-            return 0;
+            return amount;
         } else if (get(world) >= amount) {
             set(get(world) - amount, world);
             return 0;
@@ -39,7 +39,7 @@ public interface MutableManaPool extends ManaPool {
      */
     default long refill(ManaVariant variant, long amount, World world) {
         if (!getVariant(world).isBlank() && !variant.equals(getVariant(world))) {
-            return 0;
+            return amount;
         } else if (getMax(world) - get(world) >= amount) {
             set(get(world) + amount, world);
             setVariant(variant, world);
