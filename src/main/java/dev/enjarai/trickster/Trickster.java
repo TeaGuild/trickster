@@ -7,6 +7,7 @@ import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.compat.transmog.TransmogCompat;
 import dev.enjarai.trickster.config.TricksterConfig;
 import dev.enjarai.trickster.data.DataLoader;
+import dev.enjarai.trickster.data.mana.ManaConversionCondition;
 import dev.enjarai.trickster.effects.ModEffects;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.fleck.FleckType;
@@ -96,6 +97,7 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
         ManaPoolType.register();
         SpellExecutorType.register();
         FleckType.register();
+        ManaConversionCondition.register();
         DataLoader.registerLoaders();
 
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {
