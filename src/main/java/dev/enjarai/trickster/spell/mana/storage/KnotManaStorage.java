@@ -23,25 +23,37 @@ public class KnotManaStorage implements SingleSlotStorage<ManaVariant> {
         this.originalItem = ctx.getItemVariant().getItem();
     }
 
-    public ManaComponent component() {
-        return ctx.getItemVariant().getComponentMap().getOrDefault(ModComponents.MANA, ManaComponent.EMPTY);
+    public ManaComponent component(ItemVariant variant) {
+        return variant.getComponentMap().getOrDefault(ModComponents.MANA, ManaComponent.EMPTY);
     }
 
-    private boolean isStillValid() {
-        return ctx.getItemVariant().getItem() == originalItem;
+    private boolean isStillValid(ItemVariant variant) {
+        return variant.getItem() == originalItem;
     }
 
-    protected long getMana() {
-        return component().pool().get(world);
+    protected boolean isResourceBlank(ItemVariant variant) {
+        return getResource(variant).isBlank();
     }
 
-    protected boolean setMana(ManaVariant mana, long amount, TransactionContext transaction) {
-        var component = component();
+    protected ManaVariant getResource(ItemVariant variant) {
+        return component(variant).pool().getVariant(world);
+    }
+
+    protected long getAmount(ItemVariant variant) {
+        return component(variant).pool().get(world);
+    }
+
+    protected long getCapacity(ItemVariant variant) {
+        return component(variant).pool().getMax(world);
+    }
+
+    protected boolean setMana(ItemVariant variant, ManaVariant mana, long amount, TransactionContext transaction) {
+        var component = component(variant);
         var pool = component.pool().makeClone(world);
         pool.set(amount, world);
         pool.setVariant(mana, world);
 
-        ItemVariant newVariant = ctx.getItemVariant().withComponentChanges(ComponentChanges.builder()
+        ItemVariant newVariant = variant.withComponentChanges(ComponentChanges.builder()
             .add(ModComponents.MANA, component.with(pool))
             .build());
 
@@ -52,16 +64,18 @@ public class KnotManaStorage implements SingleSlotStorage<ManaVariant> {
     public long insert(ManaVariant mana, long amount, TransactionContext transaction) {
         StoragePreconditions.notNegative(amount);
 
-        if (!isStillValid()) return 0;
+        var variant = ctx.getItemVariant();
 
-        if (getResource().equals(mana) || isResourceBlank()) {
-            long currentMana = getMana();
-            long inserted = Math.min(amount, getCapacity() - currentMana);
+        if (!isStillValid(variant)) return 0;
+
+        if (getResource(variant).equals(mana) || isResourceBlank(variant)) {
+            long currentMana = getAmount(variant);
+            long inserted = Math.min(amount, getCapacity(variant) - currentMana);
 
             if (inserted > 0) {
                 currentMana += inserted;
 
-                if (!setMana(mana, currentMana, transaction)) return 0;
+                if (!setMana(variant, mana, currentMana, transaction)) return 0;
 
                 return inserted;
             }
@@ -74,16 +88,18 @@ public class KnotManaStorage implements SingleSlotStorage<ManaVariant> {
     public long extract(ManaVariant mana, long amount, TransactionContext transaction) {
         StoragePreconditions.notNegative(amount);
 
-        if (!isStillValid()) return 0;
+        var variant = ctx.getItemVariant();
 
-        if (getResource().equals(mana)) {
-            long currentMana = getMana();
+        if (!isStillValid(variant)) return 0;
+
+        if (getResource(variant).equals(mana)) {
+            long currentMana = getAmount(variant);
             long extracted = Math.min(currentMana, amount);
 
             if (extracted > 0) {
                 currentMana -= extracted;
 
-                if (!setMana(currentMana == 0 ? ManaVariant.EMPTY : mana, currentMana, transaction)) return 0;
+                if (!setMana(variant, currentMana == 0 ? ManaVariant.EMPTY : mana, currentMana, transaction)) return 0;
 
                 return extracted;
             }
@@ -99,16 +115,16 @@ public class KnotManaStorage implements SingleSlotStorage<ManaVariant> {
 
     @Override
     public ManaVariant getResource() {
-        return component().pool().getVariant(world);
+        return getResource(ctx.getItemVariant());
     }
 
     @Override
     public long getAmount() {
-        return getMana();
+        return getAmount(ctx.getItemVariant());
     }
 
     @Override
     public long getCapacity() {
-        return component().pool().getMax(world);
+        return getCapacity(ctx.getItemVariant());
     }
 }
