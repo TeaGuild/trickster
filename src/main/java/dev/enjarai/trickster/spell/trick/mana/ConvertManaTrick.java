@@ -3,6 +3,7 @@ package dev.enjarai.trickster.spell.trick.mana;
 import dev.enjarai.trickster.data.DataLoader;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
+import dev.enjarai.trickster.spell.blunder.OutOfRangeBlunder;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.ManaFragment;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
@@ -25,6 +26,12 @@ public class ConvertManaTrick extends Trick<ConvertManaTrick> {
     }
 
     public NumberFragment convert(SpellContext ctx, SlotFragment slot, ManaFragment mana) {
+        var range = ctx.source().getPos().distance(slot.getSourceOrCasterPos(this, ctx));
+
+        if (range > 16) {
+            throw new OutOfRangeBlunder(this, 16.0, range);
+        }
+
         var slotStorage = slot.getStorage(this, ctx, VariantType.ITEM);
         var manaStorage = ManaStorage.ITEM.find(
             slotStorage.getResource().toStack(),
