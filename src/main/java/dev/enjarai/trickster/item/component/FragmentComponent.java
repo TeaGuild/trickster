@@ -22,12 +22,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextCodecs;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public record FragmentComponent(Fragment value, Optional<Text> name, boolean immutable, boolean closed) {
+public record FragmentComponent(Fragment value, Optional<Text> name, boolean immutable, boolean closed, int hashCodeCacheCode) {
 
     private static final Endec<FragmentComponent> OLD_ENDEC = StructEndecBuilder.of(
         SpellPart.ENDEC.fieldOf("spell", comp -> {
@@ -54,6 +55,10 @@ public record FragmentComponent(Fragment value, Optional<Text> name, boolean imm
         this(spell, Optional.empty(), immutable, false);
     }
 
+    public FragmentComponent(Fragment value, Optional<Text> name, boolean immutable, boolean closed) {
+        this(value, name, immutable, closed, Objects.hash(value, name, immutable, closed));
+    }
+
     public FragmentComponent withClosed(Optional<Text> name) {
         return new FragmentComponent(value, name, immutable, true);
     }
@@ -66,6 +71,20 @@ public record FragmentComponent(Fragment value, Optional<Text> name, boolean imm
         }
 
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof FragmentComponent that)) return false;
+
+        if (hashCodeCacheCode != that.hashCodeCacheCode) return false;
+
+        return closed == that.closed && immutable == that.immutable && Objects.equals(value, that.value) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return hashCodeCacheCode;
     }
 
     public static Optional<SpellPart> getSpellPart(ItemStack stack) {
