@@ -288,9 +288,9 @@ public class SpellConstructBlockEntity extends BlockEntity implements Inventory,
     public void markDirtyAndUpdateClients() {
         super.markDirty();
 
-        //if (world != null) {
-        //    world.updateListeners(pos, getCachedState(), getCachedState(), 0);
-        //}
+        if (world != null) {
+            world.updateListeners(pos, getCachedState(), getCachedState(), 0);
+        }
     }
 
     public void markDirtyExecutor() {
