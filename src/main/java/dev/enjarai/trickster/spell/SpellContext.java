@@ -26,15 +26,23 @@ public record SpellContext(ExecutionState state, SpellSource source, TickData da
         useScaledMana(trickSource, ManaVariant.of(Manae.TRADITIONAL), amount, null);
     }
 
-    public void useScaledMana(Trick<?> trickSource, ManaVariant variant, double amount) throws BlunderException {
-        useScaledMana(trickSource, variant, amount, null);
-    }
-
     public void useScaledMana(Trick<?> trickSource, double amount, TransactionContext trans) throws BlunderException {
         useScaledMana(trickSource, ManaVariant.of(Manae.TRADITIONAL), amount, trans);
     }
 
+    public void useScaledMana(Trick<?> trickSource, ManaVariant variant, double amount) throws BlunderException {
+        useScaledMana(trickSource, variant, amount, null);
+    }
+
     public void useScaledMana(Trick<?> trickSource, ManaVariant variant, double amount, TransactionContext trans) throws BlunderException {
+        useScaledMana(trickSource, variant2 -> variant2.equals(variant), amount, trans);
+    }
+
+    public void useScaledMana(Trick<?> trickSource, Predicate<ManaVariant> predicate, double amount) throws BlunderException {
+        useScaledMana(trickSource, predicate, amount, null);
+    }
+
+    public void useScaledMana(Trick<?> trickSource, Predicate<ManaVariant> predicate, double amount, TransactionContext trans) throws BlunderException {
         var actual = (long) (amount * ManaPool.MANA_SCALE);
 
         if (!data.canUseMana()) {
@@ -42,7 +50,7 @@ public record SpellContext(ExecutionState state, SpellSource source, TickData da
         }
 
         try {
-            state.useMana(trickSource, this, variant, actual, trans);
+            state.useMana(trickSource, this, predicate, actual, trans);
         } catch (NotEnoughManaBlunder blunder) {
             source.getPlayer().ifPresent(ModCriteria.MANA_OVERFLUX::trigger);
             throw blunder;

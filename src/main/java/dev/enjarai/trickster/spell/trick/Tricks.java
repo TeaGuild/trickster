@@ -29,6 +29,7 @@ import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockPosTrick;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockSideTrick;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastEntityTrick;
 import dev.enjarai.trickster.spell.trick.raycast.RaycastPosTrick;
+import dev.enjarai.trickster.spell.trick.storm.SummonLightningTrick;
 import dev.enjarai.trickster.spell.trick.tree.*;
 import dev.enjarai.trickster.spell.trick.vector.*;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
@@ -321,6 +322,9 @@ public class Tricks {
     public static final ItemToColorTrick ITEM_TO_COLOR = register("item_to_color", new ItemToColorTrick(Pattern.of(0, 4, 2, 1, 0, 7, 2), DyeColor::getEntityColor));
     public static final ItemToColorTrick ITEM_TO_GLOW_COLOR = register("item_to_glow_color", new ItemToColorTrick(Pattern.of(1, 4, 7, 2, 1, 0, 2, 4, 0, 7), DyeColor::getSignColor));
     public static final PaintTrick PAINT = register("paint", new PaintTrick());
+
+    // Storm
+    public static final SummonLightningTrick SUMMON_LIGHTNING = register("summon_lightning", new SummonLightningTrick());
 
     static {
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {

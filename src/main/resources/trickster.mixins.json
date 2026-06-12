@@ -28,6 +28,7 @@
     "accessor.StateAccessor",
     "accessor.TagEntryAccessor",
     "accessor.WorldAccessor",
+    "accessor.ServerWorldAccessor",
     "brewing.BrewingRecipeRegistry$BuilderMixin",
     "brewing.BrewingRecipeRegistryMixin",
     "brewing.BrewingStandBlockEntityMixin",

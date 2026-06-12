@@ -304,6 +304,8 @@ trickster:
     item_to_glow_color: Vibrant Ingress
     paint: Ploy of Pigmentation
 
+    summon_lightning: Ploy of the Wrathful
+
   revision: (Scribing Pattern)
   revision.trickster:
     add_subcircle: Extensive Revision

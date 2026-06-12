@@ -20,6 +20,7 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class ExecutionState {
     public static final int MAX_RECURSION_DEPTH = 255;
@@ -158,11 +159,24 @@ public class ExecutionState {
         return hasUsedMana;
     }
 
-    public void useMana(Trick<?> trickSource, SpellContext ctx, ManaVariant variant, long amount, TransactionContext trans) throws NotEnoughManaBlunder {
+    public void useMana(Trick<?> trickSource, SpellContext ctx, Predicate<ManaVariant> predicate, long amount, TransactionContext trans) throws NotEnoughManaBlunder {
         hasUsedMana = true;
 
+        long extracted = 0;
+
         try (var trans2 = Transaction.openNested(trans)) {
-            long extracted = ctx.getManaStorage().extract(variant, amount, trans2);
+            for (var view : ctx.getManaStorage().nonEmptyViews()) {
+                if (amount - extracted > 0) {
+                    var variant = view.getResource();
+
+                    if (predicate.test(variant)) {
+                        extracted += view.extract(variant, amount, trans2);
+                    }
+                } else {
+                    break;
+                }
+            }
+
             trans2.commit();
 
             if (extracted != amount) {
