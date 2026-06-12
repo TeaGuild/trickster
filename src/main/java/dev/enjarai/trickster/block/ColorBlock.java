@@ -30,8 +30,9 @@ public class ColorBlock extends BlockWithEntity {
     }
 
     public static int getColor(int[] colors, float t) {
-        var colA = colors[((int) t) % colors.length];
-        var colB = colors[((int) t + 1) % colors.length];
-        return ColorHelper.Argb.lerp(t % 1, colA, colB);
+        var index = Math.floorMod((int) Math.floor(t), colors.length);
+        var colA = colors[index];
+        var colB = colors[(index + 1) % colors.length];
+        return ColorHelper.Argb.lerp((t % 1 + 1) % 1, colA, colB);
     }
 }
