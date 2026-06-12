@@ -16,7 +16,7 @@ public class Manae {
 
     public static final Mana EMPTY = register("empty", new Mana(ComponentMap.EMPTY, 0x222222));
     public static final Mana TRADITIONAL = register("traditional", new Mana(ComponentMap.EMPTY, 0xbb99ff));
-    public static final Mana STORM = register("storm", new StormMana(ComponentMap.builder()
+    public static final StormMana STORM = register("storm", new StormMana(ComponentMap.builder()
         .add(ManaComponents.STABILITY, new StabilityComponent(0)).build(), 0x85c6f7));
 
     @ApiStatus.Internal

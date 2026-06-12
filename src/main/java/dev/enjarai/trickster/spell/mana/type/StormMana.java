@@ -2,7 +2,6 @@ package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.particle.ModParticles;
-import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
 import dev.enjarai.trickster.spell.mana.type.component.StabilityComponent;
@@ -31,9 +30,9 @@ public class StormMana extends Mana {
     }
 
     @Override
-    public Optional<ManaVariant> mix(SpellContext ctx, ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
+    public Optional<ManaVariant> mix(World world, ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
         if (left.withComponentChanges(REMOVE_STABILITY).equals(right.withComponentChanges(REMOVE_STABILITY))) {
-            long currentTime = ctx.source().getWorld().getTime();
+            long currentTime = world.getTime();
 
             long resetLeft = Math.max(currentTime - StabilityComponent.STABLE_TIME, left.getComponentMap().get(ManaComponents.STABILITY).resetTime());
             long resetRight = Math.max(currentTime - StabilityComponent.STABLE_TIME, right.getComponentMap().get(ManaComponents.STABILITY).resetTime());

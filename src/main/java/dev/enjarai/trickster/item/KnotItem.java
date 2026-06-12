@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.item;
 
+import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.cca.MessageHandlerComponent.Key;
 import dev.enjarai.trickster.cca.ModGlobalComponents;
 import dev.enjarai.trickster.item.component.ManaComponent;
@@ -17,16 +18,22 @@ import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.mana.*;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Manae;
+import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
 import dev.enjarai.trickster.spell.trick.Trick;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.minecraft.component.ComponentChanges;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -40,6 +47,8 @@ import java.util.function.Supplier;
 public abstract class KnotItem extends Item {
     public static Supplier<World> worldGetter = () -> null;
     public static Consumer<ManaComponent> subscribeConsumer = component -> {};
+
+    private static final ComponentChanges REMOVE_MANA = ComponentChanges.builder().remove(ModComponents.MANA).build();
 
     private final float creationCost;
 
@@ -78,7 +87,7 @@ public abstract class KnotItem extends Item {
     public static class Quartz extends KnotItem implements ChannelItem {
         public Quartz() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(128 * ManaPool.MANA_SCALE), 0))
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(128 * ManaPool.MANA_SCALE), 1 / 96f))
                 .component(ModComponents.TICK_CREATED, new TickTrackerComponent(0)),
                 0);
         }
@@ -338,6 +347,29 @@ public abstract class KnotItem extends Item {
         }
 
         return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (entity instanceof ServerPlayerEntity player) {
+            var comp = stack.get(ModComponents.MANA);
+            if (comp == null) {
+                return;
+            }
+
+            var variant = comp.pool().getVariant(world);
+            if (variant.isOf(Manae.STORM)) {
+                ModCriteria.STORM_MANA.trigger(player, variant.getComponentMap().get(ManaComponents.STABILITY).getStability(world));
+            }
+        }
+    }
+
+    @Override
+    public boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        var oldVariant = ItemVariant.of(oldStack).withComponentChanges(REMOVE_MANA);
+        var newVariant = ItemVariant.of(newStack).withComponentChanges(REMOVE_MANA);
+
+        return !oldVariant.equals(newVariant);
     }
 
     public float getCreationCost() {

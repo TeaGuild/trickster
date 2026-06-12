@@ -76,7 +76,7 @@ public class PullManaTrick extends AbstractConduitTrick {
                             } else if (right.getMana().equals(mana)) {
                                 long inserted = self.insert(right, (long) (extracted * taxedMult), trans);
                                 long total = self.extract(right, Long.MAX_VALUE, trans);
-                                var finalVariant = mana.mix(ctx, left, inserted, right, total - inserted);
+                                var finalVariant = mana.mix(ctx.source().getWorld(), left, inserted, right, total - inserted);
                                 if (finalVariant.isPresent()) {
                                     self.insert(finalVariant.get(), total, trans);
                                 } else {
