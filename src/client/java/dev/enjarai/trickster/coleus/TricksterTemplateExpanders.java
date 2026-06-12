@@ -2,6 +2,7 @@ package dev.enjarai.trickster.coleus;
 
 import dev.enjarai.trickster.screen.owo.ManaCostComponent;
 import dev.enjarai.trickster.spell.Pattern;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.revision.Revisions;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.trick.Tricks;
@@ -110,8 +111,14 @@ public class TricksterTemplateExpanders {
         var manaCostContainer = div().withClass("cost-rule embedded-component-container");
         var texture = properties.getOrDefault("texture", properties.get("book-texture"));
         var hasCost = properties.containsKey("cost");
+        var manaId = properties.get("mana-type");
+        var mana = Manae.TRADITIONAL;
+        if (manaId != null) {
+            mana = Manae.REGISTRY.get(Identifier.of(manaId));
+        }
+
         if (hasCost) {
-            FlowLayout component = new ManaCostComponent(properties.get("cost"), Identifier.of(texture));
+            FlowLayout component = new ManaCostComponent(properties.get("cost"), mana, Identifier.of(texture));
             manaCostContainer.with(
                 owo(Containers.verticalFlow(Sizing.fixed(112), Sizing.fixed(8)).child(component).padding(Insets.of(2, 0, 0, 0)),
                     context.getPagePath(), context.getAssetsDir().resolve(trickId.getNamespace()).resolve(trickId.getPath() + "-mana-cost.png"),

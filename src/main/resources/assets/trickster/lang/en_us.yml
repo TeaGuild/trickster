@@ -41,6 +41,10 @@ trickster:
     cast: "Spell cast"
     collar_bell: "Collar bell rings"
 
+  mana_cost:
+    costs_mana: Costs mana
+    type: "Required type: %s"
+
   gandalf:
     stored: "Stored: %s"
   merlin:
