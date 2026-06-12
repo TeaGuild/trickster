@@ -170,7 +170,7 @@ public class ExecutionState {
                     var variant = view.getResource();
 
                     if (predicate.test(variant)) {
-                        extracted += view.extract(variant, amount, trans2);
+                        extracted += view.extract(variant, amount - extracted, trans2);
                     }
                 } else {
                     break;
