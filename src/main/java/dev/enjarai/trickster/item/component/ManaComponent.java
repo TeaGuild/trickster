@@ -43,7 +43,7 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
         }
 
         var component = stack.get(ModComponents.MANA);
-        if (component == null || component.naturalRechargeMultiplier() <= 0) {
+        if (component == null) {
             return 0;
         }
 
