@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.screen.scribing;
 
+import dev.enjarai.trickster.ModKeyBindings;
 import dev.enjarai.trickster.render.CircleRenderer;
 import io.wispforest.owo.braid.animation.AutomaticallyAnimatedWidget;
 import io.wispforest.owo.braid.animation.DoubleLerp;
@@ -103,7 +104,7 @@ public class CircleSoupElement extends AutomaticallyAnimatedWidget {
                                 .translate(0, 0, 1f / (float) (double) radius),
                             new Focusable(
                                 f -> f.keyDownCallback((keyCode, modifiers) -> {
-                                    if (keyCode == GLFW.GLFW_KEY_F) {
+                                    if (ModKeyBindings.PONDER.matchesKey(keyCode, -1)) {
                                         return c.tryPonder();
                                     }
                                     setState(() -> {
