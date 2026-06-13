@@ -178,7 +178,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
             var snapshot = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
 
             for (int i = 0; i < inventory.size(); i++) {
-                snapshot.set(i, getStack(i).copy());
+                snapshot.set(i, inventory.get(i).copy());
             }
 
             return snapshot;
@@ -187,8 +187,13 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
         @Override
         protected void readSnapshot(DefaultedList<ItemStack> snapshot) {
             for (int i = 0; i < inventory.size(); i++) {
-                setStack(i, snapshot.get(i));
+                inventory.set(i, snapshot.get(i));
             }
+        }
+
+        @Override
+        public void onFinalCommit() {
+            markDirtyAndUpdateClients();
         }
 
         @Override
@@ -268,7 +273,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
 
                     if (maxAmount > 0 && isResourceBlank() && resource.getItem() instanceof KnotItem) {
                         updateSnapshots(transaction);
-                        setStack(slot, resource.toStack());
+                        inventory.set(slot, resource.toStack());
                         return 1;
                     }
 
@@ -281,7 +286,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
 
                     if (getResource().equals(resource)) {
                         updateSnapshots(transaction);
-                        removeStack(slot);
+                        inventory.set(slot, ItemStack.EMPTY);
                         return 1;
                     }
 
