@@ -1,7 +1,15 @@
 package dev.enjarai.trickster.block;
 
+import dev.enjarai.trickster.item.KnotItem;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.component.ManaComponent;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
@@ -18,6 +26,9 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Iterator;
+
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -123,7 +134,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
 
     @Override
     public void setStack(int slot, ItemStack stack) {
-        if (stack.isIn(ModItems.MANA_KNOTS)) {
+        if (stack.getItem() instanceof KnotItem) {
             inventory.set(slot, stack);
             markDirtyAndUpdateClients();
         } else if (stack.isEmpty()) {
@@ -133,6 +144,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
 
     public void markDirtyAndUpdateClients() {
         super.markDirty();
+
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }
@@ -160,4 +172,142 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
         componentMapBuilder.add(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(this.inventory));
     }
 
+    public class Storage extends SnapshotParticipant<DefaultedList<ItemStack>> implements SlottedStorage<ItemVariant> {
+        @Override
+        protected DefaultedList<ItemStack> createSnapshot() {
+            var snapshot = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
+
+            for (int i = 0; i < inventory.size(); i++) {
+                snapshot.set(i, getStack(i).copy());
+            }
+
+            return snapshot;
+        }
+
+        @Override
+        protected void readSnapshot(DefaultedList<ItemStack> snapshot) {
+            for (int i = 0; i < inventory.size(); i++) {
+                setStack(i, snapshot.get(i));
+            }
+        }
+
+        @Override
+        public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+            StoragePreconditions.notBlankNotNegative(resource, maxAmount);
+
+            if (maxAmount > Long.MAX_VALUE) maxAmount = Long.MAX_VALUE;
+
+            if (resource.getItem() instanceof KnotItem) {
+                long inserted = 0;
+
+                for (var slot : getSlots()) {
+                    if (maxAmount - inserted > 0) {
+                        inserted += slot.insert(resource, maxAmount - inserted, transaction);
+                    } else {
+                        break;
+                    }
+                }
+
+                return inserted;
+            }
+
+            return 0;
+        }
+
+        @Override
+        public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+            StoragePreconditions.notBlankNotNegative(resource, maxAmount);
+
+            if (maxAmount > Long.MAX_VALUE) maxAmount = Long.MAX_VALUE;
+
+            if (resource.getItem() instanceof KnotItem) {
+                long extracted = 0;
+
+                for (var slot : getSlots()) {
+                    if (maxAmount - extracted > 0) {
+                        extracted += slot.extract(resource, maxAmount - extracted, transaction);
+                    } else {
+                        break;
+                    }
+                }
+
+                return extracted;
+            }
+
+            return 0;
+        }
+
+        @Override
+        public Iterator<StorageView<ItemVariant>> iterator() {
+            var slots = getSlots().iterator();
+
+            return new Iterator<>() {
+                @Override
+                public boolean hasNext() {
+                    return slots.hasNext();
+                }
+
+                @Override
+                public StorageView<ItemVariant> next() {
+                    return slots.next();
+                }
+            };
+        }
+
+        @Override
+        public int getSlotCount() {
+            return inventory.size();
+        }
+
+        @Override
+        public SingleSlotStorage<ItemVariant> getSlot(int slot) {
+            return new SingleSlotStorage<>() {
+                @Override
+                public long insert(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+                    StoragePreconditions.notBlankNotNegative(resource, maxAmount);
+
+                    if (maxAmount > 0 && isResourceBlank() && resource.getItem() instanceof KnotItem) {
+                        updateSnapshots(transaction);
+                        setStack(slot, resource.toStack());
+                        return 1;
+                    }
+
+                    return 0;
+                }
+
+                @Override
+                public long extract(ItemVariant resource, long maxAmount, TransactionContext transaction) {
+                    StoragePreconditions.notBlankNotNegative(resource, maxAmount);
+
+                    if (getResource().equals(resource)) {
+                        updateSnapshots(transaction);
+                        removeStack(slot);
+                        return 1;
+                    }
+
+                    return 0;
+                }
+
+                @Override
+                public boolean isResourceBlank() {
+                    return inventory.get(slot).isEmpty();
+                }
+
+                @Override
+                public ItemVariant getResource() {
+                    return ItemVariant.of(inventory.get(slot));
+                }
+
+                @Override
+                public long getAmount() {
+                    return isResourceBlank() ? 0 : 1;
+                }
+
+                @Override
+                public long getCapacity() {
+                    return 1;
+                }
+            };
+        }
+    }
 }

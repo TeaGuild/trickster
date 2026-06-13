@@ -3,6 +3,7 @@ package dev.enjarai.trickster.block;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.cauldron.EraseSpellCauldronBehavior;
 import dev.enjarai.trickster.item.ModItems;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.entity.BlockEntityType;
@@ -87,5 +88,7 @@ public class ModBlocks {
         for (var scroll : ModItems.COLORED_SCROLLS_AND_QUILLS) {
             cauldronMap.put(scroll, new EraseSpellCauldronBehavior());
         }
+
+        ItemStorage.SIDED.registerForBlockEntity((be, direction) -> be.new Storage(), CHARGING_ARRAY_ENTITY);
     }
 }
