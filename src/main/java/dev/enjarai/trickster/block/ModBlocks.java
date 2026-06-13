@@ -88,7 +88,5 @@ public class ModBlocks {
         for (var scroll : ModItems.COLORED_SCROLLS_AND_QUILLS) {
             cauldronMap.put(scroll, new EraseSpellCauldronBehavior());
         }
-
-        ItemStorage.SIDED.registerForBlockEntity((be, direction) -> be.new Storage(), CHARGING_ARRAY_ENTITY);
     }
 }
