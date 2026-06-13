@@ -25,6 +25,7 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
 
         var position = fleck.pos().getPos(world, tickDelta);
         if (position == null) {
+            matrices.pop();
             return;
         }
 
@@ -35,6 +36,7 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
 
         var oldPosition = fleck.pos().getPos(world, tickDelta);
         if (oldPosition == null) {
+            matrices.pop();
             return;
         }
 
@@ -45,6 +47,7 @@ public class SpellFleckRenderer implements FleckRenderer<SpellFleck> {
         if (lastFleck != null) {
             oldPosition = lastFleck.pos().getPos(world, tickDelta);
             if (oldPosition == null) {
+                matrices.pop();
                 return;
             }
 
