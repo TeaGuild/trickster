@@ -14,9 +14,14 @@
 
 *This proposal outlines plans to construct an array-tower capable of taking full advantage of Tempest charging."*
 
+;;;;;
 
 — An excerpt from a proposal by Archmages Astrafel & Terrafel
 
-;;;;;
+---
 
-WIP
+Collected by naturally recharging knots exposed to thunderstorms, Tempest mana is naturally unstable. 
+Once captured and isolated from its source, however, it will begin to stabilize. 
+
+
+If wanted, [Astrafel's Ploy](^trickster:ploys/mana#8) can convert stable Tempest mana to Traditional at a 95% loss.
