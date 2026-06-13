@@ -3,3 +3,15 @@
 - Gave Infused Ceramic a hardness and resistance value. (@aurakle)
 - Improved the texture of pondered circles. (@aurakle and @BlueMoonJune)
 - Made Branching variadic. (@BlueMoonJune)
+- Split mana into two different types: Traditional and Tempest. (@enjarai and @aurakle)
+  - All mana is now stored as a long rather than a float, making 1mG the smallest non-zero unit of mana.
+  - Knots no longer charge while it is raining, unless it is thundering and they are empty or contain Tempest mana.
+  - Tempest mana can only be acquired from naturally charging Knots exposed to the sky during a thunderstorm.
+  - Tempest mana has a stability. It is possible to convert stable Tempest to Traditional at a loss.
+  - Striking constructs and charging arrays with lightning will decrease stability of contained Tempest mana.
+- Added the ability to summon lightning. Requires unstable Tempest. (@aurakle)
+- Fixed a crash from spell fleck rendering. (@enjarai)
+- Made Alt and F in the editor configurable keybinds. (@enjarai)
+- Constructs no longer re-send their (possibly expensive to serialize) spells to clients when unrelated data is modified. (@aurakle)
+- Fragment components on items now cache their hash, significantly improving performance when comparing item stacks. (@enjarai)
+- Made it impossible to import overweight fragments via survival methods. (@aurakle)
