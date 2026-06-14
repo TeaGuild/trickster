@@ -9,7 +9,7 @@ import com.samsthenerd.inline.api.matching.MatcherInfo;
 import com.samsthenerd.inline.api.matching.RegexMatcher;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.CircleRenderer;
-import dev.enjarai.trickster.render.fragment.PatternRenderer;
+import dev.enjarai.trickster.render.PatternRenderer;
 import dev.enjarai.trickster.spell.Pattern;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.DrawContext;
@@ -70,7 +70,7 @@ public class InlineCompat {
                 float d = trContext.shadow() ? 1 : 0;
                 VertexConsumerProvider vertexConsumers = context.getVertexConsumers();
                 float off = 4f;
-                PatternRenderer.renderPattern(data.pattern(), matrices, vertexConsumers, 28f + d * off, 18f + d * off, 24, 3f, -1f, true, trContext.alpha() / 0.7f, delegate);
+                PatternRenderer.renderPattern(data.pattern(), matrices, vertexConsumers, 28f + d * off, 18f + d * off, 24, 3f, -1f, true, trContext.alpha(), delegate);
                 matrices.pop();
                 return 10;
             }

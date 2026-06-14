@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.enjarai.trickster.ModAtlases;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.fragment.FragmentRenderer;
-import dev.enjarai.trickster.render.fragment.PatternRenderer;
+import dev.enjarai.trickster.render.fragment.PatternGlyphRenderer;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.PatternGlyph;
@@ -25,7 +25,6 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-import static dev.enjarai.trickster.screen.scribing.CircleWidget.isCircleClickable;
 import static net.minecraft.client.render.RenderPhase.*;
 
 public class CircleRenderer {
@@ -298,7 +297,6 @@ public class CircleRenderer {
         Fragment glyph, @Nullable List<Byte> drawingPattern
     ) {
         float patternRadius = radius / PATTERN_TO_PART_RATIO;
-        float pixelSize = patternRadius / PART_PIXEL_RADIUS;
 
         alpha *= (float) (1 - textFade * 0.5f);
         forcedAlpha *= (float) (1 - textFade * 0.5f);
@@ -321,7 +319,7 @@ public class CircleRenderer {
                 renderText = false;
             }
 
-            PatternRenderer.renderPattern(patternList, matrices, vertexConsumers, x, y, patternRadius, alpha, this, drawingPattern);
+            PatternGlyphRenderer.renderPatternGlyph(patternList, matrices, vertexConsumers, x, y, patternRadius, alpha, this, drawingPattern);
         } else {
             //noinspection rawtypes
             FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(glyph.type()));
@@ -337,34 +335,7 @@ public class CircleRenderer {
             }
 
             if (inUI && renderDots) {
-                for (int i = 0; i < 9; i++) {
-                    var pos = getPatternDotPosition(x, y, i, patternRadius);
-
-                    float dotScale;
-
-                    if (isInsideHitbox(pos, pixelSize, mouseX, mouseY) && isCircleClickable(radius)) {
-                        dotScale = 1.6f;
-                    } else {
-                        if (isCircleClickable(radius)) {
-                            var mouseDistance = new Vector2f((float) (mouseX - pos.x), (float) (mouseY - pos.y)).length();
-                            dotScale = Math.clamp(patternRadius / (mouseDistance * 2) - 0.2f, 0, 1);
-                        } else {
-                            // Skip the dot if its too small to click
-                            continue;
-                        }
-                    }
-
-                    var dotSize = pixelSize * dotScale;
-
-                    drawFlatPolygon(
-                        matrices, vertexConsumers,
-                        pos.x - dotSize, pos.y - dotSize,
-                        pos.x - dotSize, pos.y + dotSize,
-                        pos.x + dotSize, pos.y + dotSize,
-                        pos.x + dotSize, pos.y - dotSize,
-                        0, r, g, b, 0.25f, true
-                    );
-                }
+                PatternRenderer.renderDots(Pattern.EMPTY, matrices, vertexConsumers, x, y, patternRadius, mouseX, mouseY, r, g, b, inUI, inEditor, Trickster.CONFIG.dotSize(), 0.25f, null);
             }
         }
 
