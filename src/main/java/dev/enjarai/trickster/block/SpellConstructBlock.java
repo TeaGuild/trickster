@@ -25,6 +25,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -140,6 +141,16 @@ public class SpellConstructBlock extends BlockWithEntity implements Waterloggabl
             }
 
             world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+        }
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (world.isClient() && world.getBlockEntity(pos) instanceof SpellConstructBlockEntity blockEntity) {
+            var stack = blockEntity.getStack(0);
+            var position = pos.toCenterPos();
+            var facing = state.get(FACING);
+            ChargingArrayBlock.maybeDisplayStormLightning(stack, world, position, facing, random);
         }
     }
 

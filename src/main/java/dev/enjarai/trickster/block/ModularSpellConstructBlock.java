@@ -242,13 +242,19 @@ public class ModularSpellConstructBlock extends BlockWithEntity implements Water
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof ModularSpellConstructBlockEntity circleEntity && !circleEntity.isEmpty()) {
+        if (world.isClient() && blockEntity instanceof ModularSpellConstructBlockEntity circleEntity && !circleEntity.isEmpty()) {
             var centerPos = pos.toCenterPos();
             for (int i = 1; i < circleEntity.size(); ++i) {
                 if (circleEntity.getStack(i).getItem() instanceof SpellCoreItem coreItem && circleEntity.executors.get(i - 1).isPresent()) {
                     coreItem.onDisplayTick(world, centerPos, random);
                 }
             }
+
+            var stack = circleEntity.getStack(0);
+            var facing = state.get(FACING);
+            var facingVec = facing.getUnitVector().mul(0.26f);
+            var position = pos.toCenterPos().add(facingVec.x, facingVec.y, facingVec.z);
+            ChargingArrayBlock.maybeDisplayStormLightning(stack, world, position, facing, random);
         }
     }
 

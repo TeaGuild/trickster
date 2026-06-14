@@ -8,6 +8,7 @@ import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.compat.inline.InlineCompat;
 import dev.enjarai.trickster.item.KnotItem;
+import dev.enjarai.trickster.particle.LightningParticle;
 import dev.enjarai.trickster.render.entity.LevitatingBlockEntityRenderer;
 import dev.enjarai.trickster.render.fleck.FleckRenderer;
 import dev.enjarai.trickster.cca.ModEntityComponents;
@@ -90,6 +91,7 @@ public class TricksterClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.HIGHLIGHT_BLOCK, ProtectedBlockParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPELL, SpellParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.STORM, SpellParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.LIGHTNING, LightningParticle.Factory::new);
 
         AccessoriesRendererRegistry.registerRenderer(ModItems.TOP_HAT, HoldableHatRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ModItems.WITCH_HAT, HoldableHatRenderer::new);

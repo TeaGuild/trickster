@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import dev.enjarai.trickster.block.ChargingArrayBlock;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
@@ -8,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,6 +33,11 @@ public abstract class ItemEntityMixin extends Entity {
     )
     private void chargeCrystal(CallbackInfo ci) {
         ManaComponent.tryRecharge(getWorld(), getPos(), getStack());
+
+        if (getRandom().nextFloat() < 0.16f) {
+            var pos = getPos().add(0, 0.3f, 0);
+            ChargingArrayBlock.maybeDisplayStormLightning(getStack(), getWorld(), pos, Direction.UP, getRandom());
+        }
     }
 
     @WrapWithCondition(

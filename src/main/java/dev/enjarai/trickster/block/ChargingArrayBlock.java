@@ -2,6 +2,11 @@ package dev.enjarai.trickster.block;
 
 import com.mojang.serialization.MapCodec;
 import dev.enjarai.trickster.item.ModItems;
+import dev.enjarai.trickster.particle.LightningParticleOptions;
+import dev.enjarai.trickster.spell.mana.storage.ManaStorage;
+import dev.enjarai.trickster.spell.mana.type.Manae;
+import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -25,12 +30,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.Optional;
 
@@ -176,6 +183,72 @@ public class ChargingArrayBlock extends BlockWithEntity implements Waterloggable
             }
 
             world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+        }
+    }
+
+    public static Vec3d getSlotParticlePos(BlockPos pos, BlockState state, int i) {
+        var x = (i % 3 - 1) / 16f * 15f;
+        //noinspection IntegerDivisionInFloatingPointContext
+        var y = (i / 3 - 1) / 16f * 15f;
+
+        var facing = state.get(ChargingArrayBlock.FACING);
+
+        return pos.toCenterPos()
+            .add(new Vec3d(facing
+                .getUnitVector()
+                .mul(-0.3f, new Vector3f())
+            ))
+            .add(new Vec3d(new Vector3f(x / 3f, 0, y / 3f)
+                .rotate(facing.getRotationQuaternion())
+            ));
+    }
+
+    public static void maybeDisplayStormLightning(ItemStack stack, World world, Vec3d pos, Direction facing, Random random) {
+        if (stack.isEmpty()) {
+            return;
+        }
+
+        var storage = ManaStorage.ITEM.find(stack,
+            new ManaStorage.LookupContext(ContainerItemContext.withConstant(stack), world));
+        if (storage == null) {
+            return;
+        }
+
+        for (var view : storage.nonEmptyViews()) {
+            var variant = view.getResource();
+            if (variant.getMana() != Manae.STORM) {
+                continue;
+            }
+
+            var component = variant.getComponentMap().get(ManaComponents.STABILITY);
+            if (component == null) {
+                continue;
+            }
+
+            var stability = component.getStability(world);
+            if (random.nextFloat() > stability) {
+                world.addParticle(
+                    new LightningParticleOptions(
+                        0xffffffff,
+                        random.nextFloat() - 0.5f + facing.getOffsetX() * 0.5f,
+                        random.nextFloat() - 0.5f + facing.getOffsetY() * 0.5f,
+                        random.nextFloat() - 0.5f + facing.getOffsetZ() * 0.5f
+                    ),
+                    pos.x, pos.y, pos.z, 0, 0, 0
+                );
+            }
+        }
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (world.isClient() && world.getBlockEntity(pos) instanceof ChargingArrayBlockEntity blockEntity) {
+            for (int i = 0; i < blockEntity.size(); i++) {
+                var stack = blockEntity.getStack(i);
+                var position = getSlotParticlePos(pos, state, i);
+                var facing = state.get(ChargingArrayBlock.FACING);
+                maybeDisplayStormLightning(stack, world, position, facing, random);
+            }
         }
     }
 

@@ -84,7 +84,7 @@ public record ManaComponent(ManaPool pool, float naturalRechargeMultiplier) {
             var particleVelocity = Math.ceil(chargeMultiplier / 2f);
             var horizontalMultiplier = world.isThundering() ? 6 : 1;
 
-            var recharged = chargeMultiplier - world.random.nextFloat();
+            var recharged = Math.log(chargeMultiplier) - world.random.nextFloat();
             while (recharged > 0) {
                 world.addParticle(
                     mana.getParticle(),
