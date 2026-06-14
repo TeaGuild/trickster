@@ -48,7 +48,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.nbt.NbtIntArray;
-import net.minecraft.sound.SoundEvents;
 
 import java.util.List;
 
@@ -124,7 +123,7 @@ public class TricksterClient implements ClientModInitializer {
             if (client.world != null && client.world.getTime() % 20 == 0
                 && client.player != null
                 && (client.player.getMainHandStack().isIn(ModItems.TICK_TOCK) || client.player.getOffHandStack().isIn(ModItems.TICK_TOCK))) {
-                client.player.playSound(SoundEvents.BLOCK_COMPARATOR_CLICK, 0.1f, client.world.getTime() % 40 == 0 ? 2 : 1.7f);
+                client.player.playSound(ModSounds.KNOT_TICK, 0.1f, client.world.getTime() % 40 == 0 ? 2 : 1.7f);
             }
         });
 
