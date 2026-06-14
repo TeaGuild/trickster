@@ -15,3 +15,5 @@
 - Constructs no longer re-send their (possibly expensive to serialize) spells to clients when unrelated data is modified. (@aurakle)
 - Fragment components on items now cache their hash, significantly improving performance when comparing item stacks. (@enjarai)
 - Made it impossible to import overweight fragments via survival methods. (@aurakle)
+- Reverted the decrease in cost for setting entity scale. (@aurakle)
+- Reverted changes to player velocity querying that made values consistently unreliable. (@aurakle)
