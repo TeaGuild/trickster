@@ -10,6 +10,7 @@
   - Tempest mana has a stability. It is possible to convert stable Tempest to Traditional at a loss.
   - Striking constructs and charging arrays with lightning will decrease stability of contained Tempest mana.
 - Added the ability to summon lightning. Requires unstable Tempest. (@aurakle)
+- Blacklisted the smeltery structure from Lootr due to item voiding. (@aurakle)
 - Fixed a crash from spell fleck rendering. (@enjarai)
 - Made Alt and F in the editor configurable keybinds. (@enjarai)
 - Constructs no longer re-send their (possibly expensive to serialize) spells to clients when unrelated data is modified. (@aurakle)
