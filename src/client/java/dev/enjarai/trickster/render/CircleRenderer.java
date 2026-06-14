@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.enjarai.trickster.ModAtlases;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.fragment.FragmentRenderer;
+import dev.enjarai.trickster.render.fragment.PatternRenderer;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.PatternGlyph;
@@ -108,6 +109,10 @@ public class CircleRenderer {
         this.lineToMouse = lineToMouse;
     }
 
+    public boolean getLineToMouse() {
+        return lineToMouse;
+    }
+
     public void setRenderTime(long renderTime) {
         this.renderTime = renderTime;
     }
@@ -156,6 +161,10 @@ public class CircleRenderer {
 
     public double getMouseY() {
         return mouseY;
+    }
+
+    public long getRenderTime() {
+        return renderTime;
     }
 
     public void setCircleTransparency(float circleTransparency) {
@@ -312,56 +321,7 @@ public class CircleRenderer {
                 renderText = false;
             }
 
-            for (int i = 0; i < 9; i++) {
-                var pos = getPatternDotPosition(x, y, i, patternRadius);
-                var isLinked = isDrawing ? drawingPattern.contains((byte) i) : patternList.contains(i);
-                float dotScale = Trickster.CONFIG.dotSize();
-
-                if (isInsideHitbox(pos, pixelSize, mouseX, mouseY) && isCircleClickable(radius)) {
-                    dotScale *= 1.6f;
-                } else if (!isLinked) {
-                    if (isCircleClickable(radius)) {
-                        var mouseDistance = new Vector2f((float) (mouseX - pos.x), (float) (mouseY - pos.y)).length();
-                        dotScale *= Math.clamp(patternRadius / mouseDistance - 0.2f, 0, 1);
-                    } else {
-                        // Skip the dot if its too small to click
-                        continue;
-                    }
-                }
-
-                float dotSize = pixelSize * dotScale;
-
-                drawFlatPolygon(
-                    matrices, vertexConsumers,
-                    pos.x - dotSize, pos.y - dotSize,
-                    pos.x - dotSize, pos.y + dotSize,
-                    pos.x + dotSize, pos.y + dotSize,
-                    pos.x + dotSize, pos.y - dotSize,
-                    0, (isDrawing && isLinked ? 0.8f : 1) * r,
-                    (isDrawing && isLinked ? 0.5f : 1) * g,
-                    1 * b,
-                    Trickster.CONFIG.patternOpacity() * alpha,
-                    inUI
-                );
-            }
-
-            for (var line : patternList.entries()) {
-                var first = getPatternDotPosition(x, y, line.p1(), patternRadius);
-                var second = getPatternDotPosition(x, y, line.p2(), patternRadius);
-                drawGlyphLine(
-                    matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b,
-                    Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime
-                );
-            }
-
-            if (isDrawing && lineToMouse) {
-                var last = getPatternDotPosition(x, y, drawingPattern.getLast(), patternRadius);
-                var now = new Vector2f((float) mouseX, (float) mouseY);
-                drawGlyphLine(
-                    matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b,
-                    Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime
-                );
-            }
+            PatternRenderer.renderPattern(patternList, matrices, vertexConsumers, x, y, patternRadius, alpha, this, drawingPattern);
         } else {
             //noinspection rawtypes
             FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(glyph.type()));
