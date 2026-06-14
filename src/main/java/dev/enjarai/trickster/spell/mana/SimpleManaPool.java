@@ -25,7 +25,7 @@ public class SimpleManaPool implements MutableManaPool {
     public SimpleManaPool(long mana, long maxMana, ManaVariant variant) {
         this.mana = mana;
         this.maxMana = maxMana;
-        this.variant = mana == 0 ? ManaVariant.EMPTY : variant;
+        this.variant = variant;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class SimpleManaPool implements MutableManaPool {
 
     @Override
     public ManaVariant getVariant(World world) {
-        return variant;
+        return get(world) > 0 ? variant : ManaVariant.EMPTY;
     }
 
     @Override
@@ -71,6 +71,7 @@ public class SimpleManaPool implements MutableManaPool {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof SimpleManaPool pool
+            && (pool.variant == this.variant || this.mana == 0)
             && pool.maxMana == this.maxMana
             && pool.mana == this.mana;
     }

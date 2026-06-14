@@ -92,17 +92,7 @@ public record SharedManaPool(UUID uuid) implements MutableManaPool {
 
     @Override
     public MutableManaPool makeClone(World world) {
-        return new SharedManaPool(uuid);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof SharedManaPool pool && uuid.equals(pool.uuid());
-    }
-
-    @Override
-    public int hashCode() {
-        return uuid.hashCode();
+        return this;
     }
 
     private SharedManaComponent getComponent(World world) {

@@ -41,29 +41,18 @@ public class SavingsManaPool extends SimpleManaPool {
     @Override
     public void set(long value, World world) {
         lastUpdateTime = world.getTime();
-        if (value == 0) {
-            setVariant(ManaVariant.EMPTY, world);
-        }
         super.set(value, world);
     }
 
     @Override
     public long get(World world) {
-        if (!super.getVariant(world).getMana().equals(Manae.TRADITIONAL) && interest > 0) return super.get(world);
+        if (variant.isOf(Manae.TRADITIONAL) && interest > 0) return super.get(world);
 
         var ticksPassed = world.getTime() - lastUpdateTime; // t
         var lastMana = super.get(world); // P
 
         // P(1 + i)^t
         return (long) Math.clamp(lastMana * Math.pow(1 + interest, ticksPassed), 0, getMax(world));
-    }
-
-    @Override
-    public ManaVariant getVariant(World world) {
-        if (get(world) == 0) {
-            return ManaVariant.EMPTY;
-        }
-        return super.getVariant(world);
     }
 
     @Override
