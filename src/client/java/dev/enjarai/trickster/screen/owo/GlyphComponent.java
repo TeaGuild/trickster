@@ -1,6 +1,8 @@
 package dev.enjarai.trickster.screen.owo;
 
 import dev.enjarai.trickster.Trickster;
+import dev.enjarai.trickster.render.CircleRenderer;
+import dev.enjarai.trickster.render.PatternRenderer;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.trick.Tricks;
@@ -14,8 +16,6 @@ import org.w3c.dom.Element;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import static dev.enjarai.trickster.render.CircleRenderer.*;
 
 public class GlyphComponent extends BaseComponent {
     protected Pattern pattern;
@@ -38,47 +38,20 @@ public class GlyphComponent extends BaseComponent {
             .toList();
     }
 
+    private static final CircleRenderer delegate = new CircleRenderer(false, false, 0);
+    static {
+        delegate.setColor(0f, 0f, 0f);
+        delegate.setRenderTime(0);
+    }
+
     @Override
     public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
         var patternSize = size / 2;
 
-        boolean[] dotTerminalStatus = pattern.dotTerminalStatus();
-
-        for (int i = 0; i < 9; i++) {
-            var pos = getPatternDotPosition(x + patternSize + 4, y + patternSize + 4, i, patternSize);
-
-            var isLinked = patternList.contains(i);
-            var dotSize = 1;
-
-            var r = 0f;
-            var g = 0f;
-            var b = 0f;
-
-            if (dotTerminalStatus[i] && Trickster.CONFIG.dotEmphasis()) {
-                r = Trickster.CONFIG.dotEmphasisColor().red();
-                g = Trickster.CONFIG.dotEmphasisColor().green();
-                b = Trickster.CONFIG.dotEmphasisColor().blue();
-            }
-
-            drawFlatPolygon(
-                context.getMatrices(), context.getVertexConsumers(),
-                pos.x - dotSize, pos.y - dotSize,
-                pos.x - dotSize, pos.y + dotSize,
-                pos.x + dotSize, pos.y + dotSize,
-                pos.x + dotSize, pos.y - dotSize,
-                0, r, g, b, isLinked ? 0.9f : 0.5f, true
-            );
-        }
-
-        for (var line : pattern.entries()) {
-            var now = getPatternDotPosition(x + patternSize + 4, y + patternSize + 4, line.p1(), patternSize);
-            var last = getPatternDotPosition(x + patternSize + 4, y + patternSize + 4, line.p2(), patternSize);
-            drawGlyphLine(
-                context.getMatrices(), context.getVertexConsumers(), last, now,
-                1, false, 0, 1f, 1f, 1f, 0.9f,
-                true, 0
-            );
-        }
+        PatternRenderer.renderPattern(
+            pattern, context.getMatrices(), context.getVertexConsumers(), x + patternSize + 4, y + patternSize + 4,
+            patternSize, true, true, Trickster.CONFIG.dotSize(), 0.9f, 0.5f, delegate, null
+        );
     }
 
     @Override

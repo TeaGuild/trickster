@@ -32,9 +32,10 @@ public class PatternGlyphRenderer implements FragmentRenderer<PatternGlyph> {
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x, float y, float size, float alpha, CircleRenderer delegator, @Nullable List<Byte> drawingPattern
     ) {
+        alpha = alpha * Trickster.CONFIG.patternOpacity();
         PatternRenderer.renderPattern(
-            pattern, matrices, vertexConsumers, x, y, size, 0.5f, 3f, true,
-            Trickster.CONFIG.dotSize(), alpha * Trickster.CONFIG.patternOpacity(), delegator, drawingPattern
+            pattern, matrices, vertexConsumers, x, y, size, true, false,
+            Trickster.CONFIG.dotSize(), alpha, alpha, delegator, drawingPattern
         );
     }
 

@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.render;
 
+import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.spell.Pattern;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -16,13 +17,21 @@ public class PatternRenderer {
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x, float y, float size, float width, float height, boolean shouldRenderDots, float alpha, CircleRenderer delegator
     ) {
-        renderPattern(pattern, matrices, vertexConsumers, x, y, size, width, height, shouldRenderDots, 1f, alpha, delegator, null);
+        renderPattern(pattern, matrices, vertexConsumers, x, y, size, width, height, shouldRenderDots, false, 1f, alpha, alpha, delegator, null);
     }
 
     public static void renderPattern(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-        float x, float y, float size, float width, float height, boolean renderDots,
-        float dotScale, float alpha, CircleRenderer delegator, @Nullable List<Byte> drawingPattern
+        float x, float y, float size, boolean shouldRenderDots, boolean dotEmphasis,
+        float dotScale, float alpha, float unlinkedAlpha, CircleRenderer delegator, @Nullable List<Byte> drawingPattern
+    ) {
+        renderPattern(pattern, matrices, vertexConsumers, x, y, size, 0.5f, 3f, shouldRenderDots, dotEmphasis, dotScale, alpha, unlinkedAlpha, delegator, drawingPattern);
+    }
+
+    public static void renderPattern(
+        Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+        float x, float y, float size, float width, float height, boolean shouldRenderDots, boolean dotEmphasis,
+        float dotScale, float alpha, float unlinkedAlpha, CircleRenderer delegator, @Nullable List<Byte> drawingPattern
     ) {
         var pixelSize = size / PART_PIXEL_RADIUS;
         var isDrawing = drawingPattern != null;
@@ -34,10 +43,10 @@ public class PatternRenderer {
         var mouseY = delegator.getMouseY();
         var inUI = delegator.inUI;
 
-        if (renderDots) {
+        if (shouldRenderDots) {
             renderDots(
                 pattern, matrices, vertexConsumers, x, y, size, mouseX, mouseY, r, g, b, inUI,
-                delegator.isInEditor(), dotScale, alpha, drawingPattern
+                delegator.isInEditor(), dotEmphasis, dotScale, alpha, unlinkedAlpha, drawingPattern
             );
         }
 
@@ -62,18 +71,30 @@ public class PatternRenderer {
     }
 
     public static void renderDots(
+        MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, double mouseX,
+        double mouseY, float r, float g, float b, boolean inUI, boolean inEditor, float dotScale, float alpha
+    ) {
+        renderDots(Pattern.EMPTY, matrices, vertexConsumers, x, y, size, mouseX, mouseY, r, g, b, inUI, inEditor, false, dotScale, alpha, alpha, null);
+    }
+
+    public static void renderDots(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-        float x, float y, float size, double mouseX, double mouseY, float r, float g, float b,
-        boolean inUI, boolean inEditor, float dotScale, float alpha, @Nullable List<Byte> drawingPattern
+        float x, float y, float size, double mouseX, double mouseY, float r, float g, float b, boolean inUI, boolean inEditor,
+        boolean dotEmphasis, float dotScale, float alpha, float unlinkedAlpha, @Nullable List<Byte> drawingPattern
     ) {
         var partSize = size * PATTERN_TO_PART_RATIO;
         var pixelSize = size / PART_PIXEL_RADIUS;
-        var isDrawing = drawingPattern != null;
+        boolean isDrawing = drawingPattern != null;
+        boolean[] dotTerminalStatus = pattern.dotTerminalStatus();
 
         for (int i = 0; i < 9; i++) {
             var pos = getPatternDotPosition(x, y, i, size);
             var isLinked = isDrawing ? drawingPattern.contains((byte) i) : pattern.contains(i);
             var currentDotScale = dotScale;
+            var currentDotR = r;
+            var currentDotG = g;
+            var currentDotB = b;
+            var currentDotAlpha = isLinked ? alpha : unlinkedAlpha;
 
             if (inEditor && isInsideHitbox(pos, pixelSize, mouseX, mouseY) && isCircleClickable(partSize)) {
                 currentDotScale *= 1.6f;
@@ -89,17 +110,22 @@ public class PatternRenderer {
 
             var dotSize = pixelSize * currentDotScale;
 
+            if (dotTerminalStatus[i] && dotEmphasis) {
+                currentDotR = Trickster.CONFIG.dotEmphasisColor().red();
+                currentDotG = Trickster.CONFIG.dotEmphasisColor().green();
+                currentDotB = Trickster.CONFIG.dotEmphasisColor().blue();
+            }
+
             drawFlatPolygon(
                 matrices, vertexConsumers,
                 pos.x - dotSize, pos.y - dotSize,
                 pos.x - dotSize, pos.y + dotSize,
                 pos.x + dotSize, pos.y + dotSize,
                 pos.x + dotSize, pos.y - dotSize,
-                0, (isDrawing && isLinked ? 0.8f : 1) * r,
-                (isDrawing && isLinked ? 0.5f : 1) * g,
-                1 * b,
-                alpha,
-                inUI
+                0, (isDrawing && isLinked ? 0.8f : 1) * currentDotR,
+                (isDrawing && isLinked ? 0.5f : 1) * currentDotG,
+                1 * currentDotB,
+                currentDotAlpha, inUI
             );
         }
     }

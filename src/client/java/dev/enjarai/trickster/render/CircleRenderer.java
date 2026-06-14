@@ -335,7 +335,7 @@ public class CircleRenderer {
             }
 
             if (inUI && renderDots) {
-                PatternRenderer.renderDots(Pattern.EMPTY, matrices, vertexConsumers, x, y, patternRadius, mouseX, mouseY, r, g, b, inUI, inEditor, Trickster.CONFIG.dotSize(), 0.25f, null);
+                PatternRenderer.renderDots(matrices, vertexConsumers, x, y, patternRadius, mouseX, mouseY, r, g, b, true, inEditor, Trickster.CONFIG.dotSize(), 0.25f);
             }
         }
 
