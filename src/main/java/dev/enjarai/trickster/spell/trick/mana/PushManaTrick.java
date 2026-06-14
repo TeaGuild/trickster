@@ -66,7 +66,6 @@ public class PushManaTrick extends AbstractConduitTrick {
                             if (right.isBlank()) {
                                 long inserted = target.insert(left, (long) (extracted * taxedMult), trans);
                                 long meow = (long) (inserted / taxedMult);
-                                self.insert(left, extracted - meow, trans);
 
                                 given += meow;
                                 taken += meow;
@@ -83,7 +82,6 @@ public class PushManaTrick extends AbstractConduitTrick {
                                 }
 
                                 long meow = (long) (inserted / taxedMult);
-                                self.insert(left, extracted - meow, trans);
 
                                 given += meow;
                                 taken += meow;
@@ -91,6 +89,8 @@ public class PushManaTrick extends AbstractConduitTrick {
                             }
                         }
                     }
+
+                    self.insert(left, extracted - given, trans);
                 }
             }
         }
