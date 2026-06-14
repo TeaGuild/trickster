@@ -40,6 +40,22 @@ trickster:
     complete: "Spell completed"
     cast: "Spell cast"
     collar_bell: "Collar bell rings"
+    use_esoteric_mana: "Esoteric mana pours on item"
+    leash_link: "Tether links to Bindings"
+    knot_tick: "Knot ticks"
+    place_construct_knot: "Knot placed on Construct"
+    remove_construct_knot: "Knot removed from Construct"
+    place_construct_core: "Core slides into Construct"
+    remove_construct_core: "Core slides out of Construct"
+    place_charging_array_knot: "Knot placed on Array"
+    remove_charging_array_knot: "Knot removed from Array"
+    place_scroll: "Scroll placed on Shelf"
+    remove_scroll: "Scroll removed from Shelf"
+    displacement_teleport: "Teleportation completes"
+    displacement_trigger: "Teleport initiates"
+    use_luminous_bottle: "Glow Ink splotches"
+    knot_crack: "Knot shatters"
+    trigger_resonator: "Resonator resonates"
 
   mana_cost:
     costs_mana: Costs mana
