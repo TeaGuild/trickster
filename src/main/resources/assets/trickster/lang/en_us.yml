@@ -635,6 +635,7 @@ text.config.trickster-config:
     allowExtendedPistonSwap: Allow block swapping of extended pistons
 
     dragDrawing: Draw by dragging
+    moreEmphasis: Terminal dot emphasis in glyphs
     animateLines: Animate patterns
     barsHorizontal: Show spell-created bars horizontally
     disableOffhandScrollOpening: Require scroll in main hand to edit

@@ -34,7 +34,7 @@ public class PatternGlyphRenderer implements FragmentRenderer<PatternGlyph> {
     ) {
         alpha = alpha * Trickster.CONFIG.patternOpacity();
         PatternRenderer.renderPattern(
-            pattern, matrices, vertexConsumers, x, y, size, true, false,
+            pattern, matrices, vertexConsumers, x, y, size, true, Trickster.CONFIG.moreEmphasis(),
             Trickster.CONFIG.dotSize(), alpha, alpha, delegator, drawingPattern
         );
     }

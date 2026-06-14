@@ -71,6 +71,7 @@ public class TricksterConfigModel {
     @SectionHeader("aurora-client")
 
     public boolean dragDrawing = false;
+    public boolean moreEmphasis = false;
     public boolean barsHorizontal = false;
 
     @Sync(Option.SyncMode.INFORM_SERVER)
