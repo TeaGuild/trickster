@@ -26,6 +26,8 @@
     "curse.MeowMrrp",
     "curse.PlayerEntityRendererMixin",
     "figura.AvatarManagerMixin",
+    "key.KeyBindingEntryMixin",
+    "key.KeyBindingMixin",
     "tooltip.TooltipComponentMixin"
   ],
   "injectors": {

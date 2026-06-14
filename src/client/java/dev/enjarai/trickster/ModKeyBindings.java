@@ -7,6 +7,8 @@ import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.net.ScrollHatPacket;
 import dev.enjarai.trickster.net.SpellEditPacket;
 import dev.enjarai.trickster.pond.QuackingInGameHud;
+import dev.enjarai.trickster.screen.ScrollAndQuillScreen;
+import dev.enjarai.trickster.util.InputContext;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -16,6 +18,9 @@ import net.minecraft.entity.EquipmentSlot;
 import org.lwjgl.glfw.GLFW;
 
 public class ModKeyBindings {
+    public static InputContext SPELL_SCREEN = new InputContext(Trickster.id("spell_screen"),
+        () -> MinecraftClient.getInstance().currentScreen instanceof ScrollAndQuillScreen);
+
     public static final KeyBinding TAKE_HAT = new KeyBinding("key.trickster.take_hat", GLFW.GLFW_KEY_G, "key.categories.trickster");
     public static final KeyBinding MODIFY_SPELL = new KeyBinding("key.trickster.modify_spell", GLFW.GLFW_KEY_F6, "key.categories.trickster");
     public static final KeyBinding SHOW_FRAGMENT_TEXT = new KeyBinding("key.trickster.show_fragment_text", GLFW.GLFW_KEY_LEFT_ALT, "key.categories.trickster");
@@ -26,10 +31,13 @@ public class ModKeyBindings {
         KeyBindingHelper.registerKeyBinding(MODIFY_SPELL);
         KeyBindingHelper.registerKeyBinding(SHOW_FRAGMENT_TEXT);
         KeyBindingHelper.registerKeyBinding(PONDER);
-        // TODO isnt used currently, so shouldnt show up in the keybinds screen
-        //        KeyBindingHelper.registerKeyBinding(SHOW_FRAGMENT_TEXT);
+
+        SPELL_SCREEN.addKeyBinding(SHOW_FRAGMENT_TEXT);
+        SPELL_SCREEN.addKeyBinding(PONDER);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            InputContext.getContexts().forEach(InputContext::tick);
+
             var player = client.player;
             if (player != null && client.currentScreen == null) {
                 if (TAKE_HAT.wasPressed()) {
