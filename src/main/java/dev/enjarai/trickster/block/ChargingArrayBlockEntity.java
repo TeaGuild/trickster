@@ -109,7 +109,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
 
     @Override
     public void setStack(int slot, ItemStack stack) {
-        if (stack.getItem() instanceof KnotItem) {
+        if (stack.isIn(ModItems.MANA_KNOTS)) {
             inventory.set(slot, stack);
             markDirtyAndUpdateClients();
         } else if (stack.isEmpty()) {
