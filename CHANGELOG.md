@@ -18,3 +18,4 @@
 - Made it impossible to import overweight fragments via survival methods. (@aurakle)
 - Reverted the decrease in cost for setting entity scale. (@aurakle)
 - Reverted changes to player velocity querying that made values consistently unreliable. (@aurakle)
+- Fixed being able to insert any item into a spell construct. (@aurakle)
