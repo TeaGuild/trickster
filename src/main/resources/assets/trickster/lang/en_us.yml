@@ -250,6 +250,8 @@ trickster:
     get_mana_type_in_slot: Derivate Ingress
     get_mana_in_slot: Ingress of Authority
     get_max_mana_in_slot: Crowning Ingress
+    get_damage: Ingress of Integrity
+    get_max_damage: Ingress of Rectitude
     get_slot: Intrusive Ingress
     get_item_container: Stockpile Ingress
     get_fluid_container: Basin Ingress

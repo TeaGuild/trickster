@@ -149,6 +149,18 @@ Returns the amount of items stored in the given slot.
 
 ;;;;;
 
+<|trick@trickster:templates|trick-id=trickster:get_damage|>
+
+Returns how damaged the item in the given slot is as a number.
+
+;;;;;
+
+<|trick@trickster:templates|trick-id=trickster:get_max_damage|>
+
+Returns the maximum amount of damage the item in the given slot can sustain.
+
+;;;;;
+
 <|trick@trickster:templates|trick-id=trickster:get_equipment|>
 
 Returns a list of the given entity's currently worn equipment as item types. Comes in the order: mainhand, offhand, boots, leggings, chestplate, helmet.
