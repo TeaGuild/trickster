@@ -492,33 +492,39 @@ public class CircleRenderer {
         var vertexConsumer = sprite.getTextureSpecificVertexConsumer(
             vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(FRAGMENT_ATLAS)));
 
-        //        var minV = 0;
-        //        var minU = 0;
-        //        var maxV = 1;
-        //        var maxU = 1;
-
-        var minV = 0; //sprite.getMinV();
-        var maxU = 1; //sprite.getMaxU();
-        var maxV = 1; //sprite.getMaxV();
-        var minU = 0; //sprite.getMinU();
+        var minV = 0;
+        var minU = 0;
+        var maxV = 1;
+        var maxU = 1;
 
         if (!inGui) {
-            vertexConsumer.vertex(position, x1, y1, z).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV)
+            // We have to do this weird non-chaining here due to https://bugs.mojang.com/browse/MC/issues/MC-263524.
+            // Unlike some **other** mods (looking at you supplementaries) we wont just fix this globally using a mixin,
+            // since others might be relying on this weird behaviour.
+            vertexConsumer.vertex(position, x1, y1, z);
+            vertexConsumer.texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
-            vertexConsumer.vertex(position, x1, y2, z).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x1, y2, z);
+            vertexConsumer.texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
-            vertexConsumer.vertex(position, x2, y2, z).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y2, z);
+            vertexConsumer.texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
-            vertexConsumer.vertex(position, x2, y1, z).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y1, z);
+            vertexConsumer.texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(0, 1, 0);
         } else {
-            vertexConsumer.vertex(position, x1, y1, z).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x1, y1, z);
+            vertexConsumer.texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
-            vertexConsumer.vertex(position, x1, y2, z).texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x1, y2, z);
+            vertexConsumer.texture(minU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
-            vertexConsumer.vertex(position, x2, y2, z).texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y2, z);
+            vertexConsumer.texture(maxU, maxV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
-            vertexConsumer.vertex(position, x2, y1, z).texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV)
+            vertexConsumer.vertex(position, x2, y1, z);
+            vertexConsumer.texture(maxU, minV).overlay(OverlayTexture.DEFAULT_UV)
                 .light(LightmapTextureManager.MAX_LIGHT_COORDINATE).color(r, g, b, alpha).normal(-1, 0, 0);
         }
     }
