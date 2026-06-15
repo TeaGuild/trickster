@@ -8,7 +8,6 @@ import com.samsthenerd.inline.api.matching.InlineMatch;
 import com.samsthenerd.inline.api.matching.MatcherInfo;
 import com.samsthenerd.inline.api.matching.RegexMatcher;
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.render.PatternRenderer;
 import dev.enjarai.trickster.spell.Pattern;
 import net.fabricmc.loader.api.FabricLoader;
@@ -47,8 +46,6 @@ public class InlineCompat {
             return new InlineMatch.DataMatch(new PatternData(p), PatternData.getStyle(p, true));
         }, MatcherInfo.fromId(Trickster.id("pattern/index"))));
         InlineClientAPI.INSTANCE.addRenderer(new InlineRenderer<PatternData>() {
-            private static final CircleRenderer delegate = new CircleRenderer(false, false, 0);
-
             @Override
             public Identifier getId() {
                 return Trickster.id("pattern");
@@ -59,18 +56,27 @@ public class InlineCompat {
                 MatrixStack matrices = context.getMatrices();
                 matrices.push();
                 matrices.scale(1 / 6f, 1 / 6f, 1);
+
                 var color = style.getColor();
-                if (color != null)
-                    delegate.setColor((color.getRgb() >> 16 & 255) / 255f * trContext.brightnessMultiplier(), (color.getRgb() >> 8 & 255) / 255f * trContext.brightnessMultiplier(),
-                        (color.getRgb() & 255) / 255f * trContext.brightnessMultiplier());
-                else
-                    delegate.setColor(trContext.red(), trContext.green(), trContext.blue());
+                float r;
+                float g;
+                float b;
+                if (color != null) {
+                    r = (color.getRgb() >> 16 & 255) / 255f * trContext.brightnessMultiplier();
+                    g = (color.getRgb() >> 8 & 255) / 255f * trContext.brightnessMultiplier();
+                    b = (color.getRgb() & 255) / 255f * trContext.brightnessMultiplier();
+                } else {
+                    r = trContext.red();
+                    g = trContext.green();
+                    b = trContext.blue();
+                }
                 if (trContext.isGlowy())
                     matrices.translate(0, 0, -1);
                 float d = trContext.shadow() ? 1 : 0;
                 VertexConsumerProvider vertexConsumers = context.getVertexConsumers();
                 float off = 4f;
-                PatternRenderer.renderPattern(data.pattern(), matrices, vertexConsumers, 28f + d * off, 18f + d * off, 24, 3f, -1f, true, trContext.alpha(), delegate);
+                PatternRenderer.renderPattern(data.pattern(), matrices, vertexConsumers, 28f + d * off, 18f + d * off, 24,
+                    3f, -1f, true, trContext.alpha(), r, g, b, false);
                 matrices.pop();
                 return 10;
             }

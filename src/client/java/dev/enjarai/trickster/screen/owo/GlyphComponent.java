@@ -1,7 +1,6 @@
 package dev.enjarai.trickster.screen.owo;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.render.CircleRenderer;
 import dev.enjarai.trickster.render.PatternRenderer;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.trick.Trick;
@@ -38,19 +37,14 @@ public class GlyphComponent extends BaseComponent {
             .toList();
     }
 
-    private static final CircleRenderer delegate = new CircleRenderer(false, false, 0);
-    static {
-        delegate.setColor(0f, 0f, 0f);
-        delegate.setRenderTime(0);
-    }
-
     @Override
     public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
         var patternSize = size / 2;
 
         PatternRenderer.renderPattern(
             pattern, context.getMatrices(), context.getVertexConsumers(), x + patternSize + 4, y + patternSize + 4,
-            patternSize, true, true, Trickster.CONFIG.dotSize(), 0.9f, 0.5f, delegate, null
+            patternSize, true, true, Trickster.CONFIG.dotSize(), 0.9f, 0.5f,
+            0, 0, 0, 0, 0, true, false, false, 0, null
         );
     }
 

@@ -138,10 +138,6 @@ public class CircleRenderer {
         this.considerInners = considerInners;
     }
 
-    public boolean isInEditor() {
-        return inEditor;
-    }
-
     public float getR() {
         return r;
     }
@@ -345,33 +341,6 @@ public class CircleRenderer {
             FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, (float) textFade);
             matrices.pop();
         }
-    }
-
-    public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, boolean isDrawing, float tone, float r, float g,
-        float b, float opacity, boolean inUI, long renderTime) {
-        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime);
-    }
-
-    public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, float width, float height, boolean isDrawing,
-        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime) {
-        if (last.distance(now) < pixelSize * 6) {
-            return;
-        }
-
-        pixelSize *= Trickster.CONFIG.patternSize();
-
-        var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize * width);
-        var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * height * Trickster.CONFIG.patternEdgeGap());
-
-        drawFlatPolygon(
-            matrices, vertexConsumers,
-            last.x - parallelVec.x - directionVec.x, last.y - parallelVec.y - directionVec.y,
-            last.x + parallelVec.x - directionVec.x, last.y + parallelVec.y - directionVec.y,
-            now.x + parallelVec.x + directionVec.x, now.y + parallelVec.y + directionVec.y,
-            now.x - parallelVec.x + directionVec.x, now.y - parallelVec.y + directionVec.y,
-            0, (isDrawing ? 0.8f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b,
-            opacity, inUI
-        );
     }
 
     public static Vector2f getPatternDotPosition(float x, float y, int i, float radius) {

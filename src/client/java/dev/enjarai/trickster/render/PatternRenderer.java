@@ -14,39 +14,37 @@ import static dev.enjarai.trickster.screen.scribing.CircleWidget.isCircleClickab
 
 public class PatternRenderer {
     public static void renderPattern(
-        Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-        float x, float y, float size, float width, float height, boolean shouldRenderDots, float alpha, CircleRenderer delegator
+        Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
+        float width, float height, boolean shouldRenderDots, float alpha, float r, float g, float b, boolean inUI
     ) {
-        renderPattern(pattern, matrices, vertexConsumers, x, y, size, width, height, shouldRenderDots, false, 1f, alpha, alpha, delegator, null);
+        renderPattern(pattern, matrices, vertexConsumers, x, y, size, width, height, shouldRenderDots, false,
+            1f, alpha, alpha, r, g, b, 0, 0, inUI, false, false, 0, null);
     }
 
     public static void renderPattern(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x, float y, float size, boolean shouldRenderDots, boolean dotEmphasis,
-        float dotScale, float alpha, float unlinkedAlpha, CircleRenderer delegator, @Nullable List<Byte> drawingPattern
+        float dotScale, float alpha, float unlinkedAlpha, float r, float g, float b, double mouseX, double mouseY,
+        boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime, @Nullable List<Byte> drawingPattern
     ) {
-        renderPattern(pattern, matrices, vertexConsumers, x, y, size, 0.5f, 3f, shouldRenderDots, dotEmphasis, dotScale, alpha, unlinkedAlpha, delegator, drawingPattern);
+        renderPattern(pattern, matrices, vertexConsumers, x, y, size, 0.5f, 3f, shouldRenderDots, dotEmphasis, dotScale,
+            alpha, unlinkedAlpha, r, g, b, mouseX, mouseY, inUI, inEditor, lineToMouse, renderTime, drawingPattern);
     }
 
     public static void renderPattern(
-        Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-        float x, float y, float size, float width, float height, boolean shouldRenderDots, boolean dotEmphasis,
-        float dotScale, float alpha, float unlinkedAlpha, CircleRenderer delegator, @Nullable List<Byte> drawingPattern
+        Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
+        float width, float height, boolean shouldRenderDots, boolean dotEmphasis, float dotScale, float alpha, float unlinkedAlpha,
+        float r, float g, float b, double mouseX, double mouseY, boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime,
+        @Nullable List<Byte> drawingPattern
+
     ) {
         var pixelSize = size / PART_PIXEL_RADIUS;
         var isDrawing = drawingPattern != null;
 
-        var r = delegator.getR();
-        var g = delegator.getG();
-        var b = delegator.getB();
-        var mouseX = delegator.getMouseX();
-        var mouseY = delegator.getMouseY();
-        var inUI = delegator.inUI;
-
         if (shouldRenderDots) {
             renderDots(
                 pattern, matrices, vertexConsumers, x, y, size, mouseX, mouseY, r, g, b, inUI,
-                delegator.isInEditor(), dotEmphasis, dotScale, alpha, unlinkedAlpha, drawingPattern
+                inEditor, dotEmphasis, dotScale, alpha, unlinkedAlpha, drawingPattern
             );
         }
 
@@ -55,16 +53,16 @@ public class PatternRenderer {
             var second = getPatternDotPosition(x, y, line.p2(), size);
             drawGlyphLine(
                 matrices, vertexConsumers, first, second, pixelSize, width, height, isDrawing,
-                1, r, g, b, alpha, inUI, delegator.getRenderTime()
+                1, r, g, b, alpha, inUI, renderTime
             );
         }
 
-        if (isDrawing && delegator.getLineToMouse()) {
+        if (isDrawing && lineToMouse) {
             var last = getPatternDotPosition(x, y, drawingPattern.getLast(), size);
             var now = new Vector2f((float) mouseX, (float) mouseY);
             drawGlyphLine(
                 matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b,
-                alpha, inUI, delegator.getRenderTime()
+                alpha, inUI, renderTime
             );
         }
 
@@ -128,5 +126,32 @@ public class PatternRenderer {
                 currentDotAlpha, inUI
             );
         }
+    }
+
+    public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, boolean isDrawing, float tone, float r, float g,
+        float b, float opacity, boolean inUI, long renderTime) {
+        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime);
+    }
+
+    public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, float width, float height, boolean isDrawing,
+        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime) {
+        if (last.distance(now) < pixelSize * 6) {
+            return;
+        }
+
+        pixelSize *= Trickster.CONFIG.patternSize();
+
+        var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize * width);
+        var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * height * Trickster.CONFIG.patternEdgeGap());
+
+        drawFlatPolygon(
+            matrices, vertexConsumers,
+            last.x - parallelVec.x - directionVec.x, last.y - parallelVec.y - directionVec.y,
+            last.x + parallelVec.x - directionVec.x, last.y + parallelVec.y - directionVec.y,
+            now.x + parallelVec.x + directionVec.x, now.y + parallelVec.y + directionVec.y,
+            now.x - parallelVec.x + directionVec.x, now.y - parallelVec.y + directionVec.y,
+            0, (isDrawing ? 0.8f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b,
+            opacity, inUI
+        );
     }
 }
