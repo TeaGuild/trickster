@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.render;
 
+import dev.enjarai.trickster.ModAtlases;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.ModularSpellConstructBlock;
 import dev.enjarai.trickster.block.ModularSpellConstructBlockEntity;
@@ -12,7 +13,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -84,8 +84,9 @@ public class ModularSpellConstructBlockEntityRenderer implements BlockEntityRend
             var coreStack = entity.getStack(i);
             if (!coreStack.isEmpty()) {
                 var textureId = Registries.ITEM.getId(coreStack.getItem()).withPrefixedPath("entity/modular_spell_construct/");
-                var spriteId = new SpriteIdentifier(ATLAS_ID, textureId);
-                var vertexConsumer = spriteId.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout);
+                var sprite = ModAtlases.ModularSpellConstruct.INSTANCE.getSprite(textureId);
+                var vertexConsumer = sprite.getTextureSpecificVertexConsumer(
+                    vertexConsumers.getBuffer(RenderLayer.getEntityCutout(ATLAS_ID)));
                 coreModels[i - 1].render(matrices, vertexConsumer, light, overlay);
             }
         }
