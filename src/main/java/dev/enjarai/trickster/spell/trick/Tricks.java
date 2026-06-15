@@ -263,7 +263,7 @@ public class Tricks {
     public static final GetManaTypeInSlotTrick GET_MANA_TYPE_IN_SLOT_TRICK = register("get_mana_type_in_slot", new GetManaTypeInSlotTrick());
     public static final GetManaInSlotTrick GET_MANA_IN_SLOT = register("get_mana_in_slot", new GetManaInSlotTrick());
     public static final GetMaxManaInSlotTrick GET_MAX_MANA_IN_SLOT = register("get_max_mana_in_slot", new GetMaxManaInSlotTrick());
-    public static final GetDamageTrick GET_DAMAGE = register("get_damage", new GetDamageTrick());
+    public static final GetDurabilityTrick GET_DURABILITY = register("get_durability", new GetDurabilityTrick());
     public static final GetMaxDamageTrick GET_MAX_DAMAGE = register("get_max_damage", new GetMaxDamageTrick());
     public static final GetSlotTrick GET_SLOT = register("get_slot", new GetSlotTrick());
     public static final GetContainerTrick GET_ITEM_CONTAINER = register("get_item_container", new GetContainerTrick(Pattern.of(4, 0, 7, 2, 4, 3, 6, 7, 4, 5), VariantType.ITEM));

@@ -149,9 +149,9 @@ Returns the amount of items stored in the given slot.
 
 ;;;;;
 
-<|trick@trickster:templates|trick-id=trickster:get_damage|>
+<|trick@trickster:templates|trick-id=trickster:get_durability|>
 
-Returns how damaged the item in the given slot is as a number.
+Returns how much durability the item in the given slot has left as a number.
 
 ;;;;;
 
