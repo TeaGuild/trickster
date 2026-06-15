@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.enjarai.trickster.ModAtlases;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.fragment.FragmentRenderer;
 import dev.enjarai.trickster.spell.Fragment;
@@ -12,7 +13,6 @@ import io.wispforest.owo.ui.core.Color;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.BufferAllocator;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -488,19 +488,19 @@ public class CircleRenderer {
         RenderSystem.enableDepthTest();
         var matrixEntry = matrices.peek();
         var position = matrixEntry.getPositionMatrix();
-        var spriteId = new SpriteIdentifier(FRAGMENT_ATLAS, texture);
-        //        var vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(spriteId.getAtlasId()));
-        var vertexConsumer = spriteId.getVertexConsumer(vertexConsumers, RenderLayer::getEntityTranslucent);
+        var sprite = ModAtlases.Fragment.INSTANCE.getSprite(texture);
+        var vertexConsumer = sprite.getTextureSpecificVertexConsumer(
+            vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(FRAGMENT_ATLAS)));
 
         //        var minV = 0;
         //        var minU = 0;
         //        var maxV = 1;
         //        var maxU = 1;
 
-        var minV = spriteId.getSprite().getMinV();
-        var maxU = spriteId.getSprite().getMaxU();
-        var maxV = spriteId.getSprite().getMaxV();
-        var minU = spriteId.getSprite().getMinU();
+        var minV = 0; //sprite.getMinV();
+        var maxU = 1; //sprite.getMaxU();
+        var maxV = 1; //sprite.getMaxV();
+        var minU = 0; //sprite.getMinU();
 
         if (!inGui) {
             vertexConsumer.vertex(position, x1, y1, z).texture(minU, minV).overlay(OverlayTexture.DEFAULT_UV)

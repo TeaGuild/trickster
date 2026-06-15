@@ -1,9 +1,11 @@
 package dev.enjarai.trickster.mixin.client;
 
+import dev.enjarai.trickster.ModAtlases;
 import dev.enjarai.trickster.item.LeftClickItem;
 import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.net.LeftClickItemPacket;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.RunArgs;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.Hand;
@@ -29,6 +31,15 @@ public class MinecraftClientMixin {
     @Shadow
     @Nullable
     public ClientPlayerInteractionManager interactionManager;
+
+    @Inject(
+        method = "<init>", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/client/texture/GuiAtlasManager;<init>(Lnet/minecraft/client/texture/TextureManager;)V"
+        )
+    )
+    private void initializeAtlases(RunArgs args, CallbackInfo ci) {
+        ModAtlases.register();
+    }
 
     // Cast the wand on left-click this allows for spamming left click which is the same as using an item normally.
     @Inject(method = "doAttack", at = @At(value = "HEAD"), cancellable = true)
