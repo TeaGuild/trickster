@@ -12,6 +12,8 @@
 - Added the ability to summon lightning. Requires unstable Tempest. (@aurakle)
 - Blacklisted the smeltery structure from Lootr due to item voiding. (@aurakle)
 - Fixed a crash from spell fleck rendering. (@enjarai)
+- Fixed an issue with atlas rendering in certain situations. (@enjarai)
+  - Textures would get messed up with: Supplementaries, Connector, and Kilt.
 - Made Alt and F in the editor configurable keybinds. (@enjarai)
 - Constructs no longer re-send their (possibly expensive to serialize) spells to clients when unrelated data is modified. (@aurakle)
 - Fragment components on items now cache their hash, significantly improving performance when comparing item stacks. (@enjarai)
