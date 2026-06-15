@@ -43,7 +43,7 @@ public class GlyphComponent extends BaseComponent {
 
         PatternRenderer.renderPattern(
             pattern, context.getMatrices(), context.getVertexConsumers(), x + patternSize + 4, y + patternSize + 4,
-            patternSize, true, true, Trickster.CONFIG.dotSize(), 0.9f, 0.5f,
+            patternSize, true, Trickster.CONFIG.dotEmphasis(), Trickster.CONFIG.dotSize(), 0.9f, 0.5f,
             0, 0, 0, 0, 0, true, false, false, 0, Trickster.CONFIG.patternSize(), false, null
         );
     }
