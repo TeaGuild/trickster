@@ -76,7 +76,7 @@ public class InlineCompat {
                 VertexConsumerProvider vertexConsumers = context.getVertexConsumers();
                 float off = 4f;
                 PatternRenderer.renderPattern(data.pattern(), matrices, vertexConsumers, 28f + d * off, 18f + d * off, 24,
-                    3f, -1f, true, trContext.alpha(), r, g, b, false);
+                    3f, -1f, true, trContext.alpha(), r, g, b, false, 1f);
                 matrices.pop();
                 return 10;
             }

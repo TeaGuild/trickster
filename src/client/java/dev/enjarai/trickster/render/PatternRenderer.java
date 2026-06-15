@@ -15,27 +15,27 @@ import static dev.enjarai.trickster.screen.scribing.CircleWidget.isCircleClickab
 public class PatternRenderer {
     public static void renderPattern(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
-        float width, float height, boolean shouldRenderDots, float alpha, float r, float g, float b, boolean inUI
+        float width, float height, boolean shouldRenderDots, float alpha, float r, float g, float b, boolean inUI, float patternWidth
     ) {
         renderPattern(pattern, matrices, vertexConsumers, x, y, size, width, height, shouldRenderDots, false,
-            1f, alpha, alpha, r, g, b, 0, 0, inUI, false, false, 0, null);
+            1f, alpha, alpha, r, g, b, 0, 0, inUI, false, false, 0, patternWidth, null);
     }
 
     public static void renderPattern(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x, float y, float size, boolean shouldRenderDots, boolean dotEmphasis,
         float dotScale, float alpha, float unlinkedAlpha, float r, float g, float b, double mouseX, double mouseY,
-        boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime, @Nullable List<Byte> drawingPattern
+        boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime, float patternWidth, @Nullable List<Byte> drawingPattern
     ) {
         renderPattern(pattern, matrices, vertexConsumers, x, y, size, 0.5f, 3f, shouldRenderDots, dotEmphasis, dotScale,
-            alpha, unlinkedAlpha, r, g, b, mouseX, mouseY, inUI, inEditor, lineToMouse, renderTime, drawingPattern);
+            alpha, unlinkedAlpha, r, g, b, mouseX, mouseY, inUI, inEditor, lineToMouse, renderTime, patternWidth, drawingPattern);
     }
 
     public static void renderPattern(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
         float width, float height, boolean shouldRenderDots, boolean dotEmphasis, float dotScale, float alpha, float unlinkedAlpha,
         float r, float g, float b, double mouseX, double mouseY, boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime,
-        @Nullable List<Byte> drawingPattern
+        float patternWidth, @Nullable List<Byte> drawingPattern
 
     ) {
         var pixelSize = size / PART_PIXEL_RADIUS;
@@ -53,7 +53,7 @@ public class PatternRenderer {
             var second = getPatternDotPosition(x, y, line.p2(), size);
             drawGlyphLine(
                 matrices, vertexConsumers, first, second, pixelSize, width, height, isDrawing,
-                1, r, g, b, alpha, inUI, renderTime
+                1, r, g, b, alpha, inUI, renderTime, patternWidth
             );
         }
 
@@ -62,7 +62,7 @@ public class PatternRenderer {
             var now = new Vector2f((float) mouseX, (float) mouseY);
             drawGlyphLine(
                 matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b,
-                alpha, inUI, renderTime
+                alpha, inUI, renderTime, patternWidth
             );
         }
 
@@ -129,17 +129,17 @@ public class PatternRenderer {
     }
 
     public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, boolean isDrawing, float tone, float r, float g,
-        float b, float opacity, boolean inUI, long renderTime) {
-        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime);
+        float b, float opacity, boolean inUI, long renderTime, float patternWidth) {
+        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime, patternWidth);
     }
 
     public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, float width, float height, boolean isDrawing,
-        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime) {
+        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime, float patternWidth) {
         if (last.distance(now) < pixelSize * 6) {
             return;
         }
 
-        pixelSize *= Trickster.CONFIG.patternSize();
+        pixelSize *= patternWidth;
 
         var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize * width);
         var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * height * Trickster.CONFIG.patternEdgeGap());
