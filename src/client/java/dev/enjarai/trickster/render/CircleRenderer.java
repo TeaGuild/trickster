@@ -274,7 +274,7 @@ public class CircleRenderer {
             lineX + perpendicularVec.x - toCenterVec.x, lineY + perpendicularVec.y - toCenterVec.y,
             lineX - perpendicularVec.x - toCenterVec.x, lineY - perpendicularVec.y - toCenterVec.y,
             0, dividerColor.red() * r, dividerColor.green() * g, dividerColor.blue() * b,
-            dividerColor.alpha() * (float) alpha, inUI
+            dividerColor.alpha() * (float) alpha, inUI, Trickster.CONFIG.outlinePatterns()
         );
     }
 
@@ -331,7 +331,8 @@ public class CircleRenderer {
             }
 
             if (inUI && renderDots) {
-                PatternRenderer.renderDots(matrices, vertexConsumers, x, y, patternRadius, mouseX, mouseY, r, g, b, true, inEditor, Trickster.CONFIG.dotSize(), 0.25f);
+                PatternRenderer.renderDots(matrices, vertexConsumers, x, y, patternRadius, mouseX, mouseY, r, g, b, true, inEditor, Trickster.CONFIG.dotSize(), 0.25f,
+                    Trickster.CONFIG.outlinePatterns());
             }
         }
 
@@ -432,7 +433,7 @@ public class CircleRenderer {
     public static void drawFlatPolygon(
         MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4,
-        float z, float r, float g, float b, float alpha, boolean inUI
+        float z, float r, float g, float b, float alpha, boolean inUI, boolean outline
     ) {
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         VertexConsumer vertexConsumer;
@@ -441,7 +442,7 @@ public class CircleRenderer {
         vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x3, y3, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x4, y4, z).color(r, g, b, alpha);
-        if (Trickster.CONFIG.outlinePatterns()) {
+        if (outline) {
             vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getDebugLineStrip(1));
             vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
             vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);

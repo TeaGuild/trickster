@@ -18,24 +18,24 @@ public class PatternRenderer {
         float width, float height, boolean shouldRenderDots, float alpha, float r, float g, float b, boolean inUI, float patternWidth
     ) {
         renderPattern(pattern, matrices, vertexConsumers, x, y, size, width, height, shouldRenderDots, false,
-            1f, alpha, alpha, r, g, b, 0, 0, inUI, false, false, 0, patternWidth, null);
+            1f, alpha, alpha, r, g, b, 0, 0, inUI, false, false, 0, patternWidth, false, null);
     }
 
     public static void renderPattern(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x, float y, float size, boolean shouldRenderDots, boolean dotEmphasis,
         float dotScale, float alpha, float unlinkedAlpha, float r, float g, float b, double mouseX, double mouseY,
-        boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime, float patternWidth, @Nullable List<Byte> drawingPattern
+        boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime, float patternWidth, boolean outline, @Nullable List<Byte> drawingPattern
     ) {
         renderPattern(pattern, matrices, vertexConsumers, x, y, size, 0.5f, 3f, shouldRenderDots, dotEmphasis, dotScale,
-            alpha, unlinkedAlpha, r, g, b, mouseX, mouseY, inUI, inEditor, lineToMouse, renderTime, patternWidth, drawingPattern);
+            alpha, unlinkedAlpha, r, g, b, mouseX, mouseY, inUI, inEditor, lineToMouse, renderTime, patternWidth, outline, drawingPattern);
     }
 
     public static void renderPattern(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size,
         float width, float height, boolean shouldRenderDots, boolean dotEmphasis, float dotScale, float alpha, float unlinkedAlpha,
         float r, float g, float b, double mouseX, double mouseY, boolean inUI, boolean inEditor, boolean lineToMouse, long renderTime,
-        float patternWidth, @Nullable List<Byte> drawingPattern
+        float patternWidth, boolean outline, @Nullable List<Byte> drawingPattern
 
     ) {
         var pixelSize = size / PART_PIXEL_RADIUS;
@@ -44,7 +44,7 @@ public class PatternRenderer {
         if (shouldRenderDots) {
             renderDots(
                 pattern, matrices, vertexConsumers, x, y, size, mouseX, mouseY, r, g, b, inUI,
-                inEditor, dotEmphasis, dotScale, alpha, unlinkedAlpha, drawingPattern
+                inEditor, dotEmphasis, dotScale, alpha, unlinkedAlpha, outline, drawingPattern
             );
         }
 
@@ -53,7 +53,7 @@ public class PatternRenderer {
             var second = getPatternDotPosition(x, y, line.p2(), size);
             drawGlyphLine(
                 matrices, vertexConsumers, first, second, pixelSize, width, height, isDrawing,
-                1, r, g, b, alpha, inUI, renderTime, patternWidth
+                1, r, g, b, alpha, inUI, renderTime, patternWidth, outline
             );
         }
 
@@ -62,7 +62,7 @@ public class PatternRenderer {
             var now = new Vector2f((float) mouseX, (float) mouseY);
             drawGlyphLine(
                 matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b,
-                alpha, inUI, renderTime, patternWidth
+                alpha, inUI, renderTime, patternWidth, outline
             );
         }
 
@@ -70,15 +70,15 @@ public class PatternRenderer {
 
     public static void renderDots(
         MatrixStack matrices, VertexConsumerProvider vertexConsumers, float x, float y, float size, double mouseX,
-        double mouseY, float r, float g, float b, boolean inUI, boolean inEditor, float dotScale, float alpha
+        double mouseY, float r, float g, float b, boolean inUI, boolean inEditor, float dotScale, float alpha, boolean outline
     ) {
-        renderDots(Pattern.EMPTY, matrices, vertexConsumers, x, y, size, mouseX, mouseY, r, g, b, inUI, inEditor, false, dotScale, alpha, alpha, null);
+        renderDots(Pattern.EMPTY, matrices, vertexConsumers, x, y, size, mouseX, mouseY, r, g, b, inUI, inEditor, false, dotScale, alpha, alpha, outline, null);
     }
 
     public static void renderDots(
         Pattern pattern, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x, float y, float size, double mouseX, double mouseY, float r, float g, float b, boolean inUI, boolean inEditor,
-        boolean dotEmphasis, float dotScale, float alpha, float unlinkedAlpha, @Nullable List<Byte> drawingPattern
+        boolean dotEmphasis, float dotScale, float alpha, float unlinkedAlpha, boolean outline, @Nullable List<Byte> drawingPattern
     ) {
         var partSize = size * PATTERN_TO_PART_RATIO;
         var pixelSize = size / PART_PIXEL_RADIUS;
@@ -123,18 +123,18 @@ public class PatternRenderer {
                 0, (isDrawing && isLinked ? 0.8f : 1) * currentDotR,
                 (isDrawing && isLinked ? 0.5f : 1) * currentDotG,
                 1 * currentDotB,
-                currentDotAlpha, inUI
+                currentDotAlpha, inUI, outline
             );
         }
     }
 
     public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, boolean isDrawing, float tone, float r, float g,
-        float b, float opacity, boolean inUI, long renderTime, float patternWidth) {
-        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime, patternWidth);
+        float b, float opacity, boolean inUI, long renderTime, float patternWidth, boolean outline) {
+        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime, patternWidth, outline);
     }
 
     public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, float width, float height, boolean isDrawing,
-        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime, float patternWidth) {
+        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime, float patternWidth, boolean outline) {
         if (last.distance(now) < pixelSize * 6) {
             return;
         }
@@ -151,7 +151,7 @@ public class PatternRenderer {
             now.x + parallelVec.x + directionVec.x, now.y + parallelVec.y + directionVec.y,
             now.x - parallelVec.x + directionVec.x, now.y - parallelVec.y + directionVec.y,
             0, (isDrawing ? 0.8f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b,
-            opacity, inUI
+            opacity, inUI, outline
         );
     }
 }

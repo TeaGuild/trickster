@@ -37,7 +37,7 @@ public class PatternGlyphRenderer implements FragmentRenderer<PatternGlyph> {
             pattern, matrices, vertexConsumers, x, y, size, true, Trickster.CONFIG.moreEmphasis(),
             Trickster.CONFIG.dotSize(), alpha, alpha, delegator.getR(), delegator.getG(), delegator.getB(), delegator.getMouseX(),
             delegator.getMouseY(), delegator.inUI, delegator.inEditor, delegator.getLineToMouse(), delegator.getRenderTime(),
-            Trickster.CONFIG.patternSize(), drawingPattern
+            Trickster.CONFIG.patternSize(), Trickster.CONFIG.outlinePatterns(), drawingPattern
         );
     }
 
