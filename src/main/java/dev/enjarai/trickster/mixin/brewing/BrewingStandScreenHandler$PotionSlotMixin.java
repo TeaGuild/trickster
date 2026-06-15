@@ -1,5 +1,7 @@
 package dev.enjarai.trickster.mixin.brewing;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.item.BottledItem;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,16 +11,17 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(targets = "net/minecraft/screen/BrewingStandScreenHandler$PotionSlot")
 public class BrewingStandScreenHandler$PotionSlotMixin {
-    @Inject(
-        method = "matches", at = @At("HEAD"), cancellable = true
+    @WrapMethod(
+        method = "matches"
     )
-    private static void makeTricksterItemsValid(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private static boolean makeTricksterItemsValid(ItemStack stack, Operation<Boolean> original) {
         if (stack.getItem() instanceof BottledItem) {
-            cir.setReturnValue(true);
+            return true;
+        } else {
+            return original.call(stack);
         }
     }
 

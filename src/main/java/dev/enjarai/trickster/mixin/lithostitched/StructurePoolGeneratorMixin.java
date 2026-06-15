@@ -18,7 +18,7 @@ public class StructurePoolGeneratorMixin {
     )
     private Heightmap.Type replaceHeightmap(Heightmap.Type original, @Local(argsOnly = true) PoolStructurePiece parentPiece) {
         var parentProjection = parentPiece.getPoolElement().getProjection();
-        if (parentProjection.name().equals("TRICKSTER$TERRAIN_MATCHING_OCEAN")) {
+        if (parentProjection.getId().equals("trickster:terrain_matching_ocean")) {
             return Heightmap.Type.OCEAN_FLOOR_WG;
         }
 
