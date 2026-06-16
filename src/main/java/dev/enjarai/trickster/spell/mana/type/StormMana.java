@@ -20,8 +20,13 @@ import java.util.Optional;
 public class StormMana extends Mana {
     private final ComponentChanges REMOVE_STABILITY = ComponentChanges.builder().remove(ManaComponents.STABILITY).build();
 
-    public StormMana(ComponentMap defaultComponents, int color) {
-        super(defaultComponents, color);
+    public StormMana(ComponentMap defaultComponents) {
+        super(defaultComponents);
+    }
+
+    @Override
+    public int getColor(ManaVariant variant) {
+        return 0x85c6f7;
     }
 
     @Override

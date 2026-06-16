@@ -11,6 +11,7 @@ import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentMapImpl;
 import net.minecraft.component.ComponentType;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.text.MutableText;
 
 import java.util.Objects;
 
@@ -40,6 +41,10 @@ public class ManaVariant implements TransferVariant<Mana> {
 
     public int getColor() {
         return mana.getColor(this);
+    }
+
+    public MutableText getName() {
+        return mana.getName(this);
     }
 
     @Override

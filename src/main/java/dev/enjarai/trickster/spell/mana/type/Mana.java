@@ -18,15 +18,13 @@ import java.util.List;
 
 import java.util.Optional;
 
-public class Mana {
+public abstract class Mana {
     public static final Endec<Mana> ENDEC = MinecraftEndecs.ofRegistry(Manae.REGISTRY);
 
     private final ComponentMap defaultComponents;
-    private final int color;
 
-    public Mana(ComponentMap defaultComponents, int color) {
+    public Mana(ComponentMap defaultComponents) {
         this.defaultComponents = defaultComponents;
-        this.color = color;
     }
 
     public boolean isEmpty() {
@@ -37,9 +35,7 @@ public class Mana {
         return defaultComponents;
     }
 
-    public int getColor(ManaVariant variant) {
-        return this.color;
-    }
+    public abstract int getColor(ManaVariant variant);
 
     public ParticleEffect getParticle(ManaVariant variant) {
         return ModParticles.SPELL_WHITE;
@@ -53,11 +49,11 @@ public class Mana {
 
     }
 
-    public MutableText getName() {
+    public MutableText getName(ManaVariant variant) {
         var id = Manae.REGISTRY.getId(this);
         if (id == null) {
             return Text.literal("Unregistered");
         }
-        return Text.translatable(Trickster.MOD_ID + ".mana." + id.getNamespace() + "." + id.getPath()).withColor(color);
+        return Text.translatable(Trickster.MOD_ID + ".mana." + id.getNamespace() + "." + id.getPath()).withColor(getColor(variant));
     }
 }

@@ -115,7 +115,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
             if (!pool.isEmpty(world)) {
                 tooltip.add(Text.translatable(
                     Trickster.MOD_ID + ".mana.type",
-                    mana.getName()
+                    variant.getName()
                 ).styled(s -> s.withColor(0xaaaabb)));
             }
 
