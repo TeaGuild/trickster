@@ -297,7 +297,7 @@ public abstract class KnotItem extends Item {
 
         subscribeConsumer.accept(manaComponent);
 
-        return manaComponent.pool().getVariant(world).getMana().getColor();
+        return manaComponent.pool().getVariant(world).getColor();
     }
 
     @Override

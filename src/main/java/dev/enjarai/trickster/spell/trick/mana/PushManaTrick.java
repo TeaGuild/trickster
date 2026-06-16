@@ -27,7 +27,7 @@ public class PushManaTrick extends AbstractConduitTrick {
 
         ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
             .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
-            .send(new ManaMoveParticlePacket(fromPos, toPos, mana, v));
+            .send(new ManaMoveParticlePacket(fromPos, toPos, ManaVariant.of(mana), v));
     }
 
     @Override
