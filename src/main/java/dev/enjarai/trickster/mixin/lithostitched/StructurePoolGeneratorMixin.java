@@ -1,12 +1,11 @@
 package dev.enjarai.trickster.mixin.lithostitched;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.structure.PoolStructurePiece;
+import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.world.Heightmap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,27 +28,23 @@ public class StructurePoolGeneratorMixin {
         return original;
     }
 
-    @Definition(id = "RIGID", field = "Lnet/minecraft/structure/pool/StructurePool$Projection;RIGID:Lnet/minecraft/structure/pool/StructurePool$Projection;")
-    @Expression("? == RIGID")
     @ModifyExpressionValue(
-        method = "findValidChildPiece", at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 0)
+        method = "findValidChildPiece", at = @At(value = "FIELD", target = "Lnet/minecraft/structure/pool/StructurePool$Projection;RIGID:Lnet/minecraft/structure/pool/StructurePool$Projection;", ordinal = 0)
     )
-    private boolean replaceProjection(boolean original, @Local(name = "parentPiece", argsOnly = true) PoolStructurePiece parentPiece) {
+    private StructurePool.Projection replaceProjection(StructurePool.Projection original, @Local(argsOnly = true) PoolStructurePiece parentPiece) {
         if (parentPiece.getPoolElement() instanceof DelegatingPoolElement delegator && delegator.config().terrainMatchingHeightmap() == Heightmap.Type.OCEAN_FLOOR_WG) {
-            return false;
+            return null;
         }
 
         return original;
     }
 
-    @Definition(id = "RIGID", field = "Lnet/minecraft/structure/pool/StructurePool$Projection;RIGID:Lnet/minecraft/structure/pool/StructurePool$Projection;")
-    @Expression("? == RIGID")
     @ModifyExpressionValue(
-        method = "findValidChildPiece", at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 1)
+        method = "findValidChildPiece", at = @At(value = "FIELD", target = "Lnet/minecraft/structure/pool/StructurePool$Projection;RIGID:Lnet/minecraft/structure/pool/StructurePool$Projection;", ordinal = 1)
     )
-    private boolean replaceProjection(boolean original, @Local(name = "config") DelegatingConfig config) {
+    private StructurePool.Projection replaceProjection(StructurePool.Projection original, @Local(name = "config") DelegatingConfig config) {
         if (config.terrainMatchingHeightmap() == Heightmap.Type.OCEAN_FLOOR_WG) {
-            return false;
+            return null;
         }
 
         return original;
