@@ -1,7 +1,6 @@
 package dev.enjarai.trickster.mixin.lithostitched;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.enjarai.trickster.pond.ProjectionMatchingPoolDuck;
 import net.minecraft.structure.PoolStructurePiece;
 import net.minecraft.world.Heightmap;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,8 +17,8 @@ public class StructurePoolGeneratorMixin {
         ), index = 2
     )
     private Heightmap.Type replaceHeightmap(Heightmap.Type original, @Local(argsOnly = true) PoolStructurePiece parentPiece) {
-        var parentProjection = (ProjectionMatchingPoolDuck) (Object) parentPiece.getPoolElement().getProjection();
-        if (parentProjection.matchingOcean()) {
+        var parentProjection = parentPiece.getPoolElement().getProjection();
+        if (parentProjection.getId().equals("trickster:terrain_matching_ocean")) {
             return Heightmap.Type.OCEAN_FLOOR_WG;
         }
 
