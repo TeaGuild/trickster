@@ -2,6 +2,7 @@ package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.particle.ModParticles;
+import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import io.wispforest.endec.Endec;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
@@ -36,11 +37,11 @@ public class Mana {
         return defaultComponents;
     }
 
-    public int getColor() {
+    public int getColor(ManaVariant variant) {
         return this.color;
     }
 
-    public ParticleEffect getParticle() {
+    public ParticleEffect getParticle(ManaVariant variant) {
         return ModParticles.SPELL_WHITE;
     }
 

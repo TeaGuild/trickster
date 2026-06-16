@@ -25,7 +25,7 @@ public class StormMana extends Mana {
     }
 
     @Override
-    public ParticleEffect getParticle() {
+    public ParticleEffect getParticle(ManaVariant variant) {
         return ModParticles.STORM_WHITE;
     }
 

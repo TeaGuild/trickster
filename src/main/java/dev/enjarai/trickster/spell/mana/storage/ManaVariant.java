@@ -10,6 +10,7 @@ import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentMapImpl;
 import net.minecraft.component.ComponentType;
+import net.minecraft.particle.ParticleEffect;
 
 import java.util.Objects;
 
@@ -31,6 +32,14 @@ public class ManaVariant implements TransferVariant<Mana> {
         this.components = components;
         this.componentMap = components == ComponentChanges.EMPTY ? mana.getDefaultComponents() : ComponentMapImpl.create(mana.getDefaultComponents(), components);
         this.hashCode = Objects.hash(mana, components);
+    }
+
+    public ParticleEffect getParticle() {
+        return mana.getParticle(this);
+    }
+
+    public int getColor() {
+        return mana.getColor(this);
     }
 
     @Override
