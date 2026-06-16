@@ -20,6 +20,8 @@
     "Ingress of Authority",
     "Crowning Ingress",
     "Ingress of Plenitude",
+    "Ingress of Integrity",
+    "Ingress of Endurance",
     "Investigative Ingress"
   ]
 }
