@@ -102,8 +102,7 @@
         "inline": "^1.2.2"
     },
     "conflicts": {
-        "immediatelyfast": "*",
-        "supplementaries": "*"
+        "immediatelyfast": "*"
     },
     "breaks": {
         "optifabric": "*"
