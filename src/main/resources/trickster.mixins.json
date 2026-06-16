@@ -21,7 +21,6 @@
     "LivingEntityMixin",
     "MobSpawnerLogicMixin",
     "ServerPlayerInteractionManagerMixin",
-    "StructurePool$ProjectionMixin",
     "lithostitched.StructurePoolGeneratorMixin",
     "accessor.CropBlockAccessor",
     "accessor.DataPackContentsAccessor",
