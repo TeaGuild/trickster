@@ -9,12 +9,19 @@
         "name": "trickster:managrid/branch",
         "delegate": {
           "element_type": "minecraft:single_pool_element",
-          "projection": "trickster:terrain_matching_ocean",
+          "projection": "rigid",
           "location": "trickster:managrid/branch",
-          "processors": []
+          "processors": [
+            {
+              "processor_type": "minecraft:gravity",
+              "heightmap": "OCEAN_FLOOR_WG",
+              "offset": -1
+            }
+          ]
         },
         "allow_bounding_box_collisions": true,
         "other_pieces_can_intersect": true,
+        "terrain_matching_heightmap": "OCEAN_FLOOR_WG",
         "max_count": 7
       }
     }
