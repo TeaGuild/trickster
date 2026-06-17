@@ -39,27 +39,31 @@ public class ColorMana extends Mana {
             int colorLeft = left.getComponentMap().get(ManaComponents.COLOR).color();
             int colorRight = right.getComponentMap().get(ManaComponents.COLOR).color();
 
-            long m = amountLeft + amountRight;
-
-            long r = amountLeft * getRed(colorLeft) + amountRight * getRed(colorRight);
-            long g = amountLeft * getGreen(colorLeft) + amountRight * getGreen(colorRight);
-            long b = amountLeft * getBlue(colorLeft) + amountRight * getBlue(colorRight);
-            long a = amountLeft * getAlpha(colorLeft) + amountRight * getAlpha(colorRight);
-            long l = amountLeft * Math.max(getRed(colorLeft), Math.max(getGreen(colorLeft), getBlue(colorLeft)))
-                + amountRight * Math.max(getRed(colorRight), Math.max(getGreen(colorRight), getBlue(colorRight)));
-
-            r /= m;
-            g /= m;
-            b /= m;
-
-            double f = (double) l / (double) m;
-            double s = (double) Math.max(r, Math.max(g, b));
-
-            var finalComp = new ColorComponent(getArgb((int) (a / m), (int) ((double) r * f / s), (int) ((double) g * f / s), (int) ((double) b * f / s)));
+            var finalComp = new ColorComponent(mixColors(amountLeft, colorLeft, amountRight, colorRight));
             return Optional.of(left.withComponentChanges(ComponentChanges.builder().add(ManaComponents.COLOR, finalComp).build()));
         }
 
         return Optional.empty();
+    }
+
+    public static int mixColors(long amountLeft, int colorLeft, long amountRight, int colorRight) {
+        long m = amountLeft + amountRight;
+
+        long r = amountLeft * getRed(colorLeft) + amountRight * getRed(colorRight);
+        long g = amountLeft * getGreen(colorLeft) + amountRight * getGreen(colorRight);
+        long b = amountLeft * getBlue(colorLeft) + amountRight * getBlue(colorRight);
+        long a = amountLeft * getAlpha(colorLeft) + amountRight * getAlpha(colorRight);
+        long l = amountLeft * Math.max(getRed(colorLeft), Math.max(getGreen(colorLeft), getBlue(colorLeft)))
+            + amountRight * Math.max(getRed(colorRight), Math.max(getGreen(colorRight), getBlue(colorRight)));
+
+        r /= m;
+        g /= m;
+        b /= m;
+
+        double f = (double) l / (double) m;
+        double s = (double) Math.max(r, Math.max(g, b));
+
+        return getArgb((int) (a / m), (int) ((double) r * f / s), (int) ((double) g * f / s), (int) ((double) b * f / s));
     }
 
     @Override
