@@ -6,6 +6,13 @@
       "keepProperties": true,
       "mana_amount": 64.0,
       "weight": 1
+    },
+    {
+      "color": -393218,
+      "id": "minecraft:gravel",
+      "keepProperties": true,
+      "mana_amount": 64.0,
+      "weight": 1
     }
   ]
 }

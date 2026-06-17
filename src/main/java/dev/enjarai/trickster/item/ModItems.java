@@ -116,6 +116,7 @@ public class ModItems {
     public static final BlockItem INERT_SPAWNER_ITEM = register("inert_spawner", new BlockItem(ModBlocks.INERT_SPAWNER, new Item.Settings()));
     public static final BlockItem TATTERED_WOOL_ITEM = register("tattered_wool", new BlockItem(ModBlocks.TATTERED_WOOL, new Item.Settings()));
     public static final BlockItem TATTERED_CARPET_ITEM = register("tattered_carpet", new BlockItem(ModBlocks.TATTERED_CARPET, new Item.Settings()));
+    public static final BlockItem WORN_CONCRETE_ITEM = register("worn_concrete", new BlockItem(ModBlocks.WORN_CONCRETE, new Item.Settings()));
     public static final BlockItem LIGHT_SCONCE = register("light_sconce", new BlockItem(ModBlocks.LIGHT_SCONCE, new Item.Settings()));
     public static final BlockItem COLOR_BLOCK = register("color_block", new BlockItem(ModBlocks.COLOR_BLOCK, new Item.Settings()));
 
@@ -225,6 +226,7 @@ public class ModItems {
             entries.add(INERT_SPAWNER_ITEM);
             entries.add(TATTERED_WOOL_ITEM);
             entries.add(TATTERED_CARPET_ITEM);
+            entries.add(WORN_CONCRETE_ITEM);
             entries.add(LIGHT_SCONCE);
             entries.add(COLOR_BLOCK);
             entries.add(GILDED_TUFF);
