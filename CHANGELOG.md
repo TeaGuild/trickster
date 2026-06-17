@@ -22,3 +22,5 @@
 - Reverted changes to player velocity querying that made values consistently unreliable. (@aurakle)
 - Fixed being able to insert any item into a spell construct. (@aurakle)
 - Added tricks to get the durability of items. (@enjarai)
+- Fixed Infused Ceramic gradients. (@hazenebulous)
+- Miscellaneous Connector compatibility improvements. (@master_bw3)
