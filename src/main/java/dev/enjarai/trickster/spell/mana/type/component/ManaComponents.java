@@ -14,6 +14,11 @@ public class ManaComponents {
             .endec(StabilityComponent.ENDEC)
             .cache()
     );
+    public static final ComponentType<ColorComponent> COLOR = register(
+        "color", builder -> builder
+            .endec(ColorComponent.ENDEC)
+            .cache()
+    );
 
     @ApiStatus.Internal
     public static <T> ComponentType<T> register(String id, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
