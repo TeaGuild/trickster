@@ -3,6 +3,7 @@ package dev.enjarai.trickster.item;
 import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.cca.MessageHandlerComponent.Key;
 import dev.enjarai.trickster.cca.ModGlobalComponents;
+import dev.enjarai.trickster.item.component.DesiredColorComponent;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.item.component.TickTrackerComponent;
@@ -13,14 +14,17 @@ import dev.enjarai.trickster.spell.EvaluationResult;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.execution.executor.MessageListenerSpellExecutor;
+import dev.enjarai.trickster.spell.fragment.ColorFragment;
 import dev.enjarai.trickster.spell.fragment.ListFragment;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.mana.*;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.ColorMana;
 import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
 import dev.enjarai.trickster.spell.trick.Trick;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.minecraft.block.MapColor;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,6 +37,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -274,11 +279,47 @@ public abstract class KnotItem extends Item {
         }
     }
 
-    public static class Prismarine extends KnotItem {
+    public static class Prismarine extends KnotItem implements ChannelItem {
+        // Need to use a static list here for dye depot compat :sob:
+        private static final int[] possibleColors = new int[] {
+            DyeColor.ORANGE.getEntityColor(),
+            DyeColor.MAGENTA.getEntityColor(),
+            DyeColor.LIGHT_BLUE.getEntityColor(),
+            DyeColor.YELLOW.getEntityColor(),
+            DyeColor.LIME.getEntityColor(),
+            DyeColor.CYAN.getEntityColor(),
+            DyeColor.PURPLE.getEntityColor(),
+            DyeColor.BLUE.getEntityColor(),
+            DyeColor.GREEN.getEntityColor(),
+            DyeColor.RED.getEntityColor(),
+        };
+
         public Prismarine() {
             super(new Settings()
                 .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
                 8192);
+        }
+
+        @Override
+        public EvaluationResult messageListenBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Optional<Integer> timeout) {
+            var component = stack.get(ModComponents.DESIRED_COLOR);
+            if (component != null) {
+                return ColorFragment.fromRGB(component.color());
+            }
+
+            var chosenColor = possibleColors[ctx.source().getWorld().getRandom().nextInt(possibleColors.length)];
+            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
+            return ColorFragment.fromRGB(chosenColor);
+        }
+
+        @Override
+        public void messageSendBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Fragment value) {
+            // meows at you
+        }
+
+        @Override
+        public int getRange() {
+            return 16;
         }
 
         @Override
@@ -287,11 +328,59 @@ public abstract class KnotItem extends Item {
         }
     }
 
-    public static class CrackedPrismarine extends KnotItem {
+    public static class CrackedPrismarine extends KnotItem implements ChannelItem {
+        // Oh and another static list here cause this ones different :3
+        private static final int[] possibleColors = new int[] {
+            DyeColor.WHITE.getEntityColor(),
+            DyeColor.ORANGE.getEntityColor(),
+            DyeColor.MAGENTA.getEntityColor(),
+            DyeColor.LIGHT_BLUE.getEntityColor(),
+            DyeColor.YELLOW.getEntityColor(),
+            DyeColor.LIME.getEntityColor(),
+            DyeColor.PINK.getEntityColor(),
+            DyeColor.GRAY.getEntityColor(),
+            DyeColor.LIGHT_GRAY.getEntityColor(),
+            DyeColor.CYAN.getEntityColor(),
+            DyeColor.PURPLE.getEntityColor(),
+            DyeColor.BLUE.getEntityColor(),
+            DyeColor.BROWN.getEntityColor(),
+            DyeColor.GREEN.getEntityColor(),
+            DyeColor.RED.getEntityColor(),
+            DyeColor.BLACK.getEntityColor()
+        };
+
         public CrackedPrismarine() {
             super(new Settings()
                 .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
                 Float.MAX_VALUE);
+        }
+
+        @Override
+        public EvaluationResult messageListenBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Optional<Integer> timeout) {
+            var component = stack.get(ModComponents.DESIRED_COLOR);
+            if (component != null) {
+                return ColorFragment.fromRGB(component.color());
+            }
+
+            var random = ctx.source().getWorld().getRandom();
+            var chosenColor = possibleColors[random.nextInt(possibleColors.length)];
+            var iterations = random.nextInt(16) + 1;
+            for (int i = 0; i < iterations; i++) {
+                chosenColor = ColorMana.mixColors(1, chosenColor, 1, possibleColors[random.nextInt(possibleColors.length)]);
+            }
+
+            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
+            return ColorFragment.fromRGB(chosenColor);
+        }
+
+        @Override
+        public void messageSendBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Fragment value) {
+            // meows at you meows at you waffs at you
+        }
+
+        @Override
+        public int getRange() {
+            return 16;
         }
     }
 

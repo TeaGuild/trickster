@@ -36,7 +36,6 @@ public record ColorFragment(int color) implements Fragment, AddableFragment, Mul
 
     @Override
     public Text asText() {
-
         return Text.literal("#(%02X)%02X%02X%02X".formatted(
             ColorHelper.Argb.getAlpha(color),
             ColorHelper.Argb.getRed(color),
@@ -69,6 +68,13 @@ public record ColorFragment(int color) implements Fragment, AddableFragment, Mul
 
     public static ColorFragment fromVector(Vector4f vec) {
         return new ColorFragment(ColorHelper.Argb.getArgb((int) (vec.w * 255), (int) (vec.x * 255), (int) (vec.y * 255), (int) (vec.z * 255)));
+    }
+
+    /**
+     * Sets alpha to 255.
+     */
+    public static ColorFragment fromRGB(int rgb) {
+        return new ColorFragment(ColorHelper.Argb.withAlpha(255, rgb));
     }
 
     @Override
