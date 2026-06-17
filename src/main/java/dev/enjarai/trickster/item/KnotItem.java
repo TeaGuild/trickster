@@ -20,12 +20,11 @@ import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.mana.*;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Mana;
-import dev.enjarai.trickster.spell.mana.type.ColorMana;
 import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
 import dev.enjarai.trickster.spell.trick.Trick;
+import dev.enjarai.trickster.util.ColorUtil;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.minecraft.block.MapColor;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -114,10 +113,6 @@ public abstract class KnotItem extends Item {
             }
         }
 
-        public int getRange() {
-            return 16;
-        }
-
         @Override
         public float getConstructExecutionLimitMultiplier(ItemStack stack) {
             return 1.25f;
@@ -142,10 +137,6 @@ public abstract class KnotItem extends Item {
 
         public void messageSendBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Fragment value) {
             // Can't change its time offset anymore
-        }
-
-        public int getRange() {
-            return 16;
         }
 
         @Override
@@ -224,10 +215,6 @@ public abstract class KnotItem extends Item {
             }
         }
 
-        public int getRange() {
-            return 16;
-        }
-
         @Override
         public @Nullable KnotItem getCrackedVersion() {
             return ModItems.CRACKED_ECHO_KNOT;
@@ -251,11 +238,6 @@ public abstract class KnotItem extends Item {
         @Override
         public void messageSendBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Fragment value) {
             ctx.source().getPlayer().ifPresent(player -> ModNetworking.CHANNEL.serverHandle(player).send(new EchoSetClipboardPacket(value)));
-        }
-
-        @Override
-        public int getRange() {
-            return 16;
         }
     }
 
@@ -325,11 +307,6 @@ public abstract class KnotItem extends Item {
         }
 
         @Override
-        public int getRange() {
-            return 16;
-        }
-
-        @Override
         public @Nullable KnotItem getCrackedVersion() {
             return ModItems.CRACKED_PRISMARINE_KNOT;
         }
@@ -364,8 +341,43 @@ public abstract class KnotItem extends Item {
 
         @Override
         public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
-            //TODO: meow
-            return null;
+            var desired = stack.get(ModComponents.DESIRED_COLOR);
+            if (desired == null) {
+                return null;
+            }
+
+            var world = ctx.source().getWorld();
+            var comp = stack.get(ModComponents.MANA);
+            var variant = comp.pool().getVariant(world);
+
+            if (!variant.isOf(Manae.COLOR)) {
+                return null;
+            }
+
+            var pool = comp.pool().makeClone(world);
+            var amount = pool.get(world);
+
+            double dist = ColorUtil.distance(variant.getComponentMap().get(ManaComponents.COLOR).color(), desired.color());
+
+            if (dist < 50) {
+                long newAmount = (long) (amount * (20.0 / dist));
+
+                pool.setVariant(ManaVariant.of(Manae.TRADITIONAL), world);
+                pool.set(newAmount, world);
+
+                stack.set(ModComponents.MANA, comp.with(pool));
+                stack.remove(ModComponents.DESIRED_COLOR);
+
+                return Manae.TRADITIONAL;
+            } else {
+                pool.setVariant(ManaVariant.of(Manae.ANTI), world);
+                pool.set(pool.getMax(world), world);
+
+                stack.set(ModComponents.MANA, comp.with(pool));
+                stack.remove(ModComponents.DESIRED_COLOR);
+
+                return Manae.ANTI;
+            }
         }
 
         @Override
@@ -379,7 +391,7 @@ public abstract class KnotItem extends Item {
             var chosenColor = possibleColors[random.nextInt(possibleColors.length)];
             var iterations = random.nextInt(16) + 1;
             for (int i = 0; i < iterations; i++) {
-                chosenColor = ColorMana.mixColors(1, chosenColor, 1, possibleColors[random.nextInt(possibleColors.length)]);
+                chosenColor = ColorUtil.mixColors(chosenColor, 1, possibleColors[random.nextInt(possibleColors.length)], 1);
             }
 
             stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
@@ -389,11 +401,6 @@ public abstract class KnotItem extends Item {
         @Override
         public void messageSendBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Fragment value) {
             // meows at you meows at you waffs at you
-        }
-
-        @Override
-        public int getRange() {
-            return 16;
         }
     }
 
