@@ -8,11 +8,18 @@
   ],
   "additional_search_terms": [
     "Ploy of the Wrathful"
-  ]
+  ],
+  "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```
 
-Within this section are ploys which will consume Tempest mana rather than Traditional mana.
+Following my discovery of Tempest mana, I've been experimenting with more unique uses for the stuff.
+Converting it to Traditional mana at a tremendous loss is great and all, 
+but there have to be things only *this* mana can do... right?
+
+
+What I've been able to find so far is something, but still rather niche.
+There must be more to uncover here...
 
 ;;;;;
 

@@ -6,12 +6,13 @@
   "required_advancements": [
     "trickster:cracked_astral_knot"
   ],
-  "ordinal": 100
+  "ordinal": 100,
+  "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```
 
 Somehow, cracking an Astral Knot has increased its capacity by a truly staggering amount.
-Its original capacity of 1048 kG has been multiplied by a factor of sixteen, to roughly 16.8 MG.
+Its original capacity of 1048 kG has been multiplied by a factor of sixteen, to roughly 16.8 MG!
 
 ;;;;;
 

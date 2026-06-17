@@ -6,7 +6,8 @@
   "required_advancements": [
     "trickster:trigger/nether_star"
   ],
-  "ordinal": 300
+  "ordinal": 300,
+  "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```
 
@@ -17,5 +18,10 @@ Now freed of its host, it is the light of the abyss. It is unyielding in its mig
 ;;;;;
 
 One would require quettaGandalfs to construct such a potent font of power. 
-It is unimagineable that the Wither could even be vanquished, with such strength at its disposal. 
+I cannot imagine that a Wither could ever be vanquished, with such strength at its disposal.
+
+
+And yet I have.
+
+
 The Nether's Stars must have limitations that are not immediately evident...

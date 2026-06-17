@@ -6,7 +6,8 @@
   "required_advancements": [
     "trickster:astral_knot"
   ],
-  "ordinal": 90
+  "ordinal": 90,
+  "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```
 
@@ -19,3 +20,7 @@ the moonlight does not replenish its stores. Instead, it replenishes itself.
 
 The Astral Knot generates mana passively with regard to its current stores. 
 The fuller it is, the faster it fills. However, it does not generate mana when completely empty.
+
+
+Does the Wither's power only amplify energies that already exist?
+Might there be ways to tap into this well beyond what the Astral Knot allows?

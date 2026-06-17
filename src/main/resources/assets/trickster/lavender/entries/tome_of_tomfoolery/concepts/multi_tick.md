@@ -6,7 +6,7 @@
 }
 ```
 
-Spells do not all execute instantly. Unless cast through a mirror, a big enough spell limits execution to a certain amount of circles per second. 
+Spells do not all execute instantly. A big enough spell limits execution to a certain amount of circles per second. 
 It may even run forever, 
 provided its caster remains alive, the spell does not blunder, and it never runs out of circles to execute.
 

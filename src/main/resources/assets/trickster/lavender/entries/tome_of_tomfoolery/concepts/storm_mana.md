@@ -5,27 +5,28 @@
   "category": "trickster:concepts",
   "required_advancements": [
     "trickster:stable_storm_mana"
-  ]
+  ],
+  "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```
 
-*"Our research has found that the abundance of Tempest mana during a storm outweighs the increased complexity of processing it.*
+Now this is strange.
 
 
-*This proposal outlines plans to construct an array-tower capable of taking full advantage of Tempest charging."*
-
-;;;;;
-
-— An excerpt from a proposal by Archmages Astrafel & Terrafel
-
----
-
-Collected by naturally recharging knots exposed to thunderstorms, Tempest mana is naturally unstable. 
-Once captured and isolated from its source, however, it will begin to stabilize. 
+When one of my naturally recharging Knots is exposed to a thunderstorm while completely drained of regular mana, 
+it starts to fill with this strange new mana type.
+With the moon blocked out by clouds, this mana must be coming from the storm itself!
 
 ;;;;;
 
-While Tempest mana is unusable for most ploys, [Astrafel's Ploy](^trickster:ploys/mana#8) can convert stable Tempest mana to Traditional at a 95% loss.
+I recall reading about [Astrafel's Ploy](^trickster:ploys/mana#8), but Tempest mana is naturally unstable. 
+Once captured, I need to isolate it from its source to let it stabilize before attempting any conversion.
 
 
-Do note: in addition to exposure to a thunderstorm, lightning strikes will also decrease the stability of Tempest mana.
+While Tempest mana is unusable for most ploys, 
+it seems I can use Astrafel's to convert stable Tempest mana to Traditional at a 95% loss.
+
+;;;;;
+
+Note to self: in addition to exposure to a thunderstorm, 
+lightning strikes specifically seem to drastically decrease the stability of nearby Tempest mana.

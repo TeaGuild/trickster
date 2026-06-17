@@ -6,7 +6,8 @@
   "required_advancements": [
     "trickster:quartz_knot"
   ],
-  "ordinal": 50
+  "ordinal": 50,
+  "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```
 
