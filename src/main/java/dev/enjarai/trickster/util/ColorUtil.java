@@ -38,6 +38,6 @@ public class ColorUtil {
                 + Math.pow(getGreen(colorLeft) - getGreen(colorRight), 2)
                 + Math.pow(getBlue(colorLeft) - getBlue(colorRight), 2)
                 + Math.pow(getAlpha(colorLeft) - getAlpha(colorRight), 2)
-        );
+        ) / 510.0;
     }
 }

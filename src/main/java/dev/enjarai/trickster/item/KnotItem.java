@@ -285,7 +285,45 @@ public abstract class KnotItem extends Item {
 
         @Override
         public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
-            //TODO: meow
+            var world = ctx.source().getWorld();
+            var comp = stack.get(ModComponents.MANA);
+            var variant = comp.pool().getVariant(world);
+
+            if (variant.isOf(Manae.COLOR)) {
+                int desiredColor;
+                var desiredComp = stack.get(ModComponents.DESIRED_COLOR);
+                if (desiredComp == null) {
+                    desiredColor = computeDesired(world);
+                } else {
+                    desiredColor = desiredComp.color();
+                }
+
+                var pool = comp.pool().makeClone(world);
+                var amount = pool.get(world);
+
+                double dist = ColorUtil.distance(variant.getComponentMap().get(ManaComponents.COLOR).color(), desiredColor);
+
+                if (dist <= 0.1) {
+                    long newAmount = (long) (amount * (1 - 10 * dist));
+
+                    pool.setVariant(ManaVariant.of(Manae.TRADITIONAL), world);
+                    pool.set(newAmount, world);
+
+                    stack.set(ModComponents.MANA, comp.with(pool));
+                    stack.remove(ModComponents.DESIRED_COLOR);
+
+                    return Manae.TRADITIONAL;
+                } else {
+                    pool.setVariant(ManaVariant.of(Manae.ANTI), world);
+                    pool.set(pool.getMax(world), world);
+
+                    stack.set(ModComponents.MANA, comp.with(pool));
+                    stack.remove(ModComponents.DESIRED_COLOR);
+
+                    return Manae.ANTI;
+                }
+            }
+
             return null;
         }
 
@@ -296,7 +334,7 @@ public abstract class KnotItem extends Item {
                 return ColorFragment.fromRGB(component.color());
             }
 
-            var chosenColor = possibleColors[ctx.source().getWorld().getRandom().nextInt(possibleColors.length)];
+            var chosenColor = computeDesired(ctx.source().getWorld());
             stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
             return ColorFragment.fromRGB(chosenColor);
         }
@@ -309,6 +347,10 @@ public abstract class KnotItem extends Item {
         @Override
         public @Nullable KnotItem getCrackedVersion() {
             return ModItems.CRACKED_PRISMARINE_KNOT;
+        }
+
+        private int computeDesired(World world) {
+            return possibleColors[world.getRandom().nextInt(possibleColors.length)];
         }
     }
 
@@ -341,43 +383,46 @@ public abstract class KnotItem extends Item {
 
         @Override
         public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
-            var desired = stack.get(ModComponents.DESIRED_COLOR);
-            if (desired == null) {
-                return null;
-            }
-
             var world = ctx.source().getWorld();
             var comp = stack.get(ModComponents.MANA);
             var variant = comp.pool().getVariant(world);
 
-            if (!variant.isOf(Manae.COLOR)) {
-                return null;
+            if (variant.isOf(Manae.COLOR)) {
+                int desiredColor;
+                var desiredComp = stack.get(ModComponents.DESIRED_COLOR);
+                if (desiredComp == null) {
+                    desiredColor = computeDesired(world);
+                } else {
+                    desiredColor = desiredComp.color();
+                }
+
+                var pool = comp.pool().makeClone(world);
+                var amount = pool.get(world);
+
+                double dist = ColorUtil.distance(variant.getComponentMap().get(ManaComponents.COLOR).color(), desiredColor);
+
+                if (dist <= 0.1) {
+                    long newAmount = (long) (amount * 16.0 * (1 - 10 * dist));
+
+                    pool.setVariant(ManaVariant.of(Manae.TRADITIONAL), world);
+                    pool.set(newAmount, world);
+
+                    stack.set(ModComponents.MANA, comp.with(pool));
+                    stack.remove(ModComponents.DESIRED_COLOR);
+
+                    return Manae.TRADITIONAL;
+                } else {
+                    pool.setVariant(ManaVariant.of(Manae.ANTI), world);
+                    pool.set(pool.getMax(world), world);
+
+                    stack.set(ModComponents.MANA, comp.with(pool));
+                    stack.remove(ModComponents.DESIRED_COLOR);
+
+                    return Manae.ANTI;
+                }
             }
 
-            var pool = comp.pool().makeClone(world);
-            var amount = pool.get(world);
-
-            double dist = ColorUtil.distance(variant.getComponentMap().get(ManaComponents.COLOR).color(), desired.color());
-
-            if (dist < 50) {
-                long newAmount = (long) (amount * (20.0 / dist));
-
-                pool.setVariant(ManaVariant.of(Manae.TRADITIONAL), world);
-                pool.set(newAmount, world);
-
-                stack.set(ModComponents.MANA, comp.with(pool));
-                stack.remove(ModComponents.DESIRED_COLOR);
-
-                return Manae.TRADITIONAL;
-            } else {
-                pool.setVariant(ManaVariant.of(Manae.ANTI), world);
-                pool.set(pool.getMax(world), world);
-
-                stack.set(ModComponents.MANA, comp.with(pool));
-                stack.remove(ModComponents.DESIRED_COLOR);
-
-                return Manae.ANTI;
-            }
+            return null;
         }
 
         @Override
@@ -387,13 +432,7 @@ public abstract class KnotItem extends Item {
                 return ColorFragment.fromRGB(component.color());
             }
 
-            var random = ctx.source().getWorld().getRandom();
-            var chosenColor = possibleColors[random.nextInt(possibleColors.length)];
-            var iterations = random.nextInt(16) + 1;
-            for (int i = 0; i < iterations; i++) {
-                chosenColor = ColorUtil.mixColors(chosenColor, 1, possibleColors[random.nextInt(possibleColors.length)], 1);
-            }
-
+            var chosenColor = computeDesired(ctx.source().getWorld());
             stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
             return ColorFragment.fromRGB(chosenColor);
         }
@@ -401,6 +440,18 @@ public abstract class KnotItem extends Item {
         @Override
         public void messageSendBehavior(Trick<?> trickSource, SpellContext ctx, ItemStack stack, Fragment value) {
             // meows at you meows at you waffs at you
+        }
+
+        private int computeDesired(World world) {
+            var random = world.getRandom();
+            var chosenColor = possibleColors[random.nextInt(possibleColors.length)];
+            var iterations = random.nextInt(16) + 1;
+
+            for (int i = 0; i < iterations; i++) {
+                chosenColor = ColorUtil.mixColors(chosenColor, 1, possibleColors[random.nextInt(possibleColors.length)], 1);
+            }
+
+            return chosenColor;
         }
     }
 
