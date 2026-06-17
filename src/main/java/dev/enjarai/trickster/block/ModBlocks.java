@@ -3,7 +3,6 @@ package dev.enjarai.trickster.block;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.cauldron.EraseSpellCauldronBehavior;
 import dev.enjarai.trickster.item.ModItems;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.entity.BlockEntityType;
@@ -22,6 +21,8 @@ public class ModBlocks {
     public static final ScrollShelfBlock SCROLL_SHELF = register("scroll_shelf", new ScrollShelfBlock());
     public static final ChargingArrayBlock CHARGING_ARRAY = register("charging_array", new ChargingArrayBlock());
     public static final Block INERT_SPAWNER = register("inert_spawner", new Block(AbstractBlock.Settings.copy(Blocks.SPAWNER)));
+    public static final Block TATTERED_WOOL = register("tattered_wool", new Block(AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)));
+    public static final CarpetBlock TATTERED_CARPET = register("tattered_carpet", new CarpetBlock(AbstractBlock.Settings.copy(Blocks.WHITE_CARPET)));
 
     public static final Block GILDED_TUFF = register("gilded_tuff", new Block(AbstractBlock.Settings.copy(Blocks.TUFF)));
     public static final StairsBlock GILDED_TUFF_STAIRS = register("gilded_tuff_stairs", createStairsBlock(GILDED_TUFF));
