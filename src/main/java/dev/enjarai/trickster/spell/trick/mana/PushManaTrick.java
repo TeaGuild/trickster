@@ -5,8 +5,10 @@ import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
+import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Mana;
+import dev.enjarai.trickster.util.Meowing;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
@@ -15,9 +17,8 @@ public class PushManaTrick extends AbstractConduitTrick {
         super(Pattern.of(7, 8, 4, 6, 7, 5, 4, 3, 7, 2, 1, 0, 7, 4, 1));
     }
 
-    @Override
-    protected void createParticles(SpellContext ctx, StorageFragment slot, Mana mana, float v) {
-        var fromPos = slot.getSourceOrCasterPos(this, ctx);
+    protected void createParticles(SpellContext ctx, StorageFragment holder, ManaVariant variant, float v) {
+        var fromPos = holder.getSourceOrCasterPos(this, ctx);
         var toPos = ctx.source().getPos();
 
         var distance = fromPos.distance(toPos);
@@ -27,7 +28,7 @@ public class PushManaTrick extends AbstractConduitTrick {
 
         ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
             .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
-            .send(new ManaMoveParticlePacket(fromPos, toPos, ManaVariant.of(mana), v));
+            .send(new ManaMoveParticlePacket(fromPos, toPos, variant, v));
     }
 
     @Override
@@ -42,7 +43,7 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected long affect(SpellContext ctx, Storage<ManaVariant> target, Mana mana, long limit, double taxPercentage, TransactionContext trans) {
+    protected long affect(SpellContext ctx, Storage<ManaVariant> target, Mana mana, long limit, double taxPercentage, TransactionContext trans, StorageFragment holder) {
         var self = ctx.source().getManaStorage();
 
         var taxedMult = 1 - taxPercentage;
@@ -91,6 +92,15 @@ public class PushManaTrick extends AbstractConduitTrick {
                     }
 
                     self.insert(left, extracted - given, trans);
+
+                    if (given > 1) {
+                        final long finalGiven = given;
+                        Meowing.addBubblingCallback(trans, transStatus -> {
+                            if (transStatus.wasCommitted()) {
+                                createParticles(ctx, holder, left, (float) finalGiven / ManaPool.MANA_SCALE);
+                            }
+                        });
+                    }
                 }
             }
         }
