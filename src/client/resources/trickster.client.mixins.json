@@ -27,6 +27,9 @@
     "figura.AvatarManagerMixin",
     "key.KeyBindingEntryMixin",
     "key.KeyBindingMixin",
+    "lavender.LavenderBookScreen$EntryPageSupplierMixin",
+    "lavender.LavenderBookScreen$PageSupplierMixin",
+    "lavender.LavenderBookScreenMixin",
     "tooltip.TooltipComponentMixin"
   ],
   "injectors": {
@@ -35,6 +38,9 @@
   "mixins": [
     "ClientPlayerInteractionManagerMixin",
     "PlayerEntityMixin",
+    "lavender.BookContentLoaderMixin",
+    "lavender.EntryMixin",
+    "lavender.TextureComponentAccessor",
     "owo.BraidComponentAccessor"
   ]
 }

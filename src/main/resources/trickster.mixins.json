@@ -14,21 +14,20 @@
     "ChiseledBookshelfBlockEntityMixin",
     "DataPackContentsMixin",
     "EntityMixin",
-    "LightningEntityMixin",
     "FallingBlockEntityMixin",
     "ItemEntityMixin",
     "ItemMixin",
+    "LightningEntityMixin",
     "LivingEntityMixin",
     "MobSpawnerLogicMixin",
     "ServerPlayerInteractionManagerMixin",
-    "lithostitched.StructurePoolGeneratorMixin",
     "accessor.CropBlockAccessor",
     "accessor.DataPackContentsAccessor",
     "accessor.FluidBlockAccessor",
+    "accessor.ServerWorldAccessor",
     "accessor.StateAccessor",
     "accessor.TagEntryAccessor",
     "accessor.WorldAccessor",
-    "accessor.ServerWorldAccessor",
     "brewing.BrewingRecipeRegistry$BuilderMixin",
     "brewing.BrewingRecipeRegistryMixin",
     "brewing.BrewingStandBlockEntityMixin",
@@ -41,6 +40,7 @@
     "curse.LivingEntityMixin",
     "event.ServerPlayerEntityMixin",
     "event.ServerPlayerInteractionManagerMixin",
+    "lithostitched.StructurePoolGeneratorMixin",
     "slot.AbstractHorseEntityMixin",
     "slot.AllayEntityMixin",
     "slot.ArmorStandEntityMixin",
@@ -52,5 +52,9 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "client.lavender.LavenderBookScreen$PageSupplierMixin",
+    "client.lavender.LavenderBookScreenMixin"
+  ]
 }
