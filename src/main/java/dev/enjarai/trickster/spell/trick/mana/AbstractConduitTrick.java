@@ -138,5 +138,5 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
     /**
      * @return the amount of mana fulfilled by the item.
      */
-    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, Mana mana, long limit, double taxPercentage, TransactionContext trans, StorageFragment target);
+    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, Mana mana, long limit, double taxPercentage, TransactionContext trans, StorageFragment holder);
 }
