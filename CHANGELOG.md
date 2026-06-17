@@ -24,3 +24,4 @@
 - Added tricks to get the durability of items. (@enjarai)
 - Fixed Infused Ceramic gradients. (@hazenebulous)
 - Miscellaneous Connector compatibility improvements. (@master_bw3)
+- Fix missing translation for the Fluid fragment type. (@aurakle)

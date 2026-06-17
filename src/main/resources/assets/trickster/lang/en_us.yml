@@ -349,6 +349,7 @@ trickster:
       container: Container
       zalgo: §kZalgo
       item_type: Item
+      fluid_type: Fluid
       block_type: Block
       entity_type: Entity Type
       string: String
