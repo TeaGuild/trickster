@@ -1,8 +1,9 @@
-// 1.21.1	2026-06-17T22:36:49.391123854	Trickster/Block Loot Tables
+// 1.21.1	2026-06-18T00:22:47.75975903	Trickster/Block Loot Tables
 d280e3742ccbadf2f01da375457c1cd792d03317 data/trickster/loot_table/blocks/gilded_polished_tuff_stairs.json
 1b30f36e842157b0191e67f5f0b68f2e90ec6959 data/trickster/loot_table/blocks/gilded_chiseled_tuff.json
 a26f518d27e070e2f11454c2cc7a6a10a2cf8dac data/trickster/loot_table/blocks/gilded_tuff.json
 8b903416a4b6e9c1e64b31a75dfda450caf6d9db data/trickster/loot_table/blocks/gilded_polished_tuff_wall.json
+6f779efa0be4edcf4084b0072255484414766c1b data/trickster/loot_table/blocks/worn_concrete.json
 c21d7d3d2927ce8e9d6c91485da98556dbb70529 data/trickster/loot_table/blocks/light_sconce.json
 ab10709b80a5a4d93d239dec62ebd0674b5be67e data/trickster/loot_table/blocks/gilded_tuff_brick_slab.json
 671b2b4c7f0b3ed9c870b024bf7d36cae0f9f5e8 data/trickster/loot_table/blocks/gilded_polished_tuff_slab.json

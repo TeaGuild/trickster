@@ -186,6 +186,47 @@ public class ColorSuckingConversionGenerator extends BlockConversionProvider<Col
                 put(Blocks.RED_CONCRETE_POWDER, DyeColor.RED);
             }
         });
+        registerSuckingConversion(64, Blocks.GRAVEL, new HashMap<>() {
+            {
+                put(Blocks.BLACK_CONCRETE_POWDER, DyeColor.BLACK);
+                put(Blocks.WHITE_CONCRETE_POWDER, DyeColor.WHITE);
+                put(Blocks.ORANGE_CONCRETE_POWDER, DyeColor.ORANGE);
+                put(Blocks.MAGENTA_CONCRETE_POWDER, DyeColor.MAGENTA);
+                put(Blocks.LIGHT_BLUE_CONCRETE_POWDER, DyeColor.LIGHT_BLUE);
+                put(Blocks.YELLOW_CONCRETE_POWDER, DyeColor.YELLOW);
+                put(Blocks.LIME_CONCRETE_POWDER, DyeColor.LIME);
+                put(Blocks.PINK_CONCRETE_POWDER, DyeColor.PINK);
+                put(Blocks.GRAY_CONCRETE_POWDER, DyeColor.GRAY);
+                put(Blocks.LIGHT_GRAY_CONCRETE_POWDER, DyeColor.LIGHT_GRAY);
+                put(Blocks.CYAN_CONCRETE_POWDER, DyeColor.CYAN);
+                put(Blocks.PURPLE_CONCRETE_POWDER, DyeColor.PURPLE);
+                put(Blocks.BLUE_CONCRETE_POWDER, DyeColor.BLUE);
+                put(Blocks.BROWN_CONCRETE_POWDER, DyeColor.BROWN);
+                put(Blocks.GREEN_CONCRETE_POWDER, DyeColor.GREEN);
+                put(Blocks.RED_CONCRETE_POWDER, DyeColor.RED);
+            }
+        });
+
+        registerSuckingConversion(64, ModBlocks.WORN_CONCRETE, new HashMap<>() {
+            {
+                put(Blocks.BLACK_CONCRETE, DyeColor.BLACK);
+                put(Blocks.WHITE_CONCRETE, DyeColor.WHITE);
+                put(Blocks.ORANGE_CONCRETE, DyeColor.ORANGE);
+                put(Blocks.MAGENTA_CONCRETE, DyeColor.MAGENTA);
+                put(Blocks.LIGHT_BLUE_CONCRETE, DyeColor.LIGHT_BLUE);
+                put(Blocks.YELLOW_CONCRETE, DyeColor.YELLOW);
+                put(Blocks.LIME_CONCRETE, DyeColor.LIME);
+                put(Blocks.PINK_CONCRETE, DyeColor.PINK);
+                put(Blocks.GRAY_CONCRETE, DyeColor.GRAY);
+                put(Blocks.LIGHT_GRAY_CONCRETE, DyeColor.LIGHT_GRAY);
+                put(Blocks.CYAN_CONCRETE, DyeColor.CYAN);
+                put(Blocks.PURPLE_CONCRETE, DyeColor.PURPLE);
+                put(Blocks.BLUE_CONCRETE, DyeColor.BLUE);
+                put(Blocks.BROWN_CONCRETE, DyeColor.BROWN);
+                put(Blocks.GREEN_CONCRETE, DyeColor.GREEN);
+                put(Blocks.RED_CONCRETE, DyeColor.RED);
+            }
+        });
 
         registerSuckingConversion(32, Blocks.DEAD_BUSH, new HashMap<>() {
             {
@@ -254,6 +295,11 @@ public class ColorSuckingConversionGenerator extends BlockConversionProvider<Col
         registerSuckingConversion(256, Blocks.SMOOTH_SANDSTONE_SLAB, Map.of(Blocks.SMOOTH_RED_SANDSTONE_SLAB, DyeColor.RED));
         registerSuckingConversion(512, Blocks.CUT_SANDSTONE, Map.of(Blocks.CUT_RED_SANDSTONE, DyeColor.RED));
         registerSuckingConversion(256, Blocks.CUT_SANDSTONE_SLAB, Map.of(Blocks.CUT_RED_SANDSTONE_SLAB, DyeColor.RED));
+
+        registerSuckingConversion(512, Blocks.NETHER_BRICKS, Map.of(Blocks.RED_NETHER_BRICKS, DyeColor.RED));
+        registerSuckingConversion(384, Blocks.NETHER_BRICK_STAIRS, Map.of(Blocks.RED_NETHER_BRICK_STAIRS, DyeColor.RED));
+        registerSuckingConversion(256, Blocks.NETHER_BRICK_SLAB, Map.of(Blocks.RED_NETHER_BRICK_SLAB, DyeColor.RED));
+        registerSuckingConversion(256, Blocks.NETHER_BRICK_WALL, Map.of(Blocks.RED_NETHER_BRICK_WALL, DyeColor.RED));
     }
 
     public void registerSuckingConversion(float manaAmount, Block to, Map<Block, DyeColor> from) {
