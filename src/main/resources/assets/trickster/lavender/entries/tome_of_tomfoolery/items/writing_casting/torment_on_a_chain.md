@@ -30,7 +30,7 @@ The vast majority of the design actually focuses on reaching out to nearby caste
 
 ;;;;;
 
-Thus, I suspect that, with enough tinkering, 
+Thus, I suspect that with enough tinkering, 
 the bulky spellcasting device can be compacted down enough to be comfortably carried around.
 
 
