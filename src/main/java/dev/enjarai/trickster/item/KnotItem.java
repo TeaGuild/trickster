@@ -280,6 +280,19 @@ public abstract class KnotItem extends Item {
                 .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
                 8192);
         }
+
+        @Override
+        public @Nullable KnotItem getCrackedVersion() {
+            return ModItems.CRACKED_PRISMARINE_KNOT;
+        }
+    }
+
+    public static class CrackedPrismarine extends KnotItem {
+        public CrackedPrismarine() {
+            super(new Settings()
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
+                Float.MAX_VALUE);
+        }
     }
 
     public static class Command extends KnotItem {
