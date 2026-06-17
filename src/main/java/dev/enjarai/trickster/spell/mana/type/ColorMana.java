@@ -25,7 +25,7 @@ public class ColorMana extends Mana {
     private final ComponentChanges REMOVE_COLOR = ComponentChanges.builder().remove(ManaComponents.COLOR).build();
 
     public ColorMana() {
-        super(ComponentMap.builder().add(ManaComponents.COLOR, new ColorComponent(0xffffffff)).build());
+        super(ComponentMap.builder().add(ManaComponents.COLOR, new ColorComponent(0xff0055)).build());
     }
 
     @Override
