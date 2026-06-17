@@ -6,3 +6,21 @@
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```
+
+This book is rather remarkable. It seems to be an encyclopedia of sorts on an *old* form of magic.
+Or maybe a teaching aid or reference guide? I have to wonder who this [insert name of author] is.
+
+;;;;;
+
+It references many other supposed scholars as well. Olivine, Gerune, and a few others too, off the top of my head.
+Did they run an institution of some kind? A university?
+
+
+This world has always seemed to me like a place barren of sentience.
+The closest I've seen is the Villagers, but they rather aren't the brightest.
+Did a society exist here before my time? Or at least other people?
+
+;;;;;
+
+I think I'll hang on to this work, and should perhaps consider pursuing the arcane that it describes. 
+I would do well to store any notes of my own between its pages, as to avoid losing them.
