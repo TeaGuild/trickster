@@ -54,6 +54,7 @@ trickster:
   mana:
     type: "Type: %s"
     stability: "Stability: %s%%"
+    color: "Color: %s"
 
   item_group: Trickster
 
@@ -389,6 +390,8 @@ trickster:
   mana.trickster:
     traditional: Traditional
     storm: Tempest
+    color: Hue
+    anti: Anti
 
   blunder:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s

@@ -353,5 +353,6 @@ public class Tricks {
         BATTERY_CREATION.registerKnot(Items.DIAMOND, ModItems.DIAMOND_KNOT);
         BATTERY_CREATION.registerKnot(Items.ECHO_SHARD, ModItems.ECHO_KNOT);
         BATTERY_CREATION.registerKnot(Items.NETHER_STAR, ModItems.ASTRAL_KNOT);
+        BATTERY_CREATION.registerKnot(Items.PRISMARINE_CRYSTALS, ModItems.PRISMARINE_KNOT);
     }
 }

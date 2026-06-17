@@ -144,6 +144,7 @@ public class ModItems {
     public static final KnotItem.CrackedEcho CRACKED_ECHO_KNOT = register("cracked_echo_knot", new KnotItem.CrackedEcho());
     public static final KnotItem.Astral ASTRAL_KNOT = register("astral_knot", new KnotItem.Astral());
     public static final KnotItem.CrackedAstral CRACKED_ASTRAL_KNOT = register("cracked_astral_knot", new KnotItem.CrackedAstral());
+    public static final KnotItem.Prismarine PRISMARINE_KNOT = register("prismarine_knot", new KnotItem.Prismarine());
     public static final KnotItem.Command COMMAND_KNOT = register("command_knot", new KnotItem.Command());
 
     // Advancement icon
@@ -252,6 +253,7 @@ public class ModItems {
             entries.add(CRACKED_ECHO_KNOT);
             entries.add(ASTRAL_KNOT);
             entries.add(CRACKED_ASTRAL_KNOT);
+            entries.add(PRISMARINE_KNOT);
             entries.add(COMMAND_KNOT);
         })
         .build();

@@ -274,6 +274,14 @@ public abstract class KnotItem extends Item {
         }
     }
 
+    public static class Prismarine extends KnotItem {
+        public Prismarine() {
+            super(new Settings()
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
+                8192);
+        }
+    }
+
     public static class Command extends KnotItem {
         public Command() {
             super(new Settings()
