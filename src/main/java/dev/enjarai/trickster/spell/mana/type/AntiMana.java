@@ -4,8 +4,8 @@ import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import net.minecraft.component.ComponentMap;
 
 public class AntiMana extends Mana {
-    public AntiMana(ComponentMap defaultComponents) {
-        super(defaultComponents);
+    public AntiMana() {
+        super(ComponentMap.EMPTY);
     }
 
     @Override

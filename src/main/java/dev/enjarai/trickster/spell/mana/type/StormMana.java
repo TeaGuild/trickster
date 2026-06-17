@@ -20,8 +20,8 @@ import java.util.Optional;
 public class StormMana extends Mana {
     private final ComponentChanges REMOVE_STABILITY = ComponentChanges.builder().remove(ManaComponents.STABILITY).build();
 
-    public StormMana(ComponentMap defaultComponents) {
-        super(defaultComponents);
+    public StormMana() {
+        super(ComponentMap.builder().add(ManaComponents.STABILITY, new StabilityComponent(0)).build());
     }
 
     @Override

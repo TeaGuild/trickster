@@ -1,9 +1,6 @@
 package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
-import dev.enjarai.trickster.spell.mana.type.component.ColorComponent;
-import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
-import dev.enjarai.trickster.spell.mana.type.component.StabilityComponent;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.Registry;
@@ -15,13 +12,11 @@ public class Manae {
     public static final RegistryKey<Registry<Mana>> REGISTRY_KEY = RegistryKey.ofRegistry(Trickster.id("mana"));
     public static final Registry<Mana> REGISTRY = FabricRegistryBuilder.createSimple(REGISTRY_KEY).buildAndRegister();
 
-    public static final Mana EMPTY = register("empty", new SimpleMana(ComponentMap.EMPTY, 0x222222));
-    public static final Mana TRADITIONAL = register("traditional", new SimpleMana(ComponentMap.EMPTY, 0xbb99ff));
-    public static final StormMana STORM = register("storm", new StormMana(ComponentMap.builder()
-        .add(ManaComponents.STABILITY, new StabilityComponent(0)).build()));
-    public static final ColorMana COLOR = register("color", new ColorMana(ComponentMap.builder()
-        .add(ManaComponents.COLOR, new ColorComponent(0xff0055)).build()));
-    public static final AntiMana ANTI = register("anti", new AntiMana(ComponentMap.EMPTY));
+    public static final SimpleMana EMPTY = register("empty", new SimpleMana(ComponentMap.EMPTY, 0x222222));
+    public static final SimpleMana TRADITIONAL = register("traditional", new SimpleMana(ComponentMap.EMPTY, 0xbb99ff));
+    public static final StormMana STORM = register("storm", new StormMana());
+    public static final ColorMana COLOR = register("color", new ColorMana());
+    public static final AntiMana ANTI = register("anti", new AntiMana());
 
     @ApiStatus.Internal
     public static <T extends Mana> T register(String path, T mana) {
