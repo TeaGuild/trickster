@@ -18,7 +18,7 @@ import dev.enjarai.trickster.util.Resultor;
 
 public class TriggerConverterTrick extends Trick<TriggerConverterTrick> {
     public TriggerConverterTrick() {
-        super(Pattern.of(), Signature.of(FragmentType.SLOT, TriggerConverterTrick::trigger, FragmentType.MANA.optionalOfRet()));
+        super(Pattern.of(3, 2, 1, 0, 3).add(Pattern.of(5, 6, 7, 8, 5)), Signature.of(FragmentType.SLOT, TriggerConverterTrick::trigger, FragmentType.MANA.optionalOfRet()));
     }
 
     public Optional<ManaFragment> trigger(SpellContext ctx, SlotFragment slot) {

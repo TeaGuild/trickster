@@ -66,7 +66,7 @@ public abstract class KnotItem extends Item {
     public static class Amethyst extends KnotItem {
         public Amethyst() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(128 * ManaPool.MANA_SCALE), 0)),
+                .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(128 * ManaPool.MANA_SCALE))),
                 0);
         }
 
@@ -85,7 +85,7 @@ public abstract class KnotItem extends Item {
     public static class CrackedAmethyst extends KnotItem {
         public CrackedAmethyst() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(256 * ManaPool.MANA_SCALE), 0)),
+                .component(ModComponents.MANA, new ManaComponent(SimpleManaPool.getSingleUse(256 * ManaPool.MANA_SCALE))),
                 Float.MAX_VALUE);
         }
     }
@@ -132,7 +132,7 @@ public abstract class KnotItem extends Item {
     public static class CrackedQuartz extends KnotItem implements ChannelItem {
         public CrackedQuartz() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(0), 0)),
+                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(0))),
                 Float.MAX_VALUE);
         }
 
@@ -262,7 +262,7 @@ public abstract class KnotItem extends Item {
     public static class Astral extends KnotItem {
         public Astral() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(1048576 * ManaPool.MANA_SCALE, (float) Math.pow(2, -20)), 0)),
+                .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(1048576 * ManaPool.MANA_SCALE, (float) Math.pow(2, -20)))),
                 524288);
         }
 
@@ -275,7 +275,7 @@ public abstract class KnotItem extends Item {
     public static class CrackedAstral extends KnotItem {
         public CrackedAstral() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(16777216 * ManaPool.MANA_SCALE, (float) -Math.pow(2, -20)), 0)),
+                .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(16777216 * ManaPool.MANA_SCALE, (float) -Math.pow(2, -20)))),
                 Float.MAX_VALUE);
         }
     }
@@ -400,7 +400,7 @@ public abstract class KnotItem extends Item {
     public static class Command extends KnotItem {
         public Command() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(InfiniteManaPool.INSTANCE, 0)),
+                .component(ModComponents.MANA, new ManaComponent(InfiniteManaPool.INSTANCE)),
                 Float.MAX_VALUE);
         }
     }

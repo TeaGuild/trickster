@@ -73,4 +73,4 @@ Attempts to convert mana in-place to the given type. Returns the amount converte
 
 <|trick@trickster:templates|trick-id=trickster:trigger_converter|>
 
-TODO: desc
+Activates the mana-conversion catalyst in the given slot, returning the mana type if it changed.
