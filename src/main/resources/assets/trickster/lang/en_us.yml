@@ -311,6 +311,7 @@ trickster:
     item_to_color: Pigment Ingress
     item_to_glow_color: Vibrant Ingress
     paint: Ploy of Pigmentation
+    suck_color: Ploy of the Hopeless
 
     summon_lightning: Ploy of the Wrathful
 
@@ -527,6 +528,8 @@ block.trickster:
   scroll_shelf: Scroll Shelf
   charging_array: Charging Array
   inert_spawner: Inert Spawner
+  tattered_wool: Tattered Wool
+  tattered_carpet: Tattered Carpet
   color_block: Infused Ceramic
   gilded_tuff: Gilded Tuff
   gilded_tuff_stairs: Gilded Tuff Stairs

@@ -114,6 +114,8 @@ public class ModItems {
     public static final BlockItem SCROLL_SHELF_BLOCK_ITEM = register("scroll_shelf", new BlockItem(ModBlocks.SCROLL_SHELF, new Item.Settings()));
     public static final BlockItem CHARGING_ARRAY_ITEM = register("charging_array", new BlockItem(ModBlocks.CHARGING_ARRAY, new Item.Settings()));
     public static final BlockItem INERT_SPAWNER_ITEM = register("inert_spawner", new BlockItem(ModBlocks.INERT_SPAWNER, new Item.Settings()));
+    public static final BlockItem TATTERED_WOOL_ITEM = register("tattered_wool", new BlockItem(ModBlocks.TATTERED_WOOL, new Item.Settings()));
+    public static final BlockItem TATTERED_CARPET_ITEM = register("tattered_carpet", new BlockItem(ModBlocks.TATTERED_CARPET, new Item.Settings()));
     public static final BlockItem LIGHT_SCONCE = register("light_sconce", new BlockItem(ModBlocks.LIGHT_SCONCE, new Item.Settings()));
     public static final BlockItem COLOR_BLOCK = register("color_block", new BlockItem(ModBlocks.COLOR_BLOCK, new Item.Settings()));
 
@@ -221,6 +223,8 @@ public class ModItems {
             entries.add(MODULAR_SPELL_CONSTRUCT_ITEM);
             entries.add(CHARGING_ARRAY_ITEM);
             entries.add(INERT_SPAWNER_ITEM);
+            entries.add(TATTERED_WOOL_ITEM);
+            entries.add(TATTERED_CARPET_ITEM);
             entries.add(LIGHT_SCONCE);
             entries.add(COLOR_BLOCK);
             entries.add(GILDED_TUFF);

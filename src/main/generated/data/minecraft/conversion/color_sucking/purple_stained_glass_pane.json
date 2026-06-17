@@ -1,0 +1,18 @@
+{
+  "conversions": [
+    {
+      "color": -7785800,
+      "id": "minecraft:glass_pane",
+      "keepProperties": true,
+      "mana_amount": 32.0,
+      "properties": {
+        "east": "false",
+        "north": "false",
+        "south": "false",
+        "waterlogged": "false",
+        "west": "false"
+      },
+      "weight": 1
+    }
+  ]
+}

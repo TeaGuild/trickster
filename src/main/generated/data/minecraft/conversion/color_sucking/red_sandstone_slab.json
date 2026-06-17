@@ -1,0 +1,15 @@
+{
+  "conversions": [
+    {
+      "color": -5231066,
+      "id": "minecraft:sandstone_slab",
+      "keepProperties": true,
+      "mana_amount": 256.0,
+      "properties": {
+        "type": "bottom",
+        "waterlogged": "false"
+      },
+      "weight": 1
+    }
+  ]
+}

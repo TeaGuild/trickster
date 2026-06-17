@@ -10,6 +10,7 @@ import dev.enjarai.trickster.spell.trick.block.*;
 import dev.enjarai.trickster.spell.trick.bool.*;
 import dev.enjarai.trickster.spell.trick.color.ItemToColorTrick;
 import dev.enjarai.trickster.spell.trick.color.PaintTrick;
+import dev.enjarai.trickster.spell.trick.color.SuckColorTrick;
 import dev.enjarai.trickster.spell.trick.debug.DebugLogTrick;
 import dev.enjarai.trickster.spell.trick.dimension.GetDimensionTrick;
 import dev.enjarai.trickster.spell.trick.entity.*;
@@ -325,6 +326,7 @@ public class Tricks {
     public static final ItemToColorTrick ITEM_TO_COLOR = register("item_to_color", new ItemToColorTrick(Pattern.of(0, 4, 2, 1, 0, 7, 2), DyeColor::getEntityColor));
     public static final ItemToColorTrick ITEM_TO_GLOW_COLOR = register("item_to_glow_color", new ItemToColorTrick(Pattern.of(1, 4, 7, 2, 1, 0, 2, 4, 0, 7), DyeColor::getSignColor));
     public static final PaintTrick PAINT = register("paint", new PaintTrick());
+    public static final SuckColorTrick SUCK_COLOR = register("suck_color", new SuckColorTrick());
 
     // Storm
     public static final SummonLightningTrick SUMMON_LIGHTNING = register("summon_lightning", new SummonLightningTrick());

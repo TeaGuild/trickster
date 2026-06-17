@@ -146,6 +146,8 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .criterion(FabricRecipeProvider.hasItem(entry.getKey()), FabricRecipeProvider.conditionsFromItem(entry.getKey()))
                 .offerTo(exporter);
         }
+
+        offerCarpetRecipe(exporter, TATTERED_CARPET_ITEM, TATTERED_WOOL_ITEM);
     }
 
 }

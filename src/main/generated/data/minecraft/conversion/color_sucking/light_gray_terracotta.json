@@ -1,0 +1,11 @@
+{
+  "conversions": [
+    {
+      "color": -6447721,
+      "id": "minecraft:terracotta",
+      "keepProperties": true,
+      "mana_amount": 64.0,
+      "weight": 1
+    }
+  ]
+}
