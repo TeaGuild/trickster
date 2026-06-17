@@ -318,6 +318,7 @@ public class Tricks {
     public static final PushManaTrick PUSH_MANA = register("push_mana", new PushManaTrick());
     public static final PullManaTrick PULL_MANA = register("pull_mana", new PullManaTrick());
     public static final ConvertManaTrick CONVERT_MANA = register("convert_mana", new ConvertManaTrick());
+    public static final TriggerConverterTrick TRIGGER_CONVERTER = register("trigger_converter", new TriggerConverterTrick());
     public static final DrainMatterTrick DRAIN_MATTER = register("drain_matter", new DrainMatterTrick());
 
     // Color

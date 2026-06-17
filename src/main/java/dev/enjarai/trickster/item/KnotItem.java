@@ -17,6 +17,7 @@ import dev.enjarai.trickster.spell.fragment.ListFragment;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.mana.*;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Mana;
 import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
 import dev.enjarai.trickster.spell.trick.Trick;
@@ -274,7 +275,7 @@ public abstract class KnotItem extends Item {
         }
     }
 
-    public static class Prismarine extends KnotItem {
+    public static class Prismarine extends KnotItem implements ConverterItem {
         public Prismarine() {
             super(new Settings()
                 .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
@@ -285,13 +286,25 @@ public abstract class KnotItem extends Item {
         public @Nullable KnotItem getCrackedVersion() {
             return ModItems.CRACKED_PRISMARINE_KNOT;
         }
+
+        @Override
+        public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
+            //TODO: meow
+            return null;
+        }
     }
 
-    public static class CrackedPrismarine extends KnotItem {
+    public static class CrackedPrismarine extends KnotItem implements ConverterItem {
         public CrackedPrismarine() {
             super(new Settings()
                 .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
                 Float.MAX_VALUE);
+        }
+
+        @Override
+        public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
+            //TODO: meow
+            return null;
         }
     }
 
