@@ -34,8 +34,8 @@ More often though, the mirror will be used for prototyping.
 ;;;;;
 
 It functions very much like a scroll, with a similar interface, 
-except that any glyphs written in a mirror will be cast the moment its possible to.
-The center of their circle will then be filled with the result of their execution, if any.
+except having a button to cast a circle and its branches.
+The center of the circle will then be filled with the result of their execution, if any.
 
 
 This behaviour is also often used to generate constant values, 
