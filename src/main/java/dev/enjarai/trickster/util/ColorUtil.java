@@ -1,5 +1,8 @@
 package dev.enjarai.trickster.util;
 
+import net.minecraft.text.Text;
+import net.minecraft.util.math.ColorHelper;
+
 import static net.minecraft.util.math.ColorHelper.Argb.getAlpha;
 import static net.minecraft.util.math.ColorHelper.Argb.getArgb;
 import static net.minecraft.util.math.ColorHelper.Argb.getBlue;
@@ -39,5 +42,13 @@ public class ColorUtil {
                 + Math.pow(getBlue(colorLeft) - getBlue(colorRight), 2)
                 + Math.pow(getAlpha(colorLeft) - getAlpha(colorRight), 2)
         ) / 510.0;
+    }
+
+    public static Text asText(int color) {
+        return Text.literal("#%02X%02X%02X".formatted(
+            ColorHelper.Argb.getRed(color),
+            ColorHelper.Argb.getGreen(color),
+            ColorHelper.Argb.getBlue(color)
+        )).withColor(color);
     }
 }

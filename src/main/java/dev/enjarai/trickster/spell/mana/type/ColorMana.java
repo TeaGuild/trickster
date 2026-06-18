@@ -15,7 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.World;
 
 public class ColorMana extends Mana {
@@ -59,11 +58,7 @@ public class ColorMana extends Mana {
             var color = component.color();
             tooltip.add(Text.translatable(
                 Trickster.MOD_ID + ".mana.color",
-                Text.literal("#%02X%02X%02X".formatted(
-                    ColorHelper.Argb.getRed(color),
-                    ColorHelper.Argb.getGreen(color),
-                    ColorHelper.Argb.getBlue(color)
-                )).withColor(color)
+                ColorUtil.asText(color)
             ).styled(s -> s.withColor(0xaaaabb)));
         }
     }

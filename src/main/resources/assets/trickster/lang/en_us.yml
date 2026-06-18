@@ -55,6 +55,8 @@ trickster:
     type: "Type: %s"
     stability: "Stability: %s%%"
     color: "Color: %s"
+  knot:
+    desired_color: "Desired color: %s"
 
   item_group: Trickster
 

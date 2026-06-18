@@ -289,6 +289,14 @@ public abstract class KnotItem extends Item {
         }
 
         @Override
+        public ItemStack createStack(World world) {
+            var stack = getDefaultStack();
+            var chosenColor = computeDesired(world);
+            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
+            return stack;
+        }
+
+        @Override
         public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
             var world = ctx.source().getWorld();
             var comp = stack.get(ModComponents.MANA);
@@ -315,7 +323,8 @@ public abstract class KnotItem extends Item {
                     pool.set(newAmount, world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
-                    stack.remove(ModComponents.DESIRED_COLOR);
+                    var chosenColor = computeDesired(ctx.source().getWorld());
+                    stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
                     return Manae.TRADITIONAL;
                 } else {
@@ -323,7 +332,8 @@ public abstract class KnotItem extends Item {
                     pool.set(pool.getMax(world), world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
-                    stack.remove(ModComponents.DESIRED_COLOR);
+                    var chosenColor = computeDesired(ctx.source().getWorld());
+                    stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
                     return Manae.ANTI;
                 }
@@ -475,6 +485,14 @@ public abstract class KnotItem extends Item {
         }
 
         @Override
+        public ItemStack createStack(World world) {
+            var stack = getDefaultStack();
+            var chosenColor = computeDesired(world);
+            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
+            return stack;
+        }
+
+        @Override
         public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
             var world = ctx.source().getWorld();
             var comp = stack.get(ModComponents.MANA);
@@ -501,7 +519,8 @@ public abstract class KnotItem extends Item {
                     pool.set(newAmount, world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
-                    stack.remove(ModComponents.DESIRED_COLOR);
+                    var chosenColor = computeDesired(ctx.source().getWorld());
+                    stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
                     return Manae.TRADITIONAL;
                 } else {
@@ -509,7 +528,8 @@ public abstract class KnotItem extends Item {
                     pool.set(pool.getMax(world), world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
-                    stack.remove(ModComponents.DESIRED_COLOR);
+                    var chosenColor = computeDesired(ctx.source().getWorld());
+                    stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
                     return Manae.ANTI;
                 }
