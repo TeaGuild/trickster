@@ -30,7 +30,7 @@ It really isn't much, but even a few extra circles can vastly improve a spell's 
 Its second uniqueness is far more interesting though.
 
 
-By augmenting the [Ploy of Receipt](^trickster:ploys/message#3) with a slot as a second argument, it is possible to listen
+By augmenting the [Ploy of Receipt](^trickster:ploys/message#3) with a slot as a second input, it is possible to listen
 for messages from an item.
 
 

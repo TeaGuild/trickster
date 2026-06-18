@@ -17,7 +17,7 @@ These maps, when inscribed into any ring and worn in a ring slot, will be checke
 A simple [Macro Ring](^trickster:items/writing_casting/ring) can be used for this purpose if no other rings are available.
 
 
-If a macro for a drawn pattern is found, the associated spell will be cast and given one argument:
+If a macro for a drawn pattern is found, the associated spell will be cast and given one [argument](^trickster:delusions_ingresses/arguments):
 A copy of the circle it is drawn in. 
 The spell is then expected to return a new spell fragment to replace the fragment given.
 

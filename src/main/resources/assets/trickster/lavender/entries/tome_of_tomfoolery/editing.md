@@ -53,7 +53,7 @@ When Inner Revision is drawn in the outer blue circle, the green circle will be 
 ;;;;;
 
 An inner circle acts like a glyph,
-either returning its value, or being executed with arguments.
+either returning its value, or being executed with [arguments](^trickster:delusions_ingresses/arguments).
 
 
 When no subcircles are connected to it,
