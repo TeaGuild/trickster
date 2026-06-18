@@ -1,9 +1,9 @@
-package dev.enjarai.trickster.spell.trick.inventory;
+package dev.enjarai.trickster.spell.trick.mana;
 
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
-import dev.enjarai.trickster.spell.fragment.ManaFragment;
+import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import dev.enjarai.trickster.spell.fragment.slot.VariantType;
 import dev.enjarai.trickster.spell.mana.storage.ManaStorage;
@@ -11,16 +11,15 @@ import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class GetManaTypeInSlotTrick extends Trick<GetManaTypeInSlotTrick> {
-    public GetManaTypeInSlotTrick() {
-        super(Pattern.of(0, 3, 1, 0, 5, 2, 0, 4, 5, 8, 6, 3, 4, 2), Signature.of(FragmentType.SLOT.variadicOfArg().unpack(), GetManaTypeInSlotTrick::run, FragmentType.MANA.listOfRet()));
+public class GetMaxManaInSlotTrick extends Trick<GetMaxManaInSlotTrick> {
+    public GetMaxManaInSlotTrick() {
+        super(Pattern.of(0, 2, 3, 0, 4, 3, 6, 8, 5, 4, 2, 1, 5, 2), Signature.of(FragmentType.SLOT.variadicOfArg().unpack(), GetMaxManaInSlotTrick::run, FragmentType.NUMBER));
     }
 
-    public List<ManaFragment> run(SpellContext ctx, List<SlotFragment> slots) {
-        var results = new ArrayList<ManaFragment>();
+    public NumberFragment run(SpellContext ctx, List<SlotFragment> slots) {
+        long result = 0;
 
         for (var slot : slots) {
             var slotStorage = slot.getStorage(this, ctx, VariantType.ITEM);
@@ -29,16 +28,12 @@ public class GetManaTypeInSlotTrick extends Trick<GetManaTypeInSlotTrick> {
                 ctx.source().getWorld()
             ));
             if (manaStorage != null) {
-                for (var view : manaStorage.nonEmptyViews()) {
-                    var mana = new ManaFragment(view.getResource().getMana());
-
-                    if (!results.contains(mana)) {
-                        results.add(mana);
-                    }
+                for (var view : manaStorage) {
+                    result += view.getCapacity();
                 }
             }
         }
 
-        return results;
+        return NumberFragment.ofMana(result);
     }
 }

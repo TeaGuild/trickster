@@ -250,6 +250,7 @@ trickster:
     other_hand_slot: Catch Delusion
     get_item_in_slot: Fence's Ingress
     get_count_in_slot: Ingress of Plenitude
+    get_mana_color_in_slot: Hew's Ingress
     get_mana_type_in_slot: Derivate Ingress
     get_mana_in_slot: Ingress of Authority
     get_max_mana_in_slot: Crowning Ingress
@@ -314,6 +315,7 @@ trickster:
     item_to_glow_color: Vibrant Ingress
     paint: Ploy of Pigmentation
     suck_color: Ploy of the Hopeless
+    color_distance: Cadmium Distortion
 
     summon_lightning: Ploy of the Wrathful
 

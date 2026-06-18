@@ -1,4 +1,4 @@
-package dev.enjarai.trickster.spell.trick.inventory;
+package dev.enjarai.trickster.spell.trick.mana;
 
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
@@ -13,9 +13,9 @@ import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 
 import java.util.List;
 
-public class GetMaxManaInSlotTrick extends Trick<GetMaxManaInSlotTrick> {
-    public GetMaxManaInSlotTrick() {
-        super(Pattern.of(0, 2, 3, 0, 4, 3, 6, 8, 5, 4, 2, 1, 5, 2), Signature.of(FragmentType.SLOT.variadicOfArg().unpack(), GetMaxManaInSlotTrick::run, FragmentType.NUMBER));
+public class GetManaInSlotTrick extends Trick<GetManaInSlotTrick> {
+    public GetManaInSlotTrick() {
+        super(Pattern.of(3, 4, 5, 2, 4, 0, 3, 6, 8, 5), Signature.of(FragmentType.SLOT.variadicOfArg().unpack(), GetManaInSlotTrick::run, FragmentType.NUMBER));
     }
 
     public NumberFragment run(SpellContext ctx, List<SlotFragment> slots) {
@@ -28,8 +28,8 @@ public class GetMaxManaInSlotTrick extends Trick<GetMaxManaInSlotTrick> {
                 ctx.source().getWorld()
             ));
             if (manaStorage != null) {
-                for (var view : manaStorage) {
-                    result += view.getCapacity();
+                for (var view : manaStorage.nonEmptyViews()) {
+                    result += view.getAmount();
                 }
             }
         }
