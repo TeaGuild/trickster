@@ -509,8 +509,8 @@ item.trickster:
   cracked_echo_knot: Cracked Echo Knot
   astral_knot: Astral Knot
   cracked_astral_knot: Cracked Astral Knot
-  prismarine_knot: Prismatic Knot
-  cracked_prismarine_knot: Cracked Prismatic Knot
+  prismatic_knot: Prismatic Knot
+  cracked_prismatic_knot: Cracked Prismatic Knot
   command_knot: Command Knot
 
   spell_core: Spell Core

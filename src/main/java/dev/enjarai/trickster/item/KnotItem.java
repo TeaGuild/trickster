@@ -377,7 +377,7 @@ public abstract class KnotItem extends Item {
 
         public CrackedPrismatic() {
             super(new Settings()
-                .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
+                .component(ModComponents.MANA, new ManaComponent(new OverfillingManaPool(1024 * ManaPool.MANA_SCALE))),
                 Float.MAX_VALUE);
         }
 
