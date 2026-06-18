@@ -9,7 +9,7 @@
     "description": {
       "text": "Acquire an Ominous Spell Core"
     },
-    "frame": "goal",
+    "frame": "task",
     "announce_to_chat": true,
     "hidden": true
   },

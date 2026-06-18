@@ -9,7 +9,7 @@
     "description": {
       "text": "Acquire a pair of Echo Knots in pristine condition"
     },
-    "frame": "goal",
+    "frame": "task",
     "announce_to_chat": true,
     "hidden": true
   },

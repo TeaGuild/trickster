@@ -9,7 +9,7 @@
     "description": {
       "text": "Calm the captured energy of the Tempest"
     },
-    "frame": "goal",
+    "frame": "task",
     "announce_to_chat": true,
     "hidden": true
   },
