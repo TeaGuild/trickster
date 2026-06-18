@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "trickster:item/prismarine_knot"
+    "layer0": "trickster:item/prismatic_knot"
   }
 }

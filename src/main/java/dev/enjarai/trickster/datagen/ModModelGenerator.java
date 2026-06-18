@@ -165,8 +165,8 @@ public class ModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(CRACKED_ECHO_KNOT, Models.GENERATED);
         itemModelGenerator.register(ASTRAL_KNOT, Models.GENERATED);
         itemModelGenerator.register(CRACKED_ASTRAL_KNOT, Models.GENERATED);
-        itemModelGenerator.register(PRISMARINE_KNOT, Models.GENERATED);
-        itemModelGenerator.register(CRACKED_PRISMARINE_KNOT, Models.GENERATED);
+        itemModelGenerator.register(PRISMATIC_KNOT, Models.GENERATED);
+        itemModelGenerator.register(CRACKED_PRISMATIC_KNOT, Models.GENERATED);
         itemModelGenerator.register(COMMAND_KNOT, Models.GENERATED);
 
         itemModelGenerator.register(SPELL_CORE, Models.GENERATED);

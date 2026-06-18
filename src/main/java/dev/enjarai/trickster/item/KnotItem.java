@@ -262,7 +262,7 @@ public abstract class KnotItem extends Item {
         }
     }
 
-    public static class Prismarine extends KnotItem implements ChannelItem, ConverterItem {
+    public static class Prismatic extends KnotItem implements ChannelItem, ConverterItem {
         // Need to use a static list here for dye depot compat :sob:
         private static final int[] possibleColors = new int[] {
             DyeColor.ORANGE.getEntityColor(),
@@ -277,7 +277,7 @@ public abstract class KnotItem extends Item {
             DyeColor.RED.getEntityColor(),
         };
 
-        public Prismarine() {
+        public Prismatic() {
             super(new Settings()
                 .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
                 8192);
@@ -346,7 +346,7 @@ public abstract class KnotItem extends Item {
 
         @Override
         public @Nullable KnotItem getCrackedVersion() {
-            return ModItems.CRACKED_PRISMARINE_KNOT;
+            return ModItems.CRACKED_PRISMATIC_KNOT;
         }
 
         private int computeDesired(World world) {
@@ -354,7 +354,7 @@ public abstract class KnotItem extends Item {
         }
     }
 
-    public static class CrackedPrismarine extends KnotItem implements ChannelItem, ConverterItem {
+    public static class CrackedPrismatic extends KnotItem implements ChannelItem, ConverterItem {
         // Oh and another static list here cause this ones different :3
         private static final int[] possibleColors = new int[] {
             DyeColor.WHITE.getEntityColor(),
@@ -375,7 +375,7 @@ public abstract class KnotItem extends Item {
             DyeColor.BLACK.getEntityColor()
         };
 
-        public CrackedPrismarine() {
+        public CrackedPrismatic() {
             super(new Settings()
                 .component(ModComponents.MANA, new ManaComponent(new SimpleManaPool(1024 * ManaPool.MANA_SCALE))),
                 Float.MAX_VALUE);

@@ -9,7 +9,7 @@
 }
 ```
 
-Listed here are ploys which may be used to generated mana. 
+Listed here are ploys which may be used to generate mana. 
 They return the amount of excess mana that was generated but lost due to storage limitations.
 
 ;;;;;
