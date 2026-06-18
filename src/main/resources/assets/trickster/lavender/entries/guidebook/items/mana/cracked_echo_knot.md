@@ -19,7 +19,7 @@ There is something else that is strange about this Knot though.
 
 ;;;;;
 
-When a slot containing a Cracked Echo Knot is given as the second argument to a [Ploy of Receipt](^trickster:ploys/message#3), 
+When a slot containing a Cracked Echo Knot is given as the second input to a [Ploy of Receipt](^trickster:ploys/message#3), 
 it seems to create some kind of garbage output. 
 Doing the same with a [Dispatch Ploy](^trickster:ploys/message#2) appears to alter something relating to *me*.
 I have no idea what, but I can feel that something has changed...

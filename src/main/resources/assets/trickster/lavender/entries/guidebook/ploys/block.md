@@ -44,7 +44,7 @@ If given a block type, the first available item of that type in the caster's inv
 
 ;;;;;
 
-Ploy of Creation optionally takes two additional arguments. 
+Ploy of Creation optionally takes two additional inputs. 
 
 - The first defines the direction to place from.
 - The second defines what side of an adjacent block is interacted with when placing.

@@ -4,6 +4,7 @@
   "icon": "minecraft:copper_bulb",
   "category": "trickster:distortions",
   "additional_search_terms": [
+    "Foundational Revision",
     "Annexation Stratagem",
     "Desertion Stratagem",
     "Domination Stratagem",
@@ -52,7 +53,7 @@ They are {#aa4444}Addable{}, {#aa4444}Multiplicable{}, {#aa4444}Roundable{}, and
 
 ;;;;;
 
-Distortions here that take many arguments at once will apply their operation cumulatively.
+Distortions here that take many inputs at once will apply their operation cumulatively.
 For example:
 
 
