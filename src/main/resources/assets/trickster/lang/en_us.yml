@@ -56,7 +56,7 @@ trickster:
     stability: "Stability: %s%%"
     color: "Color: %s"
   knot:
-    desired_color: "Desired color: %s"
+    desired_color: "Shimmers %s"
 
   item_group: Trickster
 
