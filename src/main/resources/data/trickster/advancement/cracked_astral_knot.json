@@ -9,7 +9,7 @@
     "description": {
       "text": "Acquire a Cracked Astral Knot"
     },
-    "frame": "challenge",
+    "frame": "task",
     "announce_to_chat": true,
     "hidden": true
   },

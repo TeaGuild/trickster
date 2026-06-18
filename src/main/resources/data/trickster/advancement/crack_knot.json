@@ -9,7 +9,7 @@
     "description": {
       "text": "Intentionally crack a perfectly good Knot"
     },
-    "frame": "goal",
+    "frame": "task",
     "announce_to_chat": true
   },
   "parent": "trickster:find_cracked_knot",

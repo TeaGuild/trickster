@@ -9,7 +9,7 @@
     "description": {
       "text": "Successfully tame or be a submissive player"
     },
-    "frame": "task",
+    "frame": "goal",
     "announce_to_chat": true,
     "hidden": true
   },
