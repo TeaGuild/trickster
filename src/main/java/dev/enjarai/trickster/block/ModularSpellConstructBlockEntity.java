@@ -315,6 +315,11 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
         }
     }
 
+    @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        return stack.isEmpty() || ((slot == 0 ? stack.isIn(ModItems.MANA_KNOTS) : stack.getItem() instanceof SpellCoreItem) && getStack(slot).isEmpty());
+    }
+
     public void markDirtyAndUpdateClients() {
         super.markDirty();
 
@@ -330,11 +335,6 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     @Override
     public boolean canPlayerUse(PlayerEntity player) {
         return Inventory.canPlayerUse(this, player);
-    }
-
-    @Override
-    public boolean isValid(int slot, ItemStack stack) {
-        return stack.isEmpty() || (slot == 0 ? stack.isIn(ModItems.MANA_KNOTS) : stack.getItem() instanceof SpellCoreItem) && getStack(slot).isEmpty();
     }
 
     @Override

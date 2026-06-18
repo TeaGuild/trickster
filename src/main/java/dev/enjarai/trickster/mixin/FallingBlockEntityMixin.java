@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.enjarai.trickster.ModSounds;
 import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.item.KnotItem;
 import net.minecraft.entity.Entity;
@@ -11,7 +12,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -28,9 +28,9 @@ public abstract class FallingBlockEntityMixin extends Entity {
     }
 
     @Inject(
-            method = "handleFallDamage", at = @At(
-                    value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Ljava/util/List;"
-            )
+        method = "handleFallDamage", at = @At(
+            value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Ljava/util/List;"
+        )
     )
     private void crackKnots(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir, @Local(ordinal = 2) float f) {
         if (f > 0 && getWorld() instanceof ServerWorld serverWorld) {
@@ -70,7 +70,7 @@ public abstract class FallingBlockEntityMixin extends Entity {
             // Play sound
             float randomVolume = 1.0F + serverWorld.getRandom().nextFloat() * 0.2F;
             float randomPitch = 0.9F + serverWorld.getRandom().nextFloat() * 0.2F;
-            serverWorld.playSound(null, position.x, position.y, position.z, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, randomVolume, randomPitch);
+            serverWorld.playSound(null, position.x, position.y, position.z, ModSounds.KNOT_CRACK, SoundCategory.BLOCKS, randomVolume, randomPitch);
         }
     }
 }

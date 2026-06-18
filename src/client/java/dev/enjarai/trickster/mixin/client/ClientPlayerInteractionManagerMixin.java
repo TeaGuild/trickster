@@ -1,7 +1,5 @@
 package dev.enjarai.trickster.mixin.client;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -14,18 +12,17 @@ import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 
 import static dev.enjarai.trickster.block.LightBlock.LIGHT_LEVEL;
 import static dev.enjarai.trickster.block.LightSconceBlock.HAS_LIGHT;
 
+@Pseudo
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {
-    @Definition(id = "world", local = @Local(type = World.class))
-    @Definition(id = "setBlockState", method = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z")
-    @Expression("world.setBlockState(?, ?, ?)")
     @WrapOperation(
-        method = "breakBlock", at = @At("MIXINEXTRAS:EXPRESSION")
+        method = "breakBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"), require = 0
     )
     private boolean replaceSconce(World instance, BlockPos blockPos, BlockState state, int flags,
         Operation<Boolean> original, @Local World world,

@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.block;
 
 import com.mojang.serialization.MapCodec;
+import dev.enjarai.trickster.ModSounds;
 import dev.enjarai.trickster.item.ModItems;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -37,11 +37,11 @@ public class ScrollShelfBlock extends BlockWithEntity {
 
     protected ScrollShelfBlock() {
         super(AbstractBlock.Settings.create()
-                .mapColor(MapColor.OAK_TAN)
-                .instrument(NoteBlockInstrument.BASS)
-                .strength(1.5F)
-                .sounds(BlockSoundGroup.CHISELED_BOOKSHELF)
-                .burnable());
+            .mapColor(MapColor.OAK_TAN)
+            .instrument(NoteBlockInstrument.BASS)
+            .strength(1.5F)
+            .sounds(BlockSoundGroup.CHISELED_BOOKSHELF)
+            .burnable());
         setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH));
     }
 
@@ -98,9 +98,9 @@ public class ScrollShelfBlock extends BlockWithEntity {
                     var slotStack = blockEntity.getStack(slot.getAsInt());
                     if (!slotStack.isEmpty()) {
                         // TODO merge stacks if required?
-//                        if (ItemStack.areItemsAndComponentsEqual(stack, slotStack)) {
-//
-//                        }
+                        //                        if (ItemStack.areItemsAndComponentsEqual(stack, slotStack)) {
+                        //
+                        //                        }
                         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                     } else {
                         tryAddBook(world, pos, player, blockEntity, stack, slot.getAsInt());
@@ -134,14 +134,14 @@ public class ScrollShelfBlock extends BlockWithEntity {
         if (!world.isClient) {
             player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
             blockEntity.setStack(slot, stack.split(stack.getCount()));
-            world.playSound(null, pos, SoundEvents.BLOCK_CHISELED_BOOKSHELF_INSERT_ENCHANTED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, pos, ModSounds.PLACE_SCROLL, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
     }
 
     private static void tryRemoveBook(World world, BlockPos pos, PlayerEntity player, ScrollShelfBlockEntity blockEntity, int slot) {
         if (!world.isClient) {
             ItemStack itemStack = blockEntity.removeStack(slot, 1);
-            world.playSound(null, pos, SoundEvents.BLOCK_CHISELED_BOOKSHELF_INSERT_ENCHANTED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, pos, ModSounds.REMOVE_SCROLL, SoundCategory.BLOCKS, 1.0F, 1.0F);
             if (!player.getInventory().insertStack(itemStack)) {
                 player.dropItem(itemStack, false);
             }

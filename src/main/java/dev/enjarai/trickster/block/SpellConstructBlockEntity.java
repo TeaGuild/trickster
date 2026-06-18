@@ -2,6 +2,7 @@ package dev.enjarai.trickster.block;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.KnotItem;
+import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.*;
@@ -259,6 +260,11 @@ public class SpellConstructBlockEntity extends BlockEntity implements Inventory,
 
         this.stack = stack;
         markDirtyAndUpdateClients();
+    }
+
+    @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        return stack.isEmpty() || (stack.isIn(ModItems.MANA_KNOTS) && getStack(slot).isEmpty());
     }
 
     @Override

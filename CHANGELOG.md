@@ -10,10 +10,19 @@
   - Tempest mana has a stability. It is possible to convert stable Tempest to Traditional at a loss.
   - Striking constructs and charging arrays with lightning will decrease stability of contained Tempest mana.
 - Added the ability to summon lightning. Requires unstable Tempest. (@aurakle)
+- Blacklisted the smeltery structure from Lootr due to item voiding. (@aurakle)
 - Fixed a crash from spell fleck rendering. (@enjarai)
+- Fixed an issue with atlas rendering in certain situations. (@enjarai)
+  - Textures would get messed up with: Supplementaries, Connector, and Kilt.
 - Made Alt and F in the editor configurable keybinds. (@enjarai)
 - Constructs no longer re-send their (possibly expensive to serialize) spells to clients when unrelated data is modified. (@aurakle)
 - Fragment components on items now cache their hash, significantly improving performance when comparing item stacks. (@enjarai)
 - Made it impossible to import overweight fragments via survival methods. (@aurakle)
 - Reverted the decrease in cost for setting entity scale. (@aurakle)
 - Reverted changes to player velocity querying that made values consistently unreliable. (@aurakle)
+- Fixed being able to insert any item into a spell construct. (@aurakle)
+- Added tricks to get the durability of items. (@enjarai)
+- Fixed Infused Ceramic gradients. (@hazenebulous)
+- Miscellaneous Connector compatibility improvements. (@master_bw3)
+- Fix missing translation for the Fluid fragment type. (@aurakle)
+- Add missing subtitles. (@enjarai)

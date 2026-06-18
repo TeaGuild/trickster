@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.spell.fragment;
 
 import dev.enjarai.trickster.spell.Fragment;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Mana;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
@@ -19,7 +20,7 @@ public record ManaFragment(Mana mana) implements Fragment {
 
     @Override
     public Text asText() {
-        return mana.getName();
+        return mana.getName(ManaVariant.of(mana));
     }
 
     @Override

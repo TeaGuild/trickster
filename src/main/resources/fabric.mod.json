@@ -88,7 +88,7 @@
         }
     ],
     "depends": {
-        "fabricloader": ">=0.19.0",
+        "fabricloader": ">=0.17.0",
         "minecraft": ">=1.21",
         "java": ">=21",
         "fabric-api": "*",
@@ -102,8 +102,7 @@
         "inline": "^1.2.2"
     },
     "conflicts": {
-        "immediatelyfast": "*",
-        "supplementaries": "*"
+        "immediatelyfast": "*"
     },
     "breaks": {
         "optifabric": "*"

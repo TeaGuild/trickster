@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.screen.owo;
 
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Mana;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.FlowLayout;
@@ -26,7 +27,7 @@ public class ManaCostComponent extends FlowLayout {
                 .append(Text.literal(costCalculation)
                     .styled(s -> s.withFormatting(Formatting.GRAY)))
                 .append(Text.literal("\n\n"))
-                .append(Text.translatable("trickster.mana_cost.type", mana.getName()))
+                .append(Text.translatable("trickster.mana_cost.type", mana.getName(ManaVariant.of(mana))))
             ))
             .allowOverflow(true)
             .horizontalAlignment(HorizontalAlignment.CENTER);

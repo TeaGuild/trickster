@@ -8,9 +8,9 @@ import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Mana;
 import dev.ryanhcode.sable.companion.SableCompanion;
+import dev.enjarai.trickster.util.Meowing;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
-import org.joml.Vector3d;
 
 public class PushManaTrick extends AbstractConduitTrick {
     public PushManaTrick() {
@@ -18,8 +18,8 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected void createParticles(SpellContext ctx, StorageFragment slot, Mana mana, float v) {
-        var fromPos = SableCompanion.INSTANCE.projectOutOfSubLevel(ctx.source().getWorld(), slot.getSourceOrCasterPos(this, ctx), new Vector3d());
+    protected void createParticles(SpellContext ctx, StorageFragment holder, ManaVariant variant, float v) {
+        var fromPos = SableCompanion.INSTANCE.projectOutOfSubLevel(ctx.source().getWorld(), holder.getSourceOrCasterPos(this, ctx), new Vector3d());
         var toPos = ctx.getGlobalPos();
 
         var distance = fromPos.distance(toPos);
@@ -29,7 +29,7 @@ public class PushManaTrick extends AbstractConduitTrick {
 
         ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
             .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
-            .send(new ManaMoveParticlePacket(fromPos, toPos, mana, v));
+            .send(new ManaMoveParticlePacket(fromPos, toPos, variant, v));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.render;
 
+import dev.enjarai.trickster.ModAtlases;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.ScrollShelfBlock;
 import dev.enjarai.trickster.block.ScrollShelfBlockEntity;
@@ -12,7 +13,6 @@ import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
@@ -38,9 +38,9 @@ public class ScrollShelfBlockEntityRenderer implements BlockEntityRenderer<Scrol
             var x = i % GRID_WIDTH;
             var y = i / GRID_HEIGHT;
             modelPartData.addChild("scroll_" + i, ModelPartBuilder.create()
-                            .uv(0, 0)
-                            .cuboid(15f / GRID_WIDTH * x + 1.5f, 15f / GRID_HEIGHT * y + 1f, 16f, 3f, 3f, 1f),
-                    ModelTransform.NONE);
+                .uv(0, 0)
+                .cuboid(15f / GRID_WIDTH * x + 1.5f, 15f / GRID_HEIGHT * y + 1f, 16f, 3f, 3f, 1f),
+                ModelTransform.NONE);
         }
         return TexturedModelData.of(modelData, 16, 16);
     }
@@ -67,15 +67,16 @@ public class ScrollShelfBlockEntityRenderer implements BlockEntityRenderer<Scrol
             var stack = entity.getStack(i);
             if (!stack.isEmpty()) {
                 var textureId = Registries.ITEM.getId(stack.getItem()).withPrefixedPath("entity/scroll_shelf/");
-                var spriteId = new SpriteIdentifier(ATLAS_ID, textureId);
-                var vertexConsumer = spriteId.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout);
+                var sprite = ModAtlases.ScrollShelf.INSTANCE.getSprite(textureId);
+                var vertexConsumer = sprite.getTextureSpecificVertexConsumer(
+                    vertexConsumers.getBuffer(RenderLayer.getEntityCutout(ATLAS_ID)));
                 scrollModels[i].render(matrices, vertexConsumer, light, overlay);
             }
         }
 
         if (MinecraftClient.getInstance().crosshairTarget instanceof BlockHitResult blockHit
-                && blockHit.getBlockPos().equals(entity.getPos())
-                && blockHit.getSide() == entity.getCachedState().get(ScrollShelfBlock.FACING)) {
+            && blockHit.getBlockPos().equals(entity.getPos())
+            && blockHit.getSide() == entity.getCachedState().get(ScrollShelfBlock.FACING)) {
             var slot = ScrollShelfBlock.getSlotForHitPos(blockHit, entity.getCachedState());
             if (slot.isPresent()) {
                 var stack = entity.getStack(slot.getAsInt());
@@ -107,7 +108,7 @@ public class ScrollShelfBlockEntityRenderer implements BlockEntityRenderer<Scrol
         TextRenderer textRenderer = client.textRenderer;
         float offsetX = (float) (-textRenderer.getWidth(name) / 2);
 
-//        textRenderer.draw(name, offsetX, 0, 553648127, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, backgroundColor, light);
+        //        textRenderer.draw(name, offsetX, 0, 553648127, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, backgroundColor, light);
         textRenderer.draw(name, offsetX, 0, Colors.WHITE, false, matrix4f, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, light);
 
         matrices.pop();

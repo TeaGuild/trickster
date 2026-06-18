@@ -76,6 +76,7 @@ public class TricksterConfigModel {
     @Sync(Option.SyncMode.INFORM_SERVER)
     public boolean disableOffhandScrollOpening = false;
 
+    //TODO: should this not be removed?
     @RangeConstraint(min = 0, max = 1)
     public float adjacentPixelCollisionOffset = 0.25f;
 

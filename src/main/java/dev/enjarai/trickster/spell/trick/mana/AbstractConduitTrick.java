@@ -88,14 +88,10 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
                 if (manaStorage == null) continue;
 
-                result += affect(ctx, manaStorage, mana, limit / slot.getAmount(), tax, trans);
+                result += affect(ctx, manaStorage, mana, limit / slot.getAmount(), tax, trans, target);
 
                 trans.commit();
             }
-        }
-
-        if (result > 1) {
-            createParticles(ctx, target, mana, (float) result / ManaPool.MANA_SCALE);
         }
 
         return result;
@@ -117,8 +113,8 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         var distance = ctx.distanceTo(target.getSourceOrCasterPos(this, ctx));
         float r = Trickster.CONFIG.manaTransferEfficiency();
         double tax = Math.max(0, 1 - r / (distance + r - 16));
-
         long result = 0;
+
         for (var view : storage.nonEmptyViews()) {
             try (var trans = Transaction.openOuter()) {
                 var manaStorage = ManaStorage.ITEM.find(
@@ -128,14 +124,10 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
                 if (manaStorage == null) continue;
 
-                result += affect(ctx, manaStorage, mana, limit / view.getAmount(), tax, trans);
+                result += affect(ctx, manaStorage, mana, limit / view.getAmount(), tax, trans, target);
 
                 trans.commit();
             }
-        }
-
-        if (result > 1) {
-            createParticles(ctx, target, mana, (float) result / ManaPool.MANA_SCALE);
         }
 
         return result;
@@ -143,10 +135,8 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
     protected abstract boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx, Mana mana);
 
-    protected abstract void createParticles(SpellContext ctx, StorageFragment slot, Mana mana, float v);
-
     /**
      * @return the amount of mana fulfilled by the item.
      */
-    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, Mana mana, long limit, double taxPercentage, TransactionContext trans);
+    protected abstract long affect(SpellContext ctx, Storage<ManaVariant> manaStorage, Mana mana, long limit, double taxPercentage, TransactionContext trans, StorageFragment holder);
 }
