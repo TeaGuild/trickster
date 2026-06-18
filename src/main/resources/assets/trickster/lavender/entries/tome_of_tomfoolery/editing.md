@@ -6,13 +6,29 @@
 }
 ```
 
-TODO 
+*"The spell is your canvas. An arbitrarily large and complex canvas, but a canvas nonetheless.*
+
+
+*And just like you need to know each brush at your disposal to paint effectively,
+you must be familiar with the scribing patterns to create spells effectively.*
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=0\,4\,8\,7,title=Extensive Revision|>
+*And so we begin, with the very basics of spell scribing."*
 
-Can be used to add a new subcircle to any circle. 
+
+— An excerpt from a lecture by Prof. Citrine
+
+---
+
+Unlike other patterns, scribing patterns will immediately disappear when drawn,
+and modify the structure of the spell when they do. They cannot be used as [Macros](^trickster:concepts/macro).
+
+;;;;;
+
+<|revision@trickster:templates|revision-id=trickster:add_subcircle|>
+
+Can be used to add a new subcircle to any circle.
 
 ;;;;;
 
@@ -22,7 +38,7 @@ When Extensive Revision is drawn in the blue circle, the green circle will be cr
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=0\,4\,8\,5,title=Inner Revision|>
+<|revision@trickster:templates|revision-id=trickster:add_inner_circle|>
 
 Adds a new inner circle to an existing circle.
 Inner circles act like glyphs, and can be activated as such.
@@ -36,27 +52,27 @@ When Inner Revision is drawn in the outer blue circle, the green circle will be 
 
 ;;;;;
 
-An inner circle acts like a glyph, 
+An inner circle acts like a glyph,
 either returning its value, or being executed with arguments.
 
 
-When no subcircles are connected to it, 
+When no subcircles are connected to it,
 the circle containing the inner circle will return the inner circle as a spell fragment.
 This can be used for meta-programming, recursion, and permanent storage of dynamic spells, among other things.
 
 ;;;;;
 
-When the circle *does* have connected subcircles, 
+When the circle *does* have connected subcircles,
 it executes the inner circle directly as if it was called by a [Grand Deviation](^trickster:tricks/functions#4),
 using the results from the subcircles connected to the outer circle as arguments.
 
 
-This can be very useful when needing to use one value in multiple places, 
+This can be very useful when needing to use one value in multiple places,
 as inner circles and spell fragments are the only way to move fragments back to the leaves of a tree.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=3\,0\,4\,8,title=Split Revision|>
+<|revision@trickster:templates|revision-id=trickster:to_subcircle|>
 
 Replaces the circle it is drawn in with a new circle, with the old circle as a subcircle.
 
@@ -68,7 +84,7 @@ When Split Revision is drawn in the blue circle, it adds it as a subcircle to th
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=1\,0\,4\,8,title=Growth Revision|>
+<|revision@trickster:templates|revision-id=trickster:to_inner_circle|>
 
 Nests the circle it is drawn in inside another circle as its inner circle.
 
@@ -80,7 +96,7 @@ When Growth is drawn in the blue circle, it adds it as an inner circle to the ne
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=0\,4\,8,title=Grafting Revision|>
+<|revision@trickster:templates|revision-id=trickster:remove_self|>
 
 Removes the circle it is drawn in. Will replace it with the original circle's first subcircle if available.
 
@@ -92,7 +108,7 @@ When Grafting is drawn in the yellow circle, it and the red circle are deleted a
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=0\,4\,8\,5\,2\,1\,0\,3\,6\,7\,8,title=Pruning Revision|>
+<|revision@trickster:templates|revision-id=trickster:remove_self_recursive|>
 
 Removes the circle it is drawn in and any attached subcircles.
 
@@ -104,7 +120,7 @@ When Pruning Revision is drawn in the yellow circle, it and the red circles are 
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=1\,2\,4\,6,title=Ascension Revision|>
+<|revision@trickster:templates|revision-id=trickster:remove_outer|>
 
 Expands the circle it is drawn in to replace its outer circle.
 
@@ -116,68 +132,49 @@ When Ascension Revision is drawn in the blue circle, it deletes and replaces the
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=6\,3\,0\,4\,8,title=Devotion Revision|>
-
-Adds a new subcircle to the outer circle.
-
-;;;;;
-
-![](trickster:textures/gui/img/devotion_revision.png,fit)
-
-When Devotion Revision is drawn in the blue circle, the green circle is created.
-
-;;;;;
-
-<|revision@trickster:templates|pattern=1\,2\,5,title=Shifting Revision|>
+<|revision@trickster:templates|revision-id=trickster:rotate_cw|>
 
 Shifts the subcircles of the circle it is drawn in, clockwise, so that the last subcircle is now the first.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=1\,0\,3,title=Reverse Shifting Revision|>
+<|revision@trickster:templates|revision-id=trickster:rotate_ccw|>
 
 Accomplishes the opposite of the Shifting Revision, moving subcircles counter-clockwise.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=2\,4\,3,title=Shuffling Revision|>
+<|revision@trickster:templates|revision-id=trickster:swap|>
 
 Swaps the first subcircle with the second subcircle.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=4\,0\,1\,4\,2\,1,title=Notulist's Revision|>
+<|revision@trickster:templates|revision-id=trickster:splice|>
 
 Reads a spell from the user's offhand and grafts it onto the spell currently being edited,
 replacing the circle it is drawn in.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=1\,2\,4\,1\,0\,4\,7,title=Inner Notulist's Revision|>
+<|revision@trickster:templates|revision-id=trickster:splice_inner|>
 
 Reads a spell from the user's offhand and places it as a glyph in the center of the circle it is drawn in.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=4\,3\,0\,4\,5\,2\,4\,1,title=Grand Revision|>
-
-Replaces the glyph of the circle it is drawn in with the result of executing the user's offhand spell. 
-Requires possession of a [Mirror](^trickster:items/writing_casting/mirror_of_evaluation).
-
-;;;;;
-
-<|revision@trickster:templates|pattern=1\,4\,7\,6\,4\,8\,7,title=Plagiarist's Revision|>
+<|revision@trickster:templates|revision-id=trickster:write|>
 
 Copies the circle it is drawn in to the user's offhand.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=1\,8\,6\,1,title=Interpretation Revision|>
+<|revision@trickster:templates|revision-id=trickster:quote_pattern|>
 
 Creates a pattern literal of the pattern contained within the circle it is drawn in.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=1\,0\,4\,8\,7\,6\,4\,2\,1\,4,title=Address Revision|>
+<|revision@trickster:templates|revision-id=trickster:write_path|>
 
 When this scribing pattern is drawn, the [address](^trickster:distortions/tree#2) of the circle this pattern was drawn in is written to the item in your other hand.
