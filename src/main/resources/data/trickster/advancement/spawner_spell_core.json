@@ -9,7 +9,7 @@
     "description": {
       "text": "Acquire a Torment Spell Core"
     },
-    "frame": "task",
+    "frame": "goal",
     "announce_to_chat": true,
     "hidden": true
   },

@@ -9,7 +9,7 @@
     "description": {
       "text": "Acquire a Quartz Knot"
     },
-    "frame": "task",
+    "frame": "goal",
     "announce_to_chat": true,
     "hidden": true
   },
