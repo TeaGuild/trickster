@@ -11,7 +11,6 @@ import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
-import org.joml.Vector3d;
 
 public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick> {
     public PrepareDisplaceEntityTrick() {
@@ -30,9 +29,7 @@ public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick
             throw new EntityCannotBeDisplacedBlunder(this, entity);
         }
 
-        var vector = entity.getPos().toVector3d().sub(ctx.source().getPos(), new Vector3d());
-
-        var distanceFromAnchor = (float) vector.length();
+        var distanceFromAnchor = (float) ctx.distanceTo(entity.getPos().toVector3d());
         var manaUse = 120 + (float) Math.pow(1.35, distanceFromAnchor);
 
         ctx.useScaledMana(this, manaUse);

@@ -4,6 +4,7 @@ import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.block.ModBlocks;
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.compat.ModCompat;
+import dev.enjarai.trickster.compat.sable.SableCompat;
 import dev.enjarai.trickster.compat.transmog.TransmogCompat;
 import dev.enjarai.trickster.config.TricksterConfig;
 import dev.enjarai.trickster.data.DataLoader;
@@ -121,6 +122,10 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
 
         if (ModCompat.TRANSMOG_LOADED) {
             TransmogCompat.init();
+        }
+
+        if (ModCompat.SABLE_LOADED) {
+            SableCompat.init();
         }
     }
 

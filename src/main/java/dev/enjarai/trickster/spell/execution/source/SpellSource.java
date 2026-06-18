@@ -4,6 +4,7 @@ import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.execution.SpellExecutionManager;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.Inventory;
@@ -86,4 +87,8 @@ public interface SpellSource {
     void setCrowMind(Fragment fragment);
 
     void offerOrDropItem(ItemStack stack);
+
+    default Vector3d getGlobalPos() {
+        return SableCompanion.INSTANCE.projectOutOfSubLevel(getWorld(), getPos());
+    }
 }

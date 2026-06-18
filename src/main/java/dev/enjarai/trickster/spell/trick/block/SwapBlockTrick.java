@@ -50,7 +50,7 @@ public class SwapBlockTrick extends Trick<SwapBlockTrick> {
         expectCanSwap(world, blockPos1, state1);
         expectCanSwap(world, blockPos2, state2);
 
-        ctx.useScaledMana(this, (float) (60 + (pos1.vector().distance(pos2.vector()))));
+        ctx.useScaledMana(this, (float) (60 + Trick.getDistance(ctx.source().getWorld(), pos1.vector(), pos2.vector())));
 
         NbtCompound blockEntity1Nbt = null;
         NbtCompound blockEntity2Nbt = null;

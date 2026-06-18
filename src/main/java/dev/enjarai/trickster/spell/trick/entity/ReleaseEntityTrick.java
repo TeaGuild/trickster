@@ -13,7 +13,6 @@ import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.Optional;
 
@@ -32,7 +31,7 @@ public class ReleaseEntityTrick extends Trick<ReleaseEntityTrick> {
             return Optional.empty();
 
         if (entityStorage.nbt().isPresent()) {
-            var dist = player.getPos().distanceTo(new Vec3d(pos.x(), pos.y(), pos.z()));
+            var dist = ctx.distanceTo(pos);
             ctx.useScaledMana(this, (float) (2000 + Math.pow(dist, (dist / 5))));
             offhand.set(ModComponents.ENTITY_STORAGE, new EntityStorageComponent(Optional.empty()));
 

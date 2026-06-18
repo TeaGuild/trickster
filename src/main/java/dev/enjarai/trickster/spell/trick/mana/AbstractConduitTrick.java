@@ -74,7 +74,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
         long limit = max / knotCount;
 
-        var distance = ctx.source().getPos().distance(target.getSourceOrCasterPos(this, ctx));
+        var distance = ctx.distanceTo(target.getSourceOrCasterPos(this, ctx));
         float r = Trickster.CONFIG.manaTransferEfficiency();
         double tax = Math.max(0, 1 - r / (distance + r - 16));
 
@@ -114,7 +114,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
 
         long limit = max / knotCount;
 
-        var distance = ctx.source().getPos().distance(target.getSourceOrCasterPos(this, ctx));
+        var distance = ctx.distanceTo(target.getSourceOrCasterPos(this, ctx));
         float r = Trickster.CONFIG.manaTransferEfficiency();
         double tax = Math.max(0, 1 - r / (distance + r - 16));
 

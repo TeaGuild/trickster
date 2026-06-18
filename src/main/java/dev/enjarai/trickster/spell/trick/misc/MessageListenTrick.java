@@ -22,7 +22,7 @@ public class MessageListenTrick extends Trick<MessageListenTrick> {
     public MessageListenTrick() {
         super(Pattern.of(4, 0, 7, 2, 4), Signature.of(FragmentType.NUMBER.optionalOfArg(), MessageListenTrick::run, RetType.ANY.listOfRet().executor()));
         overload(Signature.of(FragmentType.NUMBER.optionalOfArg(), FragmentType.SLOT, MessageListenTrick::runWithChannel,
-                RetType.ANY.listOfRet().thisFunctionExistsSolelyForMessageListeningOnItemsBecauseWeAlreadyHadAnAbstractionForItAndWeReallyDontWantToReworkItSoThisWillHaveToDoHonestly()));
+            RetType.ANY.listOfRet().thisFunctionExistsSolelyForMessageListeningOnItemsBecauseWeAlreadyHadAnAbstractionForItAndWeReallyDontWantToReworkItSoThisWillHaveToDoHonestly()));
     }
 
     //TODO: how should we stop this from running in single-tick mode
@@ -32,7 +32,7 @@ public class MessageListenTrick extends Trick<MessageListenTrick> {
 
     public EvaluationResult runWithChannel(SpellContext ctx, Optional<NumberFragment> timeout, SlotFragment slot) {
         var stack = slot.getResource(this, ctx, VariantType.ITEM).toStack();
-        var range = ctx.source().getPos().distance(slot.getSourceOrCasterPos(this, ctx));
+        var range = ctx.distanceTo(slot.getSourceOrCasterPos(this, ctx));
         var item = stack.getItem();
 
         if (item instanceof ChannelItem channelItem) {

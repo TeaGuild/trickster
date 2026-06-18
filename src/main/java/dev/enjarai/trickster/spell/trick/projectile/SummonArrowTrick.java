@@ -26,7 +26,7 @@ public class SummonArrowTrick extends Trick<SummonArrowTrick> {
         var world = ctx.source().getWorld();
 
         try {
-            ctx.useScaledMana(this, cost(ctx.source().getPos().distance(pos.vector())));
+            ctx.useScaledMana(this, cost(ctx.distanceTo(pos.vector())));
 
             var projectile = ((ProjectileItem) stack.getItem()).createEntity(world, new Vec3d(0, 0, 0).fromVector3d(pos.vector()), stack, Direction.DOWN);
             ctx.source().getCaster().ifPresent(projectile::setOwner);

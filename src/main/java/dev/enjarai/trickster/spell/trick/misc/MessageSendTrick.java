@@ -34,7 +34,7 @@ public class MessageSendTrick extends Trick<MessageSendTrick> {
 
     public Fragment channel(SpellContext ctx, Fragment value, SlotFragment slot) {
         var resource = slot.getResource(this, ctx, VariantType.ITEM);
-        var range = ctx.source().getPos().distance(slot.getSourceOrCasterPos(this, ctx));
+        var range = ctx.distanceTo(slot.getSourceOrCasterPos(this, ctx));
         var item = resource.getItem();
 
         if (item instanceof ChannelItem channelItem) {

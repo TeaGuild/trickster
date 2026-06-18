@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.14-SNAPSHOT'
+    id 'fabric-loom' version '1.15-SNAPSHOT'
     id 'maven-publish'
     id 'me.fallenbreath.yamlang' version '1.5.0'
     id "me.modmuss50.mod-publish-plugin" version "1.1.0"
@@ -40,6 +40,15 @@ repositories {
         url 'https://maven.blamejared.com'
         content {
             includeGroup 'com.samsthenerd.inline'
+        }
+    }
+
+    exclusiveContent {
+        forRepository {
+            maven { url = "https://maven.ryanhcode.dev/releases" }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable-companion")
         }
     }
 }
@@ -144,6 +153,8 @@ dependencies {
 
     modClientCompileOnly modLocalRuntime("mod.master_bw3:coleus:${property('deps.coleus')}")
     compileOnly("com.j2html:j2html:${property('deps.j2html')}")
+
+    include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric-${property('deps.minecraft')}:${property('deps.sable-companion')}"))
 }
 
 processResources {

@@ -7,8 +7,10 @@ import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Mana;
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import org.joml.Vector3d;
 
 public class PullManaTrick extends AbstractConduitTrick {
     public PullManaTrick() {
@@ -17,8 +19,8 @@ public class PullManaTrick extends AbstractConduitTrick {
 
     @Override
     protected void createParticles(SpellContext ctx, StorageFragment slot, Mana mana, float v) {
-        var fromPos = slot.getSourceOrCasterPos(this, ctx);
-        var toPos = ctx.source().getPos();
+        var fromPos = SableCompanion.INSTANCE.projectOutOfSubLevel(ctx.source().getWorld(), slot.getSourceOrCasterPos(this, ctx), new Vector3d());
+        var toPos = ctx.getGlobalPos();
 
         var distance = fromPos.distance(toPos);
         if (distance < 0.5) {

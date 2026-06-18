@@ -21,16 +21,16 @@ import io.wispforest.endec.impl.StructEndecBuilder;
 
 public class MessageListenerSpellExecutor implements SpellExecutor {
     public static final StructEndec<MessageListenerSpellExecutor> ENDEC = StructEndecBuilder.of(
-            ExecutionState.ENDEC.fieldOf("state", e -> e.state),
-            EndecTomfoolery.forcedSafeOptionalOf(
-                    EndecTomfoolery.UUID.xmap(
-                            Key.Channel::new,
-                            Key.Channel::uuid
-                    )
-            ).fieldOf("channel", e -> e.channel),
-            Endec.INT.optionalFieldOf("ticksLeft", e -> e.ticksLeft, 0), //TODO: is this fine???? (the optional field of)
-            EndecTomfoolery.forcedSafeOptionalOf(ListFragment.ENDEC).fieldOf("result", e -> e.result),
-            MessageListenerSpellExecutor::new
+        ExecutionState.ENDEC.fieldOf("state", e -> e.state),
+        EndecTomfoolery.forcedSafeOptionalOf(
+            EndecTomfoolery.UUID.xmap(
+                Key.Channel::new,
+                Key.Channel::uuid
+            )
+        ).fieldOf("channel", e -> e.channel),
+        Endec.INT.optionalFieldOf("ticksLeft", e -> e.ticksLeft, 0), //TODO: is this fine???? (the optional field of)
+        EndecTomfoolery.forcedSafeOptionalOf(ListFragment.ENDEC).fieldOf("result", e -> e.result),
+        MessageListenerSpellExecutor::new
     );
 
     private final ExecutionState state; // DO NOT USE
@@ -67,8 +67,8 @@ public class MessageListenerSpellExecutor implements SpellExecutor {
 
         if (result.isEmpty()) {
             ModGlobalComponents.MESSAGE_HANDLER
-                    .get(source.getWorld().getScoreboard())
-                    .await(channel.<Key>map(n -> n).orElseGet(() -> new Key.Broadcast(source.getWorld().getRegistryKey(), source.getPos(), 0)), this::listen);
+                .get(source.getWorld().getScoreboard())
+                .await(channel.<Key>map(n -> n).orElseGet(() -> new Key.Broadcast(source.getWorld().getRegistryKey(), source.getGlobalPos(), 0)), this::listen);
         }
 
         if (ticksLeft > 0) {

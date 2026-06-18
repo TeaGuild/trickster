@@ -17,6 +17,8 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -136,5 +138,13 @@ public record SpellContext(ExecutionState state, SpellSource source, TickData da
         }
 
         throw new MissingItemBlunder(trick);
+    }
+
+    public double distanceTo(Vector3dc to) {
+        return Trick.getDistance(source().getWorld(), source().getPos(), to);
+    }
+
+    public Vector3d getGlobalPos() {
+        return source.getGlobalPos();
     }
 }

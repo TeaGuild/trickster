@@ -29,9 +29,9 @@ public class WriteSpellTrick extends Trick<WriteSpellTrick> {
     public static Fragment run(Trick<?> self, SpellContext ctx, Fragment input, Optional<SlotFragment> optionalSlot, Optional<StringFragment> optionalName, boolean closed) {
         var player = ctx.source().getPlayer();
         var slot = optionalSlot.or(() -> ctx.source().getOtherHandSlot())
-                .orElseThrow(() -> new NoPlayerBlunder(self));
+            .orElseThrow(() -> new NoPlayerBlunder(self));
         var name = optionalName.map(StringFragment::asText);
-        var range = ctx.source().getPos().distance(slot.getSourceOrCasterPos(self, ctx));
+        var range = ctx.distanceTo(slot.getSourceOrCasterPos(self, ctx));
 
         if (range > 16) {
             throw new OutOfRangeBlunder(self, 16.0, range);

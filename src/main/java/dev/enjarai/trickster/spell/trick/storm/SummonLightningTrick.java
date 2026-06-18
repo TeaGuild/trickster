@@ -21,7 +21,7 @@ public class SummonLightningTrick extends Trick<SummonLightningTrick> {
         ctx.useScaledMana(this, variant -> {
             return variant.getMana().equals(Manae.STORM)
                 && variant.getComponentMap().get(ManaComponents.STABILITY).getStability(ctx.source().getWorld()) < 0.5;
-        }, 5000 + Math.pow(1.1, ctx.source().getPos().distance(pos.vector())));
+        }, 5000 + Math.pow(1.1, ctx.distanceTo(pos.vector())));
 
         var lightning = EntityType.LIGHTNING_BOLT.create(ctx.source().getWorld());
         var finalPos = ((ServerWorldAccessor) ctx.source().getWorld()).callGetLightningPos(pos.toBlockPos());

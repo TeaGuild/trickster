@@ -49,11 +49,11 @@ public class DisplaceEntityTrick extends Trick<DisplaceEntityTrick> {
 
         if (!destinationWorld.getRegistryKey().equals(target.sourceWorld())) {
             var scaledSource = entity.getPos().toVector3d().mul(entity.getWorld().getDimension().coordinateScale());
-            var scaledDestination = ctx.source().getPos().mul(destinationWorld.getDimension().coordinateScale());
+            var scaledDestination = ctx.getGlobalPos().mul(destinationWorld.getDimension().coordinateScale());
             manaUse += 1000;
             manaUse += (float) (scaledSource.distance(scaledDestination) * 3);
         } else {
-            manaUse += (float) (entity.getPos().toVector3d().distance(ctx.source().getPos()) * 3);
+            manaUse += (float) ctx.distanceTo(entity.getPos().toVector3d()) * 3;
         }
 
         ctx.useScaledMana(this, manaUse);
