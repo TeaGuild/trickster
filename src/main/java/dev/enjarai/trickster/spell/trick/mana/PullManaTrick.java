@@ -47,7 +47,7 @@ public class PullManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected long affect(SpellContext ctx, Storage<ManaVariant> target, Mana mana, long limit, double taxPercentage, TransactionContext trans) {
+    protected long affect(SpellContext ctx, Storage<ManaVariant> target, Mana mana, long limit, double taxPercentage, TransactionContext trans, StorageFragment holder) {
         var self = ctx.source().getManaStorage();
 
         var taxedMult = 1 - taxPercentage;
@@ -71,7 +71,6 @@ public class PullManaTrick extends AbstractConduitTrick {
                             if (right.isBlank()) {
                                 long inserted = self.insert(left, (long) (extracted * taxedMult), trans);
                                 long meow = (long) (inserted / taxedMult);
-                                target.insert(left, extracted - meow, trans);
 
                                 given += meow;
                                 taken += meow;
@@ -88,13 +87,23 @@ public class PullManaTrick extends AbstractConduitTrick {
                                 }
 
                                 long meow = (long) (inserted / taxedMult);
-                                target.insert(left, extracted - meow, trans);
 
                                 given += meow;
                                 taken += meow;
                                 result += inserted;
                             }
                         }
+                    }
+
+                    target.insert(left, extracted - given, trans);
+
+                    if (given > 1) {
+                        final long finalGiven = given;
+                        Meowing.addBubblingCallback(trans, transStatus -> {
+                            if (transStatus.wasCommitted()) {
+                                createParticles(ctx, holder, left, (float) finalGiven / ManaPool.MANA_SCALE);
+                            }
+                        });
                     }
                 }
             }

@@ -5,19 +5,20 @@ import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
+import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Mana;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import dev.enjarai.trickster.util.Meowing;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import org.joml.Vector3d;
 
 public class PushManaTrick extends AbstractConduitTrick {
     public PushManaTrick() {
         super(Pattern.of(7, 8, 4, 6, 7, 5, 4, 3, 7, 2, 1, 0, 7, 4, 1));
     }
 
-    @Override
     protected void createParticles(SpellContext ctx, StorageFragment holder, ManaVariant variant, float v) {
         var fromPos = SableCompanion.INSTANCE.projectOutOfSubLevel(ctx.source().getWorld(), holder.getSourceOrCasterPos(this, ctx), new Vector3d());
         var toPos = ctx.getGlobalPos();
@@ -44,7 +45,7 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected long affect(SpellContext ctx, Storage<ManaVariant> target, Mana mana, long limit, double taxPercentage, TransactionContext trans) {
+    protected long affect(SpellContext ctx, Storage<ManaVariant> target, Mana mana, long limit, double taxPercentage, TransactionContext trans, StorageFragment holder) {
         var self = ctx.source().getManaStorage();
 
         var taxedMult = 1 - taxPercentage;
@@ -68,7 +69,6 @@ public class PushManaTrick extends AbstractConduitTrick {
                             if (right.isBlank()) {
                                 long inserted = target.insert(left, (long) (extracted * taxedMult), trans);
                                 long meow = (long) (inserted / taxedMult);
-                                self.insert(left, extracted - meow, trans);
 
                                 given += meow;
                                 taken += meow;
@@ -85,13 +85,23 @@ public class PushManaTrick extends AbstractConduitTrick {
                                 }
 
                                 long meow = (long) (inserted / taxedMult);
-                                self.insert(left, extracted - meow, trans);
 
                                 given += meow;
                                 taken += meow;
                                 result += inserted;
                             }
                         }
+                    }
+
+                    self.insert(left, extracted - given, trans);
+
+                    if (given > 1) {
+                        final long finalGiven = given;
+                        Meowing.addBubblingCallback(trans, transStatus -> {
+                            if (transStatus.wasCommitted()) {
+                                createParticles(ctx, holder, left, (float) finalGiven / ManaPool.MANA_SCALE);
+                            }
+                        });
                     }
                 }
             }
