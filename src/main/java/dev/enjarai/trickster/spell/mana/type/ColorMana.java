@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import dev.enjarai.trickster.Trickster;
+import dev.enjarai.trickster.particle.SpellParticleOptions;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.component.ColorComponent;
 import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
@@ -12,6 +13,7 @@ import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.World;
@@ -27,6 +29,13 @@ public class ColorMana extends Mana {
     public int getColor(ManaVariant variant) {
         var component = variant.getComponentMap().get(ManaComponents.COLOR);
         return component != null ? component.color() : 0xff0055;
+    }
+
+    @Override
+    public ParticleEffect getParticle(ManaVariant variant) {
+        var component = variant.getComponentMap().get(ManaComponents.COLOR);
+        var color = component != null ? component.color() : 0xff0055;
+        return new SpellParticleOptions(color);
     }
 
     public Optional<ManaVariant> mix(World world, ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
