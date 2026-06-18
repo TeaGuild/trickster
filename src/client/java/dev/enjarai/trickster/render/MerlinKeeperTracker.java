@@ -125,10 +125,11 @@ public class MerlinKeeperTracker implements TooltipAppender {
             var desiredColor = stack.get(ModComponents.DESIRED_COLOR);
             if (desiredColor != null) {
                 var color = desiredColor.color();
+                tooltip.add(Text.empty());
                 tooltip.add(Text.translatable(
                     Trickster.MOD_ID + ".knot.desired_color",
                     ColorUtil.asText(color)
-                ).styled(s -> s.withColor(0xaaaabb)));
+                ).withColor(color));
             }
 
             if (pool instanceof SharedManaPool shared && MinecraftClient.getInstance().world != null) {
