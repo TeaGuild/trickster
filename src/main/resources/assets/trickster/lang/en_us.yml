@@ -328,6 +328,9 @@ trickster:
     write: Plagiarist's Revision
     quote_pattern: Interpretation Revision
     write_path: Address Revision
+    create_two: Foundational Revision
+    create_list: Catalogue Revision
+    create_map: Atlas Revision
 
   fragment:
     trickster:

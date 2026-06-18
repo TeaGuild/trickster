@@ -21,7 +21,7 @@ similarly to how a dictionary associates a word with a definition.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=2\,5\,8\,6\,3\,0,title=Atlas Revision|>
+<|revision@trickster:templates|revision-id=trickster:create_map|>
 
 A [Constant Revision](^trickster:constants) that replaces the glyph of the circle it's drawn in with an empty map.
 

@@ -27,7 +27,7 @@ Lists are zero indexed.
 
 ;;;;;
 
-<|revision@trickster:templates|pattern=6\,3\,0\,2\,5\,8,title=Catalogue Revision|>
+<|revision@trickster:templates|revision-id=trickster:create_list|>
 
 A [Constant Revision](^trickster:constants) that replaces the glyph of the circle it's drawn in with an empty list.
 
