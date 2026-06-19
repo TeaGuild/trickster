@@ -6,6 +6,7 @@
   "required_advancements": [
     "trickster:trigger/nether_star"
   ],
+  "secret": true,
   "ordinal": 300,
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
