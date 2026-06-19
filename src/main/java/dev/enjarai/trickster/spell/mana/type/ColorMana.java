@@ -58,7 +58,7 @@ public class ColorMana extends Mana {
             var color = component.color();
             tooltip.add(Text.translatable(
                 Trickster.MOD_ID + ".mana.color",
-                ColorUtil.asText(color)
+                ColorUtil.rgbAsText(color).withColor(color)
             ).styled(s -> s.withColor(0xaaaabb)));
         }
     }

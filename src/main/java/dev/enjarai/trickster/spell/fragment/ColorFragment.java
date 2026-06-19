@@ -5,6 +5,7 @@ import dev.enjarai.trickster.spell.blunder.BlunderException;
 import dev.enjarai.trickster.spell.blunder.IncompatibleTypesBlunder;
 import dev.enjarai.trickster.spell.blunder.InvalidInputsBlunder;
 import dev.enjarai.trickster.spell.trick.Tricks;
+import dev.enjarai.trickster.util.ColorUtil;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
@@ -36,12 +37,7 @@ public record ColorFragment(int color) implements Fragment, AddableFragment, Mul
 
     @Override
     public Text asText() {
-        return Text.literal("#(%02X)%02X%02X%02X".formatted(
-            ColorHelper.Argb.getAlpha(color),
-            ColorHelper.Argb.getRed(color),
-            ColorHelper.Argb.getGreen(color),
-            ColorHelper.Argb.getBlue(color)
-        ));
+        return ColorUtil.argbAsText(color);
     }
 
     public Text asFormattedText() {

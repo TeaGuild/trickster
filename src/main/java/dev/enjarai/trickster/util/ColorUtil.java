@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.util;
 
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 
@@ -44,11 +45,20 @@ public class ColorUtil {
         ) / 510.0;
     }
 
-    public static Text asText(int color) {
+    public static MutableText rgbAsText(int color) {
         return Text.literal("#%02X%02X%02X".formatted(
             ColorHelper.Argb.getRed(color),
             ColorHelper.Argb.getGreen(color),
             ColorHelper.Argb.getBlue(color)
-        )).withColor(color);
+        ));
+    }
+
+    public static MutableText argbAsText(int color) {
+        return Text.literal("#(%02X)%02X%02X%02X".formatted(
+            ColorHelper.Argb.getAlpha(color),
+            ColorHelper.Argb.getRed(color),
+            ColorHelper.Argb.getGreen(color),
+            ColorHelper.Argb.getBlue(color)
+        ));
     }
 }
