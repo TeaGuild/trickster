@@ -6,6 +6,7 @@ import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.mana.SharedManaPool;
+import dev.enjarai.trickster.util.ColorUtil;
 import dev.enjarai.trickster.util.ImGoingToStabWhoeverInventedTime;
 import dev.enjarai.trickster.util.Unit;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -127,7 +128,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
                 tooltip.add(Text.empty());
                 tooltip.add(Text.translatable(
                     Trickster.MOD_ID + ".knot.desired_color",
-                    Text.literal("█").withColor(color)
+                    ColorUtil.rgbAsText(color).withColor(color)
                 ).withColor(0xaaaabb));
             }
 
