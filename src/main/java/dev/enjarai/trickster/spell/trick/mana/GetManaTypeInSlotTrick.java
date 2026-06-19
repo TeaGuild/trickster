@@ -16,7 +16,7 @@ import java.util.List;
 
 public class GetManaTypeInSlotTrick extends Trick<GetManaTypeInSlotTrick> {
     public GetManaTypeInSlotTrick() {
-        super(Pattern.of(0, 3, 1, 0, 5, 2, 0, 4, 5, 8, 6, 3, 4, 2), Signature.of(FragmentType.SLOT.variadicOfArg().unpack(), GetManaTypeInSlotTrick::run, FragmentType.MANA.listOfRet()));
+        super(Pattern.of(4, 0, 2, 4, 5, 8, 6, 3, 4), Signature.of(FragmentType.SLOT.variadicOfArg().unpack(), GetManaTypeInSlotTrick::run, FragmentType.MANA.listOfRet()));
     }
 
     public List<ManaFragment> run(SpellContext ctx, List<SlotFragment> slots) {

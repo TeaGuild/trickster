@@ -11,7 +11,7 @@ import dev.enjarai.trickster.util.ColorUtil;
 
 public class ColorDistanceTrick extends DistortionTrick<ColorDistanceTrick> {
     public ColorDistanceTrick() {
-        super(Pattern.of(3, 4, 5), Signature.of(FragmentType.COLOR, FragmentType.COLOR, ColorDistanceTrick::distance, FragmentType.NUMBER));
+        super(Pattern.of(5, 2, 7, 5, 4, 3, 0, 7, 3), Signature.of(FragmentType.COLOR, FragmentType.COLOR, ColorDistanceTrick::distance, FragmentType.NUMBER));
     }
 
     public NumberFragment distance(SpellContext ctx, ColorFragment left, ColorFragment right) {

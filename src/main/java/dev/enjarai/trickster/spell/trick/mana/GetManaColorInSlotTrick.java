@@ -13,7 +13,7 @@ import dev.enjarai.trickster.spell.type.Signature;
 
 public class GetManaColorInSlotTrick extends Trick<GetManaColorInSlotTrick> {
     public GetManaColorInSlotTrick() {
-        super(Pattern.of(2, 4, 6), Signature.of(FragmentType.SLOT, GetManaColorInSlotTrick::get, FragmentType.COLOR));
+        super(Pattern.of(4, 2, 1, 0, 2, 7, 0, 4, 5, 8, 6, 3, 4), Signature.of(FragmentType.SLOT, GetManaColorInSlotTrick::get, FragmentType.COLOR));
     }
 
     public ColorFragment get(SpellContext ctx, SlotFragment slot) {
