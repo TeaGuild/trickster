@@ -3,7 +3,6 @@ package dev.enjarai.trickster.util;
 import dev.enjarai.trickster.Trickster;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
 
 import static net.minecraft.util.math.ColorHelper.Argb.getAlpha;
 import static net.minecraft.util.math.ColorHelper.Argb.getArgb;
@@ -48,18 +47,27 @@ public class ColorUtil {
 
     public static MutableText rgbAsText(int color) {
         return Text.literal("%1o%1o%1o".formatted(
-            ColorHelper.Argb.getRed(color) / 32,
-            ColorHelper.Argb.getGreen(color) / 32,
-            ColorHelper.Argb.getBlue(color) / 32
+            getRed(color) / 32,
+            getGreen(color) / 32,
+            getBlue(color) / 32
         )).styled(s -> s.withFont(Trickster.FRAGMENT_FONT));
     }
 
     public static MutableText argbAsText(int color) {
         return Text.literal("%1o|%1o%1o%1o".formatted(
-            ColorHelper.Argb.getAlpha(color) / 32,
-            ColorHelper.Argb.getRed(color) / 32,
-            ColorHelper.Argb.getGreen(color) / 32,
-            ColorHelper.Argb.getBlue(color) / 32
+            getAlpha(color) / 32,
+            getRed(color) / 32,
+            getGreen(color) / 32,
+            getBlue(color) / 32
         )).styled(s -> s.withFont(Trickster.FRAGMENT_FONT));
+    }
+
+    public static int lighten(int color, float amount) {
+        return getArgb(
+            getAlpha(color),
+            (int) (getRed(color) * (1 - amount) + amount * 255),
+            (int) (getGreen(color) * (1 - amount) + amount * 255),
+            (int) (getBlue(color) * (1 - amount) + amount * 255)
+        );
     }
 }

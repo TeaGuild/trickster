@@ -135,8 +135,9 @@ public class MerlinKeeperTracker implements TooltipAppender {
             if (pool instanceof SharedManaPool shared && MinecraftClient.getInstance().world != null) {
                 tooltip.add(
                     Text
-                        .literal(shared.uuid().toString())
-                        .withColor((int) shared.uuid().getLeastSignificantBits())
+                        .literal("%08x".formatted(shared.uuid().getLeastSignificantBits()))
+                        .withColor(ColorUtil.lighten((int) shared.uuid().getMostSignificantBits(), 0.3f))
+                        .styled(s -> s.withFont(Trickster.FRAGMENT_FONT))
                 );
             }
         }
