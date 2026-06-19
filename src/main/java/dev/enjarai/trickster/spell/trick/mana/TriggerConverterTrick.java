@@ -14,7 +14,8 @@ import dev.enjarai.trickster.spell.fragment.slot.VariantType;
 import dev.enjarai.trickster.spell.mana.type.Mana;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
-import dev.enjarai.trickster.util.Resultor;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TriggerConverterTrick extends Trick<TriggerConverterTrick> {
     public TriggerConverterTrick() {
@@ -31,14 +32,14 @@ public class TriggerConverterTrick extends Trick<TriggerConverterTrick> {
 
         var item = resource.getItem();
         if (item instanceof ConverterItem converterItem) {
-            final var resultor = new Resultor<Mana>();
+            AtomicReference<Mana> result = new AtomicReference<>();
 
             slot.applyItemModifier(this, ctx, stack -> {
-                resultor.value = converterItem.convert(ctx, stack);
+                result.set(converterItem.convert(ctx, stack));
                 return stack;
             });
 
-            return Optional.ofNullable(resultor.value).map(ManaFragment::new);
+            return Optional.ofNullable(result.get()).map(ManaFragment::new);
         }
 
         throw new ItemInvalidBlunder(this);

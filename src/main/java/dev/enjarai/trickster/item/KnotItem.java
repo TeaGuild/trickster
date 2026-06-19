@@ -291,8 +291,7 @@ public abstract class KnotItem extends Item {
         @Override
         public ItemStack createStack(World world) {
             var stack = getDefaultStack();
-            var chosenColor = computeDesired(world);
-            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
+            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(computeDesired(world)));
             return stack;
         }
 
@@ -351,7 +350,7 @@ public abstract class KnotItem extends Item {
 
             var chosenColor = computeDesired(ctx.source().getWorld());
             stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
-            return ColorFragment.fromRGB(chosenColor);
+            return new ListFragment(List.of(ColorFragment.fromRGB(chosenColor)));
         }
 
         @Override
@@ -370,16 +369,12 @@ public abstract class KnotItem extends Item {
 
         @Override
         public float tryRecharge(World world, Vec3d pos, ItemStack stack) {
-            if (!world.isDay()) {
+            if (!world.isDay() || world.isRaining() || world.isThundering()) {
                 return 0;
             }
 
             var timeOfDay = world.getTimeOfDay() % 24000;
             if (timeOfDay > 12000) {
-                return 0;
-            }
-
-            if (world.isRaining() && !world.isThundering()) {
                 return 0;
             }
 
@@ -487,8 +482,7 @@ public abstract class KnotItem extends Item {
         @Override
         public ItemStack createStack(World world) {
             var stack = getDefaultStack();
-            var chosenColor = computeDesired(world);
-            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
+            stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(computeDesired(world)));
             return stack;
         }
 
@@ -547,7 +541,7 @@ public abstract class KnotItem extends Item {
 
             var chosenColor = computeDesired(ctx.source().getWorld());
             stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
-            return ColorFragment.fromRGB(chosenColor);
+            return new ListFragment(List.of(ColorFragment.fromRGB(chosenColor)));
         }
 
         @Override
