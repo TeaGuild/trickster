@@ -20,7 +20,8 @@ it is not unlikely that one finds themself in a situation where they have no oth
 Fragments are magical representations of various forms of information. As such, some have arcane and esoteric appearances. These forms, along with details on how to extract their meaning, are the topic of this section.
 
 
-An alternative to reading fragments in their natural form is donning and focusing a form of [Scryglass](^trickster:items/writing_casting/scryglasses).
+An alternative to reading fragments in their natural form is donning a form of [Scryglass](^trickster:items/writing_casting/scryglasses), 
+which can be used by concentrating one's eyesight through the glass by holding <keybind;key.trickster.show_fragment_text>.
 
 ;;;;;
 
