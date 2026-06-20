@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.item;
 
+import dev.enjarai.trickster.ModSounds;
 import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.item.component.CollarLinkComponent;
@@ -17,7 +18,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -46,8 +46,8 @@ public class LeashItem extends Item implements LeftClickItem {
 
             if (collarStack == null || !collarStack.isIn(ModItems.COLLARS) || collarStack.contains(ModComponents.COLLAR_LINK)) {
                 ((ServerWorld) entity.getWorld()).spawnParticles(
-                        ParticleTypes.SMOKE, particlePos.x, particlePos.y, particlePos.z,
-                        10, 0.3, 0.3, 0.3, 0
+                    ParticleTypes.SMOKE, particlePos.x, particlePos.y, particlePos.z,
+                    10, 0.3, 0.3, 0.3, 0
                 );
 
                 user.sendMessage(Text.translatable("trickster.message.leash.invalid_collar", entity.getName()), true);
@@ -56,8 +56,8 @@ public class LeashItem extends Item implements LeftClickItem {
 
             if (!entity.isSneaking()) {
                 ((ServerWorld) entity.getWorld()).spawnParticles(
-                        ParticleTypes.SMOKE, particlePos.x, particlePos.y, particlePos.z,
-                        10, 0.3, 0.3, 0.3, 0
+                    ParticleTypes.SMOKE, particlePos.x, particlePos.y, particlePos.z,
+                    10, 0.3, 0.3, 0.3, 0
                 );
 
                 user.sendMessage(Text.translatable("trickster.message.leash.not_sneaking", entity.getName()), true);
@@ -71,12 +71,12 @@ public class LeashItem extends Item implements LeftClickItem {
             slot.setStack(collarStack);
 
             entity.getWorld().playSoundFromEntity(
-                    null, entity, SoundEvents.BLOCK_COMPARATOR_CLICK,
-                    SoundCategory.PLAYERS, 1, 1.6f
+                null, entity, ModSounds.LEASH_LINK,
+                SoundCategory.PLAYERS, 1, 1.6f
             );
             ((ServerWorld) entity.getWorld()).spawnParticles(
-                    ParticleTypes.HEART, particlePos.x, particlePos.y, particlePos.z,
-                    10, 0.3, 0.3, 0.3, 0
+                ParticleTypes.HEART, particlePos.x, particlePos.y, particlePos.z,
+                10, 0.3, 0.3, 0.3, 0
             );
 
             user.sendMessage(Text.translatable("trickster.message.leash.success", entity.getName()), true);

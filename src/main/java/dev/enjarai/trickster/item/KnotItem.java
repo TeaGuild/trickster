@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.item;
 
+import dev.enjarai.trickster.ModSounds;
 import dev.enjarai.trickster.advancement.criterion.ModCriteria;
 import dev.enjarai.trickster.cca.MessageHandlerComponent.Key;
 import dev.enjarai.trickster.cca.ModGlobalComponents;
@@ -37,7 +38,6 @@ import net.minecraft.item.Items;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -626,7 +626,7 @@ public abstract class KnotItem extends Item {
                 }
 
                 player.getWorld().playSoundFromEntity(
-                    player, player, SoundEvents.ITEM_HONEY_BOTTLE_DRINK,
+                    player, player, ModSounds.USE_ESOTERIC_MANA,
                     SoundCategory.PLAYERS, 1.0F, 1.0F
                 );
 
