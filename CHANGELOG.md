@@ -3,13 +3,9 @@
 - Gave Infused Ceramic a hardness and resistance value. (@aurakle)
 - Improved the texture of pondered circles. (@aurakle and @BlueMoonJune)
 - Made Branching variadic. (@BlueMoonJune)
-- Split mana into two different types: Traditional and Tempest. (@enjarai and @aurakle)
+- Split mana into different types. (@enjarai and @aurakle)
   - All mana is now stored as a long rather than a float, making 1mG the smallest non-zero unit of mana.
-  - Knots no longer charge while it is raining, unless it is thundering and they are empty or contain Tempest mana.
-  - Tempest mana can only be acquired from naturally charging Knots exposed to the sky during a thunderstorm.
-  - Tempest mana has a stability. It is possible to convert stable Tempest to Traditional at a loss.
-  - Striking constructs and charging arrays with lightning will decrease stability of contained Tempest mana.
-- Added the ability to summon lightning. Requires unstable Tempest. (@aurakle)
+  - Knots no longer charge while it is raining.
 - Blacklisted the smeltery structure from Lootr due to item voiding. (@aurakle)
 - Fixed a crash from spell fleck rendering. (@enjarai)
 - Fixed an issue with atlas rendering in certain situations. (@enjarai)
@@ -26,3 +22,5 @@
 - Miscellaneous Connector compatibility improvements. (@master_bw3)
 - Fix missing translation for the Fluid fragment type. (@aurakle)
 - Add missing subtitles. (@enjarai)
+- Significantly reduced the recharge rate of the Whorl. (@aurakle)
+- Astrals no longer generate "Traditional" mana. (@aurakle)
