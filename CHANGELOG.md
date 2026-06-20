@@ -22,5 +22,5 @@
 - Miscellaneous Connector compatibility improvements. (@master_bw3)
 - Fix missing translation for the Fluid fragment type. (@aurakle)
 - Add missing subtitles. (@enjarai)
-- Significantly reduced the recharge rate of the Whorl. (@aurakle)
+- Halved the recharge rate of the Whorl. (@aurakle)
 - Astrals no longer generate "Traditional" mana. (@aurakle)
