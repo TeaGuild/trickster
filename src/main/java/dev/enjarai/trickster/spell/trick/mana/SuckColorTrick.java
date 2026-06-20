@@ -1,4 +1,4 @@
-package dev.enjarai.trickster.spell.trick.color;
+package dev.enjarai.trickster.spell.trick.mana;
 
 import dev.enjarai.trickster.data.DataLoader;
 import dev.enjarai.trickster.particle.ModParticles;
@@ -45,43 +45,18 @@ public class SuckColorTrick extends Trick<SuckColorTrick> {
 
         var insertingVariant = ManaVariant.of(Manae.COLOR).withComponentChanges(
             ComponentChanges.builder().add(ManaComponents.COLOR, new ColorComponent(conversion.color())).build());
-        var insertingAmount = (long) (conversion.manaAmount() * ManaPool.MANA_SCALE);
-        var storage = ctx.source().getManaStorage();
+        long insertingAmount = (long) (conversion.manaAmount() * ManaPool.MANA_SCALE);
+        double taxedMult = getManaTransferTaxMultiplier(ctx, blockPos.toCenterPos().toVector3d());
+        long inserted = 0;
 
         try (var trans = Transaction.openOuter()) {
-            var inserted = storage.insert(insertingVariant, insertingAmount, trans);
+            inserted = insertMixing(ctx, ctx.getManaStorage(), insertingVariant, (long) (insertingAmount * taxedMult), trans);
 
-            if (inserted == insertingAmount) {
+            if (inserted > 0) {
                 trans.commit();
-                return NumberFragment.ofMana(inserted);
             }
         }
 
-        long result = 0;
-
-        for (var view : storage.nonEmptyViews()) {
-            var variant = view.getResource();
-            var mana = variant.getMana();
-
-            if (mana == Manae.COLOR) {
-                try (var trans = Transaction.openOuter()) {
-                    var extracted = view.extract(variant, Long.MAX_VALUE, trans);
-
-                    var mixed = mana.mix(ctx.source().getWorld(), variant, extracted, insertingVariant, insertingAmount);
-                    if (mixed.isEmpty()) {
-                        continue;
-                    }
-
-                    var inserted = storage.insert(mixed.get(), extracted + insertingAmount, trans);
-
-                    if (inserted >= extracted) {
-                        result = inserted - extracted;
-                        trans.commit();
-                        break;
-                    }
-                }
-            }
-        }
-        return NumberFragment.ofMana(result);
+        return NumberFragment.ofMana((long) (insertingAmount - inserted / taxedMult));
     }
 }
