@@ -9,7 +9,7 @@
 *"The spell is your canvas. An arbitrarily large and complex canvas, but a canvas nonetheless.*
 
 
-*And just like you need to know each brush at your disposal to paint effectively, 
+*And just like you need to know each brush at your disposal to paint effectively,
 you must be familiar with the scribing patterns to create spells effectively.*
 
 ;;;;;
@@ -21,7 +21,7 @@ you must be familiar with the scribing patterns to create spells effectively.*
 
 ---
 
-Unlike other patterns, scribing patterns will immediately disappear when drawn, 
+Unlike other patterns, scribing patterns will immediately disappear when drawn,
 and modify the structure of the spell when they do. They cannot be used as [Macros](^trickster:concepts/macro).
 
 ;;;;;
@@ -52,22 +52,22 @@ When Inner Revision is drawn in the outer blue circle, the green circle will be 
 
 ;;;;;
 
-An inner circle acts like a glyph, 
-either returning its value, or being executed with arguments.
+An inner circle acts like a glyph,
+either returning its value, or being executed with [arguments](^trickster:delusions_ingresses/arguments).
 
 
-When no subcircles are connected to it, 
+When no subcircles are connected to it,
 the circle containing the inner circle will return the inner circle as a spell fragment.
 This can be used for meta-programming, recursion, and permanent storage of dynamic spells, among other things.
 
 ;;;;;
 
-When the circle *does* have connected subcircles, 
+When the circle *does* have connected subcircles,
 it executes the inner circle directly as if it was called by a [Grand Deviation](^trickster:tricks/functions#4),
 using the results from the subcircles connected to the outer circle as arguments.
 
 
-This can be very useful when needing to use one value in multiple places, 
+This can be very useful when needing to use one value in multiple places,
 as inner circles and spell fragments are the only way to move fragments back to the leaves of a tree.
 
 ;;;;;
