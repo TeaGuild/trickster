@@ -5,6 +5,7 @@ import dev.enjarai.trickster.spell.blunder.BlunderException;
 import dev.enjarai.trickster.spell.blunder.IncompatibleTypesBlunder;
 import dev.enjarai.trickster.spell.blunder.InvalidInputsBlunder;
 import dev.enjarai.trickster.spell.trick.Tricks;
+import dev.enjarai.trickster.util.ColorUtil;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
@@ -25,8 +26,8 @@ import static net.minecraft.util.math.ColorHelper.Argb.getRed;
 public record ColorFragment(int color) implements Fragment, AddableFragment, MultiplicableFragment, AverageableFragment, RoundableFragment {
 
     public static final StructEndec<ColorFragment> ENDEC = StructEndecBuilder.of(
-            Endec.INT.fieldOf("color", ColorFragment::color),
-            ColorFragment::new
+        Endec.INT.fieldOf("color", ColorFragment::color),
+        ColorFragment::new
     );
 
     @Override
@@ -36,13 +37,7 @@ public record ColorFragment(int color) implements Fragment, AddableFragment, Mul
 
     @Override
     public Text asText() {
-
-        return Text.literal("#(%02X)%02X%02X%02X".formatted(
-                ColorHelper.Argb.getAlpha(color),
-                ColorHelper.Argb.getRed(color),
-                ColorHelper.Argb.getGreen(color),
-                ColorHelper.Argb.getBlue(color)
-        ));
+        return ColorUtil.argbAsText(color);
     }
 
     public Text asFormattedText() {
@@ -60,15 +55,22 @@ public record ColorFragment(int color) implements Fragment, AddableFragment, Mul
 
     public static Vector4f argbAsVector(int color) {
         return new Vector4f(
-                ColorHelper.Argb.getRed(color) / 255f,
-                ColorHelper.Argb.getGreen(color) / 255f,
-                ColorHelper.Argb.getBlue(color) / 255f,
-                ColorHelper.Argb.getAlpha(color) / 255f
+            ColorHelper.Argb.getRed(color) / 255f,
+            ColorHelper.Argb.getGreen(color) / 255f,
+            ColorHelper.Argb.getBlue(color) / 255f,
+            ColorHelper.Argb.getAlpha(color) / 255f
         );
     }
 
     public static ColorFragment fromVector(Vector4f vec) {
-        return new ColorFragment(ColorHelper.Argb.getArgb((int)(vec.w * 255), (int)(vec.x * 255), (int)(vec.y * 255), (int)(vec.z * 255)));
+        return new ColorFragment(ColorHelper.Argb.getArgb((int) (vec.w * 255), (int) (vec.x * 255), (int) (vec.y * 255), (int) (vec.z * 255)));
+    }
+
+    /**
+     * Sets alpha to 255.
+     */
+    public static ColorFragment fromRGB(int rgb) {
+        return new ColorFragment(ColorHelper.Argb.withAlpha(255, rgb));
     }
 
     @Override
@@ -89,7 +91,6 @@ public record ColorFragment(int color) implements Fragment, AddableFragment, Mul
 
     @Override
     public AverageableFragment avg(List<AverageableFragment> other) throws BlunderException {
-
         other.addFirst(this);
         int r = 0, g = 0, b = 0, a = 0, l = 0;
         int m = other.size();

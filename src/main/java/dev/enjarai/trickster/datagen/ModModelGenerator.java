@@ -140,6 +140,8 @@ public class ModModelGenerator extends FabricModelProvider {
 
         blockStateModelGenerator.registerSimpleState(ModBlocks.LIGHT);
         blockStateModelGenerator.registerSingleton(ModBlocks.INERT_SPAWNER, TexturedModel.CUBE_ALL_INNER_FACES);
+        blockStateModelGenerator.registerWoolAndCarpet(ModBlocks.TATTERED_WOOL, ModBlocks.TATTERED_CARPET);
+        blockStateModelGenerator.registerSingleton(ModBlocks.WORN_CONCRETE, TexturedModel.CUBE_ALL);
         blockStateModelGenerator.registerSingleton(ModBlocks.GILDED_TUFF, TexturedModel.CUBE_ALL);
         blockStateModelGenerator.registerSingleton(ModBlocks.GILDED_POLISHED_TUFF, TexturedModel.CUBE_ALL);
         blockStateModelGenerator.registerSingleton(ModBlocks.GILDED_TUFF_BRICKS, TexturedModel.CUBE_ALL);
@@ -163,6 +165,8 @@ public class ModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(CRACKED_ECHO_KNOT, Models.GENERATED);
         itemModelGenerator.register(ASTRAL_KNOT, Models.GENERATED);
         itemModelGenerator.register(CRACKED_ASTRAL_KNOT, Models.GENERATED);
+        itemModelGenerator.register(PRISMATIC_KNOT, Models.GENERATED);
+        itemModelGenerator.register(CRACKED_PRISMATIC_KNOT, Models.GENERATED);
         itemModelGenerator.register(COMMAND_KNOT, Models.GENERATED);
 
         itemModelGenerator.register(SPELL_CORE, Models.GENERATED);

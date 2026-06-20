@@ -1,0 +1,14 @@
+{
+  "conversions": [
+    {
+      "color": -12827478,
+      "id": "minecraft:dead_tube_coral_fan",
+      "keepProperties": true,
+      "mana_amount": 128.0,
+      "properties": {
+        "waterlogged": "true"
+      },
+      "weight": 1
+    }
+  ]
+}

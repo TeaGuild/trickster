@@ -8,10 +8,9 @@ import dev.enjarai.trickster.spell.fragment.slot.VariantType;
 import dev.enjarai.trickster.spell.trick.basic.*;
 import dev.enjarai.trickster.spell.trick.block.*;
 import dev.enjarai.trickster.spell.trick.bool.*;
-import dev.enjarai.trickster.spell.trick.color.ItemToColorTrick;
-import dev.enjarai.trickster.spell.trick.color.PaintTrick;
-import dev.enjarai.trickster.spell.trick.debug.DebugLogTrick;
-import dev.enjarai.trickster.spell.trick.dimension.GetDimensionTrick;
+import dev.enjarai.trickster.spell.trick.color.*;
+import dev.enjarai.trickster.spell.trick.debug.*;
+import dev.enjarai.trickster.spell.trick.dimension.*;
 import dev.enjarai.trickster.spell.trick.entity.*;
 import dev.enjarai.trickster.spell.trick.entity.query.*;
 import dev.enjarai.trickster.spell.trick.fleck.*;
@@ -22,14 +21,10 @@ import dev.enjarai.trickster.spell.trick.mana.*;
 import dev.enjarai.trickster.spell.trick.map.*;
 import dev.enjarai.trickster.spell.trick.math.*;
 import dev.enjarai.trickster.spell.trick.misc.*;
-import dev.enjarai.trickster.spell.trick.particle.HighlightTrick;
-import dev.enjarai.trickster.spell.trick.particle.SpellParticleTrick;
+import dev.enjarai.trickster.spell.trick.particle.*;
 import dev.enjarai.trickster.spell.trick.projectile.*;
-import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockPosTrick;
-import dev.enjarai.trickster.spell.trick.raycast.RaycastBlockSideTrick;
-import dev.enjarai.trickster.spell.trick.raycast.RaycastEntityTrick;
-import dev.enjarai.trickster.spell.trick.raycast.RaycastPosTrick;
-import dev.enjarai.trickster.spell.trick.storm.SummonLightningTrick;
+import dev.enjarai.trickster.spell.trick.raycast.*;
+import dev.enjarai.trickster.spell.trick.storm.*;
 import dev.enjarai.trickster.spell.trick.tree.*;
 import dev.enjarai.trickster.spell.trick.vector.*;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
@@ -260,9 +255,6 @@ public class Tricks {
     public static final GetEquipmentTrick GET_EQUIPMENT = register("get_equipment", new GetEquipmentTrick());
     public static final GetItemInSlotTrick GET_ITEM_IN_SLOT = register("get_item_in_slot", new GetItemInSlotTrick());
     public static final GetCountInSlotTrick GET_COUNT_IN_SLOT = register("get_count_in_slot", new GetCountInSlotTrick());
-    public static final GetManaTypeInSlotTrick GET_MANA_TYPE_IN_SLOT_TRICK = register("get_mana_type_in_slot", new GetManaTypeInSlotTrick());
-    public static final GetManaInSlotTrick GET_MANA_IN_SLOT = register("get_mana_in_slot", new GetManaInSlotTrick());
-    public static final GetMaxManaInSlotTrick GET_MAX_MANA_IN_SLOT = register("get_max_mana_in_slot", new GetMaxManaInSlotTrick());
     public static final GetDurabilityTrick GET_DURABILITY = register("get_durability", new GetDurabilityTrick());
     public static final GetMaxDamageTrick GET_MAX_DAMAGE = register("get_max_damage", new GetMaxDamageTrick());
     public static final GetSlotTrick GET_SLOT = register("get_slot", new GetSlotTrick());
@@ -318,12 +310,19 @@ public class Tricks {
     public static final PushManaTrick PUSH_MANA = register("push_mana", new PushManaTrick());
     public static final PullManaTrick PULL_MANA = register("pull_mana", new PullManaTrick());
     public static final ConvertManaTrick CONVERT_MANA = register("convert_mana", new ConvertManaTrick());
+    public static final TriggerConverterTrick TRIGGER_CONVERTER = register("trigger_converter", new TriggerConverterTrick());
     public static final DrainMatterTrick DRAIN_MATTER = register("drain_matter", new DrainMatterTrick());
+    public static final GetManaColorInSlotTrick GET_MANA_COLOR_IN_SLOT_TRICK = register("get_mana_color_in_slot", new GetManaColorInSlotTrick());
+    public static final GetManaTypeInSlotTrick GET_MANA_TYPE_IN_SLOT_TRICK = register("get_mana_type_in_slot", new GetManaTypeInSlotTrick());
+    public static final GetManaInSlotTrick GET_MANA_IN_SLOT = register("get_mana_in_slot", new GetManaInSlotTrick());
+    public static final GetMaxManaInSlotTrick GET_MAX_MANA_IN_SLOT = register("get_max_mana_in_slot", new GetMaxManaInSlotTrick());
 
     // Color
     public static final ItemToColorTrick ITEM_TO_COLOR = register("item_to_color", new ItemToColorTrick(Pattern.of(0, 4, 2, 1, 0, 7, 2), DyeColor::getEntityColor));
     public static final ItemToColorTrick ITEM_TO_GLOW_COLOR = register("item_to_glow_color", new ItemToColorTrick(Pattern.of(1, 4, 7, 2, 1, 0, 2, 4, 0, 7), DyeColor::getSignColor));
     public static final PaintTrick PAINT = register("paint", new PaintTrick());
+    public static final SuckColorTrick SUCK_COLOR = register("suck_color", new SuckColorTrick());
+    public static final ColorDistanceTrick COLOR_DISTANCE = register("color_distance", new ColorDistanceTrick());
 
     // Storm
     public static final SummonLightningTrick SUMMON_LIGHTNING = register("summon_lightning", new SummonLightningTrick());
@@ -353,5 +352,6 @@ public class Tricks {
         BATTERY_CREATION.registerKnot(Items.DIAMOND, ModItems.DIAMOND_KNOT);
         BATTERY_CREATION.registerKnot(Items.ECHO_SHARD, ModItems.ECHO_KNOT);
         BATTERY_CREATION.registerKnot(Items.NETHER_STAR, ModItems.ASTRAL_KNOT);
+        BATTERY_CREATION.registerKnot(Items.PRISMARINE_CRYSTALS, ModItems.PRISMATIC_KNOT);
     }
 }

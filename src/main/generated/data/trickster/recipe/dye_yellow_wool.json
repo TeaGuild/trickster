@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "wool",
+  "ingredients": [
+    {
+      "item": "minecraft:yellow_dye"
+    },
+    {
+      "item": "trickster:tattered_wool"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:yellow_wool"
+  }
+}

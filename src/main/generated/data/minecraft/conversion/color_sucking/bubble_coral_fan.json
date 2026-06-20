@@ -1,0 +1,14 @@
+{
+  "conversions": [
+    {
+      "color": -7785800,
+      "id": "minecraft:dead_bubble_coral_fan",
+      "keepProperties": true,
+      "mana_amount": 128.0,
+      "properties": {
+        "waterlogged": "true"
+      },
+      "weight": 1
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import net.minecraft.registry.RegistryWrapper;
 import java.util.concurrent.CompletableFuture;
 
 import dev.enjarai.trickster.item.ModItems;
+import net.minecraft.registry.tag.ItemTags;
 
 public class ModItemTagGenerator extends FabricTagProvider.ItemTagProvider {
     public ModItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
@@ -25,5 +26,8 @@ public class ModItemTagGenerator extends FabricTagProvider.ItemTagProvider {
             .add(ModItems.LUMINOUS_BOTTLE, ModItems.ESOTERIC_MANA);
         getOrCreateTagBuilder(ConventionalItemTags.MAGIC_DRINKS)
             .add(ModItems.LUMINOUS_BOTTLE, ModItems.ESOTERIC_MANA);
+
+        getOrCreateTagBuilder(ItemTags.WOOL).add(ModItems.TATTERED_WOOL_ITEM);
+        getOrCreateTagBuilder(ItemTags.WOOL_CARPETS).add(ModItems.TATTERED_CARPET_ITEM);
     }
 }

@@ -21,5 +21,6 @@ public class ModDataStuff implements DataGeneratorEntrypoint {
         pack.addProvider(CoolBlockConversionGenerator::new);
         pack.addProvider(ErodeBlockConversionGenerator::new);
         pack.addProvider(StateToManaConversionGenerator::new);
+        pack.addProvider(ColorSuckingConversionGenerator::new);
     }
 }

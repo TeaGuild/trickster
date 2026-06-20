@@ -12,6 +12,22 @@ public class ModSounds {
     public static final SoundEvent COMPLETE = register("complete");
     public static final SoundEvent CAST = register("cast");
     public static final SoundEvent COLLAR_BELL = register("collar_bell");
+    public static final SoundEvent USE_ESOTERIC_MANA = register("use_esoteric_mana");
+    public static final SoundEvent LEASH_LINK = register("leash_link");
+    public static final SoundEvent KNOT_TICK = register("knot_tick");
+    public static final SoundEvent PLACE_CONSTRUCT_KNOT = register("place_construct_knot");
+    public static final SoundEvent REMOVE_CONSTRUCT_KNOT = register("remove_construct_knot");
+    public static final SoundEvent PLACE_CONSTRUCT_CORE = register("place_construct_core");
+    public static final SoundEvent REMOVE_CONSTRUCT_CORE = register("remove_construct_core");
+    public static final SoundEvent PLACE_CHARGING_ARRAY_KNOT = register("place_charging_array_knot");
+    public static final SoundEvent REMOVE_CHARGING_ARRAY_KNOT = register("remove_charging_array_knot");
+    public static final SoundEvent PLACE_SCROLL = register("place_scroll");
+    public static final SoundEvent REMOVE_SCROLL = register("remove_scroll");
+    public static final SoundEvent DISPLACEMENT_TELEPORT = register("displacement_teleport");
+    public static final SoundEvent DISPLACEMENT_TRIGGER = register("displacement_trigger");
+    public static final SoundEvent USE_LUMINOUS_BOTTLE = register("use_luminous_bottle");
+    public static final SoundEvent KNOT_CRACK = register("knot_crack");
+    public static final SoundEvent TRIGGER_RESONATOR = register("trigger_resonator");
 
     private static SoundEvent register(String path) {
         var id = Trickster.id(path);

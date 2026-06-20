@@ -1,0 +1,41 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:prismatic_knot"
+    },
+    "title": {
+      "text": "Blue Hair and Prismatics"
+    },
+    "description": {
+      "text": "Acquire a Prismatic Knot"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "trickster:create_knot",
+  "criteria": {
+    "create_knot": {
+      "trigger": "trickster:create_knot",
+      "conditions": {
+        "item": "trickster:prismatic_knot"
+      }
+    },
+    "pickup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:prismatic_knot"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "create_knot",
+      "pickup"
+    ]
+  ]
+}

@@ -64,6 +64,8 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
     public static final Identifier SPELL_CIRCLE_ATTRIBUTE = id("spell_circle");
     public static final EntityAttributeModifier NEGATE_ATTRIBUTE = new EntityAttributeModifier(Trickster.SPELL_CIRCLE_ATTRIBUTE, -1d, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
+    public static final Identifier FRAGMENT_FONT = id("fragment");
+
     public static final TricksterConfig CONFIG = TricksterConfig.createAndLoad();
 
     public static TooltipAppender merlinTooltipAppender;

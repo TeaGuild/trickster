@@ -1,2 +1,4 @@
-// 1.21.1	2026-06-20T00:55:49.168906518	Trickster/Tags for minecraft:block
+// 1.21.1	2026-06-20T20:19:56.507635073	Trickster/Tags for minecraft:block
+5cfe4c7bc5f4d7f75d369d0901f1d17d59ad97dd data/minecraft/tags/block/wool.json
+3267ff6230f6e82cfb506faa69b223046a4993b0 data/minecraft/tags/block/wool_carpets.json
 376c1188c3fa012d31f39b638716a670a36a37ff data/trickster/tags/block/gilded_tuff.json

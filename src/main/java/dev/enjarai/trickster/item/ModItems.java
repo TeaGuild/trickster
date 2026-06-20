@@ -116,6 +116,9 @@ public class ModItems {
     public static final BlockItem SCROLL_SHELF_BLOCK_ITEM = register("scroll_shelf", new BlockItem(ModBlocks.SCROLL_SHELF, new Item.Settings()));
     public static final BlockItem CHARGING_ARRAY_ITEM = register("charging_array", new BlockItem(ModBlocks.CHARGING_ARRAY, new Item.Settings()));
     public static final BlockItem INERT_SPAWNER_ITEM = register("inert_spawner", new BlockItem(ModBlocks.INERT_SPAWNER, new Item.Settings()));
+    public static final BlockItem TATTERED_WOOL_ITEM = register("tattered_wool", new BlockItem(ModBlocks.TATTERED_WOOL, new Item.Settings()));
+    public static final BlockItem TATTERED_CARPET_ITEM = register("tattered_carpet", new BlockItem(ModBlocks.TATTERED_CARPET, new Item.Settings()));
+    public static final BlockItem WORN_CONCRETE_ITEM = register("worn_concrete", new BlockItem(ModBlocks.WORN_CONCRETE, new Item.Settings()));
     public static final BlockItem LIGHT_SCONCE = register("light_sconce", new BlockItem(ModBlocks.LIGHT_SCONCE, new Item.Settings()));
     public static final BlockItem COLOR_BLOCK = register("color_block", new BlockItem(ModBlocks.COLOR_BLOCK, new Item.Settings()));
 
@@ -146,6 +149,8 @@ public class ModItems {
     public static final KnotItem.CrackedEcho CRACKED_ECHO_KNOT = register("cracked_echo_knot", new KnotItem.CrackedEcho());
     public static final KnotItem.Astral ASTRAL_KNOT = register("astral_knot", new KnotItem.Astral());
     public static final KnotItem.CrackedAstral CRACKED_ASTRAL_KNOT = register("cracked_astral_knot", new KnotItem.CrackedAstral());
+    public static final KnotItem.Prismatic PRISMATIC_KNOT = register("prismatic_knot", new KnotItem.Prismatic());
+    public static final KnotItem.CrackedPrismatic CRACKED_PRISMATIC_KNOT = register("cracked_prismatic_knot", new KnotItem.CrackedPrismatic());
     public static final KnotItem.Command COMMAND_KNOT = register("command_knot", new KnotItem.Command());
 
     // Advancement icon
@@ -221,6 +226,9 @@ public class ModItems {
             entries.add(MODULAR_SPELL_CONSTRUCT_ITEM);
             entries.add(CHARGING_ARRAY_ITEM);
             entries.add(INERT_SPAWNER_ITEM);
+            entries.add(TATTERED_WOOL_ITEM);
+            entries.add(TATTERED_CARPET_ITEM);
+            entries.add(WORN_CONCRETE_ITEM);
             entries.add(LIGHT_SCONCE);
             entries.add(COLOR_BLOCK);
             entries.add(GILDED_TUFF);
@@ -248,6 +256,8 @@ public class ModItems {
             entries.add(CRACKED_QUARTZ_KNOT);
             entries.add(EMERALD_KNOT);
             entries.add(CRACKED_EMERALD_KNOT);
+            entries.add(PRISMATIC_KNOT);
+            entries.add(CRACKED_PRISMATIC_KNOT);
             entries.add(DIAMOND_KNOT);
             entries.add(CRACKED_DIAMOND_KNOT);
             entries.add(ECHO_KNOT);
