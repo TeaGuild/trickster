@@ -35,7 +35,7 @@ public class SuckColorTrick extends Trick<SuckColorTrick> {
             .convert(state.getBlock(), world, blockPos, ctx.source().getPlayer());
 
         if (conversion == null) {
-            throw new BlockInvalidBlunder(this);
+            throw new BlockInvalidBlunder(this, state.getBlock());
         }
 
         var particlePos = blockPos.toCenterPos();
