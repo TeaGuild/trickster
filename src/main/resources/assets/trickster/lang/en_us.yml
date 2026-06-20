@@ -412,8 +412,8 @@ trickster:
   mana.trickster:
     traditional: Traditional
     storm: Tempest
-    color: Hue
-    anti: Anti
+    color: Chromatic
+    anti: Impotent
 
   blunder:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s
