@@ -85,7 +85,7 @@ public class TricksterClient implements ClientModInitializer {
         UIParsing.registerFactory(Trickster.id("spell-preview"), SpellPreviewComponent::parse);
         UIParsing.registerFactory(Trickster.id("item-tag"), ItemTagComponent::parse);
 
-        LavenderBookScreen.registerFeatureFactory(Trickster.id("tome_of_tomfoolery"),
+        LavenderBookScreen.registerFeatureFactory(Trickster.id("guidebook"),
             componentSource -> List.of(new ObfuscatedFeature()));
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.HIGHLIGHT_BLOCK, ProtectedBlockParticle.Factory::new);
