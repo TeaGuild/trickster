@@ -35,6 +35,10 @@ public abstract class Mana {
         return defaultComponents;
     }
 
+    public abstract boolean permitsPositiveInterest();
+
+    public abstract boolean permitsNegativeInterest();
+
     public abstract int getColor(ManaVariant variant);
 
     public ParticleEffect getParticle(ManaVariant variant) {

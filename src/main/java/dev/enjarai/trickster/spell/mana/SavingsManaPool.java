@@ -46,7 +46,8 @@ public class SavingsManaPool extends SimpleManaPool {
 
     @Override
     public long get(World world) {
-        if (!variant.isOf(Manae.TRADITIONAL) && interest > 0) return super.get(world);
+        if (!variant.getMana().permitsPositiveInterest() && interest > 0) return super.get(world);
+        if (!variant.getMana().permitsNegativeInterest() && interest < 0) return super.get(world);
 
         var ticksPassed = world.getTime() - lastUpdateTime; // t
         var lastMana = super.get(world); // P

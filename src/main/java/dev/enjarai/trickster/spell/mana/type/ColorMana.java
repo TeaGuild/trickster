@@ -25,6 +25,16 @@ public class ColorMana extends Mana {
     }
 
     @Override
+    public boolean permitsPositiveInterest() {
+        return true;
+    }
+
+    @Override
+    public boolean permitsNegativeInterest() {
+        return true;
+    }
+
+    @Override
     public int getColor(ManaVariant variant) {
         var component = variant.getComponentMap().get(ManaComponents.COLOR);
         return component != null ? component.color() : 0xff0055;

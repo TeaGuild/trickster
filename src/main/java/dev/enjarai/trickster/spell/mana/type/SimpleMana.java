@@ -12,6 +12,16 @@ public class SimpleMana extends Mana {
     }
 
     @Override
+    public boolean permitsPositiveInterest() {
+        return false;
+    }
+
+    @Override
+    public boolean permitsNegativeInterest() {
+        return true;
+    }
+
+    @Override
     public int getColor(ManaVariant variant) {
         return color;
     }
