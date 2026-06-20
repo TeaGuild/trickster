@@ -7,6 +7,7 @@ import net.minecraft.util.math.random.LocalRandom;
 import net.minecraft.util.math.random.Random;
 
 public class ModSounds {
+    public static final SoundEvent THE_FUNNY = register("whats_this_doing_here");
     public static final SoundEvent DRAW = register("draw");
     public static final SoundEvent COMPLETE = register("complete");
     public static final SoundEvent CAST = register("cast");

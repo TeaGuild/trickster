@@ -407,7 +407,7 @@ trickster:
     reference: Displacement %s
 
 item.trickster:
-  tome_of_tomfoolery: Tome of Tomfoolery
+  guidebook: Tome of Tomfoolery
   mirror_of_evaluation: Mirror of Evaluation
 
   scroll_and_quill: Scroll and Quill

@@ -28,8 +28,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ModItems {
-    public static final LavenderBookItem TOME_OF_TOMFOOLERY = LavenderBookItem.registerForBook(
-        Trickster.id("tome_of_tomfoolery"), new Item.Settings().maxCount(1));
+    public static final TomeItem TOME_ITEM = register("tome_of_tomfoolery",
+        new TomeItem(new Item.Settings().maxCount(1)));
+    public static final LavenderBookItem GUIDEBOOK = LavenderBookItem.registerForBook(
+        Trickster.id("guidebook"), new Item.Settings().maxCount(1));
     public static final WrittenScrollItem WRITTEN_SCROLL = register("written_scroll",
         new WrittenScrollItem(new Item.Settings().maxCount(16)
             .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart(), true))
@@ -198,7 +200,7 @@ public class ModItems {
         .icon(WAND::getDefaultStack)
         .displayName(Text.translatable("trickster.item_group"))
         .entries((context, entries) -> {
-            entries.add(TOME_OF_TOMFOOLERY);
+            entries.add(GUIDEBOOK);
             entries.add(SCROLL_AND_QUILL);
             entries.addAll(Arrays.stream(COLORED_SCROLLS_AND_QUILLS).map(ItemStack::new).toList());
             entries.add(MIRROR_OF_EVALUATION);

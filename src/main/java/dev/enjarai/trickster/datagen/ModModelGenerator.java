@@ -174,7 +174,8 @@ public class ModModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(SCROLL_AND_QUILL, Models.GENERATED);
         itemModelGenerator.register(WRITTEN_SCROLL, Models.GENERATED);
 
-        itemModelGenerator.register(TOME_OF_TOMFOOLERY, Models.GENERATED);
+        itemModelGenerator.register(TOME_ITEM, Models.GENERATED);
+        itemModelGenerator.register(GUIDEBOOK, Models.GENERATED);
         itemModelGenerator.register(AMETHYST_WHORL, Models.GENERATED);
         itemModelGenerator.register(TORMENT_ON_A_CHAIN, Models.GENERATED);
         itemModelGenerator.register(COLLAR, Models.GENERATED);
