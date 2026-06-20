@@ -9,6 +9,16 @@ public class AntiMana extends Mana {
     }
 
     @Override
+    public boolean permitsPositiveInterest() {
+        return true;
+    }
+
+    @Override
+    public boolean permitsNegativeInterest() {
+        return false;
+    }
+
+    @Override
     public int getColor(ManaVariant variant) {
         return 0x330088;
     }

@@ -25,6 +25,16 @@ public class StormMana extends Mana {
     }
 
     @Override
+    public boolean permitsPositiveInterest() {
+        return true;
+    }
+
+    @Override
+    public boolean permitsNegativeInterest() {
+        return true;
+    }
+
+    @Override
     public int getColor(ManaVariant variant) {
         return 0x85c6f7;
     }
