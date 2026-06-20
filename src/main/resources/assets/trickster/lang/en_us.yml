@@ -407,7 +407,8 @@ trickster:
     reference: Displacement %s
 
 item.trickster:
-  guidebook: Tome of Tomfoolery
+  guidebook: The Teacher's Language
+  guidebook.author: by Areli Haron
   mirror_of_evaluation: Mirror of Evaluation
 
   scroll_and_quill: Scroll and Quill

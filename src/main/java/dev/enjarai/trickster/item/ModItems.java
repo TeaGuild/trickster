@@ -30,8 +30,8 @@ import java.util.List;
 public class ModItems {
     public static final TomeItem TOME_ITEM = register("tome_of_tomfoolery",
         new TomeItem(new Item.Settings().maxCount(1)));
-    public static final LavenderBookItem GUIDEBOOK = LavenderBookItem.registerForBook(
-        Trickster.id("guidebook"), new Item.Settings().maxCount(1));
+    public static final LavenderBookItem GUIDEBOOK = LavenderBookItem.registerForBook(register("guidebook",
+        new GuidebookItem(new Item.Settings().maxCount(1), Trickster.id("guidebook"))));
     public static final WrittenScrollItem WRITTEN_SCROLL = register("written_scroll",
         new WrittenScrollItem(new Item.Settings().maxCount(16)
             .component(ModComponents.FRAGMENT, new FragmentComponent(new SpellPart(), true))

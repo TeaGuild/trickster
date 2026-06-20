@@ -14,7 +14,7 @@ you must be familiar with the scribing patterns to create spells effectively.*
 
 ;;;;;
 
-*And so we begin, with the very basics of spell scribing."*
+*And so we begin, with the very basics of Composition."*
 
 
 — An excerpt from a lecture by Prof. Citrine
