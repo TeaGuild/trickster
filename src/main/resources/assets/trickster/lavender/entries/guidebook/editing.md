@@ -175,6 +175,14 @@ Creates a pattern literal of the pattern contained within the circle it is drawn
 
 ;;;;;
 
+A pattern literal returns its pattern when evaluated, 
+this allows for the manipulation of patterns in the same way you could with any fragment. 
+
+
+Patterns can be turned back into a pattern literals using [Interpretation Distortion](^trickster:distortions/misc#4).
+
+;;;;;
+
 <|revision@trickster:templates|revision-id=trickster:write_path|>
 
 When this scribing pattern is drawn, the [address](^trickster:distortions/tree#2) of the circle this pattern was drawn in is written to the item in your other hand.

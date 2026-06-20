@@ -6,7 +6,7 @@
 }
 ```
 
-Macros allow a caster to create their own revisions to aid with spell scribing. 
+Macros allow a caster to create their own additional revisions to aid with spell scribing. 
 
 
 A [map](^trickster:distortions/map) that links a set of patterns to a set of spells is used to define macros.
@@ -22,4 +22,4 @@ A copy of the circle it is drawn in.
 The spell is then expected to return a new spell fragment to replace the fragment given.
 
 
-This effectively lets anyone create their own set of revisions.
+When making the map a [pattern literal](^trickster:editing#25) can be used to provide a pattern.
