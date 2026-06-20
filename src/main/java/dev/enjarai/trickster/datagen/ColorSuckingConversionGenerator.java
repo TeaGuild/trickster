@@ -265,21 +265,21 @@ public class ColorSuckingConversionGenerator extends BlockConversionProvider<Col
         });
         registerSuckingConversion(128, Blocks.POTTED_DEAD_BUSH, Map.of(Blocks.POTTED_BLUE_ORCHID, DyeColor.LIGHT_BLUE));
 
-        registerSuckingConversion(512, Blocks.DEAD_TUBE_CORAL_BLOCK, Map.of(Blocks.TUBE_CORAL_BLOCK, DyeColor.PINK));
+        registerSuckingConversion(512, Blocks.DEAD_TUBE_CORAL_BLOCK, Map.of(Blocks.TUBE_CORAL_BLOCK, DyeColor.BLUE));
         registerSuckingConversion(512, Blocks.DEAD_BRAIN_CORAL_BLOCK, Map.of(Blocks.BRAIN_CORAL_BLOCK, DyeColor.PINK));
-        registerSuckingConversion(512, Blocks.DEAD_BUBBLE_CORAL_BLOCK, Map.of(Blocks.BUBBLE_CORAL_BLOCK, DyeColor.PINK));
-        registerSuckingConversion(512, Blocks.DEAD_FIRE_CORAL_BLOCK, Map.of(Blocks.FIRE_CORAL_BLOCK, DyeColor.PINK));
-        registerSuckingConversion(512, Blocks.DEAD_HORN_CORAL_BLOCK, Map.of(Blocks.HORN_CORAL_BLOCK, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_TUBE_CORAL, Map.of(Blocks.TUBE_CORAL, DyeColor.PINK));
+        registerSuckingConversion(512, Blocks.DEAD_BUBBLE_CORAL_BLOCK, Map.of(Blocks.BUBBLE_CORAL_BLOCK, DyeColor.PURPLE));
+        registerSuckingConversion(512, Blocks.DEAD_FIRE_CORAL_BLOCK, Map.of(Blocks.FIRE_CORAL_BLOCK, DyeColor.RED));
+        registerSuckingConversion(512, Blocks.DEAD_HORN_CORAL_BLOCK, Map.of(Blocks.HORN_CORAL_BLOCK, DyeColor.YELLOW));
+        registerSuckingConversion(128, Blocks.DEAD_TUBE_CORAL, Map.of(Blocks.TUBE_CORAL, DyeColor.BLUE));
         registerSuckingConversion(128, Blocks.DEAD_BRAIN_CORAL, Map.of(Blocks.BRAIN_CORAL, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_BUBBLE_CORAL, Map.of(Blocks.BUBBLE_CORAL, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_FIRE_CORAL, Map.of(Blocks.FIRE_CORAL, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_HORN_CORAL, Map.of(Blocks.HORN_CORAL, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_TUBE_CORAL_FAN, Map.of(Blocks.TUBE_CORAL_FAN, DyeColor.PINK));
+        registerSuckingConversion(128, Blocks.DEAD_BUBBLE_CORAL, Map.of(Blocks.BUBBLE_CORAL, DyeColor.PURPLE));
+        registerSuckingConversion(128, Blocks.DEAD_FIRE_CORAL, Map.of(Blocks.FIRE_CORAL, DyeColor.RED));
+        registerSuckingConversion(128, Blocks.DEAD_HORN_CORAL, Map.of(Blocks.HORN_CORAL, DyeColor.YELLOW));
+        registerSuckingConversion(128, Blocks.DEAD_TUBE_CORAL_FAN, Map.of(Blocks.TUBE_CORAL_FAN, DyeColor.BLUE));
         registerSuckingConversion(128, Blocks.DEAD_BRAIN_CORAL_FAN, Map.of(Blocks.BRAIN_CORAL_FAN, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_BUBBLE_CORAL_FAN, Map.of(Blocks.BUBBLE_CORAL_FAN, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_FIRE_CORAL_FAN, Map.of(Blocks.FIRE_CORAL_FAN, DyeColor.PINK));
-        registerSuckingConversion(128, Blocks.DEAD_HORN_CORAL_FAN, Map.of(Blocks.HORN_CORAL_FAN, DyeColor.PINK));
+        registerSuckingConversion(128, Blocks.DEAD_BUBBLE_CORAL_FAN, Map.of(Blocks.BUBBLE_CORAL_FAN, DyeColor.PURPLE));
+        registerSuckingConversion(128, Blocks.DEAD_FIRE_CORAL_FAN, Map.of(Blocks.FIRE_CORAL_FAN, DyeColor.RED));
+        registerSuckingConversion(128, Blocks.DEAD_HORN_CORAL_FAN, Map.of(Blocks.HORN_CORAL_FAN, DyeColor.YELLOW));
 
         registerSuckingConversion(512, Blocks.PACKED_ICE, Map.of(Blocks.BLUE_ICE, DyeColor.BLUE));
         registerSuckingConversion(512, Blocks.STONE, Map.of(Blocks.REDSTONE_BLOCK, DyeColor.RED));
