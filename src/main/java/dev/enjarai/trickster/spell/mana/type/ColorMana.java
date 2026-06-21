@@ -25,12 +25,17 @@ public class ColorMana extends Mana {
     }
 
     @Override
-    public boolean permitsPositiveInterest() {
+    public boolean permitsTransfer(ManaVariant variant) {
         return true;
     }
 
     @Override
-    public boolean permitsNegativeInterest() {
+    public boolean permitsPositiveInterest(ManaVariant variant) {
+        return true;
+    }
+
+    @Override
+    public boolean permitsNegativeInterest(ManaVariant variant) {
         return true;
     }
 
