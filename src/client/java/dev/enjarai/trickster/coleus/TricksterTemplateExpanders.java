@@ -2,6 +2,7 @@ package dev.enjarai.trickster.coleus;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.screen.owo.ManaCostComponent;
+import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.revision.Revisions;
@@ -148,8 +149,11 @@ public class TricksterTemplateExpanders {
     public static DomContent spellPreviewTemplate(Map<String, String> properties, PageContext context) {
         if (!properties.containsKey("spell")) return text("");
 
-        var spellString = properties.get("spell");
-        var urlEncodedSpellString = URLEncoder.encode(spellString, StandardCharsets.UTF_8);
+        var originalSpellString = properties.get("spell");
+        var spell = Fragment.fromBase64(originalSpellString);
+        var newSpellString = spell.toBase64();
+
+        var urlEncodedSpellString = URLEncoder.encode(newSpellString, StandardCharsets.UTF_8);
 
         return div().withClass("spell-preview").with(
             iframe().withSrc("https://trickster-studio.maplesyrum.me/viewer/?transparent=true&fixed=false&spell=" + urlEncodedSpellString)
