@@ -12,7 +12,7 @@
 ```
 
 Somehow, cracking an Astral Knot has increased its capacity by a truly staggering amount.
-Its original capacity of 1048 kiloGandalfs has been multiplied by a factor of sixteen, to roughly 16.8 MegaGandalfs!
+Its original capacity of 1048 kilogandalfs has been multiplied by a factor of sixteen, to roughly 16.8 megagandalfs!
 
 ;;;;;
 

@@ -23,7 +23,7 @@ Chromatic Mana, as I've taken to calling it, has the rather unique property of *
 Unlike other Mana, which seems to have a consistent color no matter what, Chromatic Mana's color can be anything!
 
 
-When I use Ploy of the Hopeless to drain a blue block of its color, the resultant Mana is blue. 
+When I use Ploy of the Hopeless to drain a blue block of its color, the resulting Mana is blue. 
 A red block on the other hand creates red Mana, yellow creates yellow, et cetera.
 
 ;;;;;
@@ -38,7 +38,7 @@ the two will combine, and mix their colors in the process.
 ;;;;;
 
 This mixing seems to be proportional to the amount of Mana of each color involved.
-A lot of red Mana for example, will almost completely overwhelm a small drop of blue.
+A lot of red Mana, for example, will almost completely overwhelm a small drop of blue.
 It feels very similar to mixing paints, except less... tangible.
 
 
@@ -46,8 +46,8 @@ So far as I can tell, almost any arbitrary color can be created by mixing Chroma
 
 ;;;;;
 
-Unlike usual, [Hew's Ingress](^trickster:delusions_ingresses/mana#5) is actually useful here,
-since it lets spells see the Mana's color and potentially predict mixing results.
+Unlike with other types of Mana, [Hew's Ingress](^trickster:delusions_ingresses/mana#5) may be useful here, 
+as it lets spells see the Mana's color and potentially predict mixing results.
 
 
 Still, as yet, this feels like an academic exercise at best, 

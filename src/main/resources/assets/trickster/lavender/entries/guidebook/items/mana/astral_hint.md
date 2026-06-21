@@ -18,7 +18,7 @@ Now freed of its host, it is the light of the abyss. It is unyielding in its mig
 
 ;;;;;
 
-One would require quettaGandalfs to construct such a potent font of power. 
+One would require quettagandalfs to construct such a potent font of power. 
 I cannot imagine that a Wither could ever be vanquished, with such strength at its disposal.
 
 

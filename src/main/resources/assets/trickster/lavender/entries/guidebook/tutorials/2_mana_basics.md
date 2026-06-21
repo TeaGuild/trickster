@@ -11,11 +11,11 @@ To be able to do any proper spellcasting, you'll need access to **Mana**.
 Any spell that affects the world will consume a certain amount of Mana, scaling significantly for larger effects.
 
 
-Amounts of Mana can be measured in Gandalfs, or G, named after a certain famous wizard. 
+Amounts of Mana can be measured in gandalfs, or G, named after a certain famous wizard. 
 
 ;;;;;
 
-One Gandalf is defined as the amount of magical energy required to light a candle.
+One gandalf is defined as the amount of magical energy required to light a candle.
 
 
 Mana can be persistently stored in Knots, like the one below:
@@ -42,12 +42,12 @@ They will charge most quickly at or near full or new moons, but not at all on so
 
 ;;;;;
 
-Knots also keep track of their current draw rate in their tooltip, measured in Merlins, or M.
-Merlins are defined as Gandalfs per Tick, 
+Knots also keep track of their current draw rate in their tooltip, measured in merlins, or M.
+merlins are defined as gandalfs per Tick, 
 Ticks being the smallest unit of meaningful time, at 1/20th of a second.
 
 
-For example, a spell drawing 50 M would consume 1 kiloGandalf per second.
+For example, a spell drawing 50 M would consume 1 kilogandalf per second.
 <|item-spotlight@lavender:book_components|item=trickster:diamond_knot|>
 
 ;;;;;

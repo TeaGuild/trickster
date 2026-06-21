@@ -36,7 +36,3 @@ This is still the only type I can use for the vast majority of tricks.
 
 
 I'm not sure how many types of Mana are out there, and I don't think there's any easy way to find out.
-It seems likely however that most non-Traditional mana will only have rather niche use cases.
-
-
-Time will tell...
