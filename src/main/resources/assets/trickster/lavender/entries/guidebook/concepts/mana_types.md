@@ -15,7 +15,7 @@ completely fails to document the existence of discrete *types* of Mana.
 
 
 Now that I'm looking for it though, it is clearly implicitly mentioned in a few places.
-For example with [Astrafel's](^trickster:ploys/mana#8) and [Terrafel's](^trickster:ploys/mana#9) ploys.
+For example, with [Astrafel's](^trickster:ploys/mana#8) and [Terrafel's](^trickster:ploys/mana#9) ploys.
 
 ;;;;;
 
