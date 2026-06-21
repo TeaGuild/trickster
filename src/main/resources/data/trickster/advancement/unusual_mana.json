@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:dragon_breath"
+    },
+    "title": {
+      "text": "Internal Inconsistency"
+    },
+    "description": {
+      "text": "Discover a non-traditional Mana type"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "trickster:create_knot",
+  "criteria": {
+    "unusual_mana": {
+      "trigger": "trickster:unusual_mana"
+    }
+  }
+}

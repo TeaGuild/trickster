@@ -741,8 +741,14 @@ public abstract class KnotItem extends Item {
             }
 
             var variant = comp.pool().getVariant(world);
+            ModCriteria.MANA_TYPE.trigger(player, variant.getMana());
+
             if (variant.isOf(Manae.STORM)) {
                 ModCriteria.STORM_MANA.trigger(player, variant.getComponentMap().get(ManaComponents.STABILITY).getStability(world));
+            }
+
+            if (!variant.isBlank() && !variant.isOf(Manae.TRADITIONAL)) {
+                ModCriteria.UNUSUAL_MANA.trigger(player);
             }
         }
     }

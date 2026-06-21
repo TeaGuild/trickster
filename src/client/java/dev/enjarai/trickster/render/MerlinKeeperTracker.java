@@ -59,6 +59,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
 
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         var world = MinecraftClient.getInstance().world;
+        var player = MinecraftClient.getInstance().player;
         var usage = getUsage(stack);
 
         if (usage == 0) {
@@ -74,7 +75,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
             );
         }
 
-        if (stack.get(ModComponents.MANA) instanceof ManaComponent component && world != null) {
+        if (stack.get(ModComponents.MANA) instanceof ManaComponent component && world != null && player != null) {
             var pool = component.pool();
 
             ClientUtils.trySubscribe(component);
@@ -113,7 +114,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
 
             var variant = pool.getVariant(world);
             var mana = variant.getMana();
-            if (!pool.isEmpty(world)) {
+            if (!pool.isEmpty(world) && ClientUtils.hasAdvancement(Trickster.id("unusual_mana"))) {
                 tooltip.add(Text.translatable(
                     Trickster.MOD_ID + ".mana.type",
                     variant.getName()

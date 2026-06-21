@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:red_glazed_terracotta"
+    },
+    "title": {
+      "text": "Pocket Rainbow"
+    },
+    "description": {
+      "text": "Create Chromatic Mana"
+    },
+    "frame": "goal",
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "trickster:unusual_mana",
+  "criteria": {
+    "color_mana": {
+      "trigger": "trickster:mana_type",
+      "conditions": {
+          "mana_type": "trickster:color"
+      }
+    }
+  }
+}
