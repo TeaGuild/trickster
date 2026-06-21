@@ -140,7 +140,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
             if (taken < limit) {
                 var left = view.getResource();
 
-                if (!left.isBlank() && filter.test(left.getMana())) {
+                if (!left.isBlank() && left.permitsTransfer() && filter.test(left.getMana())) {
                     long extracted = source.extract(left, limit - taken, trans);
                     long inserted = insertMixing(ctx, target, left, (long) (extracted * taxedMult), trans);
                     long given = (long) (inserted / taxedMult);

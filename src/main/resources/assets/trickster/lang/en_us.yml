@@ -414,6 +414,9 @@ trickster:
     storm: Tempest
     color: Chromatic
     anti: Impotent
+    astral:
+      default: Star-Bound
+      named: Star-Bound (%s)
 
   blunder:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s

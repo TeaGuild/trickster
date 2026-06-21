@@ -17,6 +17,7 @@ public class Manae {
     public static final StormMana STORM = register("storm", new StormMana());
     public static final ColorMana COLOR = register("color", new ColorMana());
     public static final AntiMana ANTI = register("anti", new AntiMana());
+    public static final AstralMana ASTRAL = register("astral", new AstralMana());
 
     @ApiStatus.Internal
     public static <T extends Mana> T register(String path, T mana) {

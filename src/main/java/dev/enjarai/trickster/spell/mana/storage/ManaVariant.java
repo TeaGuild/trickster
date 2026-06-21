@@ -35,12 +35,24 @@ public class ManaVariant implements TransferVariant<Mana> {
         this.hashCode = Objects.hash(mana, components);
     }
 
-    public ParticleEffect getParticle() {
-        return mana.getParticle(this);
+    public boolean permitsTransfer() {
+        return mana.permitsTransfer(this);
+    }
+
+    public boolean permitsPositiveInterest() {
+        return mana.permitsPositiveInterest(this);
+    }
+
+    public boolean permitsNegativeInterest() {
+        return mana.permitsNegativeInterest(this);
     }
 
     public int getColor() {
         return mana.getColor(this);
+    }
+
+    public ParticleEffect getParticle() {
+        return mana.getParticle(this);
     }
 
     public MutableText getName() {

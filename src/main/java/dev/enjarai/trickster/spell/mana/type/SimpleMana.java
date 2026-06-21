@@ -12,12 +12,17 @@ public class SimpleMana extends Mana {
     }
 
     @Override
-    public boolean permitsPositiveInterest() {
+    public boolean permitsTransfer(ManaVariant variant) {
+        return true;
+    }
+
+    @Override
+    public boolean permitsPositiveInterest(ManaVariant variant) {
         return false;
     }
 
     @Override
-    public boolean permitsNegativeInterest() {
+    public boolean permitsNegativeInterest(ManaVariant variant) {
         return true;
     }
 

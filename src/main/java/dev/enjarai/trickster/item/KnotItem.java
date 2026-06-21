@@ -27,6 +27,7 @@ import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
 import dev.enjarai.trickster.spell.mana.type.component.StabilityComponent;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.util.ColorUtil;
+import dev.enjarai.trickster.util.StarUtil;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.entity.Entity;
@@ -246,11 +247,38 @@ public abstract class KnotItem extends Item {
         }
     }
 
-    public static class Astral extends KnotItem {
+    public static class Astral extends KnotItem implements ConverterItem {
         public Astral() {
             super(new Settings()
                 .component(ModComponents.MANA, new ManaComponent(new SavingsManaPool(1048576 * ManaPool.MANA_SCALE, (float) Math.pow(2, -20)))),
                 524288);
+        }
+
+        @Override
+        public @Nullable Mana convert(SpellContext ctx, ItemStack stack) {
+            var world = ctx.source().getWorld();
+
+            var comp = stack.get(ModComponents.MANA);
+            if (comp == null) {
+                return null;
+            }
+
+            var variant = comp.pool().getVariant(world);
+            if (variant.isOf(Manae.ASTRAL)) {
+                var pool = comp.pool().makeClone(world);
+                pool.setVariant(ManaVariant.of(Manae.TRADITIONAL), world);
+                pool.set((long) (0.8 * pool.get(world)), world);
+                stack.set(ModComponents.MANA, comp.with(pool));
+                return Manae.TRADITIONAL;
+            } else if (variant.isOf(Manae.TRADITIONAL)) {
+                var pool = comp.pool().makeClone(world);
+                pool.setVariant(ManaVariant.of(Manae.ASTRAL, ComponentChanges.builder().add(ManaComponents.NAME, StarUtil.getNext()).build()), world);
+                pool.set((long) (0.8 * pool.get(world)), world);
+                stack.set(ModComponents.MANA, comp.with(pool));
+                return Manae.ASTRAL;
+            }
+
+            return null;
         }
 
         @Override
