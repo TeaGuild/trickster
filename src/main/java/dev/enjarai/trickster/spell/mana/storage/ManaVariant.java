@@ -42,12 +42,8 @@ public class ManaVariant implements TransferVariant<Mana> {
         return mana.permitsTransfer(this);
     }
 
-    public boolean permitsPositiveInterest() {
-        return mana.permitsPositiveInterest(this);
-    }
-
-    public boolean permitsNegativeInterest() {
-        return mana.permitsNegativeInterest(this);
+    public float modifyInterest(float interest) {
+        return mana.modifyInterest(this, interest);
     }
 
     public int getColor() {

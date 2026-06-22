@@ -17,13 +17,12 @@ public class ImpotentMana extends Mana {
     }
 
     @Override
-    public boolean permitsPositiveInterest(ManaVariant variant) {
-        return true;
-    }
-
-    @Override
-    public boolean permitsNegativeInterest(ManaVariant variant) {
-        return false;
+    public float modifyInterest(ManaVariant variant, float interest) {
+        if (interest >= 0) {
+            return 0;
+        } else {
+            return -interest;
+        }
     }
 
     @Override

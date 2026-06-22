@@ -39,9 +39,15 @@ public abstract class Mana {
 
     public abstract boolean permitsTransfer(ManaVariant variant);
 
-    public abstract boolean permitsPositiveInterest(ManaVariant variant);
+    public abstract float modifyInterest(ManaVariant variant, float interest);
 
-    public abstract boolean permitsNegativeInterest(ManaVariant variant);
+    protected float permitsPositiveInterest(float interest) {
+        return interest > 0 ? interest : 0;
+    }
+
+    protected float permitsNegativeInterest(float interest) {
+        return interest < 0 ? interest : 0;
+    };
 
     public abstract int getColor(ManaVariant variant);
 
