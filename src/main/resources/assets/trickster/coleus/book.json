@@ -1,4 +1,34 @@
 {
   "css": ["trickster:coleus/trickster.css"],
-  "default_theme": "coleus:atelierforest"
+  "default_theme": "coleus:atelierforest",
+  "spoiler_advancements": [
+    "trickster:trigger/mana_types",
+    "trickster:trigger/nether_star",
+    "trickster:trigger/nether_wart",
+    "trickster:trigger/prismarine_crystals",
+    "trickster:trigger/prismatic_knot_or_color_mana",
+    "trickster:trigger/prismatic_knot_or_impotent_mana",
+    "trickster:trigger/spawner",
+    "trickster:astral_knot",
+    "trickster:color_mana",
+    "trickster:crack_knot",
+    "trickster:cracked_amethyst_knot",
+    "trickster:cracked_astral_knot",
+    "trickster:cracked_echo_knot",
+    "trickster:cracked_prismatic_knot",
+    "trickster:cracked_quartz_knot",
+    "trickster:destroy_knot",
+    "trickster:echo_knot",
+    "trickster:find_cracked_knot",
+    "trickster:impotent_mana",
+    "trickster:inactive_spawner_spell_core",
+    "trickster:ominous_spell_core",
+    "trickster:prismatic_knot",
+    "trickster:quartz_knot",
+    "trickster:rusted_spell_core",
+    "trickster:spawner_spell_core",
+    "trickster:stable_storm_mana",
+    "trickster:unusual_mana",
+    "trickster:use_torment_necklace"
+  ]
 }

@@ -2,6 +2,9 @@
 {
   "title": "Mana",
   "icon": "trickster:esoteric_mana",
+  "required_advancements": [
+    "trickster:trigger/mana_types"
+  ],
   "ordinal": 30,
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
