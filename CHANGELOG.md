@@ -28,3 +28,5 @@
 - Halved the recharge rate of the Whorl. (@aurakle)
 - Astrals no longer generate "Traditional" mana. (@aurakle)
 - Unbreakable block and extended piston config settings now apply to Featherweight. (@AshAxolotl)
+- Various book improvements. (@AshAxolotl)
+- Re-written all the locked entries to be from the perspective of the player. (@enjarai and @aurakle)
