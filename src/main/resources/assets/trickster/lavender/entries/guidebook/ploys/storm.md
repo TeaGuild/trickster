@@ -8,7 +8,8 @@
   ],
   "additional_search_terms": [
     "Ploy of the Wrathful",
-    "Kinetic Ploy"
+    "Kinetic Ploy",
+    "Mariner's Ploy"
   ],
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
@@ -34,7 +35,7 @@ Attempts to strike the given position with a bolt of lightning. Requires <50% st
 
 [Kinetic Ploy](^trickster:ploys/entity#3) will consume Tempest mana in place of Traditional if there is enough available. Requires >50% stability.
 
-;;;;:
+;;;;;
 
 <|ploy@trickster:templates|trick-id=trickster:summon_wind_charge,cost=20G + 1G * distance ^ (distance / 3)|>
 
