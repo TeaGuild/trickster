@@ -32,4 +32,10 @@ Attempts to strike the given position with a bolt of lightning. Requires <50% st
 
 <|ploy2@trickster:templates|trick-id=trickster:add_velocity,cost=3G + length^3 * 16G,mana-type=trickster:storm|>
 
-[Kinetic Ploy](^trickster:ploys/entity#3) can consume Tempest mana in place of Traditional if there is enough available. Requires >50% stability.
+[Kinetic Ploy](^trickster:ploys/entity#3) will consume Tempest mana in place of Traditional if there is enough available. Requires >50% stability.
+
+;;;;:
+
+<|ploy@trickster:templates|trick-id=trickster:summon_wind_charge,cost=20G + 1G * distance ^ (distance / 3)|>
+
+[Mariner's Ploy](^trickster:ploys/projectile#5) will consume 500G of Tempest mana in place of a wind charge if possible.

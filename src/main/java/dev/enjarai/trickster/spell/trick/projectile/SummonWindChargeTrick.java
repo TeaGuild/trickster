@@ -25,8 +25,8 @@ public class SummonWindChargeTrick extends Trick<SummonWindChargeTrick> {
     public EntityFragment run(SpellContext ctx, VectorFragment pos, Optional<SlotFragment> optionalSlot) {
         ItemStack stack = null;
         try {
-            ctx.checkScaledMana(this, variant -> variant.isOf(Manae.STORM), 128);
-            ctx.useScaledMana(this, variant -> variant.isOf(Manae.STORM), 128);
+            ctx.checkScaledMana(this, variant -> variant.isOf(Manae.STORM), 500);
+            ctx.useScaledMana(this, variant -> variant.isOf(Manae.STORM), 500);
         } catch (NotEnoughManaBlunder e) {
             stack = ctx.getStack(this, optionalSlot, s -> s.isOf(Items.WIND_CHARGE)).orElseThrow(() -> new MissingItemBlunder(this));
         }
