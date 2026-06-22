@@ -23,4 +23,4 @@ Did a society exist here before my time? Or at least other people?
 ;;;;;
 
 I think I'll hang on to this work, and should perhaps consider pursuing the "Great Language" that it describes. 
-I would do well to store any notes of my own between the books pages, as to avoid losing them.
+I would do well to store any notes of my own between the book's pages, so as to avoid losing them.

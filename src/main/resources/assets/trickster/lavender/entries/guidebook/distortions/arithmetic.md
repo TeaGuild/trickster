@@ -66,6 +66,12 @@ or
 
 ;;;;;
 
+<|revision@trickster:templates|revision-id=trickster:two|>
+
+Replaces the glyph with the number two.
+
+;;;;;
+
 <|trick@trickster:templates|trick-id=trickster:add|>
 
 Adds fragments together.

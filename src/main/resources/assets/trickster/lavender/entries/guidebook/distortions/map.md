@@ -4,7 +4,6 @@
   "icon": "minecraft:filled_map",
   "category": "trickster:distortions",
   "additional_search_terms": [
-    "Cartographer's Delusion",
     "Tally Distortion",
     "Charting Stratagem",
     "Navigator's Distortion",
@@ -20,9 +19,9 @@ similarly to how a dictionary associates a word with a definition.
 
 ;;;;;
 
-<|trick@trickster:templates|trick-id=trickster:map_create|>
+<|revision@trickster:templates|revision-id=trickster:empty_map|>
 
-Creates a new empty map.
+Replaces the glyph with an empty map.
 
 ;;;;;
 

@@ -5,7 +5,6 @@ import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.fragment.ListFragment;
 import dev.enjarai.trickster.spell.fragment.NumberFragment;
 import dev.enjarai.trickster.spell.fragment.MapFragment;
-import dev.enjarai.trickster.spell.trick.Tricks;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -23,7 +22,6 @@ public class Revisions {
     public static final Revision INSERT_PARENT_CIRCLE = register(Trickster.id("to_subcircle"), new InsertParentCircleRevision());
     public static final Revision INTO_INNER_CIRCLE = register(Trickster.id("to_inner_circle"), new IntoInnerCircleRevision());
     public static final Revision REPLACE_OUTER_CIRCLE = register(Trickster.id("remove_outer"), new ReplaceOuterCircleRevision());
-//    public static final Revision CREATE_OUTER_SUBCIRCLE = register(Trickster.id("add_outer_subcircle"), new CreateOuterSubcircleRevision());
     public static final Revision DELETE_CIRCLE = register(Trickster.id("remove_self"), new DeleteCircleRevision());
     public static final Revision DELETE_BRANCH = register(Trickster.id("remove_self_recursive"), new DeleteBranchRevision());
     public static final Revision SWAP_SUBCIRCLE = register(Trickster.id("swap"), new SwapSubcircleRevision());
@@ -31,15 +29,13 @@ public class Revisions {
     public static final Revision SHIFT_SUBCIRCLE_FORWARDS = register(Trickster.id("rotate_cw"), new ShiftSubcircleForwardsRevision());
     public static final Revision REPLACE_CIRCLE_WITH_OFF_HAND = register(Trickster.id("splice"), new ReplaceCircleWithOffHandRevision());
     public static final Revision REPLACE_GLYPH_WITH_OFF_HAND = register(Trickster.id("splice_inner"), new ReplaceGlyphWithOffHandRevision());
-    //    public static final Revision REPLACE_CIRCLE_WITH_CROW_MIND = register(new ReplaceCircleWithCrowMindRevision());
-    //    public static final Revision EXECUTE_OFF_HAND = register(new ExecuteOffHandRevision());
     public static final Revision WRITE_ADDRESS_TO_OFF_HAND = register(Trickster.id("write_path"), new WriteAddressToOffHandRevision());
     public static final Revision WRITE_BRANCH_TO_OFF_HAND = register(Trickster.id("write"), new WriteBranchToOffHandRevision());
     public static final Revision PATTERN_LITERAL = register(Trickster.id("quote_pattern"), new PatternLiteralRevision());
 
-    public static final Revision ONE_PONY_TRICK = register(Trickster.id("two"), new ConstantRevision(Tricks.TWO.getPattern(), new NumberFragment(2)));
-    public static final Revision EMPTY_LIST = register(Trickster.id("list_create"), new ConstantRevision(Tricks.LIST_CREATE.getPattern(), ListFragment.EMPTY));
-    public static final Revision EMPTY_MAP = register(Trickster.id("map_create"), new ConstantRevision(Pattern.of(2, 5, 8, 6, 3, 0), MapFragment.EMPTY));
+    public static final Revision ONE_PONY_TRICK = register(Trickster.id("two"), new ConstantRevision(Pattern.of(1, 4, 7), new NumberFragment(2)));
+    public static final Revision EMPTY_LIST = register(Trickster.id("empty_list"), new ConstantRevision(Pattern.of(6, 3, 0, 2, 5, 8), ListFragment.EMPTY));
+    public static final Revision EMPTY_MAP = register(Trickster.id("empty_map"), new ConstantRevision(Pattern.of(2, 5, 8, 6, 3, 0), MapFragment.EMPTY));
 
     public static Optional<Revision> lookup(Pattern pattern) {
         return Optional.ofNullable(LOOKUP.get(pattern));
