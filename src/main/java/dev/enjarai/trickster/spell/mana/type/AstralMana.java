@@ -17,13 +17,8 @@ public class AstralMana extends Mana {
     }
 
     @Override
-    public boolean permitsPositiveInterest(ManaVariant variant) {
-        return true;
-    }
-
-    @Override
-    public boolean permitsNegativeInterest(ManaVariant variant) {
-        return true;
+    public float modifyInterest(ManaVariant variant, float interest) {
+        return interest;
     }
 
     @Override

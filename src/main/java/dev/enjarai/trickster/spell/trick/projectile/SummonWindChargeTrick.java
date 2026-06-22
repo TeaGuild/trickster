@@ -3,13 +3,16 @@ package dev.enjarai.trickster.spell.trick.projectile;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.MissingItemBlunder;
+import dev.enjarai.trickster.spell.blunder.NotEnoughManaBlunder;
 import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 import java.util.Optional;
@@ -20,7 +23,14 @@ public class SummonWindChargeTrick extends Trick<SummonWindChargeTrick> {
     }
 
     public EntityFragment run(SpellContext ctx, VectorFragment pos, Optional<SlotFragment> optionalSlot) {
-        var stack = ctx.getStack(this, optionalSlot, s -> s.isOf(Items.WIND_CHARGE)).orElseThrow(() -> new MissingItemBlunder(this));
+        ItemStack stack = null;
+        try {
+            ctx.checkScaledMana(this, variant -> variant.isOf(Manae.STORM), 500);
+            ctx.useScaledMana(this, variant -> variant.isOf(Manae.STORM), 500);
+        } catch (NotEnoughManaBlunder e) {
+            stack = ctx.getStack(this, optionalSlot, s -> s.isOf(Items.WIND_CHARGE)).orElseThrow(() -> new MissingItemBlunder(this));
+        }
+
         var world = ctx.source().getWorld();
 
         try {
@@ -33,7 +43,9 @@ public class SummonWindChargeTrick extends Trick<SummonWindChargeTrick> {
             world.spawnEntity(projectile);
             return EntityFragment.from(projectile);
         } catch (Throwable err) {
-            ctx.source().offerOrDropItem(stack);
+            if (stack != null) {
+                ctx.source().offerOrDropItem(stack);
+            }
             throw err;
         }
     }

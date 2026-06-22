@@ -46,14 +46,11 @@ public class SavingsManaPool extends SimpleManaPool {
 
     @Override
     public long get(World world) {
-        if (!variant.permitsPositiveInterest() && interest > 0) return super.get(world);
-        if (!variant.permitsNegativeInterest() && interest < 0) return super.get(world);
-
         var ticksPassed = world.getTime() - lastUpdateTime; // t
         var lastMana = super.get(world); // P
 
         // P(1 + i)^t
-        return (long) Math.clamp(lastMana * Math.pow(1 + interest, ticksPassed), 0, getMax(world));
+        return (long) Math.clamp(lastMana * Math.pow(1 + variant.modifyInterest(interest), ticksPassed), 0, getMax(world));
     }
 
     @Override

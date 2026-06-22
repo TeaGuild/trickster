@@ -355,14 +355,14 @@ public abstract class KnotItem extends Item {
 
                     return Manae.TRADITIONAL;
                 } else {
-                    pool.setVariant(ManaVariant.of(Manae.ANTI), world);
+                    pool.setVariant(ManaVariant.of(Manae.IMPOTENT), world);
                     pool.set(pool.getMax(world), world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
                     var chosenColor = computeDesired(ctx.source().getWorld());
                     stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
-                    return Manae.ANTI;
+                    return Manae.IMPOTENT;
                 }
             }
 
@@ -546,14 +546,14 @@ public abstract class KnotItem extends Item {
 
                     return Manae.TRADITIONAL;
                 } else {
-                    pool.setVariant(ManaVariant.of(Manae.ANTI), world);
+                    pool.setVariant(ManaVariant.of(Manae.IMPOTENT), world);
                     pool.set(pool.getMax(world), world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
                     var chosenColor = computeDesired(ctx.source().getWorld());
                     stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
-                    return Manae.ANTI;
+                    return Manae.IMPOTENT;
                 }
             }
 
@@ -741,8 +741,16 @@ public abstract class KnotItem extends Item {
             }
 
             var variant = comp.pool().getVariant(world);
-            if (variant.isOf(Manae.STORM)) {
-                ModCriteria.STORM_MANA.trigger(player, variant.getComponentMap().get(ManaComponents.STABILITY).getStability(world));
+            if (!variant.isBlank()) {
+                ModCriteria.MANA_TYPE.trigger(player, variant.getMana());
+
+                if (!variant.isOf(Manae.TRADITIONAL)) {
+                    ModCriteria.UNUSUAL_MANA.trigger(player);
+                }
+
+                if (variant.isOf(Manae.STORM)) {
+                    ModCriteria.STORM_MANA.trigger(player, variant.getComponentMap().get(ManaComponents.STABILITY).getStability(world));
+                }
             }
         }
     }

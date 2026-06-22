@@ -13,7 +13,7 @@
     "announce_to_chat": true,
     "hidden": true
   },
-  "parent": "trickster:create_knot",
+  "parent": "trickster:unusual_mana",
   "criteria": {
     "storm_mana": {
       "trigger": "trickster:storm_mana",

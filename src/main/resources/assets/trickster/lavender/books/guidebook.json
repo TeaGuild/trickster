@@ -1,0 +1,8 @@
+{
+  "texture": "trickster:textures/gui/white_book.png",
+  "intro_entry": "trickster:intro",
+  "new_entries_toast": {
+    "icon_stack": "trickster:guidebook",
+    "book_name": "The Teacher's Language"
+  }
+}

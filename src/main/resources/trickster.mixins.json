@@ -7,6 +7,7 @@
   },
   "plugin": "dev.enjarai.trickster.ConditionalMixins",
   "mixins": [
+    "explode_this_in_a_few_months.StructurePool$ProjectionMixin",
     "AbstractFurnaceBlockEntityMixin",
     "AnvilScreenHandlerMixin",
     "BeaconBlockEntityMixin",
@@ -21,7 +22,6 @@
     "LivingEntityMixin",
     "MobSpawnerLogicMixin",
     "ServerPlayerInteractionManagerMixin",
-    "explode_this_in_a_few_months.StructurePool$ProjectionMixin",
     "accessor.CropBlockAccessor",
     "accessor.DataPackContentsAccessor",
     "accessor.FluidBlockAccessor",
@@ -53,5 +53,9 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "client.lavender.LavenderBookScreen$PageSupplierMixin",
+    "client.lavender.LavenderBookScreenMixin"
+  ]
 }

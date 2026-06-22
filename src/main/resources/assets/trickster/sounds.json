@@ -1,4 +1,9 @@
 {
+  "whats_this_doing_here": {
+    "sounds": [
+      "trickster:whats_this_doing_here"
+    ]
+  },
   "draw": {
     "subtitle": "trickster.subtitle.draw",
     "sounds": [
