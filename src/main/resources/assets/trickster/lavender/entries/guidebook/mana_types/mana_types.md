@@ -2,10 +2,11 @@
 {
   "title": "Types of Mana",
   "icon": "minecraft:dragon_breath",
-  "category": "trickster:concepts",
+  "category": "trickster:mana_types",
   "required_advancements": [
-    "trickster:unusual_mana"
+    "trickster:trigger/mana_types"
   ],
+  "ordinal": -10,
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```

@@ -1,6 +1,6 @@
 package dev.enjarai.trickster.mixin.client.lavender;
 
-import dev.enjarai.trickster.pond.TexturedLavenderEntry;
+import dev.enjarai.trickster.pond.TexturedLavenderThing;
 import io.wispforest.lavender.book.Entry;
 import io.wispforest.lavender.client.LavenderBookScreen;
 import net.minecraft.util.Identifier;
@@ -17,6 +17,6 @@ public class LavenderBookScreen$EntryPageSupplierMixin extends LavenderBookScree
 
     @Override
     public @Nullable Identifier trickster$getBookTexture() {
-        return ((TexturedLavenderEntry) (Object) entry).trickster$getTexture();
+        return ((TexturedLavenderThing) (Object) entry).trickster$getTexture();
     }
 }
