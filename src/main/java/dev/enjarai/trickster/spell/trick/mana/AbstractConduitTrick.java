@@ -131,8 +131,6 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
         var source = getSource(ctx, storage);
         var target = getTarget(ctx, storage);
 
-        double taxedMult = getManaTransferTaxMultiplier(ctx, holder.getSourceOrCasterPos(this, ctx));
-
         long result = 0;
         long taken = 0;
 
@@ -141,6 +139,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
                 var left = view.getResource();
 
                 if (!left.isBlank() && left.permitsTransfer() && filter.test(left.getMana())) {
+                    double taxedMult = left.getManaTransferTaxMultiplier(ctx, holder.getSourceOrCasterPos(this, ctx));
                     long extracted = source.extract(left, limit - taken, trans);
                     long inserted = insertMixing(ctx, target, left, (long) (extracted * taxedMult), trans);
                     long given = (long) (inserted / taxedMult);

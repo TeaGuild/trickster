@@ -1,5 +1,8 @@
 package dev.enjarai.trickster.spell.mana.type;
 
+import org.joml.Vector3dc;
+
+import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import net.minecraft.component.ComponentMap;
 
@@ -28,5 +31,8 @@ public class ImpotentMana extends Mana {
         return 0x330088;
     }
 
-    // TODO invert transfer tax
+    @Override
+    public double getManaTransferTaxMultiplier(ManaVariant variant, SpellContext ctx, Vector3dc pos) {
+        return 2 - super.getManaTransferTaxMultiplier(variant, ctx, pos);
+    }
 }

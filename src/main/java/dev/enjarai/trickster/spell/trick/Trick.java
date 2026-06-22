@@ -22,7 +22,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3dc;
 
 import java.util.*;
 
@@ -113,12 +112,6 @@ public abstract class Trick<T extends Trick<T>> {
 
     public List<Signature<T>> getSignatures() {
         return handlers;
-    }
-
-    protected double getManaTransferTaxMultiplier(SpellContext ctx, Vector3dc pos) {
-        var distance = ctx.source().getPos().distance(pos);
-        float r = Trickster.CONFIG.manaTransferEfficiency();
-        return 1 - Math.max(0, 1 - r / (distance + r - 16));
     }
 
     protected void expectLoaded(SpellContext ctx, BlockPos... positions) {

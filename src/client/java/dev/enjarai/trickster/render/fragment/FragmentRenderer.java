@@ -20,7 +20,7 @@ public interface FragmentRenderer<T extends Fragment> {
     RegistryKey<Registry<FragmentRenderer<?>>> REGISTRY_KEY = RegistryKey.ofRegistry(Trickster.id("fragment_renderer"));
     Registry<FragmentRenderer<?>> REGISTRY = FabricRegistryBuilder.createSimple(REGISTRY_KEY).buildAndRegister();
 
-    PatternRenderer PATTERN = register(FragmentType.PATTERN, new PatternRenderer());
+    PatternGlyphRenderer PATTERN_GLYPH = register(FragmentType.PATTERN, new PatternGlyphRenderer());
     PatternLiteralRenderer PATTERN_LITERAL = register(FragmentType.PATTERN_LITERAL, new PatternLiteralRenderer());
     ItemTypeRenderer ITEM_TYPE = register(FragmentType.ITEM_TYPE, new ItemTypeRenderer());
     BlockTypeRenderer BLOCK_TYPE = register(FragmentType.BLOCK_TYPE, new BlockTypeRenderer());

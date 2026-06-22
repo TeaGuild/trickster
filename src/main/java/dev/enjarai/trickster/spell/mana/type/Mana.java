@@ -2,6 +2,7 @@ package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.particle.ModParticles;
+import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import io.wispforest.endec.Endec;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
@@ -16,6 +17,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 import java.util.Optional;
+
+import org.joml.Vector3dc;
 
 public abstract class Mana {
     public static final Endec<Mana> ENDEC = MinecraftEndecs.ofRegistry(Manae.REGISTRY);
@@ -44,6 +47,12 @@ public abstract class Mana {
 
     public ParticleEffect getParticle(ManaVariant variant) {
         return ModParticles.SPELL_WHITE;
+    }
+
+    public double getManaTransferTaxMultiplier(ManaVariant variant, SpellContext ctx, Vector3dc pos) {
+        var distance = ctx.source().getPos().distance(pos);
+        float r = Trickster.CONFIG.manaTransferEfficiency();
+        return 1 - Math.max(0, 1 - r / (distance + r - 16));
     }
 
     public Optional<ManaVariant> mix(World world, ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {

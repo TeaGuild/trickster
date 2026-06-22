@@ -44,7 +44,7 @@ public class DrainMatterTrick extends Trick<DrainMatterTrick> {
 
         var insertingVariant = ManaVariant.of(Manae.TRADITIONAL);
         long insertingAmount = (long) (amount * ManaPool.MANA_SCALE);
-        double taxedMult = getManaTransferTaxMultiplier(ctx, blockPos.toCenterPos().toVector3d());
+        double taxedMult = insertingVariant.getManaTransferTaxMultiplier(ctx, blockPos.toCenterPos().toVector3d());
         long inserted = 0;
 
         try (var trans = Transaction.openOuter()) {

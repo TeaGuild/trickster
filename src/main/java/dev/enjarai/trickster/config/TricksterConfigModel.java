@@ -35,10 +35,10 @@ public class TricksterConfigModel {
     public float maxBlockBreakingHardness = 55.5f;
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
-    public boolean allowUnbreakableBlockSwap = true;
+    public boolean allowMovingUnbreakableBlock = true;
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
-    public boolean allowExtendedPistonSwap = true;
+    public boolean allowMovingExtendedPiston = true;
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @PredicateConstraint("requirePositive")
@@ -71,6 +71,7 @@ public class TricksterConfigModel {
     @SectionHeader("aurora-client")
 
     public boolean dragDrawing = false;
+    public boolean moreEmphasis = false;
     public boolean barsHorizontal = false;
 
     @Sync(Option.SyncMode.INFORM_SERVER)

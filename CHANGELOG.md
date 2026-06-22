@@ -6,6 +6,8 @@
 - Split mana into different types. (@enjarai and @aurakle)
   - All mana is now stored as a long rather than a float, making 1mG the smallest non-zero unit of mana.
   - Knots no longer charge while it is raining.
+- Added the Prismatic Knot. (@enjarai and @aurakle)
+- Added new mana generation methods. (@enjarai and @aurakle)
 - Blacklisted the smeltery structure from Lootr due to item voiding. (@aurakle)
 - Fixed a crash from spell fleck rendering. (@enjarai)
 - Fixed an issue with atlas rendering in certain situations. (@enjarai)
@@ -19,8 +21,10 @@
 - Fixed being able to insert any item into a spell construct. (@aurakle)
 - Added tricks to get the durability of items. (@enjarai)
 - Fixed Infused Ceramic gradients. (@hazenebulous)
+- Cleaned up pattern rendering tremendously. (@hazenebulous)
 - Miscellaneous Connector compatibility improvements. (@master_bw3)
 - Fix missing translation for the Fluid fragment type. (@aurakle)
 - Add missing subtitles. (@enjarai)
 - Halved the recharge rate of the Whorl. (@aurakle)
 - Astrals no longer generate "Traditional" mana. (@aurakle)
+- Unbreakable block and extended piston config settings now apply to Featherweight. (@AshAxolotl)
