@@ -27,3 +27,4 @@
 - Add missing subtitles. (@enjarai)
 - Halved the recharge rate of the Whorl. (@aurakle)
 - Astrals no longer generate "Traditional" mana. (@aurakle)
+- Unbreakable block and extended piston config settings now apply to Featherweight. (@AshAxolotl)
