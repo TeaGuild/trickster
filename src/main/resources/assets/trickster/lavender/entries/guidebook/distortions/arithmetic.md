@@ -67,9 +67,9 @@ or
 
 ;;;;;
 
-<|revision@trickster:templates|revision-id=trickster:create_two|>
+<|revision@trickster:templates|revision-id=trickster:two|>
 
-A [Constant Revision](^trickster:constants) that replaces the glyph of the circle it's drawn in with the number two. Other numbers can be created using this and the following tricks.
+A [Constant Revision](^trickster:constants) that replaces the glyph with the number two. Other numbers can be created using this and the following tricks.
 
 ;;;;;
 

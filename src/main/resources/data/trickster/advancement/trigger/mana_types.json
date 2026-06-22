@@ -1,0 +1,49 @@
+{
+  "parent": "trickster:trigger/root",
+  "criteria": {
+    "create_prismatic_knot": {
+      "trigger": "trickster:create_knot",
+      "conditions": {
+        "item": "trickster:prismatic_knot"
+      }
+    },
+    "pickup_prismatic_knot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:prismatic_knot"
+          }
+        ]
+      }
+    },
+    "create_astral_knot": {
+      "trigger": "trickster:create_knot",
+      "conditions": {
+        "item": "trickster:astral_knot"
+      }
+    },
+    "pickup_astral_knot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:astral_knot"
+          }
+        ]
+      }
+    },
+    "unusual_mana": {
+      "trigger": "trickster:unusual_mana"
+    }
+  },
+  "requirements": [
+    [
+      "create_prismatic_knot",
+      "pickup_prismatic_knot",
+      "create_astral_knot",
+      "pickup_astral_knot",
+      "unusual_mana"
+    ]
+  ]
+}

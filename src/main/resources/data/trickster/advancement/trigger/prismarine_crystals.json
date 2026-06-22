@@ -1,0 +1,15 @@
+{
+  "parent": "trickster:trigger/root",
+  "criteria": {
+    "pickup_prismarine_crystals": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:prismarine_crystals"
+          }
+        ]
+      }
+    }
+  }
+}

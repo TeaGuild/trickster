@@ -27,6 +27,7 @@
     "figura.AvatarManagerMixin",
     "key.KeyBindingEntryMixin",
     "key.KeyBindingMixin",
+    "lavender.LavenderBookScreen$CategoryPageSupplierMixin",
     "lavender.LavenderBookScreen$EntryPageSupplierMixin",
     "lavender.LavenderBookScreen$PageSupplierMixin",
     "lavender.LavenderBookScreenMixin",
@@ -39,7 +40,7 @@
     "ClientPlayerInteractionManagerMixin",
     "PlayerEntityMixin",
     "lavender.BookContentLoaderMixin",
-    "lavender.EntryMixin",
+    "lavender.EntryAndCategoryMixin",
     "lavender.TextureComponentAccessor",
     "owo.BraidComponentAccessor"
   ]

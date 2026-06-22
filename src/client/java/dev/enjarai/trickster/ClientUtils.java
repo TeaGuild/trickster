@@ -6,7 +6,9 @@ import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.net.SubscribeToPoolPacket;
 import dev.enjarai.trickster.spell.mana.SharedManaPool;
+import io.wispforest.lavender.mixin.access.ClientAdvancementManagerAccessor;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Identifier;
 
 public class ClientUtils {
     public static void trySubscribe(ManaComponent manaComponent) {
@@ -25,5 +27,18 @@ public class ClientUtils {
         if (capability == null) return false;
 
         return capability.isEquipped(i -> i.isIn(ModItems.SCRYGLASS));
+    }
+
+    public static boolean hasAdvancement(Identifier id) {
+        var player = MinecraftClient.getInstance().player;
+        if (player == null) return false;
+
+        var advancementHandler = player.networkHandler.getAdvancementHandler();
+        var advancement = advancementHandler.get(id);
+        if (advancement == null) return false;
+
+        // We can steal this accessor from lavender since we depend on it anyway
+        var progress = ((ClientAdvancementManagerAccessor) advancementHandler).lavender$getAdvancementProgresses().get(advancement);
+        return progress != null && progress.isDone();
     }
 }

@@ -1,0 +1,14 @@
+{
+  "conversions": [
+    {
+      "color": -15295332,
+      "id": "minecraft:candle_cake",
+      "keepProperties": true,
+      "mana_amount": 32.0,
+      "properties": {
+        "lit": "false"
+      },
+      "weight": 1
+    }
+  ]
+}

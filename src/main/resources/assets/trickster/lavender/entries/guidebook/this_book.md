@@ -8,7 +8,7 @@
 ```
 
 This book is rather remarkable. It seems to be an encyclopedia of sorts on an *old* form of magic.
-Or maybe a teaching aid or reference guide? I have to wonder who this [insert name of author] is.
+Or maybe a teaching aid or reference guide? I have to wonder who this Areli Haron is.
 
 ;;;;;
 
@@ -22,5 +22,5 @@ Did a society exist here before my time? Or at least other people?
 
 ;;;;;
 
-I think I'll hang on to this work, and should perhaps consider pursuing the arcane that it describes. 
-I would do well to store any notes of my own between its pages, as to avoid losing them.
+I think I'll hang on to this work, and should perhaps consider pursuing the "Great Language" that it describes. 
+I would do well to store any notes of my own between the book's pages, so as to avoid losing them.

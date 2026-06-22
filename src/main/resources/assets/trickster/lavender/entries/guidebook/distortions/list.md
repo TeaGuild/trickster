@@ -27,9 +27,9 @@ Lists are zero indexed.
 
 ;;;;;
 
-<|revision@trickster:templates|revision-id=trickster:create_list|>
+<|revision@trickster:templates|revision-id=trickster:empty_list|>
 
-A [Constant Revision](^trickster:constants) that replaces the glyph of the circle it's drawn in with an empty list.
+A [Constant Revision](^trickster:constants) that replaces the glyph with an empty list.
 
 ;;;;;
 

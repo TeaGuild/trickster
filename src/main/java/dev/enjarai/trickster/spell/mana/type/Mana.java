@@ -2,7 +2,6 @@ package dev.enjarai.trickster.spell.mana.type;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.particle.ModParticles;
-import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import io.wispforest.endec.Endec;
 import io.wispforest.owo.serialization.endec.MinecraftEndecs;
@@ -34,6 +33,12 @@ public abstract class Mana {
     public ComponentMap getDefaultComponents() {
         return defaultComponents;
     }
+
+    public abstract boolean permitsTransfer(ManaVariant variant);
+
+    public abstract boolean permitsPositiveInterest(ManaVariant variant);
+
+    public abstract boolean permitsNegativeInterest(ManaVariant variant);
 
     public abstract int getColor(ManaVariant variant);
 

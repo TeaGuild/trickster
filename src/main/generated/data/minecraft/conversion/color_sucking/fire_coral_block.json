@@ -1,0 +1,11 @@
+{
+  "conversions": [
+    {
+      "color": -5231066,
+      "id": "minecraft:dead_fire_coral_block",
+      "keepProperties": true,
+      "mana_amount": 512.0,
+      "weight": 1
+    }
+  ]
+}

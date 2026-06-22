@@ -30,5 +30,270 @@
       "trickster:collar_bell_3",
       "trickster:collar_bell_4"
     ]
+  },
+  "use_esoteric_mana": {
+    "subtitle": "trickster.subtitle.use_esoteric_mana",
+    "sounds": [
+      "item/bottle/drink_honey1",
+      "item/bottle/drink_honey2",
+      {
+        "name": "item/bottle/drink_honey3",
+        "volume": 0.35
+      },
+      {
+        "name": "item/bottle/drink_honey3",
+        "volume": 0.75
+      }
+    ]
+  },
+  "leash_link": {
+    "subtitle": "trickster.subtitle.leash_link",
+    "sounds": [
+      "random/click"
+    ]
+  },
+  "knot_tick": {
+    "subtitle": "trickster.subtitle.knot_tick",
+    "sounds": [
+      "random/click"
+    ]
+  },
+  "place_construct_knot": {
+    "subtitle": "trickster.subtitle.place_construct_knot",
+    "sounds": [
+      "item/book/close_put1",
+      "item/book/close_put2"
+    ]
+  },
+  "remove_construct_knot": {
+    "subtitle": "trickster.subtitle.remove_construct_knot",
+    "sounds": [
+      "item/book/close_put1",
+      "item/book/close_put2"
+    ]
+  },
+  "place_construct_core": {
+    "subtitle": "trickster.subtitle.place_construct_core",
+    "sounds": [
+      "item/book/close_put1",
+      "item/book/close_put2"
+    ]
+  },
+  "remove_construct_core": {
+    "subtitle": "trickster.subtitle.remove_construct_core",
+    "sounds": [
+      "item/book/close_put1",
+      "item/book/close_put2"
+    ]
+  },
+  "place_charging_array_knot": {
+    "subtitle": "trickster.subtitle.place_charging_array_knot",
+    "sounds": [
+      "item/book/close_put1",
+      "item/book/close_put2"
+    ]
+  },
+  "remove_charging_array_knot": {
+    "subtitle": "trickster.subtitle.remove_charging_array_knot",
+    "sounds": [
+      "item/book/close_put1",
+      "item/book/close_put2"
+    ]
+  },
+  "place_scroll": {
+    "subtitle": "trickster.subtitle.place_scroll",
+    "sounds": [
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted1",
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted1",
+        "pitch": 0.85,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted1",
+        "pitch": 1.1,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted2",
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted2",
+        "pitch": 0.85,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted2",
+        "pitch": 1.1,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted3",
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted3",
+        "pitch": 0.85,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted3",
+        "pitch": 1.1,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted4",
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted4",
+        "pitch": 0.85,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/insert_enchanted4",
+        "pitch": 1.1,
+        "volume": 0.8
+      }
+    ]
+  },
+  "remove_scroll": {
+    "subtitle": "trickster.subtitle.remove_scroll",
+    "sounds": [
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted1",
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted1",
+        "pitch": 0.8,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted1",
+        "pitch": 1.1,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted2",
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted2",
+        "pitch": 0.8,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted2",
+        "pitch": 1.1,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted3",
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted3",
+        "pitch": 0.8,
+        "volume": 0.8
+      },
+      {
+        "name": "block/chiseled_bookshelf/pickup_enchanted3",
+        "pitch": 1.1,
+        "volume": 0.8
+      }
+    ]
+  },
+  "displacement_teleport": {
+    "subtitle": "trickster.subtitle.displacement_teleport",
+    "sounds": [
+      "mob/endermen/portal",
+      "mob/endermen/portal2"
+    ]
+  },
+  "displacement_trigger": {
+    "subtitle": "trickster.subtitle.displacement_trigger",
+    "sounds": [
+      "portal/trigger"
+    ]
+  },
+  "use_luminous_bottle": {
+    "subtitle": "trickster.subtitle.use_luminous_bottle",
+    "sounds": [
+      "item/ink_sac/ink_sac1",
+      {
+        "name": "item/ink_sac/ink_sac1",
+        "pitch": 0.95
+      },
+      {
+        "name": "item/ink_sac/ink_sac1",
+        "pitch": 1.05
+      },
+      "item/ink_sac/ink_sac2",
+      {
+        "name": "item/ink_sac/ink_sac2",
+        "pitch": 0.95
+      },
+      {
+        "name": "item/ink_sac/ink_sac2",
+        "pitch": 1.05
+      },
+      "item/ink_sac/ink_sac3",
+      {
+        "name": "item/ink_sac/ink_sac3",
+        "pitch": 0.95
+      },
+      {
+        "name": "item/ink_sac/ink_sac3",
+        "pitch": 1.05
+      }
+    ]
+  },
+  "knot_crack": {
+    "subtitle": "trickster.subtitle.knot_crack",
+    "sounds": [
+      "random/glass1",
+      "random/glass2",
+      "random/glass3"
+    ]
+  },
+  "trigger_resonator": {
+    "subtitle": "trickster.subtitle.trigger_resonator",
+    "sounds": [
+      {
+        "name": "block/bell/bell_use01",
+        "pitch": 0.93,
+        "volume": 12.0
+      },
+      {
+        "name": "block/bell/bell_use01",
+        "pitch": 0.95,
+        "volume": 12.0
+      },
+      {
+        "name": "block/bell/bell_use01",
+        "pitch": 0.97,
+        "volume": 12.0
+      },
+      {
+        "name": "block/bell/bell_use02",
+        "pitch": 0.93,
+        "volume": 12.0
+      },
+      {
+        "name": "block/bell/bell_use02",
+        "pitch": 0.95,
+        "volume": 12.0
+      },
+      {
+        "name": "block/bell/bell_use02",
+        "pitch": 0.97,
+        "volume": 12.0
+      }
+    ]
   }
 }

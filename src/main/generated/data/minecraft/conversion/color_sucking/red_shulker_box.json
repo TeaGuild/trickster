@@ -1,0 +1,14 @@
+{
+  "conversions": [
+    {
+      "color": -5231066,
+      "id": "minecraft:shulker_box",
+      "keepProperties": true,
+      "mana_amount": 512.0,
+      "properties": {
+        "facing": "up"
+      },
+      "weight": 1
+    }
+  ]
+}

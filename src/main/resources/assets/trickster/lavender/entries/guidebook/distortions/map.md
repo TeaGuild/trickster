@@ -5,7 +5,7 @@
   "category": "trickster:distortions",
   "additional_search_terms": [
     "Atlas Revision",
-    "Cartographer's Delusion",
+    "Tally Distortion",
     "Charting Stratagem",
     "Navigator's Distortion",
     "Admiral's Stratagem",
@@ -20,9 +20,15 @@ similarly to how a dictionary associates a word with a definition.
 
 ;;;;;
 
-<|revision@trickster:templates|revision-id=trickster:create_map|>
+<|revision@trickster:templates|revision-id=trickster:empty_map|>
 
-A [Constant Revision](^trickster:constants) that replaces the glyph of the circle it's drawn in with an empty map.
+A [Constant Revision](^trickster:constants) that replaces the glyph with an empty map.
+
+;;;;;
+
+<|trick@trickster:templates|trick-id=trickster:list_size|>
+
+Returns the amount of entries in the given map.
 
 ;;;;;
 

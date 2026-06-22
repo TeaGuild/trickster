@@ -2,7 +2,12 @@
 {
   "title": "Constants",
   "icon": "minecraft:bedrock",
-  "ordinal": 20
+  "ordinal": 20,
+  "additional_search_terms": [
+    "Foundational Revision",
+    "Catalogue Revision",
+    "Atlas Revision"
+  ]
 }
 ```
 
@@ -10,7 +15,7 @@ Described here are [Scribing Patterns](^trickster:editing) which replace the gly
 
 ;;;;;
 
-<|revision@trickster:templates|revision-id=trickster:create_two|>
+<|revision@trickster:templates|revision-id=trickster:two|>
 
 Replaces the glyph with the number two. Other numbers can be created using [arithmetic](^trickster:distortions/arithmetic).
 

@@ -16,9 +16,6 @@
     "Ingress of Extent",
     "Ingress of Discrimination",
     "Cranium Delusion",
-    "Derivate Ingress",
-    "Ingress of Authority",
-    "Crowning Ingress",
     "Ingress of Plenitude",
     "Ingress of Integrity",
     "Ingress of Endurance",
@@ -124,24 +121,6 @@ Filters a container by the given resource types.
 <|trick@trickster:templates|trick-id=trickster:check_hat|>
 
 Returns the selected slot in the caster's [Hat](^trickster:items/writing_casting/top_hat).
-
-;;;;;
-
-<|trick@trickster:templates|trick-id=trickster:get_mana_type_in_slot|>
-
-Returns the types of mana in the given slots.
-
-;;;;;
-
-<|trick@trickster:templates|trick-id=trickster:get_mana_in_slot|>
-
-Returns the amount of mana in the given slots.
-
-;;;;;
-
-<|trick@trickster:templates|trick-id=trickster:get_max_mana_in_slot|>
-
-Returns the maximum amount of mana which may be stored in total in the given slots.
 
 ;;;;;
 

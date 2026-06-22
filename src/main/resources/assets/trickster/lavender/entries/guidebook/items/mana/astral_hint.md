@@ -12,17 +12,17 @@
 }
 ```
 
-Upon the vanquishing of a terrible foe, a sliver of its power remains. 
-This star from down below, where flame burns eternal and magma forever flows, has never seen the sky's light. 
-Now freed of its host, it is the light of the abyss. It is unyielding in its might.
+Upon vanquishing the Wither, only a small star remains. Now freed of its host, this star shines brightly. 
+
+
+It is the very radiance of power unimaginable. I suspect that the construction of an object such as this would require *quettagandalfs*.
 
 ;;;;;
 
-One would require quettaGandalfs to construct such a potent font of power. 
-I cannot imagine that a Wither could ever be vanquished, with such strength at its disposal.
+I cannot imagine that the Wither could ever be vanquished, with such strength at its disposal.
 
 
 And yet I have.
 
 
-The Nether's Stars must have limitations that are not immediately evident...
+Surely, the Nether's Stars must have limitations that are not immediately evident...

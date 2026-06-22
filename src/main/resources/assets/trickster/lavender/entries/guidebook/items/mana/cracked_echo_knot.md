@@ -6,7 +6,7 @@
   "required_advancements": [
     "trickster:cracked_echo_knot"
   ],
-  "ordinal": 80,
+  "ordinal": 100,
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
 ```

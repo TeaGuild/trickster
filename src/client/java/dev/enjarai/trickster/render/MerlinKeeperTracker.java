@@ -6,6 +6,7 @@ import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.mana.SharedManaPool;
+import dev.enjarai.trickster.util.ColorUtil;
 import dev.enjarai.trickster.util.ImGoingToStabWhoeverInventedTime;
 import dev.enjarai.trickster.util.Unit;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -58,6 +59,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
 
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         var world = MinecraftClient.getInstance().world;
+        var player = MinecraftClient.getInstance().player;
         var usage = getUsage(stack);
 
         if (usage == 0) {
@@ -73,7 +75,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
             );
         }
 
-        if (stack.get(ModComponents.MANA) instanceof ManaComponent component && world != null) {
+        if (stack.get(ModComponents.MANA) instanceof ManaComponent component && world != null && player != null) {
             var pool = component.pool();
 
             ClientUtils.trySubscribe(component);
@@ -112,7 +114,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
 
             var variant = pool.getVariant(world);
             var mana = variant.getMana();
-            if (!pool.isEmpty(world)) {
+            if (!pool.isEmpty(world) && ClientUtils.hasAdvancement(Trickster.id("unusual_mana"))) {
                 tooltip.add(Text.translatable(
                     Trickster.MOD_ID + ".mana.type",
                     variant.getName()
@@ -121,11 +123,22 @@ public class MerlinKeeperTracker implements TooltipAppender {
 
             mana.appendItemTooltip(variant, context, tooltip, type, world);
 
+            var desiredColor = stack.get(ModComponents.DESIRED_COLOR);
+            if (desiredColor != null) {
+                var color = desiredColor.color();
+                tooltip.add(Text.empty());
+                tooltip.add(Text.translatable(
+                    Trickster.MOD_ID + ".knot.desired_color",
+                    ColorUtil.rgbAsText(color).withColor(color)
+                ).withColor(0xaaaabb));
+            }
+
             if (pool instanceof SharedManaPool shared && MinecraftClient.getInstance().world != null) {
                 tooltip.add(
                     Text
-                        .literal(shared.uuid().toString())
-                        .withColor((int) shared.uuid().getLeastSignificantBits())
+                        .literal("%08x".formatted(shared.uuid().getLeastSignificantBits()))
+                        .withColor(ColorUtil.lighten((int) shared.uuid().getMostSignificantBits(), 0.3f))
+                        .styled(s -> s.withFont(Trickster.FRAGMENT_FONT))
                 );
             }
         }

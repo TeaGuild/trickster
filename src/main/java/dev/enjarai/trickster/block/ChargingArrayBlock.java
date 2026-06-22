@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.block;
 
 import com.mojang.serialization.MapCodec;
+import dev.enjarai.trickster.ModSounds;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.particle.LightningParticleOptions;
 import dev.enjarai.trickster.spell.mana.storage.ManaStorage;
@@ -18,7 +19,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -170,14 +170,14 @@ public class ChargingArrayBlock extends BlockWithEntity implements Waterloggable
         if (!world.isClient) {
             player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
             blockEntity.setStack(slot, stack.copyAndEmpty());
-            world.playSound(null, pos, SoundEvents.ITEM_BOOK_PUT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, pos, ModSounds.PLACE_CHARGING_ARRAY_KNOT, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
     }
 
     private static void tryRemoveCore(World world, BlockPos pos, PlayerEntity player, ChargingArrayBlockEntity blockEntity, int slot) {
         if (!world.isClient) {
             ItemStack itemStack = blockEntity.removeStack(slot).copyAndEmpty();
-            world.playSound(null, pos, SoundEvents.ITEM_BOOK_PUT, SoundCategory.BLOCKS, 1.0F, 0.8F);
+            world.playSound(null, pos, ModSounds.REMOVE_CHARGING_ARRAY_KNOT, SoundCategory.BLOCKS, 1.0F, 0.8F);
             if (!player.getInventory().insertStack(itemStack)) {
                 player.dropItem(itemStack, false);
             }

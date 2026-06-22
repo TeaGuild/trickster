@@ -7,7 +7,8 @@
     "Ploy of the Moon Watcher",
     "Benevolent Conduit's Ploy",
     "Malevolent Conduit's Ploy",
-    "Astrafel's Ploy"
+    "Astrafel's Ploy",
+    "Terrafel's Ploy"
   ]
 }
 ```
@@ -67,3 +68,9 @@ Pulls mana from the given storage into the caster's reserves, up to an amount. R
 <|trick@trickster:templates|trick-id=trickster:convert_mana|>
 
 Attempts to convert mana in-place to the given type. Returns the amount converted.
+
+;;;;;
+
+<|trick@trickster:templates|trick-id=trickster:trigger_converter|>
+
+Activates the mana-conversion catalyst in the given slot, returning the mana type if it changed.
