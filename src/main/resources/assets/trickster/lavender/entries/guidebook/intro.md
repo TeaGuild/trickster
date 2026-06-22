@@ -15,7 +15,7 @@ Do not feel obliged to read through it sequentially, as it is meant more as a re
 ;;;;;
 
 That being said, if you are reading this without prior experience with the Great Language, 
-and are not taking a course, a section containing basic tutorials is included.
+and are not taking a course, a section containing basic [tutorials](^trickster:tutorials) is included.
 
 
 If this book proves insufficient at any time, do not hesitate to reach out to other mages in your local **[community](https://discord.gg/WcYsDDQtyR)**. 
