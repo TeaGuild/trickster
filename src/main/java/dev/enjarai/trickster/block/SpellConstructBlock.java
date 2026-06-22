@@ -2,6 +2,7 @@ package dev.enjarai.trickster.block;
 
 import com.mojang.serialization.MapCodec;
 
+import dev.enjarai.trickster.ModSounds;
 import dev.enjarai.trickster.item.ModItems;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -15,7 +16,6 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -25,6 +25,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -127,19 +128,29 @@ public class SpellConstructBlock extends BlockWithEntity implements Waterloggabl
         if (!world.isClient) {
             player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
             blockEntity.setStack(slot, stack.copyAndEmpty());
-            world.playSound(null, pos, SoundEvents.ITEM_BOOK_PUT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, pos, ModSounds.PLACE_CONSTRUCT_KNOT, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
     }
 
     private static void tryRemoveCore(World world, BlockPos pos, PlayerEntity player, SpellConstructBlockEntity blockEntity, int slot) {
         if (!world.isClient) {
             ItemStack itemStack = blockEntity.removeStack(slot).copyAndEmpty();
-            world.playSound(null, pos, SoundEvents.ITEM_BOOK_PUT, SoundCategory.BLOCKS, 1.0F, 0.8F);
+            world.playSound(null, pos, ModSounds.REMOVE_CONSTRUCT_KNOT, SoundCategory.BLOCKS, 1.0F, 0.8F);
             if (!player.getInventory().insertStack(itemStack)) {
                 player.dropItem(itemStack, false);
             }
 
             world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+        }
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (world.isClient() && world.getBlockEntity(pos) instanceof SpellConstructBlockEntity blockEntity) {
+            var stack = blockEntity.getStack(0);
+            var position = pos.toCenterPos();
+            var facing = state.get(FACING);
+            ChargingArrayBlock.maybeDisplayStormLightning(stack, world, position, facing, random);
         }
     }
 

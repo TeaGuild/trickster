@@ -1,7 +1,5 @@
 package dev.enjarai.trickster.mixin;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.enjarai.trickster.block.LightBlock;
@@ -18,10 +16,8 @@ import static dev.enjarai.trickster.block.LightSconceBlock.HAS_LIGHT;
 
 @Mixin(BlockItem.class)
 public class BlockItemMixin {
-    @Definition(id = "place", method = "Lnet/minecraft/item/BlockItem;place(Lnet/minecraft/item/ItemPlacementContext;Lnet/minecraft/block/BlockState;)Z")
-    @Expression("this.place(?, ?)")
     @WrapOperation(
-        method = "place(Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/util/ActionResult;", at = @At("MIXINEXTRAS:EXPRESSION")
+        method = "place(Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/util/ActionResult;", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/BlockItem;place(Lnet/minecraft/item/ItemPlacementContext;Lnet/minecraft/block/BlockState;)Z")
     )
     private boolean replaceLight(BlockItem instance, ItemPlacementContext context, BlockState state, Operation<Boolean> original) {
         if (instance.getBlock() instanceof LightSconceBlock) {

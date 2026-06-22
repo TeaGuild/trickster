@@ -53,6 +53,10 @@ public class ModClientNetworking {
             } else {
                 try {
                     response = Fragment.fromBase64(clipboard);
+
+                    if (response.isOverweight()) {
+                        response = new ZalgoFragment();
+                    }
                 } catch (Exception e) {
                     response = new ZalgoFragment();
                 }

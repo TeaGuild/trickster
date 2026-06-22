@@ -35,7 +35,7 @@ public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick
         var distanceFromAnchor = (float) vector.length();
         var manaUse = 120 + (float) Math.pow(1.35, distanceFromAnchor);
 
-        ctx.useMana(this, manaUse);
+        ctx.useScaledMana(this, manaUse);
         return DisplaceFragment.fromEntity(entity)
             .orElseThrow(() -> new TooManyDisplacementsBlunder(this, entity));
     }

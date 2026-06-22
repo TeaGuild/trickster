@@ -2,6 +2,7 @@ package dev.enjarai.trickster.block;
 
 import com.mojang.serialization.MapCodec;
 
+import dev.enjarai.trickster.ModSounds;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.SpellCoreItem;
 import net.minecraft.block.*;
@@ -16,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -183,14 +183,14 @@ public class ModularSpellConstructBlock extends BlockWithEntity implements Water
         if (!world.isClient) {
             player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
             blockEntity.setStack(slot, stack.split(1));
-            world.playSound(null, pos, SoundEvents.ITEM_BOOK_PUT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, pos, slot == 0 ? ModSounds.PLACE_CONSTRUCT_KNOT : ModSounds.PLACE_CONSTRUCT_CORE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
     }
 
     private static void tryRemoveCore(World world, BlockPos pos, PlayerEntity player, ModularSpellConstructBlockEntity blockEntity, int slot) {
         if (!world.isClient) {
             ItemStack itemStack = blockEntity.removeStack(slot).copyAndEmpty();
-            world.playSound(null, pos, SoundEvents.ITEM_BOOK_PUT, SoundCategory.BLOCKS, 1.0F, 0.8F);
+            world.playSound(null, pos, slot == 0 ? ModSounds.REMOVE_CONSTRUCT_KNOT : ModSounds.REMOVE_CONSTRUCT_CORE, SoundCategory.BLOCKS, 1.0F, 0.8F);
             if (!player.getInventory().insertStack(itemStack)) {
                 player.dropItem(itemStack, false);
             }
@@ -242,13 +242,19 @@ public class ModularSpellConstructBlock extends BlockWithEntity implements Water
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof ModularSpellConstructBlockEntity circleEntity && !circleEntity.isEmpty()) {
+        if (world.isClient() && blockEntity instanceof ModularSpellConstructBlockEntity circleEntity && !circleEntity.isEmpty()) {
             var centerPos = pos.toCenterPos();
             for (int i = 1; i < circleEntity.size(); ++i) {
                 if (circleEntity.getStack(i).getItem() instanceof SpellCoreItem coreItem && circleEntity.executors.get(i - 1).isPresent()) {
                     coreItem.onDisplayTick(world, centerPos, random);
                 }
             }
+
+            var stack = circleEntity.getStack(0);
+            var facing = state.get(FACING);
+            var facingVec = facing.getUnitVector().mul(0.26f);
+            var position = pos.toCenterPos().add(facingVec.x, facingVec.y, facingVec.z);
+            ChargingArrayBlock.maybeDisplayStormLightning(stack, world, position, facing, random);
         }
     }
 

@@ -25,7 +25,7 @@ public class SummonTntTrick extends Trick<SummonTntTrick> {
         var world = ctx.source().getWorld();
 
         try {
-            ctx.useMana(this, cost(ctx.source().getPos().distance(pos.vector())));
+            ctx.useScaledMana(this, cost(ctx.source().getPos().distance(pos.vector())));
 
             TntEntity projectile;
             if (ctx.source().getCaster().orElse(null) instanceof LivingEntity livingEntity) {

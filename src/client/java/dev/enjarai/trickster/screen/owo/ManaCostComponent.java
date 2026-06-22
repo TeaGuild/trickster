@@ -1,5 +1,7 @@
 package dev.enjarai.trickster.screen.owo;
 
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Mana;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.HorizontalAlignment;
@@ -13,17 +15,21 @@ import java.awt.*;
 
 public class ManaCostComponent extends FlowLayout {
 
-    public ManaCostComponent(String costCalculation, Identifier bookTexture) {
+    public ManaCostComponent(String costCalculation, Mana mana, Identifier bookTexture) {
         super(Sizing.fill(100), Sizing.fixed(3), io.wispforest.owo.ui.container.FlowLayout.Algorithm.VERTICAL);
 
         child(Components.texture(bookTexture, 54, 240, 109, 5, 512, 256)
-                .blend(true)
-                .id("cost-texture")
-                .positioning(Positioning.absolute(0, -1))
-                .tooltip(Text.literal("Costs mana\n")
-                        .append(Text.literal(costCalculation)
-                                .styled(s -> s.withFormatting(Formatting.GRAY)))))
-                .allowOverflow(true)
-                .horizontalAlignment(HorizontalAlignment.CENTER);
+            .blend(true)
+            .id("cost-texture")
+            .positioning(Positioning.absolute(0, -1))
+            .tooltip(Text.translatable("trickster.mana_cost.costs_mana")
+                .append(Text.literal("\n"))
+                .append(Text.literal(costCalculation)
+                    .styled(s -> s.withFormatting(Formatting.GRAY)))
+                .append(Text.literal("\n\n"))
+                .append(Text.translatable("trickster.mana_cost.type", mana.getName(ManaVariant.of(mana))))
+            ))
+            .allowOverflow(true)
+            .horizontalAlignment(HorizontalAlignment.CENTER);
     }
 }

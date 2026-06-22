@@ -2,13 +2,13 @@ package dev.enjarai.trickster.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import dev.enjarai.trickster.datagen.provider.BlockConversionProvider;
+import dev.enjarai.trickster.datagen.provider.SimpleBlockConversionProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.RegistryWrapper;
 
-public class ErodeBlockConversionGenerator extends BlockConversionProvider {
+public class ErodeBlockConversionGenerator extends SimpleBlockConversionProvider {
     public ErodeBlockConversionGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookupFuture) {
         super(output, "erode", registryLookupFuture);
     }
@@ -68,14 +68,14 @@ public class ErodeBlockConversionGenerator extends BlockConversionProvider {
     }
 
     public void registerErosionConversion(Block block, Block... conversions) {
-        Builder builder = getOrCreateConversion(block);
+        var builder = getOrCreateConversion(block);
         for (Block conversion : conversions) {
             builder.add(conversion, 1);
         }
     }
 
     public void registerErosionConversion(Block block, boolean keepProperties, Block... conversions) {
-        Builder builder = getOrCreateConversion(block);
+        var builder = getOrCreateConversion(block);
         for (Block conversion : conversions) {
             builder.add(conversion, keepProperties, 1);
         }

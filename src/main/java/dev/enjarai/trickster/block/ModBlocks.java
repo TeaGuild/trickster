@@ -21,6 +21,9 @@ public class ModBlocks {
     public static final ScrollShelfBlock SCROLL_SHELF = register("scroll_shelf", new ScrollShelfBlock());
     public static final ChargingArrayBlock CHARGING_ARRAY = register("charging_array", new ChargingArrayBlock());
     public static final Block INERT_SPAWNER = register("inert_spawner", new Block(AbstractBlock.Settings.copy(Blocks.SPAWNER)));
+    public static final Block TATTERED_WOOL = register("tattered_wool", new Block(AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)));
+    public static final CarpetBlock TATTERED_CARPET = register("tattered_carpet", new CarpetBlock(AbstractBlock.Settings.copy(Blocks.WHITE_CARPET)));
+    public static final Block WORN_CONCRETE = register("worn_concrete", new Block(AbstractBlock.Settings.copy(Blocks.WHITE_CONCRETE)));
 
     public static final Block GILDED_TUFF = register("gilded_tuff", new Block(AbstractBlock.Settings.copy(Blocks.TUFF)));
     public static final StairsBlock GILDED_TUFF_STAIRS = register("gilded_tuff_stairs", createStairsBlock(GILDED_TUFF));
@@ -51,6 +54,7 @@ public class ModBlocks {
     public static final TagKey<Block> CONJURABLE_FLOWERS = TagKey.of(RegistryKeys.BLOCK, Trickster.id("conjurable_flowers"));
     public static final TagKey<Block> LIGHT_HOLDERS = TagKey.of(RegistryKeys.BLOCK, Trickster.id("light_holders"));
     public static final TagKey<Block> GILDED_TUFF_TAG = TagKey.of(RegistryKeys.BLOCK, Trickster.id("gilded_tuff"));
+    public static final TagKey<Block> EXPOSED_KNOT_HOLDERS = TagKey.of(RegistryKeys.BLOCK, Trickster.id("exposed_knot_holders"));
 
     private static <T extends Block> T register(String name, T block) {
         return Registry.register(Registries.BLOCK, Trickster.id(name), block);

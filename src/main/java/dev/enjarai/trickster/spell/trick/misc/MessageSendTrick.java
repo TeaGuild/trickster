@@ -28,7 +28,7 @@ public class MessageSendTrick extends Trick<MessageSendTrick> {
     }
 
     public Fragment broadcast(SpellContext ctx, Fragment value, Optional<NumberFragment> range) {
-        range.ifPresent(n -> ctx.useMana(this, (float) n.number()));
+        range.ifPresent(n -> ctx.useScaledMana(this, (float) n.number()));
         return run(ctx, new Key.Broadcast(ctx.source().getWorld().getRegistryKey(), ctx.source().getPos(), range.orElse(DEFAULT_RANGE).number()), value);
     }
 
@@ -37,11 +37,11 @@ public class MessageSendTrick extends Trick<MessageSendTrick> {
         var range = ctx.source().getPos().distance(slot.getSourceOrCasterPos(this, ctx));
         var item = resource.getItem();
 
-        if (item instanceof ChannelItem channelItem) {
-            if (range > channelItem.getRange()) {
-                throw new OutOfRangeBlunder(this, channelItem.getRange(), range);
-            }
+        if (range > 16) {
+            throw new OutOfRangeBlunder(this, 16, range);
+        }
 
+        if (item instanceof ChannelItem channelItem) {
             slot.applyItemModifier(this, ctx, stack -> {
                 channelItem.messageSendBehavior(this, ctx, stack, value);
                 return stack;

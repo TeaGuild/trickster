@@ -42,7 +42,7 @@ public class TricksterConfigModel {
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @PredicateConstraint("requirePositive")
-    public float whorlRechargeRate = 0.5f;
+    public float whorlRechargeRate = 0.25f;
 
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
     @PredicateConstraint("requirePositive")
@@ -71,11 +71,13 @@ public class TricksterConfigModel {
     @SectionHeader("aurora-client")
 
     public boolean dragDrawing = false;
+    public boolean moreEmphasis = false;
     public boolean barsHorizontal = false;
 
     @Sync(Option.SyncMode.INFORM_SERVER)
     public boolean disableOffhandScrollOpening = false;
 
+    //TODO: should this not be removed?
     @RangeConstraint(min = 0, max = 1)
     public float adjacentPixelCollisionOffset = 0.25f;
 

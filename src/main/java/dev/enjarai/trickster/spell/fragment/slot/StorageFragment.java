@@ -6,6 +6,7 @@ import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.BlunderException;
 import dev.enjarai.trickster.spell.trick.Trick;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
@@ -23,16 +24,13 @@ public interface StorageFragment extends VariantingFragment {
     Vector3dc getSourceOrCasterPos(Trick<?> trick, SpellContext ctx);
 
     default float getMoveCost(Trick<?> trickSource, SpellContext ctx, Vector3dc pos, long amount) throws BlunderException {
-        return getSourcePos(trickSource, ctx)
-            .map(sourcePos -> {
-                var a = variantType().costMultiplier * amount;
-                return (float) (pos.distance(sourcePos) * a * 0.5);
-            })
-            .orElse(0f);
+        var sourcePos = getSourceOrCasterPos(trickSource, ctx);
+        var a = variantType().costMultiplier * amount;
+        return (float) (pos.distance(sourcePos) * a * 0.5);
     }
 
-    default void incurCost(Trick<?> trick, SpellContext ctx, Vector3dc pos, long amountMoved) {
-        ctx.useMana(trick, getMoveCost(trick, ctx, pos, amountMoved));
+    default void incurCost(Trick<?> trick, SpellContext ctx, Vector3dc pos, long amountMoved, TransactionContext trans) {
+        ctx.useScaledMana(trick, getMoveCost(trick, ctx, pos, amountMoved), trans);
     }
 
     default void spawnMoveParticles(Trick<?> trick, SpellContext ctx, StorageFragment to, long amountMoved) {

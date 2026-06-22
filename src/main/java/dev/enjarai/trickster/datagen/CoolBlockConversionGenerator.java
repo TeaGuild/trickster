@@ -1,6 +1,6 @@
 package dev.enjarai.trickster.datagen;
 
-import dev.enjarai.trickster.datagen.provider.BlockConversionProvider;
+import dev.enjarai.trickster.datagen.provider.SimpleBlockConversionProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -10,7 +10,7 @@ import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
 
-public class CoolBlockConversionGenerator extends BlockConversionProvider {
+public class CoolBlockConversionGenerator extends SimpleBlockConversionProvider {
     public CoolBlockConversionGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookupFuture) {
         super(output, "cool", registryLookupFuture);
     }
@@ -35,14 +35,14 @@ public class CoolBlockConversionGenerator extends BlockConversionProvider {
     }
 
     public void registerCoolConversion(Block block, Block... conversions) {
-        Builder builder = getOrCreateConversion(block);
+        var builder = getOrCreateConversion(block);
         for (Block conversion : conversions) {
             builder.add(conversion, 1);
         }
     }
 
     public void registerCoolConversion(Block block, BlockState... conversions) {
-        Builder builder = getOrCreateConversion(block);
+        var builder = getOrCreateConversion(block);
         for (BlockState conversion : conversions) {
             builder.add(conversion, 1);
         }

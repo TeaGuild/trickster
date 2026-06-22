@@ -8,7 +8,6 @@
   "plugin": "dev.enjarai.trickster.ConditionalMixins",
   "client": [
     "AbstractClientPlayerEntityMixin",
-    "BakedModelManagerMixin",
     "ClientWorldMixin",
     "CreativeInventoryScreenMixin",
     "HeldItemRendererMixin",
@@ -26,6 +25,8 @@
     "curse.MeowMrrp",
     "curse.PlayerEntityRendererMixin",
     "figura.AvatarManagerMixin",
+    "key.KeyBindingEntryMixin",
+    "key.KeyBindingMixin",
     "tooltip.TooltipComponentMixin"
   ],
   "injectors": {

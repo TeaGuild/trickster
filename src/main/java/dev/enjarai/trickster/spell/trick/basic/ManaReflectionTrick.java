@@ -13,6 +13,12 @@ public class ManaReflectionTrick extends Trick<ManaReflectionTrick> {
     }
 
     public NumberFragment run(SpellContext ctx) {
-        return new NumberFragment(ctx.getManaPool().get(ctx.source().getWorld()));
+        long result = 0;
+
+        for (var view : ctx.getManaStorage().nonEmptyViews()) {
+            result += view.getAmount();
+        }
+
+        return NumberFragment.ofMana(result);
     }
 }

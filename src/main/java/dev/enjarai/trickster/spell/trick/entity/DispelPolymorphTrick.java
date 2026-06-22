@@ -17,7 +17,7 @@ public class DispelPolymorphTrick extends AbstractEntityQueryTrick<LivingEntity,
     @Override
     public EntityFragment run(SpellContext ctx, LivingEntity entity) {
         if (entity instanceof ServerPlayerEntity player) {
-            ctx.useMana(this, 1000);
+            ctx.useScaledMana(this, 1000);
             player.getComponent(ModEntityComponents.DISGUISE).setUuid(null);
         }
 

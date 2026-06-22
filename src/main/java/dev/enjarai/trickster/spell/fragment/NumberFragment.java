@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.spell.fragment;
 
 import dev.enjarai.trickster.spell.Fragment;
+import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.trick.Tricks;
 import dev.enjarai.trickster.spell.blunder.BlunderException;
 import dev.enjarai.trickster.spell.blunder.DivideByZeroBlunder;
@@ -16,8 +17,8 @@ import java.util.Objects;
 
 public final class NumberFragment implements AddableFragment, SubtractableFragment, MultiplicableFragment, DivisibleFragment, RoundableFragment, GenericAverageableFragment {
     public static final StructEndec<NumberFragment> ENDEC = StructEndecBuilder.of(
-            Endec.DOUBLE.fieldOf("number", NumberFragment::number),
-            NumberFragment::new
+        Endec.DOUBLE.fieldOf("number", NumberFragment::number),
+        NumberFragment::new
     );
     public static final int WEIGHT = 8;
 
@@ -28,6 +29,10 @@ public final class NumberFragment implements AddableFragment, SubtractableFragme
             throw new NaNBlunder();
 
         this.number = number;
+    }
+
+    public static NumberFragment ofMana(long number) throws BlunderException {
+        return new NumberFragment((double) number / ManaPool.MANA_SCALE);
     }
 
     @Override
@@ -146,6 +151,10 @@ public final class NumberFragment implements AddableFragment, SubtractableFragme
 
     public double number() {
         return number;
+    }
+
+    public long asMana() {
+        return (long) (number * ManaPool.MANA_SCALE);
     }
 
     @Override

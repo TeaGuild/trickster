@@ -125,6 +125,10 @@ public non-sealed interface Fragment extends EvaluationResult, SpellInstruction 
      */
     int getWeight();
 
+    default boolean isOverweight() {
+        return getWeight() > MAX_WEIGHT;
+    }
+
     default Optional<BiFunction<SpellContext, List<Fragment>, EvaluationResult>> getActivator() {
         return Optional.of(this::activateAsGlyph);
     }

@@ -3,8 +3,8 @@ package dev.enjarai.trickster.spell.execution.source;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.execution.SpellExecutionManager;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
-import dev.enjarai.trickster.spell.mana.MutableManaPool;
-import dev.enjarai.trickster.spell.mana.generation.ManaHandler;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -75,9 +75,7 @@ public interface SpellSource {
 
     float getMaxHealth();
 
-    MutableManaPool getManaPool();
-
-    ManaHandler getManaHandler();
+    Storage<ManaVariant> getManaStorage();
 
     Vector3d getPos();
 

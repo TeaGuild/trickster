@@ -31,18 +31,18 @@ public class HeatTrick extends Trick<HeatTrick> {
         if (CampfireBlock.canBeLit(blockState) || CandleBlock.canBeLit(blockState) || CandleCakeBlock.canBeLit(blockState)) {
             if (blockState.contains(CandleBlock.CANDLES)) {
                 var candles = blockState.get(CandleBlock.CANDLES);
-                ctx.useMana(this, candles);
+                ctx.useScaledMana(this, candles);
             } else {
-                ctx.useMana(this, 1);
+                ctx.useScaledMana(this, 1);
             }
 
             world.setBlockState(blockPos, blockState.with(Properties.LIT, true));
             world.emitGameEvent(null, GameEvent.BLOCK_CHANGE, blockPos);
         } else if (!blockState.isAir()) {
-            ctx.useMana(this, 80);
+            ctx.useScaledMana(this, 80);
 
             if (blockState.getBlock() instanceof TntBlock) {
-                ctx.useMana(this, 80);
+                ctx.useScaledMana(this, 80);
 
                 TntBlock.primeTnt(world, blockPos);
                 world.removeBlock(blockPos, false);
@@ -62,8 +62,8 @@ public class HeatTrick extends Trick<HeatTrick> {
 
             var particlePos = blockPos.toCenterPos();
             world.spawnParticles(
-                    ParticleTypes.FLAME, particlePos.x, particlePos.y, particlePos.z,
-                    16, 0.5, 0.5, 0.5, 0
+                ParticleTypes.FLAME, particlePos.x, particlePos.y, particlePos.z,
+                16, 0.5, 0.5, 0.5, 0
             );
         } else {
             throw new BlockInvalidBlunder(this);

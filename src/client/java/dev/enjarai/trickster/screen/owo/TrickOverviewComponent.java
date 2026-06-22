@@ -1,6 +1,8 @@
 package dev.enjarai.trickster.screen.owo;
 
 import dev.enjarai.trickster.spell.Pattern;
+import dev.enjarai.trickster.spell.mana.type.Mana;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.revision.Revision;
 import dev.enjarai.trickster.spell.revision.Revisions;
 import dev.enjarai.trickster.spell.trick.Trick;
@@ -22,7 +24,7 @@ import java.util.Arrays;
 
 public class TrickOverviewComponent extends FlowLayout {
 
-    public static TrickOverviewComponent of(Trick<?> trick, @Nullable String costCalculation, Identifier bookTexture) {
+    public static TrickOverviewComponent of(Trick<?> trick, @Nullable String costCalculation, Mana mana, Identifier bookTexture) {
         var pattern = trick.getPattern();
 
         var name = Text.empty();
@@ -37,7 +39,7 @@ public class TrickOverviewComponent extends FlowLayout {
             }
         }
 
-        return new TrickOverviewComponent(pattern, name, signatures, costCalculation, bookTexture);
+        return new TrickOverviewComponent(pattern, name, signatures, costCalculation, mana, bookTexture);
     }
 
     public static TrickOverviewComponent of(Revision rev, Identifier bookTexture) {
@@ -46,15 +48,15 @@ public class TrickOverviewComponent extends FlowLayout {
         var name = Text.empty();
         rev.getName().getSiblings().forEach(s -> name.append(s.copy().formatted(Formatting.DARK_GRAY)));
 
-        return new TrickOverviewComponent(pattern, name, Text.translatable("trickster.revision"), null, bookTexture);
+        return new TrickOverviewComponent(pattern, name, Text.translatable("trickster.revision"), null, Manae.EMPTY, bookTexture);
     }
 
     public static TrickOverviewComponent of(Pattern pattern, Text title, MutableText content, @Nullable String costCalculation, Identifier bookTexture) {
-        return new TrickOverviewComponent(pattern, title, content, costCalculation, bookTexture);
+        return new TrickOverviewComponent(pattern, title, content, costCalculation, Manae.EMPTY, bookTexture);
 
     }
 
-    private TrickOverviewComponent(Pattern pattern, Text title, MutableText content, @Nullable String costCalculation, Identifier bookTexture) {
+    private TrickOverviewComponent(Pattern pattern, Text title, MutableText content, @Nullable String costCalculation, Mana mana, Identifier bookTexture) {
         super(Sizing.fill(100), Sizing.content(), Algorithm.VERTICAL);
         alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
 
@@ -74,7 +76,7 @@ public class TrickOverviewComponent extends FlowLayout {
             .margins(Insets.of(0, 5, 3, 3)));
 
         if (costCalculation != null) {
-            child(new ManaCostComponent(costCalculation, bookTexture));
+            child(new ManaCostComponent(costCalculation, mana, bookTexture));
         } else {
             child(Components.texture(
                 bookTexture, 54, 183, 109,
@@ -104,7 +106,13 @@ public class TrickOverviewComponent extends FlowLayout {
                 costCalculation = element.getAttribute("cost");
             }
 
-            return TrickOverviewComponent.of(trick, costCalculation, texture);
+            Mana mana = Manae.TRADITIONAL;
+            if (element.hasAttribute("mana-type")) {
+                var manaId = UIParsing.parseIdentifier(element.getAttributeNode("mana-type"));
+                mana = Manae.REGISTRY.get(manaId);
+            }
+
+            return TrickOverviewComponent.of(trick, costCalculation, mana, texture);
         }
 
         var revisionIdAttribute = element.getAttributeNode("revision-id");

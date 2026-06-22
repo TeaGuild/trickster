@@ -17,7 +17,7 @@ public class PinChunkTrick extends Trick<PinChunkTrick> {
     public VectorFragment run(SpellContext ctx, VectorFragment pos) {
         var chunkPos = new ChunkPos(pos.toBlockPos());
 
-        ctx.useMana(this, 4);
+        ctx.useScaledMana(this, 4);
         ModWorldComponents.PINNED_CHUNKS.get(ctx.source().getWorld()).pinChunk(chunkPos);
 
         return pos;

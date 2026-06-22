@@ -5,19 +5,49 @@
     {
       "weight": 20,
       "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "trickster:terrain_matching_ocean",
-        "location": "trickster:managrid/node/rubble_1",
-        "processors": "trickster:oxidize"
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "rigid",
+          "location": "trickster:managrid/node/rubble_1",
+          "processors": [
+            {
+              "processor_type": "trickster:oxidize",
+              "min": "exposed",
+              "max": "oxidized"
+            },
+            {
+              "processor_type": "minecraft:gravity",
+              "heightmap": "OCEAN_FLOOR_WG",
+              "offset": -1
+            }
+          ]
+        },
+        "terrain_matching_heightmap": "OCEAN_FLOOR_WG"
       }
     },
     {
       "weight": 20,
       "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "trickster:terrain_matching_ocean",
-        "location": "trickster:managrid/node/rubble_2",
-        "processors": "trickster:oxidize"
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:single_pool_element",
+          "projection": "rigid",
+          "location": "trickster:managrid/node/rubble_2",
+          "processors": [
+            {
+              "processor_type": "trickster:oxidize",
+              "min": "exposed",
+              "max": "oxidized"
+            },
+            {
+              "processor_type": "minecraft:gravity",
+              "heightmap": "OCEAN_FLOOR_WG",
+              "offset": -1
+            }
+          ]
+        },
+        "terrain_matching_heightmap": "OCEAN_FLOOR_WG"
       }
     }
   ]

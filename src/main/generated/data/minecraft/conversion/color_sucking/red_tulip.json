@@ -1,0 +1,11 @@
+{
+  "conversions": [
+    {
+      "color": -5231066,
+      "id": "minecraft:dead_bush",
+      "keepProperties": true,
+      "mana_amount": 32.0,
+      "weight": 1
+    }
+  ]
+}

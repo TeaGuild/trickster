@@ -34,7 +34,7 @@ public class AddVelocityTrick extends Trick<AddVelocityTrick> {
 
         var map = COMPOUND_LEN.set(ctx.data(), COMPOUND_LEN.get(ctx.data()).orElse(new HashMap<>()));
         var length = (float) vector.length() + map.getOrDefault(target, 0f);
-        ctx.useMana(this, 3 + (float) Math.pow(length, 3) * 16);
+        ctx.useScaledMana(this, 3 + (float) Math.pow(length, 3) * 16);
         map.put(target, length);
 
         if (entity instanceof AbstractWindChargeEntity) {

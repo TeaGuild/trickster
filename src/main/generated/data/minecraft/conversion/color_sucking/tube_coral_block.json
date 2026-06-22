@@ -1,0 +1,11 @@
+{
+  "conversions": [
+    {
+      "color": -12827478,
+      "id": "minecraft:dead_tube_coral_block",
+      "keepProperties": true,
+      "mana_amount": 512.0,
+      "weight": 1
+    }
+  ]
+}

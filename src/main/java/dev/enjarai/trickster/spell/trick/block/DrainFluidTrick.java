@@ -30,12 +30,12 @@ public class DrainFluidTrick extends Trick<DrainFluidTrick> {
         } else {
             throw new BlockUnoccupiedBlunder(this, pos);
         }
-        ctx.useMana(this, 15);
+        ctx.useScaledMana(this, 15);
 
         var particlePos = blockPos.toCenterPos();
         world.spawnParticles(
-                ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
-                1, 0, 0, 0, 0
+            ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
+            1, 0, 0, 0, 0
         );
 
         return pos;

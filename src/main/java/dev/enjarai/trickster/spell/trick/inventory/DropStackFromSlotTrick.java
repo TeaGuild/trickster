@@ -40,7 +40,7 @@ public class DropStackFromSlotTrick extends Trick<DropStackFromSlotTrick> {
                 throw new ItemInvalidBlunder(this);
             }
 
-            slot.incurCost(this, ctx, vector, extracted);
+            slot.incurCost(this, ctx, vector, extracted, trans);
 
             var stack = resource.toStack((int) extracted);
             var world = ctx.source().getWorld();

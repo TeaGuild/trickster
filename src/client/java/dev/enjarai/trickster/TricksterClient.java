@@ -8,7 +8,7 @@ import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.compat.inline.InlineCompat;
 import dev.enjarai.trickster.item.KnotItem;
-import dev.enjarai.trickster.item.component.ModComponents;
+import dev.enjarai.trickster.particle.LightningParticle;
 import dev.enjarai.trickster.render.entity.LevitatingBlockEntityRenderer;
 import dev.enjarai.trickster.render.fleck.FleckRenderer;
 import dev.enjarai.trickster.cca.ModEntityComponents;
@@ -48,8 +48,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.nbt.NbtIntArray;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
@@ -89,9 +87,10 @@ public class TricksterClient implements ClientModInitializer {
         LavenderBookScreen.registerFeatureFactory(Trickster.id("tome_of_tomfoolery"),
             componentSource -> List.of(new ObfuscatedFeature()));
 
-        ParticleFactoryRegistry.getInstance().register(ModParticles.HIGHLIGHT_BLOCK,
-            ProtectedBlockParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.HIGHLIGHT_BLOCK, ProtectedBlockParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPELL, SpellParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.STORM, SpellParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.LIGHTNING, LightningParticle.Factory::new);
 
         AccessoriesRendererRegistry.registerRenderer(ModItems.TOP_HAT, HoldableHatRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ModItems.WITCH_HAT, HoldableHatRenderer::new);
@@ -124,25 +123,13 @@ public class TricksterClient implements ClientModInitializer {
             if (client.world != null && client.world.getTime() % 20 == 0
                 && client.player != null
                 && (client.player.getMainHandStack().isIn(ModItems.TICK_TOCK) || client.player.getOffHandStack().isIn(ModItems.TICK_TOCK))) {
-                client.player.playSound(SoundEvents.BLOCK_COMPARATOR_CLICK, 0.1f, client.world.getTime() % 40 == 0 ? 2 : 1.7f);
+                client.player.playSound(ModSounds.KNOT_TICK, 0.1f, client.world.getTime() % 40 == 0 ? 2 : 1.7f);
             }
         });
 
         Trickster.merlinTooltipAppender = merlinKeeperTracker;
-        KnotItem.barStepFunction = stack -> {
-            var manaComponent = stack.get(ModComponents.MANA);
-            if (manaComponent == null || MinecraftClient.getInstance().world == null) {
-                return 0;
-            }
-
-            ClientUtils.trySubscribe(manaComponent);
-
-            float poolMax = manaComponent.pool().getMax(MinecraftClient.getInstance().world);
-            return poolMax == 0 ? 0
-                : MathHelper.clamp(
-                    Math.round(manaComponent.pool().get(MinecraftClient.getInstance().world) * 13.0F / poolMax),
-                    0, 13);
-        };
+        KnotItem.worldGetter = () -> MinecraftClient.getInstance().world;
+        KnotItem.subscribeConsumer = ClientUtils::trySubscribe;
 
         WorldRenderEvents.AFTER_ENTITIES.register(FlecksRenderer::render);
 

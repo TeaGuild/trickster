@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.block;
 
+import dev.enjarai.trickster.item.KnotItem;
 import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import net.minecraft.block.BlockState;
@@ -17,9 +18,8 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
     public int age;
@@ -48,23 +48,9 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
         for (int i = 0; i < inventory.size(); i++) {
             var stack = inventory.get(i);
 
-            var x = (i % 3 - 1) / 16f * 15f;
-            //noinspection IntegerDivisionInFloatingPointContext
-            var y = (i / 3 - 1) / 16f * 15f;
-
-            var facing = getCachedState().get(ChargingArrayBlock.FACING);
-
             ManaComponent.tryRecharge(
                 getWorld(),
-                getPos()
-                    .toCenterPos()
-                    .add(new Vec3d(facing
-                        .getUnitVector()
-                        .mul(-0.3f, new Vector3f())
-                    ))
-                    .add(new Vec3d(new Vector3f(x / 3f, 0, y / 3f)
-                        .rotate(facing.getRotationQuaternion())
-                    )),
+                ChargingArrayBlock.getSlotParticlePos(getPos(), getCachedState(), i),
                 stack
             );
         }
@@ -133,6 +119,7 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
 
     public void markDirtyAndUpdateClients() {
         super.markDirty();
+
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }
@@ -159,5 +146,4 @@ public class ChargingArrayBlockEntity extends ScreenlessLootableBlockEntity {
         super.addComponents(componentMapBuilder);
         componentMapBuilder.add(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(this.inventory));
     }
-
 }

@@ -1,5 +1,7 @@
 package dev.enjarai.trickster.spell.mana;
 
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -7,10 +9,13 @@ import dev.enjarai.trickster.EndecTomfoolery;
 import io.wispforest.endec.StructEndec;
 
 public final class InfiniteManaPool implements MutableManaPool {
-    public static final InfiniteManaPool INSTANCE = new InfiniteManaPool();
+    public static final InfiniteManaPool INSTANCE = new InfiniteManaPool(ManaVariant.of(Manae.TRADITIONAL));
     public static final StructEndec<InfiniteManaPool> ENDEC = EndecTomfoolery.unit(INSTANCE);
 
-    private InfiniteManaPool() {
+    private final ManaVariant variant;
+
+    private InfiniteManaPool(ManaVariant variant) {
+        this.variant = variant;
     }
 
     @Override
@@ -20,25 +25,35 @@ public final class InfiniteManaPool implements MutableManaPool {
     }
 
     @Override
-    public float get(World world) {
-        return Float.MAX_VALUE / 3 * 2;
+    public ManaVariant getVariant(World world) {
+        return variant;
     }
 
     @Override
-    public float getMax(World world) {
-        return Float.MAX_VALUE / 3 * 2;
+    public long get(World world) {
+        return Long.MAX_VALUE / 3;
     }
 
     @Override
-    public void set(float current, World world) {
+    public long getMax(World world) {
+        return Long.MAX_VALUE / 3;
     }
 
     @Override
-    public void setMax(float max, World world) {
-    }
+    public void setVariant(ManaVariant variant, World world) {}
+
+    @Override
+    public void set(long current, World world) {}
+
+    @Override
+    public void setMax(long max, World world) {}
 
     @Override
     public MutableManaPool makeClone(World world) throws UnsupportedOperationException {
-        return INSTANCE;
+        if (variant == INSTANCE.variant) {
+            return INSTANCE;
+        }
+
+        return new InfiniteManaPool(variant);
     }
 }

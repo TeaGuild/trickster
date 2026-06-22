@@ -40,7 +40,7 @@ public class StoreEntityTrick extends Trick<StoreEntityTrick> {
 
         if (entityStorage.nbt().isEmpty()) {
             var dist = player.getPos().distanceTo(target.getPos());
-            ctx.useMana(this, (float) (2000 + Math.pow(dist, (dist / 5))));
+            ctx.useScaledMana(this, (float) (2000 + Math.pow(dist, (dist / 5))));
 
             var compound = new NbtCompound();
             target.saveSelfNbt(compound);

@@ -17,6 +17,7 @@ import dev.enjarai.trickster.spell.type.Signature;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.item.AutomaticItemPlacementContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -28,10 +29,10 @@ import java.util.Optional;
 public class PlaceBlockTrick extends Trick<PlaceBlockTrick> {
     public PlaceBlockTrick() {
         super(Pattern.of(0, 2, 8, 6, 0),
-                Signature.of(FragmentType.VECTOR, FragmentType.SLOT, FragmentType.VECTOR.optionalOfArg(), FragmentType.VECTOR.optionalOfArg(), PlaceBlockTrick::placeSlot, FragmentType.VECTOR));
+            Signature.of(FragmentType.VECTOR, FragmentType.SLOT, FragmentType.VECTOR.optionalOfArg(), FragmentType.VECTOR.optionalOfArg(), PlaceBlockTrick::placeSlot, FragmentType.VECTOR));
         overload(Signature.of(FragmentType.VECTOR, FragmentType.BLOCK_TYPE, FragmentType.VECTOR.optionalOfArg(), FragmentType.VECTOR.optionalOfArg(), PlaceBlockTrick::placeType, FragmentType.VECTOR));
         overload(Signature.of(FragmentType.VECTOR, FragmentType.CONTAINER, FragmentType.VECTOR.optionalOfArg(), FragmentType.VECTOR.optionalOfArg(), PlaceBlockTrick::placeContainer,
-                FragmentType.VECTOR));
+            FragmentType.VECTOR));
     }
 
     public VectorFragment placeSlot(SpellContext ctx, VectorFragment pos, SlotFragment slot, Optional<VectorFragment> facing, Optional<VectorFragment> side) {
@@ -50,7 +51,7 @@ public class PlaceBlockTrick extends Trick<PlaceBlockTrick> {
     }
 
     public VectorFragment placeFromStorage(SpellContext ctx, VectorFragment pos, Storage<ItemVariant> storage, Optional<VectorFragment> facing, Optional<VectorFragment> side,
-            @Nullable BlockTypeFragment type) {
+        @Nullable BlockTypeFragment type) {
         for (var view : storage.nonEmptyViews()) {
             if (!(view.getResource().getItem() instanceof BlockItem blockItem)) {
                 continue;
@@ -65,7 +66,7 @@ public class PlaceBlockTrick extends Trick<PlaceBlockTrick> {
                 var extracted = view.extract(resource, 1, trans);
 
                 if (extracted == 1) {
-                    var result = place(ctx, pos, resource.toStack(), facing, side);
+                    var result = place(ctx, pos, resource.toStack(), facing, side, trans);
                     trans.commit();
                     return result;
                 }
@@ -75,7 +76,7 @@ public class PlaceBlockTrick extends Trick<PlaceBlockTrick> {
         throw new MissingItemBlunder(this);
     }
 
-    public VectorFragment place(SpellContext ctx, VectorFragment pos, ItemStack stack, Optional<VectorFragment> facingOptional, Optional<VectorFragment> sideOptional) {
+    public VectorFragment place(SpellContext ctx, VectorFragment pos, ItemStack stack, Optional<VectorFragment> facingOptional, Optional<VectorFragment> sideOptional, TransactionContext trans) {
         var blockPos = pos.toBlockPos();
 
         expectCanBuild(ctx, blockPos);
@@ -95,11 +96,11 @@ public class PlaceBlockTrick extends Trick<PlaceBlockTrick> {
         //            }
 
         var placementContext = new AutomaticItemPlacementContext(
-                ctx.source().getWorld(),
-                blockPos,
-                facing,
-                stack,
-                side
+            ctx.source().getWorld(),
+            blockPos,
+            facing,
+            stack,
+            side
         ) {
             @Override
             public Direction getPlayerLookDirection() {
@@ -109,13 +110,13 @@ public class PlaceBlockTrick extends Trick<PlaceBlockTrick> {
 
         var distance = ctx.source().getPos().distance(pos.vector());
         var mana = Math.max((float) distance, 8f);
-        ctx.checkMana(this, mana);
+        ctx.checkScaledMana(this, mana, trans);
 
         if (!blockItem.place(placementContext).isAccepted()) {
             throw new CannotPlaceBlockBlunder(this, blockItem.getBlock(), pos);
         }
 
-        ctx.useMana(this, mana);
+        ctx.useScaledMana(this, mana, trans);
         //            world.setBlockState(blockPos, state);
         //
         //            BlockSoundGroup blockSoundGroup = state.getSoundGroup();

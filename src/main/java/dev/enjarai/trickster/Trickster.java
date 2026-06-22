@@ -7,6 +7,7 @@ import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.compat.transmog.TransmogCompat;
 import dev.enjarai.trickster.config.TricksterConfig;
 import dev.enjarai.trickster.data.DataLoader;
+import dev.enjarai.trickster.data.mana.ManaConversionCondition;
 import dev.enjarai.trickster.effects.ModEffects;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.fleck.FleckType;
@@ -23,7 +24,7 @@ import dev.enjarai.trickster.spell.execution.executor.SpellExecutorType;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.mana.ManaPoolType;
-import dev.enjarai.trickster.spell.mana.generation.ManaHandlerType;
+import dev.enjarai.trickster.spell.mana.storage.ManaStorage;
 import dev.enjarai.trickster.spell.revision.Revisions;
 import dev.enjarai.trickster.spell.trick.Tricks;
 import dev.enjarai.trickster.worldgen.processor.ModProcessorTypes;
@@ -63,6 +64,8 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
     public static final Identifier SPELL_CIRCLE_ATTRIBUTE = id("spell_circle");
     public static final EntityAttributeModifier NEGATE_ATTRIBUTE = new EntityAttributeModifier(Trickster.SPELL_CIRCLE_ATTRIBUTE, -1d, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 
+    public static final Identifier FRAGMENT_FONT = id("fragment");
+
     public static final TricksterConfig CONFIG = TricksterConfig.createAndLoad();
 
     public static TooltipAppender merlinTooltipAppender;
@@ -89,13 +92,14 @@ public class Trickster implements ModInitializer, CicadaEntrypoint {
         ModEntities.register();
         ModProcessorTypes.register();
 
+        ManaStorage.register();
         Tricks.register();
         Revisions.register();
         FragmentType.register();
         ManaPoolType.register();
-        ManaHandlerType.register();
         SpellExecutorType.register();
         FleckType.register();
+        ManaConversionCondition.register();
         DataLoader.registerLoaders();
 
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {

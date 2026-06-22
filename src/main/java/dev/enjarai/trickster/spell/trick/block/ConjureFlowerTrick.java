@@ -31,15 +31,15 @@ public class ConjureFlowerTrick extends Trick<ConjureFlowerTrick> {
         }
 
         var flowerType = Registries.BLOCK.getRandomEntry(ModBlocks.CONJURABLE_FLOWERS, world.getOrCreateRandom(TRICK_RANDOM));
-        ctx.useMana(this, 5);
+        ctx.useScaledMana(this, 5);
         flowerType.ifPresent(flower -> {
             world.setBlockState(blockPos, flower.value().getDefaultState());
         });
 
         var particlePos = blockPos.toCenterPos();
         world.spawnParticles(
-                ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
-                1, 0, 0, 0, 0
+            ModParticles.PROTECTED_BLOCK, particlePos.x, particlePos.y, particlePos.z,
+            1, 0, 0, 0, 0
         );
 
         return pos;

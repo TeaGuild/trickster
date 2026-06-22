@@ -9,6 +9,10 @@
             <trickster.trick-overview texture="{{book-texture}}" trick-id="{{trick-id}}" cost="{{cost}}">
             </trickster.trick-overview>
         </template>
+        <template name="ploy2">
+            <trickster.trick-overview texture="{{book-texture}}" trick-id="{{trick-id}}" cost="{{cost}}" mana-type="{{mana-type}}">
+            </trickster.trick-overview>
+        </template>
         <template name="revision">
             <trickster.trick-overview texture="{{book-texture}}" revision-id="{{revision-id}}">
             </trickster.trick-overview>

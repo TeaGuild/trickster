@@ -1,9 +1,11 @@
 package dev.enjarai.trickster.data;
 
 import dev.enjarai.trickster.Trickster;
+import dev.enjarai.trickster.data.conversion.ColorSuckingConversionLoader;
 import dev.enjarai.trickster.data.conversion.CoolConversionLoader;
 import dev.enjarai.trickster.data.conversion.ErodeConversionLoader;
 import dev.enjarai.trickster.data.conversion.HeatConversionLoader;
+import dev.enjarai.trickster.data.mana.ManaConversionLoader;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 
@@ -12,6 +14,8 @@ public class DataLoader {
     private static CoolConversionLoader coolLoader;
     private static ErodeConversionLoader erodeLoader;
     private static StateToManaConversionLoader stateToManaConversionLoader;
+    private static ManaConversionLoader manaConversionLoader;
+    private static ColorSuckingConversionLoader colorSuckingLoader;
 
     public static void registerLoaders() {
         ResourceManagerHelper resourceManagerHelper = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
@@ -19,6 +23,8 @@ public class DataLoader {
         resourceManagerHelper.registerReloadListener(Trickster.id("conversion", "cool"), wrapperLookup -> coolLoader = new CoolConversionLoader(wrapperLookup));
         resourceManagerHelper.registerReloadListener(Trickster.id("conversion", "erode"), wrapperLookup -> erodeLoader = new ErodeConversionLoader(wrapperLookup));
         resourceManagerHelper.registerReloadListener(Trickster.id("conversion", "state_to_mana"), wrapperLookup -> stateToManaConversionLoader = new StateToManaConversionLoader(wrapperLookup));
+        resourceManagerHelper.registerReloadListener(Trickster.id("mana_conversion"), wrapperLookup -> manaConversionLoader = new ManaConversionLoader(wrapperLookup));
+        resourceManagerHelper.registerReloadListener(Trickster.id("conversion", "color_sucking"), wrapperLookup -> colorSuckingLoader = new ColorSuckingConversionLoader(wrapperLookup));
     }
 
     public static HeatConversionLoader getHeatLoader() {
@@ -35,5 +41,13 @@ public class DataLoader {
 
     public static StateToManaConversionLoader getStateToManaConversionLoader() {
         return stateToManaConversionLoader;
+    }
+
+    public static ManaConversionLoader getManaLoader() {
+        return manaConversionLoader;
+    }
+
+    public static ColorSuckingConversionLoader getColorSuckingLoader() {
+        return colorSuckingLoader;
     }
 }

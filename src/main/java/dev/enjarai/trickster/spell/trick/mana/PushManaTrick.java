@@ -1,12 +1,12 @@
 package dev.enjarai.trickster.spell.trick.mana;
 
-import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.net.ManaMoveParticlePacket;
 import dev.enjarai.trickster.net.ModNetworking;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.fragment.slot.StorageFragment;
-import net.minecraft.item.ItemStack;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 
 public class PushManaTrick extends AbstractConduitTrick {
     public PushManaTrick() {
@@ -14,8 +14,29 @@ public class PushManaTrick extends AbstractConduitTrick {
     }
 
     @Override
-    protected void createParticles(SpellContext ctx, StorageFragment slot, float v) {
-        var fromPos = slot.getSourceOrCasterPos(this, ctx);
+    protected boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx) {
+        for (var view : ctx.getManaStorage()) {
+            if (view.getAmount() > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    protected Storage<ManaVariant> getSource(SpellContext ctx, Storage<ManaVariant> storage) {
+        return ctx.getManaStorage();
+    }
+
+    @Override
+    protected Storage<ManaVariant> getTarget(SpellContext ctx, Storage<ManaVariant> storage) {
+        return storage;
+    }
+
+    @Override
+    protected void createParticles(SpellContext ctx, StorageFragment holder, ManaVariant variant, float amount) {
+        var fromPos = holder.getSourceOrCasterPos(this, ctx);
         var toPos = ctx.source().getPos();
 
         var distance = fromPos.distance(toPos);
@@ -25,37 +46,6 @@ public class PushManaTrick extends AbstractConduitTrick {
 
         ModNetworking.CHANNEL.serverHandle(ctx.source().getWorld()
             .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
-            .send(new ManaMoveParticlePacket(fromPos, toPos, v));
-    }
-
-    @Override
-    protected boolean isThereEvenAnyPointToTryingToRunThisTrickRightNowQuestionMark(SpellContext ctx) {
-        return !ctx.getManaPool().isEmpty(ctx.source().getWorld());
-    }
-
-    @Override
-    protected float affect(SpellContext ctx, ItemStack stack, float limit, double taxPercentage, long count) {
-        var world = ctx.source().getWorld();
-        var self = ctx.source().getManaPool();
-
-        var comp = stack.get(ModComponents.MANA);
-        if (comp == null) {
-            return 0;
-        }
-
-        if (comp.pool().isFull(world)) {
-            return 0;
-        }
-
-        var taxedMult = 1 - (float) taxPercentage;
-        var target = comp.pool().makeClone(world);
-
-        var taken = limit - self.use(limit, world);
-        var leftover = target.refill(taken * taxedMult / count, world); //leftover is how much taxed mana could not be inserted
-        leftover *= count;
-        leftover /= taxedMult; //untax the leftover mana; it wasnt transferred so it shouldnt be taxed
-        stack.set(ModComponents.MANA, comp.with(target));
-        self.refill(leftover, world);
-        return taken - leftover;
+            .send(new ManaMoveParticlePacket(fromPos, toPos, variant, amount));
     }
 }

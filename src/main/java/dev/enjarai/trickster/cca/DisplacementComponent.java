@@ -5,10 +5,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import dev.enjarai.trickster.ModSounds;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -63,7 +63,7 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
                     return;
                 }
 
-                entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                entity.getWorld().playSoundFromEntity(null, entity, ModSounds.DISPLACEMENT_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
                 if (entity.getWorld() == xyz.world) {
                     entity.requestTeleport(xyz.position.x, xyz.position.y, xyz.position.z);
@@ -71,7 +71,7 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
                     entity.teleport((ServerWorld) xyz.world, xyz.position.x, xyz.position.y, xyz.position.z, Set.of(), entity.getHeadYaw(), entity.getPitch());
                 }
 
-                entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                entity.getWorld().playSoundFromEntity(null, entity, ModSounds.DISPLACEMENT_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
         });
     }
@@ -121,7 +121,7 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
 
         if (!instant) {
             ModEntityComponents.GRACE.get(entity).triggerGrace("displacement", CHARGE_TICKS);
-            entity.getWorld().playSoundFromEntity(null, entity, SoundEvents.BLOCK_PORTAL_TRIGGER, SoundCategory.PLAYERS, 1.0F, 2.0F);
+            entity.getWorld().playSoundFromEntity(null, entity, ModSounds.DISPLACEMENT_TRIGGER, SoundCategory.PLAYERS, 1.0F, 2.0F);
         }
     }
 
@@ -132,7 +132,7 @@ public class DisplacementComponent implements ServerTickingComponent, ClientTick
 
         var server = this.entity.getWorld().getServer();
         if (server != null) {
-            var sound = SoundEvents.BLOCK_PORTAL_TRIGGER;
+            var sound = ModSounds.DISPLACEMENT_TRIGGER;
             var category = SoundCategory.PLAYERS;
 
             var packet = new StopSoundS2CPacket(sound.getId(), category);

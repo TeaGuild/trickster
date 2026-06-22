@@ -11,21 +11,27 @@ import net.minecraft.particle.ParticleType;
 
 public class SpellParticleOptions implements ParticleEffect {
     public static final MapCodec<SpellParticleOptions> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.INT.fieldOf("color").forGetter(p -> p.color)
+        Codec.INT.fieldOf("color").forGetter(p -> p.color)
     ).apply(instance, SpellParticleOptions::new));
     public static final PacketCodec<RegistryByteBuf, SpellParticleOptions> PACKET_CODEC = PacketCodec.tuple(
-            PacketCodecs.INTEGER, p -> p.color,
-            SpellParticleOptions::new
+        PacketCodecs.INTEGER, p -> p.color,
+        SpellParticleOptions::new
     );
 
     public final int color;
+    private final ParticleType<?> particleType;
 
     public SpellParticleOptions(int color) {
+        this(color, ModParticles.SPELL);
+    }
+
+    public SpellParticleOptions(int color, ParticleType<?> particleType) {
         this.color = color;
+        this.particleType = particleType;
     }
 
     @Override
     public ParticleType<?> getType() {
-        return ModParticles.SPELL;
+        return particleType;
     }
 }

@@ -60,6 +60,8 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     private Fragment crowMind = VoidFragment.INSTANCE;
     public int age;
 
+    private boolean dirtyExecutor;
+
     public ModularSpellConstructBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MODULAR_SPELL_CONSTRUCT_ENTITY, pos, state);
     }
@@ -72,13 +74,18 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
 
         crowMind = nbt.get(CROW_MIND_ENDEC);
 
-        executors.clear();
-        var newExecutors = nbt.get(EXECUTORS_ENDEC);
-        if (newExecutors == null) {
-            newExecutors = nbt.get(EXECUTORS_NET_ENDEC);
-        }
-        for (int i = 0; i < Math.min(newExecutors.size(), 4); i++) {
-            executors.set(i, newExecutors.get(i));
+        if (nbt.getBoolean("net")) {
+            if (nbt.has(EXECUTORS_NET_ENDEC)) {
+                var newExecutors = nbt.get(EXECUTORS_NET_ENDEC);
+                for (int i = 0; i < Math.min(newExecutors.size(), 4); i++) {
+                    executors.set(i, newExecutors.get(i));
+                }
+            }
+        } else {
+            var newExecutors = nbt.get(EXECUTORS_ENDEC);
+            for (int i = 0; i < Math.min(newExecutors.size(), 4); i++) {
+                executors.set(i, newExecutors.get(i));
+            }
         }
 
         showcaseTexts.clear();
@@ -96,10 +103,14 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
         nbt.put(EXECUTORS_ENDEC, executors);
     }
 
-    protected void writeNetNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    protected void writeNetNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, boolean includeExecutors) {
         writeCommonNbt(nbt, registryLookup);
 
-        nbt.put(EXECUTORS_NET_ENDEC, executors);
+        nbt.putBoolean("net", true);
+
+        if (includeExecutors) {
+            nbt.put(EXECUTORS_NET_ENDEC, executors);
+        }
     }
 
     protected void writeCommonNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
@@ -135,8 +146,12 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                     var source = new BlockSpellSource<>(serverWorld, getPos(), this) {
                         @Override
                         public void showMessage(Text message) {
-                            showcaseTexts.set(executorSlot, Optional.of(message));
-                            markDirtyAndUpdateClients();
+                            var text = Optional.of(message);
+
+                            if (!text.equals(showcaseTexts.get(executorSlot))) {
+                                showcaseTexts.set(executorSlot, text);
+                                markDirtyAndUpdateClients();
+                            }
                         }
                     };
 
@@ -152,8 +167,9 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                         try {
                             if (executor.run(source, tickData.withExecutionLimit(executionLimit)).isPresent()) {
                                 executors.set(executorSlot, Optional.empty());
-                                updateClient = true;
                                 resetShowcaseText(executorSlot);
+                                markDirtyExecutor();
+                                updateClient = true;
                             }
                         } catch (BlunderException blunder) {
                             error = Optional.of(
@@ -173,8 +189,9 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                         });
                         if (error.isPresent()) {
                             playCastSound(serverWorld, getPos(), 0.5f, 0.1f);
-                            updateClient = true;
                             resetShowcaseText(executorSlot);
+                            markDirtyExecutor();
+                            updateClient = true;
                         }
                     }
                 }
@@ -206,14 +223,19 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+        return BlockEntityUpdateS2CPacket.create(this, (self, registryLookup) -> {
+            var nbt = new NbtCompound();
+            writeNetNbt(nbt, registryLookup, dirtyExecutor);
+            dirtyExecutor = false;
+            return nbt;
+        });
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
         this.generateLoot(null);
         var nbt = new NbtCompound();
-        writeNetNbt(nbt, registryLookup);
+        writeNetNbt(nbt, registryLookup, true);
         return nbt;
     }
 
@@ -254,6 +276,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
 
                 executors.set(slot - 1, Optional.empty());
                 resetShowcaseText(slot - 1);
+                markDirtyExecutor();
             }
 
             return itemStack;
@@ -285,27 +308,33 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
             }
 
             inventory.set(slot, stack);
+            markDirtyExecutor();
             markDirtyAndUpdateClients();
         } else if (stack.isEmpty()) {
             removeStack(slot, 1);
         }
     }
 
+    @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        return stack.isEmpty() || ((slot == 0 ? stack.isIn(ModItems.MANA_KNOTS) : stack.getItem() instanceof SpellCoreItem) && getStack(slot).isEmpty());
+    }
+
     public void markDirtyAndUpdateClients() {
         super.markDirty();
+
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }
     }
 
-    @Override
-    public boolean canPlayerUse(PlayerEntity player) {
-        return Inventory.canPlayerUse(this, player);
+    public void markDirtyExecutor() {
+        dirtyExecutor = true;
     }
 
     @Override
-    public boolean isValid(int slot, ItemStack stack) {
-        return stack.isEmpty() || (slot == 0 ? stack.isIn(ModItems.MANA_KNOTS) : stack.getItem() instanceof SpellCoreItem) && getStack(slot).isEmpty();
+    public boolean canPlayerUse(PlayerEntity player) {
+        return Inventory.canPlayerUse(this, player);
     }
 
     @Override
@@ -323,7 +352,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
     @Override
     public void setCrowMind(Fragment fragment) {
         crowMind = fragment;
-        markDirtyAndUpdateClients();
+        markDirty();
     }
 
     @Override
@@ -342,6 +371,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
                         || executors.get(i - 1).get() instanceof ErroredSpellExecutor)
             ) {
                 executors.set(i - 1, Optional.of(executor));
+                markDirtyExecutor();
                 markDirtyAndUpdateClients();
                 return Optional.of(i - 1);
             }
@@ -374,6 +404,7 @@ public class ModularSpellConstructBlockEntity extends ScreenlessLootableBlockEnt
         if (executors.get(index).isPresent()) {
             executors.set(index, Optional.empty());
             resetShowcaseText(index);
+            markDirtyExecutor();
             markDirtyAndUpdateClients();
             return true;
         }

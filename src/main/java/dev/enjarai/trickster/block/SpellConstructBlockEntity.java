@@ -2,6 +2,7 @@ package dev.enjarai.trickster.block;
 
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.KnotItem;
+import dev.enjarai.trickster.item.ModItems;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.*;
@@ -32,7 +33,7 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
-public class SpellConstructBlockEntity extends BlockEntity implements SpellColoredBlockEntity, Inventory, CrowMind, SpellCastingBlockEntity {
+public class SpellConstructBlockEntity extends BlockEntity implements Inventory, CrowMind, SpellCastingBlockEntity {
     public static final KeyedEndec<Fragment> CROW_MIND_ENDEC = Fragment.ENDEC.keyed("crow_mind", () -> VoidFragment.INSTANCE);
     public static final KeyedEndec<SpellExecutor> EXECUTOR_ENDEC = SpellExecutor.ENDEC.nullableOf().keyed("executor", () -> null);
     public static final KeyedEndec<SpellExecutor> EXECUTOR_NET_ENDEC = SpellExecutor.NET_ENDEC.nullableOf().keyed("executor", () -> null);
@@ -40,11 +41,12 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
     public int age;
     public Fragment crowMind = VoidFragment.INSTANCE;
-    public int[] colors = new int[] { 0xffffff };
 
     private ItemStack stack = ItemStack.EMPTY;
     public SpellExecutor executor = null;
     private Text showcaseText = null;
+
+    private boolean dirtyExecutor;
 
     public SpellConstructBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.SPELL_CONSTRUCT_ENTITY, pos, state);
@@ -61,14 +63,25 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
         }
 
         crowMind = nbt.get(CROW_MIND_ENDEC);
-        colors = nbt.getIntArray("colors");
-
-        executor = nbt.getBoolean("net") ? nbt.get(EXECUTOR_NET_ENDEC) : nbt.get(EXECUTOR_ENDEC);
         showcaseText = nbt.get(SHOWCASE_TEXT_ENDEC);
 
-        if (colors.length == 0) {
-            colors = new int[] { 0xffffff };
+        if (nbt.getBoolean("net")) {
+            if (nbt.has(EXECUTOR_NET_ENDEC)) {
+                executor = nbt.get(EXECUTOR_NET_ENDEC);
+            }
+        } else {
+            executor = nbt.get(EXECUTOR_ENDEC);
         }
+    }
+
+    protected void writeCommonNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+
+        if (!stack.isEmpty()) {
+            nbt.put("stack", stack.encode(registryLookup, new NbtCompound()));
+        }
+
+        nbt.put(SHOWCASE_TEXT_ENDEC, showcaseText);
     }
 
     @Override
@@ -79,23 +92,14 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
         nbt.put(EXECUTOR_ENDEC, executor);
     }
 
-    protected void writeNetNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+    protected void writeNetNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, boolean includeExecutors) {
         writeCommonNbt(nbt, registryLookup);
 
         nbt.putBoolean("net", true);
-        nbt.put(EXECUTOR_NET_ENDEC, executor);
-    }
 
-    protected void writeCommonNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.writeNbt(nbt, registryLookup);
-
-        if (!stack.isEmpty()) {
-            nbt.put("stack", stack.encode(registryLookup, new NbtCompound()));
+        if (includeExecutors) {
+            nbt.put(EXECUTOR_NET_ENDEC, executor);
         }
-
-        nbt.putIntArray("colors", colors);
-
-        nbt.put(SHOWCASE_TEXT_ENDEC, showcaseText);
     }
 
     public void tick() {
@@ -107,8 +111,10 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                 var source = new BlockSpellSource<>(serverWorld, getPos(), this) {
                     @Override
                     public void showMessage(Text message) {
-                        showcaseText = message;
-                        markDirtyAndUpdateClients();
+                        if (!message.equals(showcaseText)) {
+                            showcaseText = message;
+                            markDirtyAndUpdateClients();
+                        }
                     }
                 };
 
@@ -126,8 +132,9 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                     try {
                         if (executor.run(source, new TickData().withCanUseMana(canUseMana).withExecutionLimit(executionLimit)).isPresent()) {
                             executor = null;
-                            updateClient = true;
                             resetShowcaseText();
+                            markDirtyExecutor();
+                            updateClient = true;
                         }
                     } catch (BlunderException blunder) {
                         error = Optional.of(
@@ -148,8 +155,9 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
                     if (error.isPresent()) {
                         playCastSound(serverWorld, getPos(), 0.5f, 0.1f);
-                        updateClient = true;
                         resetShowcaseText();
+                        markDirtyExecutor();
+                        updateClient = true;
                     }
                 }
             }
@@ -177,6 +185,7 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
                 executor = new DefaultSpellExecutor(spell, List.of());
                 resetShowcaseText();
                 markDirtyAndUpdateClients();
+                markDirtyExecutor();
                 //                }
             }
         }
@@ -185,25 +194,19 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+        return BlockEntityUpdateS2CPacket.create(this, (self, registryLookup) -> {
+            var nbt = new NbtCompound();
+            writeNetNbt(nbt, registryLookup, dirtyExecutor);
+            dirtyExecutor = false;
+            return nbt;
+        });
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
         var nbt = new NbtCompound();
-        writeNetNbt(nbt, registryLookup);
+        writeNetNbt(nbt, registryLookup, true);
         return nbt;
-    }
-
-    @Override
-    public int[] getColors() {
-        return colors;
-    }
-
-    @Override
-    public void setColors(int[] colors) {
-        this.colors = colors;
-        markDirtyAndUpdateClients();
     }
 
     @Override
@@ -260,6 +263,11 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
     }
 
     @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        return stack.isEmpty() || (stack.isIn(ModItems.MANA_KNOTS) && getStack(slot).isEmpty());
+    }
+
+    @Override
     public int size() {
         return 1;
     }
@@ -285,8 +293,13 @@ public class SpellConstructBlockEntity extends BlockEntity implements SpellColor
 
     public void markDirtyAndUpdateClients() {
         super.markDirty();
+
         if (world != null) {
             world.updateListeners(pos, getCachedState(), getCachedState(), 0);
         }
+    }
+
+    public void markDirtyExecutor() {
+        dirtyExecutor = true;
     }
 }

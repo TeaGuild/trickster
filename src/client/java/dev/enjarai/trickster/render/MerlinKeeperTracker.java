@@ -6,6 +6,7 @@ import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.item.component.ManaComponent;
 import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.spell.mana.SharedManaPool;
+import dev.enjarai.trickster.util.ColorUtil;
 import dev.enjarai.trickster.util.ImGoingToStabWhoeverInventedTime;
 import dev.enjarai.trickster.util.Unit;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -43,7 +44,7 @@ public class MerlinKeeperTracker implements TooltipAppender {
         }
     }
 
-    public float getUsage(ItemStack stack) {
+    public long getUsage(ItemStack stack) {
         if (MinecraftClient.getInstance().player != null) {
             var inventory = MinecraftClient.getInstance().player.getInventory();
             for (int i = 0; i < inventory.size(); i++) {
@@ -96,8 +97,8 @@ public class MerlinKeeperTracker implements TooltipAppender {
                 );
             }
 
-            float current = pool.get(world);
-            float max = pool.getMax(world);
+            long current = pool.get(world);
+            long max = pool.getMax(world);
             var currentUnit = Unit.getGandalfUnit(current);
             var maxUnit = Unit.getGandalfUnit(max);
 
@@ -110,40 +111,61 @@ public class MerlinKeeperTracker implements TooltipAppender {
                     .styled(s -> s.withColor(0xaaaabb))
             );
 
+            var variant = pool.getVariant(world);
+            var mana = variant.getMana();
+            if (!pool.isEmpty(world)) {
+                tooltip.add(Text.translatable(
+                    Trickster.MOD_ID + ".mana.type",
+                    variant.getName()
+                ).styled(s -> s.withColor(0xaaaabb)));
+            }
+
+            mana.appendItemTooltip(variant, context, tooltip, type, world);
+
+            var desiredColor = stack.get(ModComponents.DESIRED_COLOR);
+            if (desiredColor != null) {
+                var color = desiredColor.color();
+                tooltip.add(Text.empty());
+                tooltip.add(Text.translatable(
+                    Trickster.MOD_ID + ".knot.desired_color",
+                    ColorUtil.rgbAsText(color).withColor(color)
+                ).withColor(0xaaaabb));
+            }
+
             if (pool instanceof SharedManaPool shared && MinecraftClient.getInstance().world != null) {
                 tooltip.add(
                     Text
-                        .literal(shared.uuid().toString())
-                        .withColor((int) shared.uuid().getLeastSignificantBits())
+                        .literal("%08x".formatted(shared.uuid().getLeastSignificantBits()))
+                        .withColor(ColorUtil.lighten((int) shared.uuid().getMostSignificantBits(), 0.3f))
+                        .styled(s -> s.withFont(Trickster.FRAGMENT_FONT))
                 );
             }
         }
     }
 
     public class MerlinUsage {
-        public float prevLastMerlins;
-        public float lastMerlins;
-        public float latestMerlins;
+        public long prevLastMerlins;
+        public long lastMerlins;
+        public long latestMerlins;
 
-        public MerlinUsage(float latest) {
+        public MerlinUsage(long latest) {
             prevLastMerlins = latest;
             lastMerlins = latest;
             latestMerlins = latest;
         }
 
-        public void update(float newMerlins) {
+        public void update(long newMerlins) {
             prevLastMerlins = lastMerlins;
             lastMerlins = latestMerlins;
             latestMerlins = newMerlins;
         }
 
-        @SuppressWarnings("resource")
-        public float getUsage() {
+        public long getUsage() {
             if (MinecraftClient.getInstance().player == null) {
                 return 0;
             }
 
-            return MathHelper.lerp(
+            return (long) MathHelper.lerp(
                 (float) (MinecraftClient.getInstance().player.age % tickSpan) / tickSpan,
                 prevLastMerlins - lastMerlins, lastMerlins - latestMerlins
             ) / tickSpan;

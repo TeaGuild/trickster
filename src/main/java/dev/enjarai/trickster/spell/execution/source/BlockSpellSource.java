@@ -3,10 +3,9 @@ package dev.enjarai.trickster.spell.execution.source;
 import dev.enjarai.trickster.spell.CrowMind;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.execution.SpellExecutionManager;
-import dev.enjarai.trickster.spell.mana.CachedInventoryManaPool;
-import dev.enjarai.trickster.spell.mana.MutableManaPool;
-import dev.enjarai.trickster.spell.mana.generation.InventoryBlockManaHandler;
-import dev.enjarai.trickster.spell.mana.generation.ManaHandler;
+import dev.enjarai.trickster.spell.mana.storage.BlockEntityManaStorage;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.inventory.Inventory;
@@ -26,13 +25,13 @@ public class BlockSpellSource<T extends BlockEntity & Inventory & CrowMind> impl
     public final ServerWorld world;
     public final BlockPos pos;
     public final T blockEntity;
-    public final CachedInventoryManaPool pool;
+    public final BlockEntityManaStorage<T> manaStorage;
 
     public BlockSpellSource(ServerWorld world, BlockPos pos, T blockEntity) {
         this.world = world;
         this.pos = pos;
         this.blockEntity = blockEntity;
-        this.pool = new CachedInventoryManaPool(blockEntity);
+        this.manaStorage = new BlockEntityManaStorage<>(blockEntity);
     }
 
     @Override
@@ -51,8 +50,8 @@ public class BlockSpellSource<T extends BlockEntity & Inventory & CrowMind> impl
     }
 
     @Override
-    public MutableManaPool getManaPool() {
-        return pool;
+    public Storage<ManaVariant> getManaStorage() {
+        return manaStorage;
     }
 
     @Override
@@ -97,11 +96,6 @@ public class BlockSpellSource<T extends BlockEntity & Inventory & CrowMind> impl
             return Optional.of(manager);
 
         return Optional.empty();
-    }
-
-    @Override
-    public ManaHandler getManaHandler() {
-        return new InventoryBlockManaHandler(pos);
     }
 
     @Override
