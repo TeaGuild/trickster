@@ -414,7 +414,7 @@ trickster:
     traditional: Traditional
     storm: Tempest
     color: Chromatic
-    anti: Impotent
+    impotent: Impotent
     astral:
       default: Star-Bound
       named: Star-Bound (%s)

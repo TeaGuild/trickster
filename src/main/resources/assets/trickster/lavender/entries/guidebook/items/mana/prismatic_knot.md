@@ -29,7 +29,7 @@ If I just let the Knot sit there and charge all day, it ends up rather muddy.
 ;;;;;
 
 Something else I've figured out is that Prismatic Knots can interact with [Terrafel's Ploy](^trickster:ploys/mana#9).
-However, strangely enough, this always seems to create a large amount of [Impotent mana](^trickster:mana_types/anti_mana), 
+However, strangely enough, this always seems to create a large amount of [Impotent mana](^trickster:mana_types/impotent_mana), 
 making it completely useless to me!
 
 

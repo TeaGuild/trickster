@@ -3,8 +3,8 @@ package dev.enjarai.trickster.spell.mana.type;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import net.minecraft.component.ComponentMap;
 
-public class AntiMana extends Mana {
-    public AntiMana() {
+public class ImpotentMana extends Mana {
+    public ImpotentMana() {
         super(ComponentMap.EMPTY);
     }
 
