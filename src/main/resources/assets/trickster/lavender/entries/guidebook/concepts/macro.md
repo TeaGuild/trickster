@@ -22,4 +22,4 @@ A copy of the circle it is drawn in.
 The spell is then expected to return a new spell fragment to replace the fragment given.
 
 
-When making the map a [pattern literal](^trickster:editing#25) can be used to provide a pattern.
+When making the map, a [pattern literal](^trickster:editing#25) can be used to provide a pattern.

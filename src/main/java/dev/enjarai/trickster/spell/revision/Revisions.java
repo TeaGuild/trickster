@@ -33,7 +33,7 @@ public class Revisions {
     public static final Revision WRITE_BRANCH_TO_OFF_HAND = register(Trickster.id("write"), new WriteBranchToOffHandRevision());
     public static final Revision PATTERN_LITERAL = register(Trickster.id("quote_pattern"), new PatternLiteralRevision());
 
-    public static final Revision TWO = register(Trickster.id("two"), new ConstantRevision(Pattern.of(1, 4, 7), new NumberFragment(2)));
+    public static final Revision ONE_PONY_TRICK = register(Trickster.id("two"), new ConstantRevision(Pattern.of(1, 4, 7), new NumberFragment(2)));
     public static final Revision EMPTY_LIST = register(Trickster.id("empty_list"), new ConstantRevision(Pattern.of(6, 3, 0, 2, 5, 8), ListFragment.EMPTY));
     public static final Revision EMPTY_MAP = register(Trickster.id("empty_map"), new ConstantRevision(Pattern.of(2, 5, 8, 6, 3, 0), MapFragment.EMPTY));
 

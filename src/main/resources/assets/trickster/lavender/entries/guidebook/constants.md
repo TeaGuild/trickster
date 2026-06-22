@@ -11,15 +11,15 @@
 }
 ```
 
-Described here are [Scribing Patterns](^trickster:editing) which replace the glyph of the circle they're drawn in to a specific fragment.
+Described here are [Scribing Patterns](^trickster:editing) which replace the glyph of the circle they're drawn with a specific fragment.
 
 ;;;;;
 
 <|revision@trickster:templates|revision-id=trickster:two|>
 
-Replaces the glyph with the number two. Other numbers can be created using [arithmetic](^trickster:distortions/arithmetic).
+Replaces the glyph with the number two. Other numbers may be created using [arithmetic](^trickster:distortions/arithmetic).
 
-;;;;;
+;;;;;TWO =
 
 <|revision@trickster:templates|revision-id=trickster:create_list|>
 
