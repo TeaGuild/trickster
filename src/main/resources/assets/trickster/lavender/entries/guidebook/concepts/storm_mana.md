@@ -13,7 +13,7 @@
 Now this is strange.
 
 
-When one of my naturally recharging Knots is exposed to a thunderstorm while completely drained of regular mana, 
+When one of my naturally recharging Knots is exposed to a thunderstorm while completely drained of Traditional mana, 
 it starts to fill with this strange new mana type.
 With the moon blocked out by clouds, this mana must be coming from the storm itself!
 
