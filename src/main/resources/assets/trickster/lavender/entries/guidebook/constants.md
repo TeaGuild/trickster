@@ -19,7 +19,7 @@ Described here are [Scribing Patterns](^trickster:editing) which replace the gly
 
 Replaces the glyph with the number two. Other numbers may be created using [arithmetic](^trickster:distortions/arithmetic).
 
-;;;;;TWO =
+;;;;;
 
 <|revision@trickster:templates|revision-id=trickster:create_list|>
 
