@@ -18,6 +18,8 @@ jobs:
         with:
           java-version: 21
           distribution: 'temurin'
+      - name: Fetch apt repos
+        run: sudo apt-get update
       - name: Generate Book
         uses: https://github.com/modmuss50/xvfb-action@v1
         with:
