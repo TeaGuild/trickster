@@ -36,7 +36,7 @@ Spells run concurrently with the rest of the game and can be saved to and loaded
 
 Secondly, spells can be infinitely big and complex. While there *is* a limit to the speed spells execute at (to avoid straining the server) the spell itself can be as convoluted or as simple as you want!
 
-And last but not least, while mana is a resource required by all world-altering effects, it is possible to theoretically infinitely scale the amount of mana available to you. Mana is intended more as a balancing measure than a limiter on your potential.
+And last but not least, mana is a core gameplay element—end-game mana generation is designed to be more engaging than spamming the first simple option.
 
 ## So how do I begin?
 
@@ -72,12 +72,12 @@ This combines with other functional paradigms to create a very clean, but powerf
 
 We are very happy to accept contributions to this mod, so long as they fit within our design vision. 
 If you plan to make a contribution more complex than a simple bugfix or flat improvement, 
-please discuss it with us beforehand in the `#trickster` channel in [Discord](https://discord.enjarai.dev/) or create an issue here on Github.
+please discuss it with us beforehand in the `#trickster` channel in [Discord](https://discord.com/invite/WcYsDDQtyR) or create an issue here on Codeberg.
 
 Before creating a PR, please consider running the `spotlessApply` gradle task to ensure your formatting conforms with the rest of the code.
 
 If your potential contribution isn't something we want to accept into the main mod, 
-you're always free to [create an addon](https://github.com/enjarai/trickster/wiki/Addon-Setup) and upload it independently!
+you're always free to [create an addon](https://codeberg.org/trans-fish/trickster/wiki/Addon-Setup) and upload it independently!
 Providing tools for addon creation is one of our primary goals for development,
 so if any API you require is missing, please let us know.
 
