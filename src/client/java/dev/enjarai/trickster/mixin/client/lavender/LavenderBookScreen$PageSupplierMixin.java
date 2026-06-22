@@ -2,7 +2,7 @@ package dev.enjarai.trickster.mixin.client.lavender;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.enjarai.trickster.pond.TexturedLavenderEntry;
+import dev.enjarai.trickster.pond.TexturedLavenderThing;
 import io.wispforest.lavender.book.Entry;
 import io.wispforest.lavender.client.LavenderBookScreen;
 import dev.enjarai.trickster.pond.TexturedPageSupplier;
@@ -26,7 +26,7 @@ public class LavenderBookScreen$PageSupplierMixin implements TexturedPageSupplie
         )
     )
     private static MutableText modifyStyle(MutableText original, @Local(argsOnly = true) Entry entry) {
-        if (((TexturedLavenderEntry) (Object) entry).trickster$getTexture() != null) {
+        if (((TexturedLavenderThing) (Object) entry).trickster$getTexture() != null) {
             return original.styled(s -> s.withItalic(true));
         }
         return original;

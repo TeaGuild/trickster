@@ -1,14 +1,15 @@
 package dev.enjarai.trickster.mixin.client.lavender;
 
-import dev.enjarai.trickster.pond.TexturedLavenderEntry;
+import dev.enjarai.trickster.pond.TexturedLavenderThing;
+import io.wispforest.lavender.book.Category;
 import io.wispforest.lavender.book.Entry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(Entry.class)
-public class EntryMixin implements TexturedLavenderEntry {
+@Mixin(value = { Entry.class, Category.class })
+public class EntryAndCategoryMixin implements TexturedLavenderThing {
     @Unique
     private Identifier texture;
 

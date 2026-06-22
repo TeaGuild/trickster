@@ -1,0 +1,34 @@
+{
+  "parent": "trickster:trigger/root",
+  "criteria": {
+    "create_prismatic_knot": {
+      "trigger": "trickster:create_knot",
+      "conditions": {
+        "item": "trickster:prismatic_knot"
+      }
+    },
+    "pickup_prismatic_knot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:prismatic_knot"
+          }
+        ]
+      }
+    },
+    "color_mana": {
+      "trigger": "trickster:mana_type",
+      "conditions": {
+        "mana_type": "trickster:color"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "create_prismatic_knot",
+      "pickup_prismatic_knot",
+      "color_mana"
+    ]
+  ]
+}

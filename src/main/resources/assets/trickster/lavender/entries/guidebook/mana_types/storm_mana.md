@@ -1,8 +1,8 @@
 ```json
 {
-  "title": "Tempest Mana",
+  "title": "Tempest",
   "icon": "minecraft:wind_charge",
-  "category": "trickster:concepts",
+  "category": "trickster:mana_types",
   "required_advancements": [
     "trickster:stable_storm_mana"
   ],

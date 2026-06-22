@@ -1,10 +1,10 @@
 ```json
 {
-  "title": "Chromatic Mana",
+  "title": "Chromatic",
   "icon": "minecraft:red_glazed_terracotta",
-  "category": "trickster:concepts",
+  "category": "trickster:mana_types",
   "required_advancements": [
-    "trickster:color_mana"
+    "trickster:trigger/prismatic_knot_or_color_mana"
   ],
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }
