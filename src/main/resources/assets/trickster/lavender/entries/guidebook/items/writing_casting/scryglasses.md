@@ -11,9 +11,10 @@ A scryglass is simply a lens with special properties, but they are often made in
 
 
 The lens transforms magical information into something closer to raw thought, 
-allowing one to see fragments in a more familiar way, 
-if they concentrate their eyesight through the glass by holding <keybind;key.trickster.show_fragment_text>.
+allowing one to see fragments in a more familiar way.
 
+
+A scryglass can be activated by holding <keybind;key.trickster.show_fragment_text>.
 
 ;;;;;
 
