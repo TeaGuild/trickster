@@ -9,8 +9,8 @@
 
 [//]: # ([<img alt="fabric-api" height="56" src="https://i.enjarai.dev/u/fHOUib.png">]&#40;https://modrinth.com/mod/owo-lib&#41;)
 
-Trickster is a magician-themed esolang-based magic mod loosely inspired by [Hex Casting](https://modrinth.com/mod/hex-casting).
-It lets you draw infinitely nested spell circles and glyphs to combine tricks and create magical effects as simple or complex as you want.
+Trickster is an esolang-based magic mod loosely inspired by [Hex Casting](https://modrinth.com/mod/hex-casting). 
+Equipped with a book written by an ancient arcane scholar, learn to compose spells which create magical effects as simple or complex as you want.
 
 ![A simple spell](img/spell.png)
 
@@ -18,16 +18,16 @@ It lets you draw infinitely nested spell circles and glyphs to combine tricks an
 
 Yes.
 
-The spells you can scribe into scrolls are made in a turing-complete tree-like structure,
+The spells you can compose are made in a turing-complete tree-like structure,
 offering complete freedom in creating the results you want.
 Spells can do literally anything you can imagine*!
 
-<sub>*Assumes your imagination is limited by the scope of available glyphs.
-Library inc. takes no responsibility for overactive imagination or other forms of undue creativity.</sub>
+<sub>*Assumes your imagination is limited by the scope of available patterns.
+Library Inc. takes no responsibility for overactive imagination or other forms of undue creativity.</sub>
 
 ![A persistent multi-core spell construct](img/construct.png)
 
-## That's a pretty bold statement isnt it?
+## That's a pretty bold statement, isn't it?
 
 Yes it is, but we don't think its unfounded.
 
@@ -42,30 +42,29 @@ And last but not least, while mana is a resource required by all world-altering 
 
 Well, we've made that part pretty easy.
 
-All glyphs, tricks, and ways of spell-scribing are neatly documented in the Tome of Tomfoolery™,
-the go-to guide for being up to no good. 
-Making use of the excellent [Lavender](https://modrinth.com/mod/lavender) and fully custom interactive widgets,
-the Tome™ provides a state-of-the-art guidebook experience for all of your magical needs.
+All patterns, items, and blocks are documented in *The Teacher's Language* by Areli Haron, 
+one of the few remnants of an ancient civilization proficient in the arcane. 
+As you discover more about the world, notes will be added to the book reflecting on those discoveries.
 
-Check out the web version of the book at [trickster.ing](https://trickster.ing/)!
+If preferred, there is also a web book at [trickster.ing](https://trickster.ing/).
 
 ![Documentation](img/book.png)
 
 ## What else can I expect?
 
-As any good magic mod should, we provide a solid selection of tools and trinkets to facilitate spellcasting.
+As any good magic mod should, we provide a solid selection of tools and trinkets to facilitate spell composition and casting.
 
 ![A few of the available toys](img/items.png)
 
 ## Functional as in Functional Programming
 
-For the more programming-minded, the spellcasting system in this mod can be described as tree-based functional programming, most closely resembling something like Haskell or Clojure. This means a few things:
+For the more programming-minded, the spellcasting system in this mod can be described as tree-based functional programming, most closely resembling a Lisp. This means a few things:
 
 - Data is immutable.
-- Recursion is not only a thing, but the main way to achieve loop-like behaviour.
-    - Which also means infinite recursion of course.
+- Recursion is not only possible, but also the main way to achieve loop-like behaviour.
+    - Which also means infinite (and even mutual!) recursion via Tail-Call Optimization.
 - Data can only move up the tree from one node to the next.
-    - Though there are ways to split your tree, and pass around and manipulate other trees as data, effectively overcoming this limitation.
+    - Though various flow control options exist to overcome this limitation.
 
 This combines with other functional paradigms to create a very clean, but powerful scripting language.
 
@@ -90,4 +89,3 @@ Thanks to @crephan as well for help with a bunch of item textures and models.
 
 This mod was originally made for [Modfest: Carnival](https://modfest.net/carnival), 
 but has since been further developed far beyond its original scope.
-
