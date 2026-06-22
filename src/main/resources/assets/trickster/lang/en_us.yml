@@ -578,7 +578,7 @@ text.config.trickster-config:
     maxExecutionsPerSpellPerTick: Max operations per tick per spell
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
     allowMovingUnbreakableBlock: Allow tricks to move unbreakable blocks
-    allowMovingExtendedPiston: Allow tricks to move extended piston base
+    allowMovingExtendedPiston: Allow tricks to move extended pistons
 
     dragDrawing: Draw by dragging
     animateLines: Animate patterns
