@@ -61,7 +61,7 @@ as detailed [here](^trickster:concepts/mana).
 ;;;;;
 
 Other Knot types will also require the caster to specify the slot containing 
-the appropriate gem as a first argument, but this will be covered later.
+the appropriate gem as a first input, but this will be covered later.
 
 
 For now, drawing the [Ploy of the Moon Watcher](^trickster:ploys/mana#2) 

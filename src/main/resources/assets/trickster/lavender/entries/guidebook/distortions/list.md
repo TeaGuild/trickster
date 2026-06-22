@@ -4,6 +4,7 @@
   "icon": "minecraft:string",
   "category": "trickster:distortions",
   "additional_search_terms": [
+    "Catalogue Revision",
     "Tally Distortion",
     "Expansion Stratagem",
     "Collection Stratagem",
@@ -28,7 +29,7 @@ Lists are zero indexed.
 
 <|revision@trickster:templates|revision-id=trickster:empty_list|>
 
-Replaces the glyph with an empty list.
+A [Constant Revision](^trickster:constants) that replaces the glyph with an empty list.
 
 ;;;;;
 
