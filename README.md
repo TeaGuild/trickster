@@ -34,9 +34,7 @@ Yes it is, but we don't think its unfounded.
 For one, spells will not stop casting until they are complete, which can, in fact, be never!
 Spells run concurrently with the rest of the game and can be saved to and loaded from disk at any moment, just like everything else in Minecraft. This means you can leave a spell running, log out, come back two days later, and have it continue where you left off.
 
-Secondly, spells can be infinitely big and complex. While there *is* a limit to the speed spells execute at (to avoid straining the server) the spell itself can be as convoluted or as simple as you want!
-
-And last but not least, mana is a core gameplay element—end-game mana generation is designed to be more engaging than spamming the first simple option.
+But also, spells can be infinitely big and complex. While there *is* a limit to the speed spells execute at (to avoid straining the server) the spell itself can be as convoluted or as simple as you want!
 
 ## So how do I begin?
 
