@@ -355,14 +355,14 @@ public abstract class KnotItem extends Item {
 
                     return Manae.TRADITIONAL;
                 } else {
-                    pool.setVariant(ManaVariant.of(Manae.ANTI), world);
+                    pool.setVariant(ManaVariant.of(Manae.IMPOTENT), world);
                     pool.set(pool.getMax(world), world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
                     var chosenColor = computeDesired(ctx.source().getWorld());
                     stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
-                    return Manae.ANTI;
+                    return Manae.IMPOTENT;
                 }
             }
 
@@ -546,14 +546,14 @@ public abstract class KnotItem extends Item {
 
                     return Manae.TRADITIONAL;
                 } else {
-                    pool.setVariant(ManaVariant.of(Manae.ANTI), world);
+                    pool.setVariant(ManaVariant.of(Manae.IMPOTENT), world);
                     pool.set(pool.getMax(world), world);
 
                     stack.set(ModComponents.MANA, comp.with(pool));
                     var chosenColor = computeDesired(ctx.source().getWorld());
                     stack.set(ModComponents.DESIRED_COLOR, new DesiredColorComponent(chosenColor));
 
-                    return Manae.ANTI;
+                    return Manae.IMPOTENT;
                 }
             }
 

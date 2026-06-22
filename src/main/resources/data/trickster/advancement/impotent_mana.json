@@ -15,10 +15,10 @@
   },
   "parent": "trickster:unusual_mana",
   "criteria": {
-    "anti_mana": {
+    "impotent_mana": {
       "trigger": "trickster:mana_type",
       "conditions": {
-        "mana_type": "trickster:anti"
+        "mana_type": "trickster:impotent"
       }
     }
   }

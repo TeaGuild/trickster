@@ -8,7 +8,7 @@
 ```
 
 This book is rather remarkable. It seems to be an encyclopedia of sorts on an *old* form of magic.
-Or maybe a teaching aid or reference guide? I have to wonder who this Areli Haron is.
+Or perhaps moreso a teaching aid or reference guide. I have to wonder who this Areli Haron is.
 
 ;;;;;
 

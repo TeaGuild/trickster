@@ -179,7 +179,7 @@ trickster:
     summon_fireball: Pyromancer's Ploy
     summon_dragon_breath: Dragon's Ploy
     summon_tnt: Demolitionist's Ploy
-    summon_wind_charge: Aang's Ploy
+    summon_wind_charge: Mariner's Ploy
 
     block_find_entity: Embracing Ingress
     range_find_entity: Ingress of Shared Fate
@@ -414,7 +414,7 @@ trickster:
     traditional: Traditional
     storm: Tempest
     color: Chromatic
-    anti: Impotent
+    impotent: Impotent
     astral:
       default: Star-Bound
       named: Star-Bound (%s)
@@ -633,10 +633,11 @@ text.config.trickster-config:
     keyZoomSpeed: Editor key zoom speed
     maxExecutionsPerSpellPerTick: Max operations per tick per spell
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
-    allowUnbreakableBlockSwap: Allow block swapping of unbreakable blocks
-    allowExtendedPistonSwap: Allow block swapping of extended pistons
+    allowMovingUnbreakableBlock: Allow tricks to move unbreakable blocks
+    allowMovingExtendedPiston: Allow tricks to move extended pistons
 
     dragDrawing: Draw by dragging
+    moreEmphasis: Terminal dot emphasis in glyphs
     animateLines: Animate patterns
     barsHorizontal: Show spell-created bars horizontally
     disableOffhandScrollOpening: Require scroll in main hand to edit

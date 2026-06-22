@@ -89,8 +89,8 @@ public class SwapBlockTrick extends Trick<SwapBlockTrick> {
 
     private void expectCanSwap(World world, BlockPos blockPos, BlockState state) {
         if (state.isIn(ModBlocks.CANNOT_SWAP)
-            || (!Trickster.CONFIG.allowUnbreakableBlockSwap() && state.getHardness(world, blockPos) < 0)
-            || (!Trickster.CONFIG.allowExtendedPistonSwap() && state.contains(PistonBlock.EXTENDED) && state.get(PistonBlock.EXTENDED))
+            || (!Trickster.CONFIG.allowMovingUnbreakableBlock() && state.getHardness(world, blockPos) < 0)
+            || (!Trickster.CONFIG.allowMovingExtendedPiston() && state.contains(PistonBlock.EXTENDED) && state.get(PistonBlock.EXTENDED))
         ) {
             throw new BlockInvalidBlunder(this, state.getBlock());
         }

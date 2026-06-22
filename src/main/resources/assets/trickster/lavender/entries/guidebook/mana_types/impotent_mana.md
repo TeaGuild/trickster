@@ -4,7 +4,7 @@
   "icon": "minecraft:glass_bottle",
   "category": "trickster:mana_types",
   "required_advancements": [
-    "trickster:trigger/prismatic_knot_or_anti_mana"
+    "trickster:trigger/prismatic_knot_or_impotent_mana"
   ],
   "trickster:page_texture": "trickster:textures/gui/white_book_note.png"
 }

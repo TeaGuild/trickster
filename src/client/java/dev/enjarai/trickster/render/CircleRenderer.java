@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.enjarai.trickster.ModAtlases;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.render.fragment.FragmentRenderer;
+import dev.enjarai.trickster.render.fragment.PatternGlyphRenderer;
 import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.PatternGlyph;
@@ -24,7 +25,6 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-import static dev.enjarai.trickster.screen.scribing.CircleWidget.isCircleClickable;
 import static net.minecraft.client.render.RenderPhase.*;
 
 public class CircleRenderer {
@@ -108,6 +108,10 @@ public class CircleRenderer {
         this.lineToMouse = lineToMouse;
     }
 
+    public boolean getLineToMouse() {
+        return lineToMouse;
+    }
+
     public void setRenderTime(long renderTime) {
         this.renderTime = renderTime;
     }
@@ -134,10 +138,6 @@ public class CircleRenderer {
         this.considerInners = considerInners;
     }
 
-    public boolean isInEditor() {
-        return inEditor;
-    }
-
     public float getR() {
         return r;
     }
@@ -156,6 +156,10 @@ public class CircleRenderer {
 
     public double getMouseY() {
         return mouseY;
+    }
+
+    public long getRenderTime() {
+        return renderTime;
     }
 
     public void setCircleTransparency(float circleTransparency) {
@@ -270,7 +274,7 @@ public class CircleRenderer {
             lineX + perpendicularVec.x - toCenterVec.x, lineY + perpendicularVec.y - toCenterVec.y,
             lineX - perpendicularVec.x - toCenterVec.x, lineY - perpendicularVec.y - toCenterVec.y,
             0, dividerColor.red() * r, dividerColor.green() * g, dividerColor.blue() * b,
-            dividerColor.alpha() * (float) alpha, inUI
+            dividerColor.alpha() * (float) alpha, inUI, Trickster.CONFIG.outlinePatterns()
         );
     }
 
@@ -289,7 +293,6 @@ public class CircleRenderer {
         Fragment glyph, @Nullable List<Byte> drawingPattern
     ) {
         float patternRadius = radius / PATTERN_TO_PART_RATIO;
-        float pixelSize = patternRadius / PART_PIXEL_RADIUS;
 
         alpha *= (float) (1 - textFade * 0.5f);
         forcedAlpha *= (float) (1 - textFade * 0.5f);
@@ -312,56 +315,7 @@ public class CircleRenderer {
                 renderText = false;
             }
 
-            for (int i = 0; i < 9; i++) {
-                var pos = getPatternDotPosition(x, y, i, patternRadius);
-                var isLinked = isDrawing ? drawingPattern.contains((byte) i) : patternList.contains(i);
-                float dotScale = Trickster.CONFIG.dotSize();
-
-                if (isInsideHitbox(pos, pixelSize, mouseX, mouseY) && isCircleClickable(radius)) {
-                    dotScale *= 1.6f;
-                } else if (!isLinked) {
-                    if (isCircleClickable(radius)) {
-                        var mouseDistance = new Vector2f((float) (mouseX - pos.x), (float) (mouseY - pos.y)).length();
-                        dotScale *= Math.clamp(patternRadius / mouseDistance - 0.2f, 0, 1);
-                    } else {
-                        // Skip the dot if its too small to click
-                        continue;
-                    }
-                }
-
-                float dotSize = pixelSize * dotScale;
-
-                drawFlatPolygon(
-                    matrices, vertexConsumers,
-                    pos.x - dotSize, pos.y - dotSize,
-                    pos.x - dotSize, pos.y + dotSize,
-                    pos.x + dotSize, pos.y + dotSize,
-                    pos.x + dotSize, pos.y - dotSize,
-                    0, (isDrawing && isLinked ? 0.8f : 1) * r,
-                    (isDrawing && isLinked ? 0.5f : 1) * g,
-                    1 * b,
-                    Trickster.CONFIG.patternOpacity() * alpha,
-                    inUI
-                );
-            }
-
-            for (var line : patternList.entries()) {
-                var first = getPatternDotPosition(x, y, line.p1(), patternRadius);
-                var second = getPatternDotPosition(x, y, line.p2(), patternRadius);
-                drawGlyphLine(
-                    matrices, vertexConsumers, first, second, pixelSize, isDrawing, 1, r, g, b,
-                    Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime
-                );
-            }
-
-            if (isDrawing && lineToMouse) {
-                var last = getPatternDotPosition(x, y, drawingPattern.getLast(), patternRadius);
-                var now = new Vector2f((float) mouseX, (float) mouseY);
-                drawGlyphLine(
-                    matrices, vertexConsumers, last, now, pixelSize, true, 1, r, g, b,
-                    Trickster.CONFIG.patternOpacity() * alpha, inUI, renderTime
-                );
-            }
+            PatternGlyphRenderer.renderPatternGlyph(patternList, matrices, vertexConsumers, x, y, patternRadius, alpha, this, drawingPattern);
         } else {
             //noinspection rawtypes
             FragmentRenderer renderer = FragmentRenderer.REGISTRY.get(FragmentType.REGISTRY.getId(glyph.type()));
@@ -377,34 +331,8 @@ public class CircleRenderer {
             }
 
             if (inUI && renderDots) {
-                for (int i = 0; i < 9; i++) {
-                    var pos = getPatternDotPosition(x, y, i, patternRadius);
-
-                    float dotScale;
-
-                    if (isInsideHitbox(pos, pixelSize, mouseX, mouseY) && isCircleClickable(radius)) {
-                        dotScale = 1.6f;
-                    } else {
-                        if (isCircleClickable(radius)) {
-                            var mouseDistance = new Vector2f((float) (mouseX - pos.x), (float) (mouseY - pos.y)).length();
-                            dotScale = Math.clamp(patternRadius / (mouseDistance * 2) - 0.2f, 0, 1);
-                        } else {
-                            // Skip the dot if its too small to click
-                            continue;
-                        }
-                    }
-
-                    var dotSize = pixelSize * dotScale;
-
-                    drawFlatPolygon(
-                        matrices, vertexConsumers,
-                        pos.x - dotSize, pos.y - dotSize,
-                        pos.x - dotSize, pos.y + dotSize,
-                        pos.x + dotSize, pos.y + dotSize,
-                        pos.x + dotSize, pos.y - dotSize,
-                        0, r, g, b, 0.25f, true
-                    );
-                }
+                PatternRenderer.renderDots(matrices, vertexConsumers, x, y, patternRadius, mouseX, mouseY, r, g, b, true, inEditor, Trickster.CONFIG.dotSize(), 0.25f,
+                    Trickster.CONFIG.outlinePatterns());
             }
         }
 
@@ -414,33 +342,6 @@ public class CircleRenderer {
             FragmentRenderer.renderAsText(glyph, matrices, vertexConsumers, x, y, radius, (float) textFade);
             matrices.pop();
         }
-    }
-
-    public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, boolean isDrawing, float tone, float r, float g,
-        float b, float opacity, boolean inUI, long renderTime) {
-        drawGlyphLine(matrices, vertexConsumers, last, now, pixelSize, 0.5f, 3, isDrawing, tone, r, g, b, opacity, inUI, renderTime);
-    }
-
-    public static void drawGlyphLine(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Vector2f last, Vector2f now, float pixelSize, float width, float height, boolean isDrawing,
-        float tone, float r, float g, float b, float opacity, boolean inUI, long renderTime) {
-        if (last.distance(now) < pixelSize * 6) {
-            return;
-        }
-
-        pixelSize *= Trickster.CONFIG.patternSize();
-
-        var parallelVec = new Vector2f(last.y - now.y, now.x - last.x).normalize().mul(pixelSize * width);
-        var directionVec = new Vector2f(last.x - now.x, last.y - now.y).normalize().mul(pixelSize * height * Trickster.CONFIG.patternEdgeGap());
-
-        drawFlatPolygon(
-            matrices, vertexConsumers,
-            last.x - parallelVec.x - directionVec.x, last.y - parallelVec.y - directionVec.y,
-            last.x + parallelVec.x - directionVec.x, last.y + parallelVec.y - directionVec.y,
-            now.x + parallelVec.x + directionVec.x, now.y + parallelVec.y + directionVec.y,
-            now.x - parallelVec.x + directionVec.x, now.y - parallelVec.y + directionVec.y,
-            0, (isDrawing ? 0.8f : tone) * r, (isDrawing ? 0.5f : tone) * g, tone * b,
-            opacity, inUI
-        );
     }
 
     public static Vector2f getPatternDotPosition(float x, float y, int i, float radius) {
@@ -532,7 +433,7 @@ public class CircleRenderer {
     public static void drawFlatPolygon(
         MatrixStack matrices, VertexConsumerProvider vertexConsumers,
         float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4,
-        float z, float r, float g, float b, float alpha, boolean inUI
+        float z, float r, float g, float b, float alpha, boolean inUI, boolean outline
     ) {
         Matrix4f matrix4f = matrices.peek().getPositionMatrix();
         VertexConsumer vertexConsumer;
@@ -541,7 +442,7 @@ public class CircleRenderer {
         vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x3, y3, z).color(r, g, b, alpha);
         vertexConsumer.vertex(matrix4f, x4, y4, z).color(r, g, b, alpha);
-        if (Trickster.CONFIG.outlinePatterns()) {
+        if (outline) {
             vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getDebugLineStrip(1));
             vertexConsumer.vertex(matrix4f, x1, y1, z).color(r, g, b, alpha);
             vertexConsumer.vertex(matrix4f, x2, y2, z).color(r, g, b, alpha);

@@ -6,4 +6,5 @@
 }
 ```
 
-This category contains a set of linear tutorials to take you through the most important concepts necessary to begin creating spell with the Great Language.
+This category contains a set of linear tutorials to take you through the most 
+important concepts necessary to begin creating spells with the Great Language.

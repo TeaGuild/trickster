@@ -17,10 +17,10 @@
         ]
       }
     },
-    "anti_mana": {
+    "impotent_mana": {
       "trigger": "trickster:mana_type",
       "conditions": {
-        "mana_type": "trickster:anti"
+        "mana_type": "trickster:impotent"
       }
     }
   },
@@ -28,7 +28,7 @@
     [
       "create_prismatic_knot",
       "pickup_prismatic_knot",
-      "anti_mana"
+      "impotent_mana"
     ]
   ]
 }
