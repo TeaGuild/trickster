@@ -14,7 +14,7 @@
 I knew it! The Wither's remains *are* sufficiently crystalline to store mana!
 
 
-Due to the obvious stellar resemblances, I dub thee: The Astral Knot
+Due to the obvious stellar resemblances, I dub thee: The Astral Knot.
 
 ;;;;;
 
