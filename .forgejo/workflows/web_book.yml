@@ -6,6 +6,7 @@ on:
 jobs:
   publish_web_book:
     runs-on: gaming
+    container: "ghcr.io/catthehacker/ubuntu:act-latest"
     env:
       COLEUS_BOOK_GEN: 'true'
       COLEUS_BOOK_ID: 'trickster:tome_of_tomfoolery'
