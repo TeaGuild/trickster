@@ -21,7 +21,7 @@ public class ColorMana extends Mana {
     private final ComponentChanges REMOVE_COLOR = ComponentChanges.builder().remove(ManaComponents.COLOR).build();
 
     public ColorMana() {
-        super(ComponentMap.builder().add(ManaComponents.COLOR, new ColorComponent(0xff0055)).build());
+        super(ComponentMap.builder().add(ManaComponents.COLOR, ColorComponent.fromInt(0xff0055)).build());
     }
 
     @Override
@@ -49,10 +49,13 @@ public class ColorMana extends Mana {
 
     public Optional<ManaVariant> mix(World world, ManaVariant left, long amountLeft, ManaVariant right, long amountRight) {
         if (left.withComponentChanges(REMOVE_COLOR).equals(right.withComponentChanges(REMOVE_COLOR))) {
-            int colorLeft = left.getComponentMap().get(ManaComponents.COLOR).color();
-            int colorRight = right.getComponentMap().get(ManaComponents.COLOR).color();
+            var colorLeft = left.getComponentMap().get(ManaComponents.COLOR);
+            var colorRight = right.getComponentMap().get(ManaComponents.COLOR);
 
-            var finalComp = new ColorComponent(ColorUtil.mixColors(colorLeft, amountLeft, colorRight, amountRight));
+            var finalComp = ColorComponent.fromVector(ColorUtil.mixColors(
+                colorLeft.red(), colorLeft.green(), colorLeft.blue(), amountLeft,
+                colorRight.red(), colorRight.green(), colorRight.blue(), amountRight
+            ));
             return Optional.of(left.withComponentChanges(ComponentChanges.builder().add(ManaComponents.COLOR, finalComp).build()));
         }
 
