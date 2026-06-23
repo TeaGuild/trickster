@@ -36,6 +36,7 @@ public class ErodeBlockConversionGenerator extends SimpleBlockConversionProvider
         registerErosionConversion(Blocks.CHIPPED_ANVIL, true, Blocks.DAMAGED_ANVIL);
         registerErosionConversion(Blocks.DAMAGED_ANVIL, Blocks.AIR);
         registerErosionConversion(Blocks.GRAVEL, Blocks.SAND);
+        registerErosionConversion(Blocks.DIRT, Blocks.MUD);
         //region Copper
         registerErosionConversion(Blocks.COPPER_BLOCK, Blocks.EXPOSED_COPPER);
         registerErosionConversion(Blocks.EXPOSED_COPPER, Blocks.WEATHERED_COPPER);

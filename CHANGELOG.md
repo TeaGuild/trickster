@@ -1,1 +1,2 @@
 - Fixed duplicate Catalogue Revision in the Constants entry. (@aurakle)
+- Added dirt to mud erosion. (@aurakle)
