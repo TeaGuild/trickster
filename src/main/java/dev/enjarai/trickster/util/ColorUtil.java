@@ -3,6 +3,7 @@ package dev.enjarai.trickster.util;
 import dev.enjarai.trickster.Trickster;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import org.joml.Vector4d;
 
 import static net.minecraft.util.math.ColorHelper.Argb.getAlpha;
 import static net.minecraft.util.math.ColorHelper.Argb.getArgb;
@@ -33,6 +34,40 @@ public class ColorUtil {
             (int) ((double) r * f / s),
             (int) ((double) g * f / s),
             (int) ((double) b * f / s)
+        );
+    }
+
+    public static Vector4d mixColors(double colorLeftRed, double colorLeftGreen, double colorLeftBlue, long amountLeft, double colorRightRed, double colorRightGreen, double colorRightBlue,
+        long amountRight) {
+        return mixColors(
+            colorLeftRed, colorLeftGreen, colorLeftBlue, 255, amountLeft,
+            colorRightRed, colorRightGreen, colorRightBlue, 255, amountRight
+        );
+    }
+
+    public static Vector4d mixColors(double colorLeftRed, double colorLeftGreen, double colorLeftBlue, double colorLeftAlpha, long amountLeft, double colorRightRed, double colorRightGreen,
+        double colorRightBlue, double colorRightAlpha, long amountRight) {
+        long m = amountLeft + amountRight;
+
+        double r = amountLeft * colorLeftRed + amountRight * colorRightRed;
+        double g = amountLeft * colorLeftGreen + amountRight * colorRightGreen;
+        double b = amountLeft * colorLeftBlue + amountRight * colorRightBlue;
+        double a = amountLeft * colorLeftAlpha + amountRight * colorRightAlpha;
+        double l = amountLeft * Math.max(colorLeftRed, Math.max(colorLeftGreen, colorLeftBlue))
+            + amountRight * Math.max(colorRightRed, Math.max(colorRightGreen, colorRightBlue));
+
+        r /= m;
+        g /= m;
+        b /= m;
+
+        double f = l / (double) m;
+        double s = Math.max(r, Math.max(g, b));
+
+        return new Vector4d(
+            a / m,
+            r * f / s,
+            g * f / s,
+            b * f / s
         );
     }
 

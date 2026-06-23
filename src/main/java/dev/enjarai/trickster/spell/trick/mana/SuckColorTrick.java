@@ -44,7 +44,7 @@ public class SuckColorTrick extends Trick<SuckColorTrick> {
             1, 0, 0, 0, 0);
 
         var insertingVariant = ManaVariant.of(Manae.COLOR).withComponentChanges(
-            ComponentChanges.builder().add(ManaComponents.COLOR, new ColorComponent(conversion.color())).build());
+            ComponentChanges.builder().add(ManaComponents.COLOR, ColorComponent.fromInt(conversion.color())).build());
         long insertingAmount = (long) (conversion.manaAmount() * ManaPool.MANA_SCALE);
         double taxedMult = insertingVariant.getManaTransferTaxMultiplier(ctx, blockPos.toCenterPos().toVector3d());
         long inserted = 0;

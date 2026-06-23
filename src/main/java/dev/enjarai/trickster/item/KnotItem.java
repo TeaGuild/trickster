@@ -443,7 +443,7 @@ public abstract class KnotItem extends Item {
             var currentLightColor = ColorUtil.mixColors(firstLightColor, segmentSize - segmentProgress, secondLightColor, segmentProgress);
 
             var insertingVariant = ManaVariant.of(mana).withComponentChanges(
-                ComponentChanges.builder().add(ManaComponents.COLOR, new ColorComponent(currentLightColor)).build());
+                ComponentChanges.builder().add(ManaComponents.COLOR, ColorComponent.fromInt(currentLightColor)).build());
             var targetVariant = insertingVariant;
             var amountToInsert = (long) (chargeMultiplier * ManaPool.MANA_SCALE);
 
