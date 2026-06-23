@@ -27,6 +27,6 @@ Replaces the glyph with an empty [list](^trickster:distortions/list).
 
 ;;;;;
 
-<|revision@trickster:templates|revision-id=trickster:empty_list|>
+<|revision@trickster:templates|revision-id=trickster:empty_map|>
 
 Replaces the glyph with an empty [map](^trickster:distortions/map).
