@@ -268,7 +268,7 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
             if (hardness > 0 && speedDiff > 0.15) {
                 hit.getEntity().damage(
                     new LevitatingBlockDamageSource(getWorld(), this, getOwner(), blockState.getBlock().getName()),
-                    (float) (Math.sqrt(speedDiff * Math.max(0, Math.log(hardness))) + 5)
+                    (float) (Math.min(Math.max(6, hardness / 2), 1.5 * Math.sqrt(speedDiff) * Math.sqrt(hardness)))
                 );
             }
 
