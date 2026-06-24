@@ -5,6 +5,7 @@ import dev.enjarai.trickster.block.cauldron.EraseSpellCauldronBehavior;
 import dev.enjarai.trickster.item.ModItems;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
