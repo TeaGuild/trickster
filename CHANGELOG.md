@@ -1,2 +1,3 @@
 - Fixed duplicate Catalogue Revision in the Constants entry. (@aurakle)
 - Added dirt to mud erosion. (@aurakle)
+- Added an indicator on the exterior of numbers for the sign. (@aurakle)

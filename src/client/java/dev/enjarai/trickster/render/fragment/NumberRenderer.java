@@ -17,6 +17,7 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
     public static final Identifier NEEDLE_0 = Trickster.id("fragment/number/needle_0");
     public static final Identifier NEEDLE_45 = Trickster.id("fragment/number/needle_45");
     public static final Identifier POINT = Trickster.id("fragment/number/point");
+    public static final Identifier SIGN = Trickster.id("fragment/number/sign");
 
     public static final float SPACING = 0.7f;
 
@@ -35,6 +36,23 @@ public class NumberRenderer implements FragmentRenderer<NumberFragment> {
 
         var minSize = delegator.inUI ? MIN_SIZE : 0.05;
         var POINT_RADIUS = 0.5;
+
+        {
+            float signSize = SPACING * radius;
+
+            matrices.push();
+            matrices.multiply(new Quaternionf(new AxisAngle4f((float) Math.PI / 2 * (lastRotation >> 1 & 3), 0, 0, 1)));
+
+            CircleRenderer.drawTexturedQuad(
+                matrices, vertexConsumers, SIGN,
+                -signSize, signSize, -signSize, signSize,
+                0.001f,
+                delegator.getR(), delegator.getG(), delegator.getB(),
+                alpha * delegator.getCircleTransparency(), delegator.inUI
+            );
+
+            matrices.pop();
+        }
 
         long i = (long) value;
         do {
