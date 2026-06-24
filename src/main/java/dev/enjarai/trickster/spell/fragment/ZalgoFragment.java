@@ -85,16 +85,12 @@ public record ZalgoFragment(int index) implements Fragment {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ZalgoFragment that) {
-            return this.index == that.index;
-        }
-
-        return false;
+        return obj instanceof ZalgoFragment;
     }
 
     @Override
     public int hashCode() {
-        return SILLIES.get(index).hashCode();
+        return 0;
     }
 
     @Override
