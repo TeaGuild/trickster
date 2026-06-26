@@ -4,6 +4,7 @@ import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.execution.SpellExecutionManager;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.trick.Trick;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.entity.Entity;
@@ -14,6 +15,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import org.joml.Vector3d;
+import org.joml.Vector3dc;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 
@@ -90,5 +92,9 @@ public interface SpellSource {
 
     default Vector3d getGlobalPos() {
         return SableCompanion.INSTANCE.projectOutOfSubLevel(getWorld(), getPos());
+    }
+
+    default double getDistance(Vector3dc to) {
+        return Trick.getDistance(getWorld(), getPos(), to);
     }
 }

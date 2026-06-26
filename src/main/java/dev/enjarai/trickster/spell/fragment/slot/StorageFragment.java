@@ -5,6 +5,7 @@ import dev.enjarai.trickster.net.StorageMoveParticlePacket;
 import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.blunder.BlunderException;
 import dev.enjarai.trickster.spell.trick.Trick;
+import dev.ryanhcode.sable.companion.SableCompanion;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import org.joml.Vector3d;
@@ -26,7 +27,7 @@ public interface StorageFragment extends VariantingFragment {
     default float getMoveCost(Trick<?> trickSource, SpellContext ctx, Vector3dc pos, long amount) throws BlunderException {
         var sourcePos = getSourceOrCasterPos(trickSource, ctx);
         var a = variantType().costMultiplier * amount;
-        return (float) (pos.distance(sourcePos) * a * 0.5);
+        return (float) (Trick.getDistance(ctx.source().getWorld(), pos, sourcePos) * a * 0.5);
     }
 
     default void incurCost(Trick<?> trick, SpellContext ctx, Vector3dc pos, long amountMoved, TransactionContext trans) {

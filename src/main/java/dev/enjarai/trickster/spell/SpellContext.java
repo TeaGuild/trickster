@@ -141,7 +141,7 @@ public record SpellContext(ExecutionState state, SpellSource source, TickData da
     }
 
     public double distanceTo(Vector3dc to) {
-        return Trick.getDistance(source().getWorld(), source().getPos(), to);
+        return source.getDistance(to);
     }
 
     public Vector3d getGlobalPos() {
