@@ -1,4 +1,4 @@
-- Fixed duplicate Catalogue Revision in the Constants entry. (@aurakle)
+- Various book fixes. (@aurakle)
 - Added dirt to mud erosion. (@aurakle)
 - Added an indicator on the exterior of numbers for the sign. (@aurakle)
 - Fixed a couple issues with inconsistent fragment equality. (@aurakle)
