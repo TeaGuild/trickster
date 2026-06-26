@@ -1,5 +1,1 @@
-- Various book fixes. (@aurakle)
-- Added dirt to mud erosion. (@aurakle)
-- Added an indicator on the exterior of numbers for the sign. (@aurakle)
-- Fixed a couple issues with inconsistent fragment equality. (@aurakle)
-- Removed shulker mana conversion due to issues preserving the shulker contents. (@aurakle)
+- Removed shulker mana conversion due to issues preserving the shulker contents for real this time (forgot to run datagen on the last update). (@aurakle)
