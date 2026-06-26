@@ -40,26 +40,27 @@ public interface StorageFragment extends VariantingFragment {
     }
 
     default void spawnMoveParticles(Trick<?> trick, SpellContext ctx, Vector3dc toPos, long amountMoved) {
-        var fromPos = getSourceOrCasterPos(trick, ctx);
+        var fromPosWorld = SableCompanion.INSTANCE.projectOutOfSubLevel(ctx.source().getWorld(), getSourceOrCasterPos(trick, ctx), new Vector3d());
+        final var toPosWorld = SableCompanion.INSTANCE.projectOutOfSubLevel(ctx.source().getWorld(), toPos, new Vector3d());
 
-        var distance = fromPos.distance(toPos);
+        var distance = fromPosWorld.distance(toPosWorld);
         if (distance < 1) {
             return;
         }
 
-        var difference = toPos.sub(fromPos, new Vector3d());
+        var difference = toPosWorld.sub(fromPosWorld, new Vector3d());
         var direction = difference.normalize(new Vector3d());
 
         var trailLength = Math.min(distance / 2, 48);
-        var fromTrailTarget = fromPos.add(direction.mul(trailLength, new Vector3d()), new Vector3d());
-        var toTrailSource = toPos.add(direction.mul(-trailLength, new Vector3d()), new Vector3d());
+        var fromTrailTarget = fromPosWorld.add(direction.mul(trailLength, new Vector3d()), new Vector3d());
+        var toTrailSource = toPosWorld.add(direction.mul(-trailLength, new Vector3d()), new Vector3d());
 
         var world = ctx.source().getWorld();
         ModNetworking.CHANNEL.serverHandle(world
-            .getPlayers(p -> p.squaredDistanceTo(fromPos.x(), fromPos.y(), fromPos.z()) < 24 * 24))
-            .send(new StorageMoveParticlePacket(fromPos, fromTrailTarget, toPos, amountMoved));
+            .getPlayers(p -> p.squaredDistanceTo(fromPosWorld.x(), fromPosWorld.y(), fromPosWorld.z()) < 24 * 24))
+            .send(new StorageMoveParticlePacket(fromPosWorld, fromTrailTarget, toPosWorld, amountMoved));
         ModNetworking.CHANNEL.serverHandle(world
-            .getPlayers(p -> p.squaredDistanceTo(toPos.x(), toPos.y(), toPos.z()) < 24 * 24))
-            .send(new StorageMoveParticlePacket(toTrailSource, toPos, toPos, amountMoved));
+            .getPlayers(p -> p.squaredDistanceTo(toPosWorld.x(), toPosWorld.y(), toPosWorld.z()) < 24 * 24))
+            .send(new StorageMoveParticlePacket(toTrailSource, toPosWorld, toPosWorld, amountMoved));
     }
 }
