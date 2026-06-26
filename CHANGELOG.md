@@ -2,3 +2,4 @@
 - Added dirt to mud erosion. (@aurakle)
 - Added an indicator on the exterior of numbers for the sign. (@aurakle)
 - Fixed a couple issues with inconsistent fragment equality. (@aurakle)
+- Removed shulker mana conversion due to issues preserving the shulker contents. (@aurakle)

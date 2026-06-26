@@ -104,26 +104,26 @@ public class ColorSuckingConversionGenerator extends BlockConversionProvider<Col
             }
         });
 
-        registerSuckingConversion(512, Blocks.SHULKER_BOX, new HashMap<>() {
-            {
-                put(Blocks.BLACK_SHULKER_BOX, DyeColor.BLACK);
-                put(Blocks.WHITE_SHULKER_BOX, DyeColor.WHITE);
-                put(Blocks.ORANGE_SHULKER_BOX, DyeColor.ORANGE);
-                put(Blocks.MAGENTA_SHULKER_BOX, DyeColor.MAGENTA);
-                put(Blocks.LIGHT_BLUE_SHULKER_BOX, DyeColor.LIGHT_BLUE);
-                put(Blocks.YELLOW_SHULKER_BOX, DyeColor.YELLOW);
-                put(Blocks.LIME_SHULKER_BOX, DyeColor.LIME);
-                put(Blocks.PINK_SHULKER_BOX, DyeColor.PINK);
-                put(Blocks.GRAY_SHULKER_BOX, DyeColor.GRAY);
-                put(Blocks.LIGHT_GRAY_SHULKER_BOX, DyeColor.LIGHT_GRAY);
-                put(Blocks.CYAN_SHULKER_BOX, DyeColor.CYAN);
-                put(Blocks.PURPLE_SHULKER_BOX, DyeColor.PURPLE);
-                put(Blocks.BLUE_SHULKER_BOX, DyeColor.BLUE);
-                put(Blocks.BROWN_SHULKER_BOX, DyeColor.BROWN);
-                put(Blocks.GREEN_SHULKER_BOX, DyeColor.GREEN);
-                put(Blocks.RED_SHULKER_BOX, DyeColor.RED);
-            }
-        });
+        //registerSuckingConversion(512, Blocks.SHULKER_BOX, new HashMap<>() {
+        //    {
+        //        put(Blocks.BLACK_SHULKER_BOX, DyeColor.BLACK);
+        //        put(Blocks.WHITE_SHULKER_BOX, DyeColor.WHITE);
+        //        put(Blocks.ORANGE_SHULKER_BOX, DyeColor.ORANGE);
+        //        put(Blocks.MAGENTA_SHULKER_BOX, DyeColor.MAGENTA);
+        //        put(Blocks.LIGHT_BLUE_SHULKER_BOX, DyeColor.LIGHT_BLUE);
+        //        put(Blocks.YELLOW_SHULKER_BOX, DyeColor.YELLOW);
+        //        put(Blocks.LIME_SHULKER_BOX, DyeColor.LIME);
+        //        put(Blocks.PINK_SHULKER_BOX, DyeColor.PINK);
+        //        put(Blocks.GRAY_SHULKER_BOX, DyeColor.GRAY);
+        //        put(Blocks.LIGHT_GRAY_SHULKER_BOX, DyeColor.LIGHT_GRAY);
+        //        put(Blocks.CYAN_SHULKER_BOX, DyeColor.CYAN);
+        //        put(Blocks.PURPLE_SHULKER_BOX, DyeColor.PURPLE);
+        //        put(Blocks.BLUE_SHULKER_BOX, DyeColor.BLUE);
+        //        put(Blocks.BROWN_SHULKER_BOX, DyeColor.BROWN);
+        //        put(Blocks.GREEN_SHULKER_BOX, DyeColor.GREEN);
+        //        put(Blocks.RED_SHULKER_BOX, DyeColor.RED);
+        //    }
+        //});
 
         registerSuckingConversion(32, Blocks.CANDLE, new HashMap<>() {
             {
