@@ -84,6 +84,32 @@ public record SpellContext(ExecutionState state, SpellSource source, TickData da
         }
     }
 
+    public void checkScaledMana(Trick<?> trickSource, Predicate<ManaVariant> predicate, double amount) throws BlunderException {
+        checkScaledMana(trickSource, predicate, amount, null);
+    }
+
+    public void checkScaledMana(Trick<?> trickSource, Predicate<ManaVariant> predicate, double amount, TransactionContext trans) throws BlunderException {
+        var actual = (long) (amount * ManaPool.MANA_SCALE);
+
+        try (var trans2 = Transaction.openNested(trans)) {
+            long extracted = 0;
+
+            for (var view : source.getManaStorage().nonEmptyViews()) {
+                var variant = view.getResource();
+                if (!predicate.test(variant)) {
+                    continue;
+                }
+
+                extracted += view.extract(variant, actual - extracted, trans2);
+            }
+
+            if (extracted != actual) {
+                source.getPlayer().ifPresent(ModCriteria.MANA_OVERFLUX::trigger);
+                throw new NotEnoughManaBlunder(trickSource, actual);
+            }
+        }
+    }
+
     public Storage<ManaVariant> getManaStorage() {
         return state().tryOverridePool(source.getManaStorage(), source.getWorld());
     }

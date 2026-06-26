@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "id": "trickster:cracked_prismatic_knot"
+    },
+    "title": {
+      "text": "Some Hopeless Shade of Gray"
+    },
+    "description": {
+      "text": "Acquire a Cracked Prismatic Knot"
+    },
+    "frame": "task",
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "trickster:find_cracked_knot",
+  "criteria": {
+    "pickup_prismatic_knot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "trickster:cracked_prismatic_knot"
+          }
+        ]
+      }
+    }
+  }
+}

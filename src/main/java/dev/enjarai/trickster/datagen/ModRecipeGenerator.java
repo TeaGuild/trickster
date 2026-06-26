@@ -4,9 +4,11 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
@@ -146,6 +148,58 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .criterion(FabricRecipeProvider.hasItem(entry.getKey()), FabricRecipeProvider.conditionsFromItem(entry.getKey()))
                 .offerTo(exporter);
         }
+
+        offerCarpetRecipe(exporter, TATTERED_CARPET_ITEM, TATTERED_WOOL_ITEM);
+
+        List<Item> dyes = List.of(
+            Items.BLACK_DYE,
+            Items.BLUE_DYE,
+            Items.BROWN_DYE,
+            Items.CYAN_DYE,
+            Items.GRAY_DYE,
+            Items.GREEN_DYE,
+            Items.LIGHT_BLUE_DYE,
+            Items.LIGHT_GRAY_DYE,
+            Items.LIME_DYE,
+            Items.MAGENTA_DYE,
+            Items.ORANGE_DYE,
+            Items.PINK_DYE,
+            Items.PURPLE_DYE,
+            Items.RED_DYE,
+            Items.YELLOW_DYE,
+            Items.WHITE_DYE
+        );
+        List<Item> wools = List.of(
+            Items.BLACK_WOOL,
+            Items.BLUE_WOOL,
+            Items.BROWN_WOOL,
+            Items.CYAN_WOOL,
+            Items.GRAY_WOOL,
+            Items.GREEN_WOOL,
+            Items.LIGHT_BLUE_WOOL,
+            Items.LIGHT_GRAY_WOOL,
+            Items.LIME_WOOL,
+            Items.MAGENTA_WOOL,
+            Items.ORANGE_WOOL,
+            Items.PINK_WOOL,
+            Items.PURPLE_WOOL,
+            Items.RED_WOOL,
+            Items.YELLOW_WOOL,
+            Items.WHITE_WOOL
+        );
+        offerOneWoolRecipes(exporter, dyes, wools, TATTERED_WOOL_ITEM, "wool");
     }
 
+    public static void offerOneWoolRecipes(RecipeExporter exporter, List<Item> dyes, List<Item> dyeables, Item source, String group) {
+        for (int i = 0; i < dyes.size(); i++) {
+            Item item = dyes.get(i);
+            Item item2 = dyeables.get(i);
+            ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, item2)
+                .input(item)
+                .input(Ingredient.ofItems(source))
+                .group(group)
+                .criterion("has_needed_dye", conditionsFromItem(item))
+                .offerTo(exporter, "dye_" + getItemPath(item2));
+        }
+    }
 }

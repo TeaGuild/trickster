@@ -1,0 +1,11 @@
+{
+  "conversions": [
+    {
+      "color": -425955,
+      "id": "trickster:tattered_wool",
+      "keepProperties": true,
+      "mana_amount": 256.0,
+      "weight": 1
+    }
+  ]
+}

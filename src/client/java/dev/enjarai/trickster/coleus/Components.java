@@ -12,6 +12,9 @@ import static mod.master_bw3.coleus.Components.text;
 
 public class Components {
 
+    // If this is not consistent with how the in-game book looks with default configs,
+    // check if this differs from dev.enjarai.trickster.render.PatternRenderer.renderPattern as called from
+    // dev.enjarai.trickster.screen.owo.GlyphComponent.draw
     public static Tag<?> pattern(Pattern pattern, int size) {
         var svg = tag("svg")
             .attr("version", "1.1")

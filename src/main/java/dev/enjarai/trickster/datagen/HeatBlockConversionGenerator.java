@@ -1,6 +1,6 @@
 package dev.enjarai.trickster.datagen;
 
-import dev.enjarai.trickster.datagen.provider.BlockConversionProvider;
+import dev.enjarai.trickster.datagen.provider.SimpleBlockConversionProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -8,7 +8,7 @@ import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
 
-public class HeatBlockConversionGenerator extends BlockConversionProvider {
+public class HeatBlockConversionGenerator extends SimpleBlockConversionProvider {
     public HeatBlockConversionGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookupFuture) {
         super(output, "heat", registryLookupFuture);
     }
@@ -66,7 +66,7 @@ public class HeatBlockConversionGenerator extends BlockConversionProvider {
     }
 
     public void registerHeatConversion(Block block, Block... conversions) {
-        Builder builder = getOrCreateConversion(block);
+        var builder = getOrCreateConversion(block);
         for (Block conversion : conversions) {
             builder.add(conversion, 1);
         }

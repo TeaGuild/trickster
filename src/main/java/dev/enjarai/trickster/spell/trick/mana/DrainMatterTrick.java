@@ -42,10 +42,19 @@ public class DrainMatterTrick extends Trick<DrainMatterTrick> {
             world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
         }
 
-        long result;
+        var insertingVariant = ManaVariant.of(Manae.TRADITIONAL);
+        long insertingAmount = (long) (amount * ManaPool.MANA_SCALE);
+        double taxedMult = insertingVariant.getManaTransferTaxMultiplier(ctx, blockPos.toCenterPos().toVector3d());
+        long inserted = 0;
+
         try (var trans = Transaction.openOuter()) {
-            result = ctx.source().getManaStorage().insert(ManaVariant.of(Manae.TRADITIONAL), (long) (amount * ManaPool.MANA_SCALE), trans);
+            inserted = insertMixing(ctx, ctx.getManaStorage(), insertingVariant, (long) (insertingAmount * taxedMult), trans);
+
+            if (inserted > 0) {
+                trans.commit();
+            }
         }
-        return NumberFragment.ofMana(result);
+
+        return NumberFragment.ofMana((long) (insertingAmount - inserted / taxedMult));
     }
 }

@@ -13,40 +13,45 @@ import java.util.function.UnaryOperator;
 
 public class ModComponents {
     public static final ComponentType<FragmentComponent> FRAGMENT = register(
-            "spell", builder -> builder
-                    .codec(EndecTomfoolery.toCodec(FragmentComponent.ENDEC))
-                    .cache()
+        "spell", builder -> builder
+            .codec(EndecTomfoolery.toCodec(FragmentComponent.ENDEC))
+            .cache()
     );
     public static final ComponentType<SelectedSlotComponent> SELECTED_SLOT = register(
-            "selected_slot", builder -> builder
-                    .codec(SelectedSlotComponent.CODEC)
-                    .cache()
+        "selected_slot", builder -> builder
+            .codec(SelectedSlotComponent.CODEC)
+            .cache()
     );
     public static final ComponentType<WrittenScrollMetaComponent> WRITTEN_SCROLL_META = register(
-            "written_scroll_meta", builder -> builder
-                    .codec(WrittenScrollMetaComponent.CODEC)
-                    .packetCodec(WrittenScrollMetaComponent.PACKET_CODEC)
-                    .cache()
+        "written_scroll_meta", builder -> builder
+            .codec(WrittenScrollMetaComponent.CODEC)
+            .packetCodec(WrittenScrollMetaComponent.PACKET_CODEC)
+            .cache()
     );
     public static final ComponentType<EntityStorageComponent> ENTITY_STORAGE = register(
-            "entity_storage", builder -> builder
-                    .codec(EntityStorageComponent.CODEC)
-                    .cache()
+        "entity_storage", builder -> builder
+            .codec(EntityStorageComponent.CODEC)
+            .cache()
     );
     public static final ComponentType<ManaComponent> MANA = register(
-            "mana", builder -> builder
-                    .codec(ManaComponent.CODEC)
-                    .cache()
+        "mana", builder -> builder
+            .codec(ManaComponent.CODEC)
+            .cache()
     );
     public static final ComponentType<CollarLinkComponent> COLLAR_LINK = register(
-            "collar_link", builder -> builder
-                    .endec(CollarLinkComponent.ENDEC)
-                    .cache()
+        "collar_link", builder -> builder
+            .endec(CollarLinkComponent.ENDEC)
+            .cache()
     );
     public static final ComponentType<TickTrackerComponent> TICK_CREATED = register(
-            "tick_created", builder -> builder
-                    .codec(TickTrackerComponent.CODEC)
-                    .cache()
+        "tick_created", builder -> builder
+            .codec(TickTrackerComponent.CODEC)
+            .cache()
+    );
+    public static final ComponentType<DesiredColorComponent> DESIRED_COLOR = register(
+        "desired_color", builder -> builder
+            .endec(DesiredColorComponent.ENDEC)
+            .cache()
     );
 
     private static <T> ComponentType<T> register(String id, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
@@ -55,12 +60,12 @@ public class ModComponents {
 
     public static void register() {
         FragmentComponent.registerWriteConversion(Items.BOOK,
-                stack -> stack.withItem(Items.ENCHANTED_BOOK)
+            stack -> stack.withItem(Items.ENCHANTED_BOOK)
         );
         FragmentComponent.registerResetConversion(Items.ENCHANTED_BOOK,
-                stack -> stack.get(DataComponentTypes.STORED_ENCHANTMENTS) instanceof ItemEnchantmentsComponent enchants && enchants.isEmpty()
-                        ? stack.withItem(Items.BOOK)
-                        : stack
+            stack -> stack.get(DataComponentTypes.STORED_ENCHANTMENTS) instanceof ItemEnchantmentsComponent enchants && enchants.isEmpty()
+                ? stack.withItem(Items.BOOK)
+                : stack
         );
     }
 }

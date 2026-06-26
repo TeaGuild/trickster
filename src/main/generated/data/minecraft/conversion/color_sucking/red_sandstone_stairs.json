@@ -1,0 +1,17 @@
+{
+  "conversions": [
+    {
+      "color": -5231066,
+      "id": "minecraft:sandstone_stairs",
+      "keepProperties": true,
+      "mana_amount": 384.0,
+      "properties": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      },
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "conversions": [
+    {
+      "color": -8337633,
+      "id": "minecraft:candle",
+      "keepProperties": true,
+      "mana_amount": 32.0,
+      "properties": {
+        "candles": "1",
+        "lit": "false",
+        "waterlogged": "false"
+      },
+      "weight": 1
+    }
+  ]
+}

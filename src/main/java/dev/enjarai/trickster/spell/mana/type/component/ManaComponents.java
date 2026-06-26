@@ -1,6 +1,7 @@
 package dev.enjarai.trickster.spell.mana.type.component;
 
 import dev.enjarai.trickster.Trickster;
+import io.wispforest.endec.Endec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -12,6 +13,16 @@ public class ManaComponents {
     public static final ComponentType<StabilityComponent> STABILITY = register(
         "stability", builder -> builder
             .endec(StabilityComponent.ENDEC)
+            .cache()
+    );
+    public static final ComponentType<ColorComponent> COLOR = register(
+        "color", builder -> builder
+            .endec(ColorComponent.ENDEC)
+            .cache()
+    );
+    public static final ComponentType<String> NAME = register(
+        "name", builder -> builder
+            .endec(Endec.STRING)
             .cache()
     );
 

@@ -70,6 +70,9 @@ trickster:
   mana:
     type: "Type: %s"
     stability: "Stability: %s%%"
+    color: "Color: %s"
+  knot:
+    desired_color: "Contains faint shimmers of %s"
 
   item_group: Trickster
 
@@ -124,7 +127,6 @@ trickster:
     abs: Absolutist's Distortion
     length: Magnitude Distortion
 
-    two: Foundational Delusion
     read_spell: Notulist's Ingress
     clear_spell: Alethophobe's Ploy
     write_spell: Notulist's Ploy
@@ -177,7 +179,7 @@ trickster:
     summon_fireball: Pyromancer's Ploy
     summon_dragon_breath: Dragon's Ploy
     summon_tnt: Demolitionist's Ploy
-    summon_wind_charge: Aang's Ploy
+    summon_wind_charge: Mariner's Ploy
 
     block_find_entity: Embracing Ingress
     range_find_entity: Ingress of Shared Fate
@@ -206,7 +208,6 @@ trickster:
     load_argument_7: Septenary Delusion
     load_argument_8: Octonary Delusion
 
-    list_create: Catalogue Delusion
     list_add: Expansion Stratagem
     list_add_range: Collection Stratagem
     list_take_range: Isolation Distortion
@@ -233,7 +234,6 @@ trickster:
     escape_pattern: Interpretation Distortion
     weight: Distortion of Memory
 
-    map_create: Cartographer's Delusion
     map_get: Navigator's Distortion
     map_insert: Charting Stratagem
     map_merge: Admiral's Stratagem
@@ -263,6 +263,7 @@ trickster:
     other_hand_slot: Catch Delusion
     get_item_in_slot: Fence's Ingress
     get_count_in_slot: Ingress of Plenitude
+    get_mana_color_in_slot: Hew's Ingress
     get_mana_type_in_slot: Derivate Ingress
     get_mana_in_slot: Ingress of Authority
     get_max_mana_in_slot: Crowning Ingress
@@ -316,6 +317,7 @@ trickster:
     push_mana: Benevolent Conduit's Ploy
     pull_mana: Malevolent Conduit's Ploy
     convert_mana: Astrafel's Ploy
+    trigger_converter: Terrafel's Ploy
 
     drain_matter: Cultivator's Ploy
 
@@ -325,6 +327,8 @@ trickster:
     item_to_color: Pigment Ingress
     item_to_glow_color: Vibrant Ingress
     paint: Ploy of Pigmentation
+    suck_color: Ploy of the Hopeless
+    color_distance: Cadmium Distortion
 
     summon_lightning: Ploy of the Wrathful
 
@@ -350,6 +354,10 @@ trickster:
     write: Plagiarist's Revision
     quote_pattern: Interpretation Revision
     write_path: Address Revision
+
+    two: Foundational Revision
+    empty_list: Catalogue Revision
+    empty_map: Atlas Revision
 
   fragment:
     trickster:
@@ -408,6 +416,11 @@ trickster:
   mana.trickster:
     traditional: Traditional
     storm: Tempest
+    color: Chromatic
+    impotent: Impotent
+    astral:
+      default: Star-Bound
+      named: Star-Bound (%s)
 
   blunder:
     overweight_fragment: Resulting fragment is overweight (%2$s/%3$s), result is %1$s
@@ -426,7 +439,8 @@ trickster:
     reference: Displacement %s
 
 item.trickster:
-  tome_of_tomfoolery: Tome of Tomfoolery
+  guidebook: The Teacher's Language
+  guidebook.author: by Areli Haron
   mirror_of_evaluation: Mirror of Evaluation
 
   scroll_and_quill: Scroll and Quill
@@ -523,6 +537,8 @@ item.trickster:
   cracked_echo_knot: Cracked Echo Knot
   astral_knot: Astral Knot
   cracked_astral_knot: Cracked Astral Knot
+  prismatic_knot: Prismatic Knot
+  cracked_prismatic_knot: Cracked Prismatic Knot
   command_knot: Command Knot
 
   spell_core: Spell Core
@@ -540,6 +556,9 @@ block.trickster:
   scroll_shelf: Scroll Shelf
   charging_array: Charging Array
   inert_spawner: Inert Spawner
+  tattered_wool: Tattered Wool
+  tattered_carpet: Tattered Carpet
+  worn_concrete: Worn Concrete
   color_block: Infused Ceramic
   gilded_tuff: Gilded Tuff
   gilded_tuff_stairs: Gilded Tuff Stairs
@@ -617,10 +636,11 @@ text.config.trickster-config:
     keyZoomSpeed: Editor key zoom speed
     maxExecutionsPerSpellPerTick: Max operations per tick per spell
     maxBlockBreakingHardness: Max hardness for Ploy of Destruction
-    allowUnbreakableBlockSwap: Allow block swapping of unbreakable blocks
-    allowExtendedPistonSwap: Allow block swapping of extended pistons
+    allowMovingUnbreakableBlock: Allow tricks to move unbreakable blocks
+    allowMovingExtendedPiston: Allow tricks to move extended pistons
 
     dragDrawing: Draw by dragging
+    moreEmphasis: Terminal dot emphasis in glyphs
     animateLines: Animate patterns
     barsHorizontal: Show spell-created bars horizontally
     disableOffhandScrollOpening: Require scroll in main hand to edit

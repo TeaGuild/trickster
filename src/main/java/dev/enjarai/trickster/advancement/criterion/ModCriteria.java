@@ -23,6 +23,8 @@ public class ModCriteria {
     public static final ActivateSpawnerCriterion ACTIVATE_SPAWNER = register("activate_spawner", new ActivateSpawnerCriterion());
     public static final BlockConversionCriterion BLOCK_CONVERSION = register("block_conversion", new BlockConversionCriterion());
     public static final StormManaCriterion STORM_MANA = register("storm_mana", new StormManaCriterion());
+    public static final UnusualManaCriterion UNUSUAL_MANA = register("unusual_mana", new UnusualManaCriterion());
+    public static final ManaTypeCriterion MANA_TYPE = register("mana_type", new ManaTypeCriterion());
 
     private static <T extends Criterion<?>> T register(String name, T criterion) {
         return Registry.register(Registries.CRITERION, Trickster.id(name), criterion);

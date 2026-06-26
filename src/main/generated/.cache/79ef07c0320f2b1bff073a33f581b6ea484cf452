@@ -1,6 +1,7 @@
-// 1.21.1	2026-06-01T13:44:09.724786646	Trickster/Block Conversion (erode)
+// 1.21.1	2026-06-26T12:24:42.19350654	Trickster/Block Conversion (erode)
 4ac09d15b60d0ac8481ed4f88cafb81de5dc895e data/minecraft/conversion/erode/stone_brick_stairs.json
 576201c522570d4a4145933fe82c02ade00cce5c data/minecraft/conversion/erode/exposed_copper_trapdoor.json
+7d3865b3df5a3e6f5412cfb640d1fa6bb7d5202f data/minecraft/conversion/erode/dirt.json
 0a6c19256b667006fed9840f5e9ca354840328ea data/minecraft/conversion/erode/anvil.json
 ae98698c6fc310d107ceb5ef04569a3df18ba1ec data/minecraft/conversion/erode/cut_copper_stairs.json
 b667dbbfdd506d54d9da0bfb784e16528dd81d27 data/minecraft/conversion/erode/copper_bulb.json

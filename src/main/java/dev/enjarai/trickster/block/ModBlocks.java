@@ -3,9 +3,9 @@ package dev.enjarai.trickster.block;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.block.cauldron.EraseSpellCauldronBehavior;
 import dev.enjarai.trickster.item.ModItems;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -22,6 +22,9 @@ public class ModBlocks {
     public static final ScrollShelfBlock SCROLL_SHELF = register("scroll_shelf", new ScrollShelfBlock());
     public static final ChargingArrayBlock CHARGING_ARRAY = register("charging_array", new ChargingArrayBlock());
     public static final Block INERT_SPAWNER = register("inert_spawner", new Block(AbstractBlock.Settings.copy(Blocks.SPAWNER)));
+    public static final Block TATTERED_WOOL = register("tattered_wool", new Block(AbstractBlock.Settings.copy(Blocks.WHITE_WOOL)));
+    public static final CarpetBlock TATTERED_CARPET = register("tattered_carpet", new CarpetBlock(AbstractBlock.Settings.copy(Blocks.WHITE_CARPET)));
+    public static final Block WORN_CONCRETE = register("worn_concrete", new Block(AbstractBlock.Settings.copy(Blocks.WHITE_CONCRETE)));
 
     public static final Block GILDED_TUFF = register("gilded_tuff", new Block(AbstractBlock.Settings.copy(Blocks.TUFF)));
     public static final StairsBlock GILDED_TUFF_STAIRS = register("gilded_tuff_stairs", createStairsBlock(GILDED_TUFF));
@@ -38,13 +41,15 @@ public class ModBlocks {
     public static final Block GILDED_CHISELED_TUFF = register("gilded_chiseled_tuff", new Block(AbstractBlock.Settings.copy(Blocks.CHISELED_TUFF)));
     public static final Block GILDED_CHISELED_TUFF_BRICKS = register("gilded_chiseled_tuff_bricks", new Block(AbstractBlock.Settings.copy(Blocks.CHISELED_TUFF_BRICKS)));
 
-    public static final BlockEntityType<SpellConstructBlockEntity> SPELL_CONSTRUCT_ENTITY = BlockEntityType.Builder.create(SpellConstructBlockEntity::new, SPELL_CONSTRUCT).build(null);
-    public static final BlockEntityType<LightBlockEntity> LIGHT_ENTITY = BlockEntityType.Builder.create(LightBlockEntity::new, LIGHT).build(null);
-    public static final BlockEntityType<ColorBlockEntity> COLOR_BLOCK_ENTITY = BlockEntityType.Builder.create(ColorBlockEntity::new, COLOR_BLOCK).build(null);
-    public static final BlockEntityType<ModularSpellConstructBlockEntity> MODULAR_SPELL_CONSTRUCT_ENTITY = BlockEntityType.Builder
-        .create(ModularSpellConstructBlockEntity::new, MODULAR_SPELL_CONSTRUCT).build(null);
-    public static final BlockEntityType<ScrollShelfBlockEntity> SCROLL_SHELF_ENTITY = BlockEntityType.Builder.create(ScrollShelfBlockEntity::new, SCROLL_SHELF).build(null);
-    public static final BlockEntityType<ChargingArrayBlockEntity> CHARGING_ARRAY_ENTITY = BlockEntityType.Builder.create(ChargingArrayBlockEntity::new, CHARGING_ARRAY).build(null);
+    public static final BlockEntityType<SpellConstructBlockEntity> SPELL_CONSTRUCT_ENTITY = register("spell_construct",
+        BlockEntityType.Builder.create(SpellConstructBlockEntity::new, SPELL_CONSTRUCT).build(null));
+    public static final BlockEntityType<LightBlockEntity> LIGHT_ENTITY = register("light", BlockEntityType.Builder.create(LightBlockEntity::new, LIGHT).build(null));
+    public static final BlockEntityType<ColorBlockEntity> COLOR_BLOCK_ENTITY = register("color_block", BlockEntityType.Builder.create(ColorBlockEntity::new, COLOR_BLOCK).build(null));
+    public static final BlockEntityType<ModularSpellConstructBlockEntity> MODULAR_SPELL_CONSTRUCT_ENTITY = register("modular_spell_construct",
+        BlockEntityType.Builder.create(ModularSpellConstructBlockEntity::new, MODULAR_SPELL_CONSTRUCT).build(null));
+    public static final BlockEntityType<ScrollShelfBlockEntity> SCROLL_SHELF_ENTITY = register("scroll_shelf", BlockEntityType.Builder.create(ScrollShelfBlockEntity::new, SCROLL_SHELF).build(null));
+    public static final BlockEntityType<ChargingArrayBlockEntity> CHARGING_ARRAY_ENTITY = register("charging_array",
+        BlockEntityType.Builder.create(ChargingArrayBlockEntity::new, CHARGING_ARRAY).build(null));
 
     public static final TagKey<Block> CANNOT_BREAK = TagKey.of(RegistryKeys.BLOCK, Trickster.id("cannot_break"));
     public static final TagKey<Block> CANNOT_SWAP = TagKey.of(RegistryKeys.BLOCK, Trickster.id("cannot_swap"));
@@ -56,6 +61,10 @@ public class ModBlocks {
 
     private static <T extends Block> T register(String name, T block) {
         return Registry.register(Registries.BLOCK, Trickster.id(name), block);
+    }
+
+    private static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> blockEntityType) {
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, Trickster.id(name), blockEntityType);
     }
 
     public static StairsBlock createStairsBlock(Block base) {
@@ -71,13 +80,6 @@ public class ModBlocks {
     }
 
     public static void register() {
-        Registry.register(Registries.BLOCK_ENTITY_TYPE, Trickster.id("spell_construct"), SPELL_CONSTRUCT_ENTITY);
-        Registry.register(Registries.BLOCK_ENTITY_TYPE, Trickster.id("light"), LIGHT_ENTITY);
-        Registry.register(Registries.BLOCK_ENTITY_TYPE, Trickster.id("color_block"), COLOR_BLOCK_ENTITY);
-        Registry.register(Registries.BLOCK_ENTITY_TYPE, Trickster.id("modular_spell_construct"), MODULAR_SPELL_CONSTRUCT_ENTITY);
-        Registry.register(Registries.BLOCK_ENTITY_TYPE, Trickster.id("scroll_shelf"), SCROLL_SHELF_ENTITY);
-        Registry.register(Registries.BLOCK_ENTITY_TYPE, Trickster.id("charging_array"), CHARGING_ARRAY_ENTITY);
-
         var cauldronMap = CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map();
         cauldronMap.put(ModItems.WRITTEN_SCROLL, new EraseSpellCauldronBehavior());
 

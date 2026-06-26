@@ -12,8 +12,11 @@ import dev.enjarai.trickster.spell.blunder.CantEditBlockBlunder;
 import dev.enjarai.trickster.spell.blunder.InvalidInputsBlunder;
 import dev.enjarai.trickster.spell.blunder.NotLoadedBlunder;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.type.*;
 import dev.ryanhcode.sable.companion.SableCompanion;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -86,14 +89,6 @@ public abstract class Trick<T extends Trick<T>> {
         }
     }
 
-    protected void expectLoaded(SpellContext ctx, BlockPos... positions) {
-        for (var pos : positions) {
-            if (!ctx.source().getWorld().isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ()))) {
-                throw new NotLoadedBlunder(this, pos);
-            }
-        }
-    }
-
     public @Nullable Set<UUID> restricted() {
         return null;
     }
@@ -120,6 +115,49 @@ public abstract class Trick<T extends Trick<T>> {
 
     public List<Signature<T>> getSignatures() {
         return handlers;
+    }
+
+    protected void expectLoaded(SpellContext ctx, BlockPos... positions) {
+        for (var pos : positions) {
+            if (!ctx.source().getWorld().isChunkLoaded(ChunkSectionPos.getSectionCoord(pos.getX()), ChunkSectionPos.getSectionCoord(pos.getZ()))) {
+                throw new NotLoadedBlunder(this, pos);
+            }
+        }
+    }
+
+    protected long insertMixing(SpellContext ctx, Storage<ManaVariant> storage, ManaVariant variant, long maxAmount, TransactionContext trans) {
+        long inserted = 0;
+
+        for (var view : storage) {
+            var targetResource = view.getResource();
+            var viewMax = Math.min(view.getCapacity() - view.getAmount(), maxAmount - inserted);
+
+            try (var trans2 = trans.openNested()) {
+                long insertedThisTime = 0;
+
+                if (targetResource.isBlank() || targetResource.equals(variant)) {
+                    insertedThisTime = storage.insert(variant, viewMax, trans2);
+                } else if (targetResource.isOf(variant.getMana())) {
+                    insertedThisTime = storage.insert(targetResource, viewMax, trans2);
+
+                    long total = view.extract(targetResource, Long.MAX_VALUE, trans2);
+                    long targetAmount = total - insertedThisTime;
+                    var finalVariant = variant.getMana().mix(ctx.source().getWorld(), variant, insertedThisTime, targetResource, targetAmount);
+                    if (finalVariant.isPresent()) {
+                        storage.insert(finalVariant.get(), total, trans2);
+                    } else {
+                        insertedThisTime = 0;
+                    }
+                }
+
+                if (insertedThisTime > 0) {
+                    trans2.commit();
+                    inserted += insertedThisTime;
+                }
+            }
+        }
+
+        return inserted;
     }
 
     public static double getDistanceSquared(World world, Vector3dc a, Vector3dc b) {

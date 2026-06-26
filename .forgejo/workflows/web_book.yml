@@ -5,10 +5,11 @@ on:
       - mistress
 jobs:
   publish_web_book:
-    runs-on: codeberg-medium-lazy
+    runs-on: gaming
+    container: "ghcr.io/catthehacker/ubuntu:act-latest"
     env:
       COLEUS_BOOK_GEN: 'true'
-      COLEUS_BOOK_ID: 'trickster:tome_of_tomfoolery'
+      COLEUS_BOOK_ID: 'trickster:guidebook'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,13 +29,13 @@ jobs:
       #   uses: peaceiris/actions-gh-pages@v4
       #   with:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./run/coleus/trickster/tome_of_tomfoolery
+      #     publish_dir: ./run/coleus/trickster/guidebook
       - name: Deploy to staticinator
         env:
           HOST: ${{ secrets.DEPLOY_HOST }}
           TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         run: |
-          tar -czvf "./archive.tar.gz" -C "./run/coleus/trickster/tome_of_tomfoolery" .
+          tar -czvf "./archive.tar.gz" -C "./run/coleus/trickster/guidebook" .
           curl -F "file=@./archive.tar.gz" -H "Token: $TOKEN" -H "Target-Host: $HOST" "https://deploy.enjarai.dev/update" -v
 
       # - name: Upload Site Artifact
@@ -42,4 +43,4 @@ jobs:
       #   if: always()
       #   with:
       #     name: Book
-      #     path: ./run/coleus/trickster/tome_of_tomfoolery
+      #     path: ./run/coleus/trickster/guidebook

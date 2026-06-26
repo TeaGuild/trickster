@@ -1,0 +1,11 @@
+{
+  "conversions": [
+    {
+      "color": -12930086,
+      "id": "minecraft:potted_dead_bush",
+      "keepProperties": true,
+      "mana_amount": 128.0,
+      "weight": 1
+    }
+  ]
+}

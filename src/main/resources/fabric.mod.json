@@ -105,6 +105,9 @@
         "immediatelyfast": "*"
     },
     "breaks": {
-        "optifabric": "*"
+        "optifabric": "*",
+        "essential": "*",
+        "essential-container": "*",
+        "essential-loader": "*"
     }
 }

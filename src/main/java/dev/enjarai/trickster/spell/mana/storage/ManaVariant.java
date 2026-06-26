@@ -1,5 +1,6 @@
 package dev.enjarai.trickster.spell.mana.storage;
 
+import dev.enjarai.trickster.spell.SpellContext;
 import dev.enjarai.trickster.spell.mana.type.Mana;
 import dev.enjarai.trickster.spell.mana.type.Manae;
 import io.wispforest.endec.StructEndec;
@@ -14,6 +15,8 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.text.MutableText;
 
 import java.util.Objects;
+
+import org.joml.Vector3dc;
 
 public class ManaVariant implements TransferVariant<Mana> {
     public static final StructEndec<ManaVariant> ENDEC = StructEndecBuilder.of(
@@ -35,12 +38,24 @@ public class ManaVariant implements TransferVariant<Mana> {
         this.hashCode = Objects.hash(mana, components);
     }
 
-    public ParticleEffect getParticle() {
-        return mana.getParticle(this);
+    public boolean permitsTransfer() {
+        return mana.permitsTransfer(this);
+    }
+
+    public float modifyInterest(float interest) {
+        return mana.modifyInterest(this, interest);
     }
 
     public int getColor() {
         return mana.getColor(this);
+    }
+
+    public ParticleEffect getParticle() {
+        return mana.getParticle(this);
+    }
+
+    public double getManaTransferTaxMultiplier(SpellContext ctx, Vector3dc pos) {
+        return mana.getManaTransferTaxMultiplier(this, ctx, pos);
     }
 
     public MutableText getName() {

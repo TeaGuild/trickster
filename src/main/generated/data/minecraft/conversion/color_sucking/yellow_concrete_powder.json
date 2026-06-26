@@ -1,0 +1,18 @@
+{
+  "conversions": [
+    {
+      "color": -75715,
+      "id": "minecraft:sand",
+      "keepProperties": true,
+      "mana_amount": 64.0,
+      "weight": 1
+    },
+    {
+      "color": -75715,
+      "id": "minecraft:gravel",
+      "keepProperties": true,
+      "mana_amount": 64.0,
+      "weight": 1
+    }
+  ]
+}

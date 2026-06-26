@@ -12,6 +12,16 @@ public class SimpleMana extends Mana {
     }
 
     @Override
+    public boolean permitsTransfer(ManaVariant variant) {
+        return true;
+    }
+
+    @Override
+    public float modifyInterest(ManaVariant variant, float interest) {
+        return permitsNegativeInterest(interest);
+    }
+
+    @Override
     public int getColor(ManaVariant variant) {
         return color;
     }

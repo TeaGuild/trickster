@@ -37,11 +37,11 @@ public class MessageSendTrick extends Trick<MessageSendTrick> {
         var range = ctx.distanceTo(slot.getSourceOrCasterPos(this, ctx));
         var item = resource.getItem();
 
-        if (item instanceof ChannelItem channelItem) {
-            if (range > channelItem.getRange()) {
-                throw new OutOfRangeBlunder(this, channelItem.getRange(), range);
-            }
+        if (range > 16) {
+            throw new OutOfRangeBlunder(this, 16, range);
+        }
 
+        if (item instanceof ChannelItem channelItem) {
             slot.applyItemModifier(this, ctx, stack -> {
                 channelItem.messageSendBehavior(this, ctx, stack, value);
                 return stack;

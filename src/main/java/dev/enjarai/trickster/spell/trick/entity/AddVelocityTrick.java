@@ -3,16 +3,21 @@ package dev.enjarai.trickster.spell.trick.entity;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.spell.Pattern;
 import dev.enjarai.trickster.spell.SpellContext;
+import dev.enjarai.trickster.spell.blunder.NotEnoughManaBlunder;
 import dev.enjarai.trickster.spell.blunder.UnknownEntityBlunder;
 import dev.enjarai.trickster.spell.execution.TickData;
 import dev.enjarai.trickster.spell.fragment.EntityFragment;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.fragment.VectorFragment;
+import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
+import dev.enjarai.trickster.spell.mana.type.Manae;
+import dev.enjarai.trickster.spell.mana.type.component.ManaComponents;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
 import net.minecraft.entity.projectile.AbstractWindChargeEntity;
 
 import java.util.HashMap;
+import java.util.function.Predicate;
 
 public class AddVelocityTrick extends Trick<AddVelocityTrick> {
     private static final TickData.Key<HashMap<EntityFragment, Float>> COMPOUND_LEN = new TickData.Key<>(
@@ -34,7 +39,16 @@ public class AddVelocityTrick extends Trick<AddVelocityTrick> {
 
         var map = COMPOUND_LEN.set(ctx.data(), COMPOUND_LEN.get(ctx.data()).orElse(new HashMap<>()));
         var length = (float) vector.length() + map.getOrDefault(target, 0f);
-        ctx.useScaledMana(this, 3 + (float) Math.pow(length, 3) * 16);
+        var cost = 3 + (float) Math.pow(length, 3) * 16;
+
+        try {
+            Predicate<ManaVariant> filter = variant -> variant.isOf(Manae.STORM) && 0.5 < variant.getComponentMap().get(ManaComponents.STABILITY).getStability(ctx.source().getWorld());
+            ctx.checkScaledMana(this, filter, cost);
+            ctx.useScaledMana(this, filter, cost);
+        } catch (NotEnoughManaBlunder blunder) {
+            ctx.useScaledMana(this, cost);
+        }
+
         map.put(target, length);
 
         if (entity instanceof AbstractWindChargeEntity) {
