@@ -8,6 +8,7 @@ import dev.enjarai.trickster.compat.ModCompat;
 import dev.enjarai.trickster.entity.ModEntities;
 import dev.enjarai.trickster.compat.inline.InlineCompat;
 import dev.enjarai.trickster.item.KnotItem;
+import dev.enjarai.trickster.item.component.ModComponents;
 import dev.enjarai.trickster.particle.LightningParticle;
 import dev.enjarai.trickster.render.entity.LevitatingBlockEntityRenderer;
 import dev.enjarai.trickster.render.fleck.FleckRenderer;
@@ -43,6 +44,7 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.component.DataComponentTypes;
@@ -165,5 +167,12 @@ public class TricksterClient implements ClientModInitializer {
 
                 return ColorBlockEntity.DEFAULT_COLOR;
             }, ModItems.COLOR_BLOCK);
+
+        ModelPredicateProviderRegistry.register(Trickster.id("face_position"), (stack, world, entity, seed) -> {
+            var component = stack.get(ModComponents.FACE_HEIGHT);
+            if (component == null) return 0;
+
+            return component.height() / 4f;
+        });
     }
 }

@@ -53,6 +53,11 @@ public class ModComponents {
             .endec(DesiredColorComponent.ENDEC)
             .cache()
     );
+    public static final ComponentType<FaceHeightComponent> FACE_HEIGHT = register(
+        "face_height", builder -> builder
+            .endec(FaceHeightComponent.ENDEC)
+            .cache()
+    );
 
     private static <T> ComponentType<T> register(String id, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, Trickster.id(id), (builderOperator.apply(ComponentType.builder())).build());

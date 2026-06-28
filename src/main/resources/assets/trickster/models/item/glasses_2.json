@@ -1,0 +1,9 @@
+{
+  "parent": "trickster:item/glasses_base",
+  "display": {
+    "fixed": {
+      "scale": [0.5, 0.5, 0.5],
+      "translation": [0, 2, 0]
+    }
+  }
+}
