@@ -19,16 +19,15 @@ public class GetFlecksTrick extends Trick<GetFlecksTrick> {
         super(Pattern.of(0, 4, 8, 7, 4, 1, 2, 4, 6), Signature.of(FragmentType.ENTITY.optionalOfArg(), GetFlecksTrick::run, FragmentType.NUMBER.listOfRet())); // bluetooth symbol
     }
 
-    public List<NumberFragment> run(SpellContext ctx, Optional<EntityFragment> entity) {
-        return ModEntityComponents.FLECKS.get(
-                entity
-                        .map(fragment -> fragment.getEntity(ctx).orElseThrow(() -> new UnknownEntityBlunder(this)))
-                        .orElseGet(() -> ctx.source().getPlayer().orElseThrow(() -> new NoPlayerBlunder(this)))
-        )
-                .getFlecks()
-                .keySet()
-                .intStream()
-                .mapToObj(NumberFragment::new)
-                .toList();
+    public List<NumberFragment> run(SpellContext ctx, Optional<EntityFragment> target) {
+        var entity = target
+            .map(fragment -> fragment.getEntity(ctx).orElseThrow(() -> new UnknownEntityBlunder(this)))
+            .orElseGet(() -> ctx.source().getPlayer().orElseThrow(() -> new NoPlayerBlunder(this)));
+        return ModEntityComponents.FLECKS.get(entity)
+            .getFlecks()
+            .keySet()
+            .intStream()
+            .mapToObj(NumberFragment::new)
+            .toList();
     }
 }
