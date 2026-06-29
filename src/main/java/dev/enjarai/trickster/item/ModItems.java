@@ -63,7 +63,7 @@ public class ModItems {
                 .build()
         ))
     );
-    public static final Item GLASSES = register("glasses", new Item(new Item.Settings().maxCount(1)
+    public static final PositionableWearableItem GLASSES = register("glasses", new PositionableWearableItem(new Item.Settings().maxCount(1)
         .component(AccessoriesDataComponents.RENDER_TRANSFORMATIONS,
             AccessoryRenderTransformations.builder()
                 .translation(new Vector3f(0, 0, -0.5f))
