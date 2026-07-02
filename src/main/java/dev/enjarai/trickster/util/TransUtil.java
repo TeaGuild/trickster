@@ -2,7 +2,7 @@ package dev.enjarai.trickster.util;
 
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
-public class Meowing {
+public class TransUtil {
     public static void addBubblingCallback(TransactionContext transaction, TransactionContext.OuterCloseCallback callback) {
         transaction.addCloseCallback((trans, result) -> {
             if (result.wasCommitted()) {

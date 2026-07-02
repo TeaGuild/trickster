@@ -31,7 +31,7 @@ public class ReleaseEntityTrick extends Trick<ReleaseEntityTrick> {
             return Optional.empty();
 
         if (entityStorage.nbt().isPresent()) {
-            var dist = ctx.distanceTo(pos);
+            var dist = ctx.source().distanceTo(pos);
             ctx.useScaledMana(this, (float) (2000 + Math.pow(dist, (dist / 5))));
             offhand.set(ModComponents.ENTITY_STORAGE, new EntityStorageComponent(Optional.empty()));
 

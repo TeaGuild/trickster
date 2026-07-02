@@ -34,7 +34,7 @@ public class SummonWindChargeTrick extends Trick<SummonWindChargeTrick> {
         var world = ctx.source().getWorld();
 
         try {
-            ctx.useScaledMana(this, cost(ctx.distanceTo(pos.vector())));
+            ctx.useScaledMana(this, cost(ctx.source().distanceTo(pos.vector())));
 
             var projectile = EntityType.WIND_CHARGE.create(world);
             projectile.setPos(pos.x(), pos.y(), pos.z());

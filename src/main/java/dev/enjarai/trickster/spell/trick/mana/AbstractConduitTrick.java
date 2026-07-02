@@ -19,7 +19,7 @@ import dev.enjarai.trickster.spell.mana.type.Mana;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.ArgType;
 import dev.enjarai.trickster.spell.type.Signature;
-import dev.enjarai.trickster.util.Meowing;
+import dev.enjarai.trickster.util.TransUtil;
 import dev.enjarai.trickster.util.StorageViewContainerContext;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -150,7 +150,7 @@ public abstract class AbstractConduitTrick extends Trick<AbstractConduitTrick> {
                     source.insert(left, extracted - given, trans);
 
                     if (given > 1) {
-                        Meowing.addBubblingCallback(trans, transStatus -> {
+                        TransUtil.addBubblingCallback(trans, transStatus -> {
                             if (transStatus.wasCommitted()) {
                                 createParticles(ctx, holder, left, (float) given / ManaPool.MANA_SCALE);
                             }

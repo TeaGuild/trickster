@@ -14,7 +14,6 @@ import dev.enjarai.trickster.spell.blunder.NotLoadedBlunder;
 import dev.enjarai.trickster.spell.fragment.FragmentType;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.type.*;
-import dev.ryanhcode.sable.companion.SableCompanion;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.text.MutableText;
@@ -22,9 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3dc;
 
 import java.util.*;
 
@@ -158,13 +155,5 @@ public abstract class Trick<T extends Trick<T>> {
         }
 
         return inserted;
-    }
-
-    public static double getDistanceSquared(World world, Vector3dc a, Vector3dc b) {
-        return SableCompanion.INSTANCE.distanceSquaredWithSubLevels(world, a, b);
-    }
-
-    public static double getDistance(World world, Vector3dc a, Vector3dc b) {
-        return Math.sqrt(getDistanceSquared(world, a, b));
     }
 }

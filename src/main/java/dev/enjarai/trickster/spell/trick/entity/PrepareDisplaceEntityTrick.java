@@ -29,7 +29,7 @@ public class PrepareDisplaceEntityTrick extends Trick<PrepareDisplaceEntityTrick
             throw new EntityCannotBeDisplacedBlunder(this, entity);
         }
 
-        var distanceFromAnchor = (float) ctx.distanceTo(entity.getPos().toVector3d());
+        var distanceFromAnchor = (float) ctx.source().distanceTo(entity.getPos().toVector3d());
         var manaUse = 120 + (float) Math.pow(1.35, distanceFromAnchor);
 
         ctx.useScaledMana(this, manaUse);

@@ -26,14 +26,13 @@ public class MessageListenTrick extends Trick<MessageListenTrick> {
             RetType.ANY.listOfRet().thisFunctionExistsSolelyForMessageListeningOnItemsBecauseWeAlreadyHadAnAbstractionForItAndWeReallyDontWantToReworkItSoThisWillHaveToDoHonestly()));
     }
 
-    //TODO: how should we stop this from running in single-tick mode
     public SpellExecutor run(SpellContext ctx, Optional<NumberFragment> timeout) {
         return new MessageListenerSpellExecutor(ctx.state(), timeout.map(NumberFragment::asInt), Optional.empty());
     }
 
     public EvaluationResult runWithChannel(SpellContext ctx, Optional<NumberFragment> timeout, SlotFragment slot) {
         var resource = slot.getResource(this, ctx, VariantType.ITEM);
-        var range = ctx.distanceTo(slot.getSourceOrCasterPos(this, ctx));
+        var range = ctx.source().distanceTo(slot.getSourceOrCasterPos(this, ctx));
         var item = resource.getItem();
 
         if (range > 16) {

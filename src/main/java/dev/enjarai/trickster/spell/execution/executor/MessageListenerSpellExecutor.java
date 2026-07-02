@@ -55,6 +55,7 @@ public class MessageListenerSpellExecutor implements SpellExecutor {
     }
 
     @Override
+    //TODO: SpellExecutor's `spell` should not be required to return something... -- Aurora Dawn
     public SpellPart spell() {
         return new SpellPart();
     }

@@ -56,7 +56,7 @@ public abstract class Mana {
     }
 
     public double getManaTransferTaxMultiplier(ManaVariant variant, SpellContext ctx, Vector3dc pos) {
-        var distance = ctx.distanceTo(pos);
+        var distance = ctx.source().distanceTo(pos);
         float r = Trickster.CONFIG.manaTransferEfficiency();
         return 1 - Math.max(0, 1 - r / (distance + r - 16));
     }

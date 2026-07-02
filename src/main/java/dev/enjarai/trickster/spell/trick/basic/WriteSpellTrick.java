@@ -31,7 +31,7 @@ public class WriteSpellTrick extends Trick<WriteSpellTrick> {
         var slot = optionalSlot.or(() -> ctx.source().getOtherHandSlot())
             .orElseThrow(() -> new NoPlayerBlunder(self));
         var name = optionalName.map(StringFragment::asText);
-        var range = ctx.distanceTo(slot.getSourceOrCasterPos(self, ctx));
+        var range = ctx.source().distanceTo(slot.getSourceOrCasterPos(self, ctx));
 
         if (range > 16) {
             throw new OutOfRangeBlunder(self, 16.0, range);

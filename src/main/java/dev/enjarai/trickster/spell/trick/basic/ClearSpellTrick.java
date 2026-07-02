@@ -21,7 +21,7 @@ public class ClearSpellTrick extends Trick<ClearSpellTrick> {
 
     public VoidFragment run(SpellContext ctx, Optional<SlotFragment> optionalSlot) {
         var slot = optionalSlot.or(() -> ctx.source().getOtherHandSlot()).orElseThrow(() -> new NoPlayerBlunder(this));
-        var range = ctx.distanceTo(slot.getSourceOrCasterPos(this, ctx));
+        var range = ctx.source().distanceTo(slot.getSourceOrCasterPos(this, ctx));
 
         if (range > 16) {
             throw new OutOfRangeBlunder(this, 16.0, range);

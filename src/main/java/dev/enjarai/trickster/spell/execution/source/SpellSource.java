@@ -4,7 +4,7 @@ import dev.enjarai.trickster.spell.Fragment;
 import dev.enjarai.trickster.spell.execution.SpellExecutionManager;
 import dev.enjarai.trickster.spell.fragment.slot.SlotFragment;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
-import dev.enjarai.trickster.spell.trick.Trick;
+import dev.enjarai.trickster.util.DistanceUtil;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.entity.Entity;
@@ -94,7 +94,7 @@ public interface SpellSource {
         return SableCompanion.INSTANCE.projectOutOfSubLevel(getWorld(), getPos());
     }
 
-    default double getDistance(Vector3dc to) {
-        return Trick.getDistance(getWorld(), getPos(), to);
+    default double distanceTo(Vector3dc to) {
+        return DistanceUtil.distance(getWorld(), getPos(), to);
     }
 }

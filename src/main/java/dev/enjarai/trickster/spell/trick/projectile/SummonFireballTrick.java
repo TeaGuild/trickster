@@ -24,7 +24,7 @@ public class SummonFireballTrick extends Trick<SummonFireballTrick> {
         var world = ctx.source().getWorld();
 
         try {
-            ctx.useScaledMana(this, cost(ctx.distanceTo(pos.vector())));
+            ctx.useScaledMana(this, cost(ctx.source().distanceTo(pos.vector())));
 
             var projectile = EntityType.FIREBALL.create(world);
             projectile.setPos(pos.x(), pos.y(), pos.z());

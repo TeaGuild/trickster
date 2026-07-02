@@ -12,12 +12,12 @@ import dev.enjarai.trickster.spell.mana.ManaPool;
 import dev.enjarai.trickster.spell.mana.storage.ManaVariant;
 import dev.enjarai.trickster.spell.mana.type.Manae;
 import dev.enjarai.trickster.spell.trick.Trick;
+import dev.enjarai.trickster.util.DistanceUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
 import java.util.Optional;
@@ -166,11 +166,11 @@ public record SpellContext(ExecutionState state, SpellSource source, TickData da
         throw new MissingItemBlunder(trick);
     }
 
-    public double distanceTo(Vector3dc to) {
-        return source.getDistance(to);
+    public double distanceSquared(Vector3dc a, Vector3dc b) {
+        return DistanceUtil.distanceSquared(source.getWorld(), a, b);
     }
 
-    public Vector3d getGlobalPos() {
-        return source.getGlobalPos();
+    public double distance(Vector3dc a, Vector3dc b) {
+        return DistanceUtil.distance(source.getWorld(), a, b);
     }
 }

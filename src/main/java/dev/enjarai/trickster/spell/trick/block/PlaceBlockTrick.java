@@ -108,7 +108,7 @@ public class PlaceBlockTrick extends Trick<PlaceBlockTrick> {
             }
         };
 
-        var distance = ctx.distanceTo(pos.vector());
+        var distance = ctx.source().distanceTo(pos.vector());
         var mana = Math.max((float) distance, 8f);
         ctx.checkScaledMana(this, mana, trans);
 
