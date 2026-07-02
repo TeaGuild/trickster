@@ -29,7 +29,7 @@ public class MessageSendTrick extends Trick<MessageSendTrick> {
 
     public Fragment broadcast(SpellContext ctx, Fragment value, Optional<NumberFragment> range) {
         range.ifPresent(n -> ctx.useScaledMana(this, (float) n.number()));
-        return run(ctx, new Key.Broadcast(ctx.source().getWorld().getRegistryKey(), ctx.source().getPos(), range.orElse(DEFAULT_RANGE).number()), value);
+        return run(ctx, new Key.Broadcast(ctx.source().getWorld().getRegistryKey(), ctx.getGlobalPos(), range.orElse(DEFAULT_RANGE).number()), value);
     }
 
     public Fragment channel(SpellContext ctx, Fragment value, SlotFragment slot) {
