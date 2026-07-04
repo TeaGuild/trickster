@@ -30,15 +30,15 @@
     "lavender.LavenderBookScreen$CategoryPageSupplierMixin",
     "lavender.LavenderBookScreen$EntryPageSupplierMixin",
     "lavender.LavenderBookScreen$PageSupplierMixin",
-    "lavender.LavenderBookScreenMixin",
-    "tooltip.TooltipComponentMixin"
+    "lavender.LavenderBookScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "ClientPlayerInteractionManagerMixin",
     "PlayerEntityMixin",
+    "connector.absent.ClientPlayerInteractionManagerMixin",
+    "connector.present.ClientPlayerInteractionManagerMixin",
     "lavender.BookContentLoaderMixin",
     "lavender.EntryAndCategoryMixin",
     "lavender.TextureComponentAccessor",

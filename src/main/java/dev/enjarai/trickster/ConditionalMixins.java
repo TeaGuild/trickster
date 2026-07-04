@@ -16,10 +16,16 @@ public class ConditionalMixins implements IMixinConfigPlugin {
     private static final Supplier<Boolean> TRUE = () -> true;
 
     private static final Map<String, Supplier<Boolean>> CONDITIONS = ImmutableMap.of(
-            "dev.enjarai.trickster.mixin.client.sodium.WorldSliceMixin", () -> FabricLoader.getInstance().isModLoaded("sodium"),
-            "dev.enjarai.trickster.mixin.client.sodium.ChunkRenderContextMixin", () -> FabricLoader.getInstance().isModLoaded("sodium"),
-            "dev.enjarai.trickster.mixin.client.sodium.ChunkBuilderMeshingTaskMixin", () -> FabricLoader.getInstance().isModLoaded("sodium"),
-            "dev.enjarai.trickster.mixin.client.figura.AvatarManagerMixin", () -> FabricLoader.getInstance().isModLoaded("figura")
+        "dev.enjarai.trickster.mixin.client.connector.absent.ClientPlayerInteractionManagerMixin", () -> !FabricLoader.getInstance().isModLoaded("connector"),
+        "dev.enjarai.trickster.mixin.client.connector.present.ClientPlayerInteractionManagerMixin", () -> FabricLoader.getInstance().isModLoaded("connector"),
+        "dev.enjarai.trickster.mixin.client.sodium.WorldSliceMixin", () -> FabricLoader.getInstance().isModLoaded("sodium"),
+        "dev.enjarai.trickster.mixin.client.sodium.ChunkRenderContextMixin", () -> FabricLoader.getInstance().isModLoaded("sodium"),
+        "dev.enjarai.trickster.mixin.client.sodium.ChunkBuilderMeshingTaskMixin", () -> FabricLoader.getInstance().isModLoaded("sodium"),
+        "dev.enjarai.trickster.mixin.client.figura.AvatarManagerMixin", () -> FabricLoader.getInstance().isModLoaded("figura"),
+        "dev.enjarai.trickster.mixin.connector.absent.BeaconBlockEntityMixin", () -> !FabricLoader.getInstance().isModLoaded("connector"),
+        "dev.enjarai.trickster.mixin.connector.present.BeaconBlockEntityMixin", () -> FabricLoader.getInstance().isModLoaded("connector"),
+        "dev.enjarai.trickster.mixin.connector.absent.ServerPlayerInteractionManagerMixin", () -> !FabricLoader.getInstance().isModLoaded("connector"),
+        "dev.enjarai.trickster.mixin.connector.present.ServerPlayerInteractionManagerMixin", () -> FabricLoader.getInstance().isModLoaded("connector")
     );
 
     @Override

@@ -165,5 +165,12 @@ public class TricksterClient implements ClientModInitializer {
 
                 return ColorBlockEntity.DEFAULT_COLOR;
             }, ModItems.COLOR_BLOCK);
+
+        TooltipComponentCallback.EVENT.register(data -> {
+            if (data instanceof FragmentTooltipData fragmentData)
+                return new FragmentTooltipComponent(fragmentData.contents());
+
+            return null;
+        });
     }
 }

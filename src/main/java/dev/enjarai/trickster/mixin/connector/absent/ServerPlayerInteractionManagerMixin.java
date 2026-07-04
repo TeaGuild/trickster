@@ -1,4 +1,4 @@
-package dev.enjarai.trickster.mixin.client;
+package dev.enjarai.trickster.mixin.connector.absent;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -8,28 +8,29 @@ import dev.enjarai.trickster.block.LightSconceBlock;
 import dev.enjarai.trickster.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.server.network.ServerPlayerInteractionManager;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 import static dev.enjarai.trickster.block.LightBlock.LIGHT_LEVEL;
 import static dev.enjarai.trickster.block.LightSconceBlock.HAS_LIGHT;
 
-@Pseudo
-@Mixin(ClientPlayerInteractionManager.class)
-public class ClientPlayerInteractionManagerMixin {
+@Mixin(ServerPlayerInteractionManager.class)
+public class ServerPlayerInteractionManagerMixin {
+    @Shadow
+    protected ServerWorld world;
+
     @WrapOperation(
-        method = "breakBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"), require = 0
+        method = "tryBreakBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;removeBlock(Lnet/minecraft/util/math/BlockPos;Z)Z")
     )
-    private boolean replaceSconce(World instance, BlockPos blockPos, BlockState state, int flags,
-        Operation<Boolean> original, @Local World world,
+    private boolean replaceSconce(ServerWorld instance, BlockPos blockPos, boolean b, Operation<Boolean> original,
         @Local Block block, @Local(ordinal = 0) BlockState blockState) {
         if (block instanceof LightSconceBlock && blockState.get(HAS_LIGHT) && world.getBlockEntity(blockPos) instanceof LightBlockEntity oldEntity) {
             var colors = oldEntity.getColors();
-            var result = original.call(instance, blockPos, state, flags);
+            var result = original.call(instance, blockPos, b);
 
             world.setBlockState(blockPos, ModBlocks.LIGHT.getDefaultState().with(LIGHT_LEVEL, blockState.get(LIGHT_LEVEL)), 0);
             if (world.getBlockEntity(blockPos) instanceof LightBlockEntity newEntity) {
@@ -39,6 +40,6 @@ public class ClientPlayerInteractionManagerMixin {
             return result;
         }
 
-        return original.call(instance, blockPos, state, flags);
+        return original.call(instance, blockPos, b);
     }
 }
