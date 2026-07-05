@@ -50,7 +50,7 @@ public abstract class AbstractFleckTrick<T extends AbstractFleckTrick<T>> extend
                                 .flatMap(e -> e instanceof PlayerEntity player ? Stream.of(player) : Stream.of())
                 )
                 .orElseGet(() -> {
-                    var pos = ctx.source().getPos();
+                    var pos = ctx.source().getGlobalPos();
                     var entities = new ArrayList<PlayerEntity>();
                     ctx.source().getWorld().collectEntitiesByType(
                             EntityType.PLAYER, new Box(
