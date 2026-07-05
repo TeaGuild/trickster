@@ -51,6 +51,12 @@ repositories {
             includeGroup("dev.ryanhcode.sable-companion")
         }
     }
+    maven {
+        url 'https://maven.siphalor.de'
+        content {
+            includeGroup 'de.siphalor.amecs-api'
+        }
+    }
 }
 
 build {
@@ -146,6 +152,8 @@ dependencies {
     modApi("io.wispforest:accessories-fabric:${property('deps.accessories')}")
 
     modApi("maven.modrinth:lithostitched:${property('deps.lithostitched')}")
+
+    include modApi("de.siphalor.amecs-api:amecs-api-mc${property('deps.minecraft')}:${property('deps.amecs-api')}")
 
     // Optional compat
     modCompileOnly modLocalRuntime("com.samsthenerd.inline:inline-fabric:${property 'deps.inline'}")
