@@ -393,6 +393,7 @@ trickster:
       MultiplicableFragment: Multiplicable
       RoundableFragment: Roundable
       SubtractableFragment: Subtractable
+      AverageableFragment: Averageable
       TypeFragment: Type
       NumberFragment: Number
       BooleanFragment: Boolean
