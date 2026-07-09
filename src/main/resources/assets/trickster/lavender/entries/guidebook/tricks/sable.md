@@ -1,6 +1,6 @@
 ```json
 {
-  "title": "Mechanical Analysis",
+  "title": "Detached Structures",
   "icon": "minecraft:compass",
   "category": "trickster:tricks",
   "ordinal": 100,
@@ -28,26 +28,27 @@
 }
 ```
 
-In this world you may come across structures that have been severed from its foundational grid.
+Through unknown means, structures may be severed from the foundational grid of the world.
 
 
-This section documents ways to get simple information about them. Any further applications would require further research.
+The positions of blocks within these "Detached Structures" are represented by vectors of enormous magnitude.
 
 ;;;;;
 
-The positions of blocks that make up Detached Structures, as they will be referred to as,
-are represented by vectors of enormous magnitude.
+While such vectors are useful when trying to directly interact with the detached blocks, 
+they are often unfit for other operations.
 
-These are useful if you wish to interact with said blocks, but they are often unfit for other operations.
+
+Documented here are Ingresses which transform vectors with respect to the actual position of a Detached Structure.
 
 ;;;;;
 
 <|trick@trickster:templates|trick-id=trickster:project_position|>
 
-Converts a position on a Detached Structure to its current point in space.
+Given a position within a Detached Structure, returns its actual position within the world.
 
 ;;;;;
 
 <|trick@trickster:templates|trick-id=trickster:project_direction|>
 
-Takes a position on a Detached Structure and rotates a vector by its orientation
+Given a position within a Detached Structure, returns the second given vector rotated by the Structure's orientation.
