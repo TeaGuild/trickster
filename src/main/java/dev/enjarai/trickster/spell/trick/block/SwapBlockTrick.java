@@ -13,7 +13,6 @@ import dev.enjarai.trickster.spell.fragment.VectorFragment;
 import dev.enjarai.trickster.spell.fragment.VoidFragment;
 import dev.enjarai.trickster.spell.trick.Trick;
 import dev.enjarai.trickster.spell.type.Signature;
-import dev.enjarai.trickster.util.Trolling;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonBlock;
 import net.minecraft.nbt.NbtCompound;
@@ -58,11 +57,11 @@ public class SwapBlockTrick extends Trick<SwapBlockTrick> {
         var blockEntity2 = world.getBlockEntity(blockPos2);
         if (blockEntity1 != null) {
             blockEntity1Nbt = blockEntity1.createNbt(world.getRegistryManager());
-            Trolling.clearBlockEntityForDeletion(world, blockEntity1);
+            world.removeBlockEntity(blockPos1);
         }
         if (blockEntity2 != null) {
             blockEntity2Nbt = blockEntity2.createNbt(world.getRegistryManager());
-            Trolling.clearBlockEntityForDeletion(world, blockEntity2);
+            world.removeBlockEntity(blockPos2);
         }
 
         world.setBlockState(blockPos1, state2);
@@ -74,6 +73,9 @@ public class SwapBlockTrick extends Trick<SwapBlockTrick> {
         if (blockEntity2Nbt != null) {
             world.getBlockEntity(blockPos1).read(blockEntity2Nbt, world.getRegistryManager());
         }
+
+        world.updateListeners(blockPos1, state1, state2, 0);
+        world.updateListeners(blockPos2, state2, state1, 0);
 
         var particlePos1 = blockPos1.toCenterPos();
         var particlePos2 = blockPos2.toCenterPos();
