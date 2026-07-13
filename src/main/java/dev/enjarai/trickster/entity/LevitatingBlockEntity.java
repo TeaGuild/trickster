@@ -3,7 +3,6 @@ package dev.enjarai.trickster.entity;
 import dev.enjarai.trickster.Trickster;
 import dev.enjarai.trickster.cca.ModEntityComponents;
 import dev.enjarai.trickster.misc.LevitatingBlockDamageSource;
-import dev.enjarai.trickster.util.Trolling;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -133,7 +132,7 @@ public class LevitatingBlockEntity extends Entity implements Ownable {
         var entity = world.getBlockEntity(pos);
         if (entity != null) {
             fallingBlockEntity.setBlockEntityData(entity.createNbtWithId(world.getRegistryManager()));
-            Trolling.clearBlockEntityForDeletion(world, entity);
+            world.removeBlockEntity(pos);
         }
 
         fallingBlockEntity.setWeight(weight);
